@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SZPERACZ OLX — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   SZPERACZ OLX DASHBOARD — CSS
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --font-display: 'JetBrains Mono', monospace;
+  --font-body: 'DM Sans', sans-serif;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0b0e14;
+  --bg-secondary: #131720;
+  --bg-card: #181d28;
+  --bg-card-hover: #1e2433;
+  --bg-accent: #1a2332;
+  --text-primary: #e8ecf1;
+  --text-secondary: #8b95a5;
+  --text-muted: #5a6475;
+  --border: #232a38;
+  --border-light: #1e2433;
+  --accent: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.15);
+  --green: #10b981;
+  --green-bg: rgba(16, 185, 129, 0.1);
+  --red: #ef4444;
+  --red-bg: rgba(239, 68, 68, 0.1);
+  --orange: #f59e0b;
+  --chart-bar: #3b82f6;
+  --chart-bar-hover: #60a5fa;
+  --scrollbar-bg: #131720;
+  --scrollbar-thumb: #2a3344;
+  --modal-bg: rgba(0,0,0,0.7);
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f0f2f5;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-accent: #eff6ff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+  --accent: #2563eb;
+  --accent-glow: rgba(37, 99, 235, 0.08);
+  --green: #059669;
+  --green-bg: rgba(5, 150, 105, 0.08);
+  --red: #dc2626;
+  --red-bg: rgba(220, 38, 38, 0.08);
+  --orange: #d97706;
+  --chart-bar: #2563eb;
+  --chart-bar-hover: #3b82f6;
+  --scrollbar-bg: #f0f2f5;
+  --scrollbar-thumb: #d1d5db;
+  --modal-bg: rgba(0,0,0,0.4);
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+
+/* ─── Top Bar ─── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+
+.logo span { color: var(--text-muted); font-weight: 400; }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ─── Scan Button ─── */
+.btn-scan {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-scan:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn-scan:active { transform: translateY(0); }
+.btn-scan.scanning { opacity: 0.7; pointer-events: none; }
+
+.btn-scan.scanning::after {
+  content: '';
+  position: absolute;
+  left: -100%;
+  top: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer { to { transform: translateX(100%); } }
+
+/* ─── Theme Toggle ─── */
+.btn-theme {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all var(--transition);
+}
+
+.btn-theme:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ─── Scan Info Bar ─── */
+.scan-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 10px 24px;
+  background: var(--bg-accent);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.scan-info-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.scan-info-item .label { color: var(--text-muted); }
+.scan-info-item .value { color: var(--text-primary); font-weight: 600; }
+.scan-info-item .live-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ─── Main Container ─── */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* ─── Profile Cards Grid ─── */
+.profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.profile-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.profile-card:hover {
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.profile-card:hover::before { opacity: 1; }
+.profile-card.active { border-color: var(--accent); background: var(--bg-card-hover); }
+.profile-card.active::before { opacity: 1; }
+
+.profile-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.profile-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-up { background: var(--green-bg); color: var(--green); }
+.badge-down { background: var(--red-bg); color: var(--red); }
+.badge-same { background: var(--bg-accent); color: var(--text-muted); }
+
+.profile-count {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.profile-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ─── Detail Panel ─── */
+.detail-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 32px;
+  overflow: hidden;
+  display: none;
+  animation: slideDown 0.3s ease;
+}
+
+.detail-panel.visible { display: block; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.detail-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all var(--transition);
+}
+
+.detail-close:hover { border-color: var(--red); color: var(--red); }
+
+.detail-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--border);
+}
+
+.detail-stat {
+  background: var(--bg-card);
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.detail-stat-value {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.detail-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Chart ─── */
+.chart-section {
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.chart-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chart-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 160px;
+  padding: 0 4px;
+}
+
+.chart-bar-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.chart-bar {
+  width: 100%;
+  max-width: 48px;
+  background: var(--chart-bar);
+  border-radius: 4px 4px 0 0;
+  transition: all var(--transition);
+  position: relative;
+  min-height: 4px;
+}
+
+.chart-bar:hover { background: var(--chart-bar-hover); }
+
+.chart-bar-value {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.chart-bar-label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  text-align: center;
+}
+
+/* ─── Listings Table ─── */
+.listings-section {
+  padding: 24px;
+}
+
+.listings-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.listing-tab {
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.listing-tab:hover { color: var(--text-primary); }
+.listing-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.listings-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.listings-table th {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-card);
+}
+
+.listings-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.listings-table tr:hover td { background: var(--bg-accent); }
+
+.listing-title a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.listing-title a:hover { color: var(--accent); }
+
+.price-tag {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.price-change {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.price-change.up { color: var(--red); }
+.price-change.down { color: var(--green); }
+
+.date-cell {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ─── Scan Modal ─── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--modal-bg);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal-overlay.visible { display: flex; }
+
+.modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: var(--shadow);
+}
+
+.modal h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.modal p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.modal input[type="text"] {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 13px;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.modal input[type="text"]:focus { border-color: var(--accent); }
+
+.modal-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.modal-checkbox input { accent-color: var(--accent); }
+
+.modal-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.btn-modal {
+  padding: 8px 20px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+}
+
+.btn-cancel { background: none; color: var(--text-secondary); }
+.btn-cancel:hover { border-color: var(--text-secondary); }
+.btn-confirm { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-confirm:hover { filter: brightness(1.1); }
+
+/* ─── Status Messages ─── */
+.status-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 300;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.status-toast.visible { transform: translateY(0); opacity: 1; }
+.status-toast.success { background: var(--green); color: #fff; }
+.status-toast.error { background: var(--red); color: #fff; }
+.status-toast.info { background: var(--accent); color: #fff; }
+
+/* ─── Empty State ─── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.empty-state-icon { font-size: 48px; margin-bottom: 16px; }
+
+.empty-state p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ─── Footer ─── */
+.footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 12px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+.footer a { color: var(--accent); text-decoration: none; }
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .topbar { padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+  .container { padding: 16px; }
+  .profiles-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .profile-card { padding: 14px; }
+  .profile-count { font-size: 28px; }
+  .scan-info { flex-wrap: wrap; gap: 16px; padding: 8px 16px; }
+  .detail-stats { grid-template-columns: repeat(2, 1fr); }
+  .chart-container { height: 120px; }
+  .listings-section { overflow-x: auto; }
+}
+
+@media (max-width: 480px) {
+  .profiles-grid { grid-template-columns: 1fr 1fr; }
+  .logo { font-size: 15px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Top Bar ═══ -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="logo">SZPERACZ <span>/ OLX</span></div>
+  </div>
+  <div class="topbar-right">
+    <button class="btn-scan" id="btnScan" onclick="openScanModal()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+      Scan teraz
+    </button>
+    <button class="btn-theme" id="btnTheme" onclick="toggleTheme()" title="Przełącz motyw">🌙</button>
+  </div>
+</header>
+
+<!-- ═══ Scan Info Bar ═══ -->
+<div class="scan-info">
+  <div class="scan-info-item">
+    <div class="live-dot"></div>
+    <span class="label">Ostatni scan:</span>
+    <span class="value" id="lastScanTime">—</span>
+  </div>
+  <div class="scan-info-item">
+    <span class="label">Następny scan:</span>
+    <span class="value" id="nextScanTime">—</span>
+  </div>
+  <div class="scan-info-item">
+    <span class="label">Do następnego:</span>
+    <span class="value" id="timeToNext">—</span>
+  </div>
+</div>
+
+<!-- ═══ Main Content ═══ -->
+<main class="container">
+
+  <!-- Profile Cards -->
+  <div class="profiles-grid" id="profilesGrid"></div>
+
+  <!-- Detail Panel -->
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-header">
+      <div class="detail-title" id="detailTitle">—</div>
+      <button class="detail-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="detail-stats" id="detailStats"></div>
+    <div class="chart-section">
+      <div class="chart-title">Ogłoszenia — ostatnie 7 dni</div>
+      <div class="chart-container" id="chartContainer"></div>
+    </div>
+    <div class="listings-section">
+      <div class="listings-tabs">
+        <button class="listing-tab active" onclick="switchTab('current', this)">Aktualne</button>
+        <button class="listing-tab" onclick="switchTab('archived', this)">Archiwum</button>
+      </div>
+      <div id="listingsContent"></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ Scan Modal ═══ -->
+<div class="modal-overlay" id="scanModal">
+  <div class="modal">
+    <h3>🔄 Uruchom scan OLX</h3>
+    <p>Podaj GitHub Personal Access Token (PAT) z uprawnieniem <strong>Actions: write</strong>.</p>
+    <p style="font-size:12px;">
+      <a href="https://github.com/settings/tokens/new?scopes=repo&description=SZPERACZ+OLX" target="_blank" style="color:var(--accent)">Utwórz token →</a>
+      (zakres: <code>repo</code> lub <code>workflow</code>)
+    </p>
+    <input type="text" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+    <label class="modal-checkbox">
+      <input type="checkbox" id="rememberToken"> Zapamiętaj token w przeglądarce
+    </label>
+    <div class="modal-buttons">
+      <button class="btn-modal btn-cancel" onclick="closeScanModal()">Anuluj</button>
+      <button class="btn-modal btn-confirm" onclick="triggerScan()">▶ Uruchom</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Toast ═══ -->
+<div class="status-toast" id="toast"></div>
+
+<!-- ═══ Footer ═══ -->
+<div class="footer">
+  SZPERACZ OLX &copy; 2026 •
+  <a href="https://github.com/Bonaventura-EW/SZPERACZ" target="_blank">GitHub</a>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   SZPERACZ OLX DASHBOARD — JavaScript
+   ═══════════════════════════════════════════════════════════ */
+
+const GITHUB_OWNER = 'Bonaventura-EW';
+const GITHUB_REPO = 'SZPERACZ';
+const DATA_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/data/dashboard_data.json`;
+const WORKFLOW_FILE = 'scan.yml';
+
+let dashData = null;
+let activeProfile = null;
+let currentTab = 'current';
+
+// ─── Data Loading ───────────────────────────────────────
+
+async function loadData() {
+  try {
+    const cacheBust = `?t=${Date.now()}`;
+    const resp = await fetch(DATA_URL + cacheBust);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    dashData = await resp.json();
+    renderAll();
+  } catch (e) {
+    console.error('Failed to load data:', e);
+    document.getElementById('profilesGrid').innerHTML = `
+      <div class="empty-state" style="grid-column: 1/-1;">
+        <div class="empty-state-icon">📡</div>
+        <p>Nie udało się pobrać danych.<br>Uruchom pierwszy scan przyciskiem powyżej.</p>
+      </div>
+    `;
+  }
+}
+
+// ─── Render All ─────────────────────────────────────────
+
+function renderAll() {
+  if (!dashData) return;
+  renderScanInfo();
+  renderProfileCards();
+  if (activeProfile) renderDetail(activeProfile);
+}
+
+// ─── Scan Info ──────────────────────────────────────────
+
+function renderScanInfo() {
+  const lastScan = dashData.last_scan;
+  const el = document.getElementById('lastScanTime');
+  const nextEl = document.getElementById('nextScanTime');
+  const countdownEl = document.getElementById('timeToNext');
+
+  if (lastScan) {
+    const d = new Date(lastScan.replace(' ', 'T'));
+    el.textContent = formatDateTime(d);
+
+    // Next scan = next day at 9:00 CET (or today 9:00 if not yet)
+    const now = new Date();
+    let next = new Date(now);
+    next.setHours(9, 0, 0, 0);
+    if (now >= next) {
+      next.setDate(next.getDate() + 1);
+    }
+
+    nextEl.textContent = formatDateTime(next);
+    updateCountdown(next, countdownEl);
+    // Update every minute
+    setInterval(() => updateCountdown(next, countdownEl), 60000);
+  } else {
+    el.textContent = 'Brak danych';
+    nextEl.textContent = '—';
+    countdownEl.textContent = '—';
+  }
+}
+
+function updateCountdown(target, el) {
+  const now = new Date();
+  let diff = target - now;
+
+  if (diff <= 0) {
+    // Recalculate next scan
+    target.setDate(target.getDate() + 1);
+    diff = target - now;
+  }
+
+  const hours = Math.floor(diff / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  el.textContent = `${hours}h ${mins}min`;
+}
+
+function formatDateTime(d) {
+  const day = String(d.getDate()).padStart(2, '0');
+  const mon = String(d.getMonth() + 1).padStart(2, '0');
+  const h = String(d.getHours()).padStart(2, '0');
+  const m = String(d.getMinutes()).padStart(2, '0');
+  return `${day}.${mon}.${d.getFullYear()} ${h}:${m}`;
+}
+
+// ─── Profile Cards ──────────────────────────────────────
+
+function renderProfileCards() {
+  const grid = document.getElementById('profilesGrid');
+  const profiles = dashData.profiles || {};
+
+  let html = '';
+  for (const [key, data] of Object.entries(profiles)) {
+    const counts = data.daily_counts || [];
+    const latest = counts.length > 0 ? counts[counts.length - 1] : null;
+    const count = latest ? latest.count : 0;
+    const change = latest ? latest.change : 0;
+
+    let badgeClass = 'badge-same';
+    let badgeText = '0';
+    if (change > 0) { badgeClass = 'badge-up'; badgeText = `+${change} ↑`; }
+    else if (change < 0) { badgeClass = 'badge-down'; badgeText = `${change} ↓`; }
+
+    const isActive = activeProfile === key ? 'active' : '';
+
+    html += `
+      <div class="profile-card ${isActive}" onclick="selectProfile('${key}')" id="card-${key}">
+        <div class="profile-card-header">
+          <div class="profile-name">${escapeHtml(data.label || key)}</div>
+          <span class="profile-badge ${badgeClass}">${badgeText}</span>
+        </div>
+        <div class="profile-count">${count}</div>
+        <div class="profile-label">ogłoszeń</div>
+      </div>
+    `;
+  }
+
+  grid.innerHTML = html;
+}
+
+// ─── Profile Detail ─────────────────────────────────────
+
+function selectProfile(key) {
+  if (activeProfile === key) {
+    closeDetail();
+    return;
+  }
+
+  activeProfile = key;
+  renderProfileCards();
+  renderDetail(key);
+
+  const panel = document.getElementById('detailPanel');
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function closeDetail() {
+  activeProfile = null;
+  document.getElementById('detailPanel').classList.remove('visible');
+  renderProfileCards();
+}
+
+function renderDetail(key) {
+  const data = dashData.profiles[key];
+  if (!data) return;
+
+  // Title
+  document.getElementById('detailTitle').textContent = data.label || key;
+
+  // Stats
+  const listings = data.current_listings || [];
+  const archived = data.archived_listings || [];
+  const counts = data.daily_counts || [];
+  const latest = counts.length > 0 ? counts[counts.length - 1] : null;
+  const count = latest ? latest.count : 0;
+  const change = latest ? latest.change : 0;
+
+  const prices = listings.map(l => l.price).filter(p => p != null && p > 0);
+  const avgPrice = prices.length > 0 ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length) : 0;
+  const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
+  const maxPrice = prices.length > 0 ? Math.max(...prices) : 0;
+
+  const newListings = listings.filter(l => {
+    if (!l.first_seen) return false;
+    const fs = new Date(l.first_seen.replace(' ', 'T'));
+    const oneDayAgo = new Date(Date.now() - 86400000);
+    return fs > oneDayAgo;
+  }).length;
+
+  document.getElementById('detailStats').innerHTML = `
+    <div class="detail-stat">
+      <div class="detail-stat-value">${count}</div>
+      <div class="detail-stat-label">Aktywne</div>
+    </div>
+    <div class="detail-stat">
+      <div class="detail-stat-value" style="color:${change > 0 ? 'var(--green)' : change < 0 ? 'var(--red)' : 'inherit'}">${change > 0 ? '+' : ''}${change}</div>
+      <div class="detail-stat-label">Zmiana</div>
+    </div>
+    <div class="detail-stat">
+      <div class="detail-stat-value">${newListings}</div>
+      <div class="detail-stat-label">Nowe (24h)</div>
+    </div>
+    <div class="detail-stat">
+      <div class="detail-stat-value">${avgPrice} zł</div>
+      <div class="detail-stat-label">Średnia cena</div>
+    </div>
+    <div class="detail-stat">
+      <div class="detail-stat-value">${minPrice} zł</div>
+      <div class="detail-stat-label">Min cena</div>
+    </div>
+    <div class="detail-stat">
+      <div class="detail-stat-value">${maxPrice} zł</div>
+      <div class="detail-stat-label">Max cena</div>
+    </div>
+  `;
+
+  // Chart
+  renderChart(key);
+
+  // Listings
+  currentTab = 'current';
+  document.querySelectorAll('.listing-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.listing-tab').classList.add('active');
+  renderListings(key, 'current');
+}
+
+// ─── Chart ──────────────────────────────────────────────
+
+function renderChart(key) {
+  const data = dashData.profiles[key];
+  if (!data) return;
+
+  const counts = data.daily_counts || [];
+  // Last 7 days
+  const last7 = counts.slice(-7);
+
+  if (last7.length === 0) {
+    document.getElementById('chartContainer').innerHTML = `
+      <div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych z ostatnich 7 dni</div>
+    `;
+    return;
+  }
+
+  const maxCount = Math.max(...last7.map(d => d.count), 1);
+
+  let html = '';
+  for (const entry of last7) {
+    const heightPct = (entry.count / maxCount) * 100;
+    const dayLabel = entry.date.slice(5); // MM-DD
+    const dayParts = dayLabel.split('-');
+    const shortLabel = `${dayParts[1]}.${dayParts[0]}`;
+
+    html += `
+      <div class="chart-bar-wrapper">
+        <div class="chart-bar" style="height: ${Math.max(heightPct, 3)}%">
+          <span class="chart-bar-value">${entry.count}</span>
+        </div>
+        <span class="chart-bar-label">${shortLabel}</span>
+      </div>
+    `;
+  }
+
+  document.getElementById('chartContainer').innerHTML = html;
+}
+
+// ─── Listings Table ─────────────────────────────────────
+
+function switchTab(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll('.listing-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  if (activeProfile) renderListings(activeProfile, tab);
+}
+
+function renderListings(key, tab) {
+  const data = dashData.profiles[key];
+  if (!data) return;
+
+  const listings = tab === 'current' ? (data.current_listings || []) : (data.archived_listings || []);
+
+  if (listings.length === 0) {
+    document.getElementById('listingsContent').innerHTML = `
+      <div style="text-align:center;padding:40px;color:var(--text-muted);font-size:13px;">
+        ${tab === 'current' ? 'Brak aktualnych ogłoszeń' : 'Brak archiwalnych ogłoszeń'}
+      </div>
+    `;
+    return;
+  }
+
+  // Sort: newest first (by first_seen or archived_date)
+  const sorted = [...listings].sort((a, b) => {
+    const dateA = a.first_seen || a.archived_date || '';
+    const dateB = b.first_seen || b.archived_date || '';
+    return dateB.localeCompare(dateA);
+  });
+
+  let html = `
+    <table class="listings-table">
+      <thead>
+        <tr>
+          <th>Ogłoszenie</th>
+          <th>Cena</th>
+          <th>Zmiana ceny</th>
+          <th>Data publikacji</th>
+          <th>Odświeżone</th>
+          ${tab === 'archived' ? '<th>Zniknęło</th>' : ''}
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  for (const l of sorted) {
+    const price = l.price ? `${l.price} zł` : '—';
+
+    let priceChangeHtml = '<span class="price-change">—</span>';
+    if (l.price_change && l.price_change > 0) {
+      priceChangeHtml = `<span class="price-change up">+${l.price_change} zł</span>`;
+    } else if (l.price_change && l.price_change < 0) {
+      priceChangeHtml = `<span class="price-change down">${l.price_change} zł</span>`;
+    }
+
+    const published = l.published || l.date_text || '—';
+    const refreshed = l.refreshed || '—';
+    const archived = l.archived_date ? l.archived_date.split(' ')[0] : '—';
+
+    html += `
+      <tr>
+        <td class="listing-title"><a href="${escapeHtml(l.url || '#')}" target="_blank">${escapeHtml(l.title || '—')}</a></td>
+        <td><span class="price-tag">${price}</span></td>
+        <td>${priceChangeHtml}</td>
+        <td class="date-cell">${published}</td>
+        <td class="date-cell">${refreshed}</td>
+        ${tab === 'archived' ? `<td class="date-cell">${archived}</td>` : ''}
+      </tr>
+    `;
+  }
+
+  html += '</tbody></table>';
+  document.getElementById('listingsContent').innerHTML = html;
+}
+
+// ─── Theme Toggle ───────────────────────────────────────
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  document.getElementById('btnTheme').textContent = next === 'dark' ? '🌙' : '☀️';
+  localStorage.setItem('szperacz-theme', next);
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('szperacz-theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    document.getElementById('btnTheme').textContent = saved === 'dark' ? '🌙' : '☀️';
+  }
+}
+
+// ─── Scan Modal ─────────────────────────────────────────
+
+function openScanModal() {
+  document.getElementById('scanModal').classList.add('visible');
+  const saved = localStorage.getItem('szperacz-gh-token');
+  if (saved) {
+    document.getElementById('ghToken').value = saved;
+    document.getElementById('rememberToken').checked = true;
+  }
+}
+
+function closeScanModal() {
+  document.getElementById('scanModal').classList.remove('visible');
+}
+
+async function triggerScan() {
+  const token = document.getElementById('ghToken').value.trim();
+  if (!token) {
+    showToast('Podaj token GitHub', 'error');
+    return;
+  }
+
+  if (document.getElementById('rememberToken').checked) {
+    localStorage.setItem('szperacz-gh-token', token);
+  } else {
+    localStorage.removeItem('szperacz-gh-token');
+  }
+
+  const btnScan = document.getElementById('btnScan');
+  btnScan.classList.add('scanning');
+  btnScan.innerHTML = `
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+    Skanowanie...
+  `;
+
+  closeScanModal();
+
+  try {
+    const resp = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}/dispatches`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ref: 'main' }),
+      }
+    );
+
+    if (resp.status === 204) {
+      showToast('Scan uruchomiony! Dane zaktualizują się za ~2-3 min.', 'success');
+
+      // Update last scan display to now
+      const now = new Date();
+      document.getElementById('lastScanTime').textContent = formatDateTime(now) + ' (w toku)';
+
+      // Auto-refresh data after 3 minutes
+      setTimeout(() => {
+        loadData();
+        showToast('Dane odświeżone', 'info');
+      }, 180000);
+    } else if (resp.status === 401 || resp.status === 403) {
+      showToast('Błąd autoryzacji — sprawdź token', 'error');
+    } else {
+      const body = await resp.text();
+      showToast(`Błąd: ${resp.status} — ${body}`, 'error');
+    }
+  } catch (e) {
+    showToast(`Błąd: ${e.message}`, 'error');
+  }
+
+  btnScan.classList.remove('scanning');
+  btnScan.innerHTML = `
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+    Scan teraz
+  `;
+}
+
+// ─── Toast ──────────────────────────────────────────────
+
+function showToast(message, type = 'info') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = `status-toast ${type} visible`;
+  setTimeout(() => { toast.classList.remove('visible'); }, 4000);
+}
+
+// ─── Utils ──────────────────────────────────────────────
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ─── Init ───────────────────────────────────────────────
+
+initTheme();
+loadData();
+
+// Auto-refresh every 5 minutes
+setInterval(loadData, 300000);
+</script>
+
+</body>
+</html>
