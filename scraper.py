@@ -671,6 +671,9 @@ def generate_dashboard_json(scan_results, scan_timestamp):
 # ─── Main ────────────────────────────────────────────────────────────────────
 
 def run_scan():
+    # Ensure data directory exists
+    os.makedirs(DATA_DIR, exist_ok=True)
+    
     ts = datetime.now()
     log.info(f"{'='*60}")
     log.info(f"SZPERACZ OLX — Scan started {ts.strftime('%Y-%m-%d %H:%M:%S')}")
