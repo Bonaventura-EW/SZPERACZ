@@ -651,8 +651,18 @@ def generate_dashboard_json(scan_results, scan_timestamp):
             if lid in old_map:
                 old = old_map[lid]
                 nl["first_seen"] = old.get("first_seen", now_str)
-                old_price = old.get("price")
+                
+                # Znajdź pierwszą cenę (z first_seen lub najwcześniejszą z price_history)
+                first_price = old.get("price")  # Domyślnie wczorajsza cena
+                
+                # Jeśli jest price_history, weź najstarszą cenę
+                if lid in pd_.get("price_history", {}) and pd_["price_history"][lid]:
+                    first_price = pd_["price_history"][lid][0]["old_price"]
+                
                 new_price = nl.get("price")
+                old_price = old.get("price")
+                
+                # Dodaj do historii jeśli cena się zmieniła
                 if old_price is not None and new_price is not None and old_price != new_price:
                     if lid not in pd_["price_history"]:
                         pd_["price_history"][lid] = []
@@ -660,13 +670,13 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                         "date": now_str, "old_price": old_price,
                         "new_price": new_price, "change": new_price - old_price,
                     })
-                    nl["previous_price"] = old_price
-                    nl["price_change"] = new_price - old_price
-                elif lid in pd_.get("price_history", {}):
-                    h = pd_["price_history"][lid]
-                    if h:
-                        nl["previous_price"] = h[-1]["old_price"]
-                        nl["price_change"] = (nl["price"] - h[-1]["old_price"]) if nl["price"] else None
+                
+                # Oblicz price_change względem PIERWSZEJ ceny
+                if first_price is not None and new_price is not None:
+                    nl["first_price"] = first_price
+                    nl["price_change"] = new_price - first_price
+                    if nl["price_change"] != 0:
+                        nl["previous_price"] = first_price  # Dla kompatybilności
 
         for old_l in pd_.get("current_listings", []):
             if old_l["id"] not in current_ids:

@@ -531,10 +531,15 @@ body {
   font-family: var(--font-display);
   font-size: 12px;
   font-weight: 600;
+  cursor: help;
 }
 
 .price-change.up { color: var(--red); }
 .price-change.down { color: var(--green); }
+
+.price-change[title]:hover {
+  text-decoration: underline dotted;
+}
 
 .date-cell {
   font-family: var(--font-display);
@@ -1097,9 +1102,13 @@ function renderListings(key, tab) {
 
     let priceChangeHtml = '<span class="price-change">—</span>';
     if (l.price_change && l.price_change > 0) {
-      priceChangeHtml = `<span class="price-change up">+${l.price_change} zł</span>`;
+      const firstPrice = l.first_price || l.previous_price || (l.price - l.price_change);
+      const tooltip = firstPrice ? `Pierwsza cena: ${firstPrice} zł` : '';
+      priceChangeHtml = `<span class="price-change up" title="${tooltip}">+${l.price_change} zł</span>`;
     } else if (l.price_change && l.price_change < 0) {
-      priceChangeHtml = `<span class="price-change down">${l.price_change} zł</span>`;
+      const firstPrice = l.first_price || l.previous_price || (l.price - l.price_change);
+      const tooltip = firstPrice ? `Pierwsza cena: ${firstPrice} zł` : '';
+      priceChangeHtml = `<span class="price-change down" title="${tooltip}">${l.price_change} zł</span>`;
     }
 
     const published = l.published || l.date_text || '—';
