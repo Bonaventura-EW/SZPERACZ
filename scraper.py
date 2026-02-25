@@ -299,6 +299,9 @@ def scrape_profile(profile_key, profile_config, session):
     page = 1
     max_pages = 50
 
+    # Random initial delay (2-5s) - imituj użytkownika
+    time.sleep(random.uniform(2.0, 5.0))
+
     while url and page <= max_pages:
         log.info(f"  [{profile_key}] Page {page}: {url}")
         try:
@@ -323,7 +326,8 @@ def scrape_profile(profile_key, profile_config, session):
         all_listings.extend(page_listings)
         url = get_next_page_url(soup, url)
         page += 1
-        time.sleep(random.uniform(2.0, 4.0))
+        # Longer delay - imituj użytkownika czytającego stronę
+        time.sleep(random.uniform(3.0, 6.0))
 
     seen_ids = set()
     unique = []
@@ -707,7 +711,8 @@ def run_scan():
                 "listings": [], "count": 0, "header_count": None,
                 "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
             }
-        time.sleep(random.uniform(3, 5))
+        # Long delay between profiles - bardziej naturalny pattern
+        time.sleep(random.uniform(5, 10))
 
     update_excel(results, ts)
     generate_dashboard_json(results, ts)
