@@ -77,7 +77,19 @@ def get_session():
         "Connection": "keep-alive",
         "Upgrade-Insecure-Requests": "1",
         "Cache-Control": "max-age=0",
+        "Referer": "https://www.olx.pl/",
     })
+    # Add retries with exponential backoff
+    from requests.adapters import HTTPAdapter
+    from urllib3.util.retry import Retry
+    retry_strategy = Retry(
+        total=3,
+        backoff_factor=2,
+        status_forcelist=[429, 500, 502, 503, 504],
+    )
+    adapter = HTTPAdapter(max_retries=retry_strategy)
+    s.mount("http://", adapter)
+    s.mount("https://", adapter)
     return s
 
 
@@ -311,7 +323,7 @@ def scrape_profile(profile_key, profile_config, session):
         all_listings.extend(page_listings)
         url = get_next_page_url(soup, url)
         page += 1
-        time.sleep(random.uniform(1.5, 3.0))
+        time.sleep(random.uniform(2.0, 4.0))
 
     seen_ids = set()
     unique = []
@@ -691,7 +703,7 @@ def run_scan():
                 "listings": [], "count": 0, "header_count": None,
                 "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
             }
-        time.sleep(random.uniform(2, 4))
+        time.sleep(random.uniform(3, 5))
 
     update_excel(results, ts)
     generate_dashboard_json(results, ts)
