@@ -501,6 +501,41 @@ body {
   position: sticky;
   top: 0;
   background: var(--bg-card);
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--transition);
+}
+
+.listings-table th:hover {
+  background: var(--bg-accent);
+  color: var(--text-primary);
+}
+
+.listings-table th.sortable {
+  position: relative;
+  padding-right: 24px;
+}
+
+.listings-table th.sortable::after {
+  content: '⇅';
+  position: absolute;
+  right: 8px;
+  opacity: 0.3;
+  font-size: 12px;
+}
+
+.listings-table th.sortable.active::after {
+  opacity: 1;
+}
+
+.listings-table th.sortable.active.asc::after {
+  content: '↑';
+  color: var(--accent);
+}
+
+.listings-table th.sortable.active.desc::after {
+  content: '↓';
+  color: var(--accent);
 }
 
 .listings-table td {
@@ -806,6 +841,8 @@ const WORKFLOW_FILE = 'scan.yml';
 let dashData = null;
 let activeProfile = null;
 let currentTab = 'current';
+let sortColumn = 'date'; // Default: sortuj po dacie (newest first)
+let sortDirection = 'desc'; // desc = malejąco, asc = rosnąco
 
 // ─── Data Loading ───────────────────────────────────────
 
@@ -934,6 +971,11 @@ function selectProfile(key) {
   }
 
   activeProfile = key;
+  
+  // Reset sortowania przy zmianie profilu
+  sortColumn = 'date';
+  sortDirection = 'desc';
+  
   renderProfileCards();
   renderDetail(key);
 
@@ -1057,7 +1099,32 @@ function switchTab(tab, btn) {
   currentTab = tab;
   document.querySelectorAll('.listing-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
+  
+  // Reset sortowania przy zmianie zakładki
+  sortColumn = 'date';
+  sortDirection = 'desc';
+  
   if (activeProfile) renderListings(activeProfile, tab);
+}
+
+function setSortColumn(column) {
+  // Jeśli kliknięto tę samą kolumnę - odwróć kierunek
+  if (sortColumn === column) {
+    sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+  } else {
+    // Nowa kolumna - ustaw domyślny kierunek
+    sortColumn = column;
+    // Dla ceny i zmiany ceny - domyślnie malejąco (najdroższe/największa zmiana first)
+    // Dla dat i tytułu - domyślnie rosnąco
+    if (column === 'price' || column === 'price_change') {
+      sortDirection = 'desc';
+    } else {
+      sortDirection = 'asc';
+    }
+  }
+  
+  // Re-render z nowym sortowaniem
+  if (activeProfile) renderListings(activeProfile, currentTab);
 }
 
 function renderListings(key, tab) {
@@ -1075,23 +1142,65 @@ function renderListings(key, tab) {
     return;
   }
 
-  // Sort: newest first (by first_seen or archived_date)
+  // Sortowanie
   const sorted = [...listings].sort((a, b) => {
-    const dateA = a.first_seen || a.archived_date || '';
-    const dateB = b.first_seen || b.archived_date || '';
-    return dateB.localeCompare(dateA);
+    let valA, valB;
+    
+    switch(sortColumn) {
+      case 'title':
+        valA = (a.title || '').toLowerCase();
+        valB = (b.title || '').toLowerCase();
+        break;
+      
+      case 'price':
+        valA = a.price || 0;
+        valB = b.price || 0;
+        break;
+      
+      case 'price_change':
+        valA = a.price_change || 0;
+        valB = b.price_change || 0;
+        break;
+      
+      case 'published':
+        valA = a.published || a.date_text || '';
+        valB = b.published || b.date_text || '';
+        break;
+      
+      case 'refreshed':
+        valA = a.refreshed || '';
+        valB = b.refreshed || '';
+        break;
+      
+      case 'date': // Default: first_seen lub archived_date
+      default:
+        valA = a.first_seen || a.archived_date || '';
+        valB = b.first_seen || b.archived_date || '';
+        break;
+    }
+    
+    // Porównaj wartości
+    let comparison = 0;
+    if (typeof valA === 'string' && typeof valB === 'string') {
+      comparison = valA.localeCompare(valB);
+    } else {
+      comparison = valA - valB;
+    }
+    
+    // Zastosuj kierunek sortowania
+    return sortDirection === 'asc' ? comparison : -comparison;
   });
 
   let html = `
     <table class="listings-table">
       <thead>
         <tr>
-          <th>Ogłoszenie</th>
-          <th>Cena</th>
-          <th>Zmiana ceny</th>
-          <th>Data publikacji</th>
-          <th>Odświeżone</th>
-          ${tab === 'archived' ? '<th>Zniknęło</th>' : ''}
+          <th class="sortable ${sortColumn === 'title' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('title')">Ogłoszenie</th>
+          <th class="sortable ${sortColumn === 'price' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('price')">Cena</th>
+          <th class="sortable ${sortColumn === 'price_change' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('price_change')">Zmiana ceny</th>
+          <th class="sortable ${sortColumn === 'published' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('published')">Data publikacji</th>
+          <th class="sortable ${sortColumn === 'refreshed' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('refreshed')">Odświeżone</th>
+          ${tab === 'archived' ? '<th class="sortable" onclick="setSortColumn(\'archived\')">Zniknęło</th>' : ''}
         </tr>
       </thead>
       <tbody>
