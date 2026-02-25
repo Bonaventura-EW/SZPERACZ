@@ -678,13 +678,18 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     if nl["price_change"] != 0:
                         nl["previous_price"] = first_price  # Dla kompatybilności
 
-        for old_l in pd_.get("current_listings", []):
-            if old_l["id"] not in current_ids:
-                old_l["archived_date"] = now_str
-                pd_["archived_listings"].append(old_l)
+        # CRITICAL: Nie archiwizuj ogłoszeń jeśli scan znalazł 0 (prawdopodobnie błąd scrapera)
+        # Zapobiega fałszywej archiwizacji przy OLX blocking / scraper errors
+        if result["count"] > 0:
+            for old_l in pd_.get("current_listings", []):
+                if old_l["id"] not in current_ids:
+                    old_l["archived_date"] = now_str
+                    pd_["archived_listings"].append(old_l)
 
-        if len(pd_["archived_listings"]) > 200:
-            pd_["archived_listings"] = pd_["archived_listings"][-200:]
+            if len(pd_["archived_listings"]) > 200:
+                pd_["archived_listings"] = pd_["archived_listings"][-200:]
+        else:
+            log.warning(f"[{pk}] Skipping archiving - scan found 0 listings (likely scraper error)")
 
         pd_["current_listings"] = new_listings
         scan_entry["profiles"][pk] = {"count": result["count"], "crosscheck": result.get("crosscheck", "")}
