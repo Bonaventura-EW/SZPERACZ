@@ -614,6 +614,10 @@ def generate_dashboard_json(scan_results, scan_timestamp):
             if result["count"] >= today_entry["count"]:
                 today_entry["count"] = result["count"]
                 today_entry["timestamp"] = now_str
+                # Przelicz change względem wczoraj, nie poprzedniej wartości dzisiejszej
+                yesterday_entry = dc[-2] if len(dc) >= 2 else None
+                if yesterday_entry:
+                    today_entry["change"] = result["count"] - yesterday_entry["count"]
         else:
             prev_c = dc[-1]["count"] if dc else None
             ch = result["count"] - prev_c if prev_c is not None else 0
