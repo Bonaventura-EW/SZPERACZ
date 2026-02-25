@@ -2,8 +2,10 @@ name: SZPERACZ OLX - Daily Scan
 
 on:
   schedule:
-    # 9:00 CET = 8:00 UTC (winter) / 7:00 UTC (summer CEST)
-    - cron: '0 7 * * *'
+    # 9:00 Polish time (CET/CEST aware)
+    # Winter (CET): 8:00 UTC = 9:00 PL
+    # Summer (CEST): 8:00 UTC = 10:00 PL
+    - cron: '0 8 * * *'
 
   workflow_dispatch:
     inputs:
@@ -36,7 +38,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run OLX scan
-        run: python main.py --scan
+        run: python scraper.py
 
       - name: Commit and push data
         run: |
@@ -45,3 +47,11 @@ jobs:
           git add data/
           git diff --cached --quiet || git commit -m "🔍 Scan: $(date '+%Y-%m-%d %H:%M') UTC"
           git push
+
+      - name: Keep workflow alive
+        run: |
+          mkdir -p .github/workflows
+          echo "Last scan: $(date)" >> .github/workflows/.keep-alive
+          git add .github/workflows/.keep-alive
+          git diff --cached --quiet || git commit -m "⏰ Keep-alive: $(date '+%Y-%m-%d')"
+          git push || true
