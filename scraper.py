@@ -688,10 +688,12 @@ def generate_dashboard_json(scan_results, scan_timestamp):
 
             if len(pd_["archived_listings"]) > 200:
                 pd_["archived_listings"] = pd_["archived_listings"][-200:]
+            
+            # Aktualizuj current_listings TYLKO gdy scan był poprawny (count > 0)
+            pd_["current_listings"] = new_listings
         else:
-            log.warning(f"[{pk}] Skipping archiving - scan found 0 listings (likely scraper error)")
-
-        pd_["current_listings"] = new_listings
+            log.warning(f"[{pk}] Skipping archiving AND current_listings update - scan found 0 listings (likely scraper error)")
+            # Zachowaj stare current_listings - nie nadpisuj pustą listą!
         scan_entry["profiles"][pk] = {"count": result["count"], "crosscheck": result.get("crosscheck", "")}
 
     data["scan_history"].append(scan_entry)
