@@ -80,14 +80,10 @@ def get_session():
     ua = random.choice(USER_AGENTS)
     s.headers.update({
         "User-Agent": ua,
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-        "Accept-Language": "pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7",
-        "Accept-Encoding": "gzip, deflate, br",
-        "DNT": "1",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "pl-PL,pl;q=0.9",
         "Connection": "keep-alive",
         "Upgrade-Insecure-Requests": "1",
-        "Cache-Control": "max-age=0",
-        "Referer": "https://www.olx.pl/",
     })
     # Add retries with exponential backoff
     from requests.adapters import HTTPAdapter
@@ -180,20 +176,31 @@ def parse_card(card):
     """Parse a single OLX listing card. Works for both profile and category pages."""
     title = ""
     href = ""
-    for link in card.select('a[href*="/d/oferta/"]'):
+    
+    # Collect all links to offers
+    offer_links = card.select('a[href*="/d/oferta/"]')
+    
+    # Try to find a link with meaningful text (title)
+    for link in offer_links:
         txt = link.get_text(strip=True)
+        current_href = link.get("href", "")
+        
+        # Save first href we find
+        if current_href and not href:
+            href = current_href
+        
+        # If this link has meaningful text, use it as title
         if txt and len(txt) > 3:
             title = txt
-            href = link.get("href", "")
+            href = current_href  # Update href to match title source
             break
-        elif not href:
-            href = link.get("href", "")
-
+    
     if not href:
         return None
 
     full_url = href if href.startswith("http") else f"https://www.olx.pl{href}"
 
+    # If still no title, try to extract from URL
     if not title:
         url_match = re.search(r"/oferta/(.+?)-CID", href)
         if url_match:
@@ -291,12 +298,44 @@ def get_total_count_from_header(soup):
 
 
 def get_next_page_url(soup, current_url):
+    # Strategy 1: Try standard pagination selectors (works for category pages)
     for selector in ['[data-testid="pagination-forward"]', '[data-cy="pagination-forward"]']:
         pag = soup.select_one(selector)
         if pag:
             href = pag.get("href", "")
             if href:
                 return href if href.startswith("http") else f"https://www.olx.pl{href}"
+    
+    # Strategy 2: For user profiles - find next page link with SVG arrow
+    # Extract current page number from URL
+    current_page = 1
+    page_match = re.search(r'page=(\d+)', current_url)
+    if page_match:
+        current_page = int(page_match.group(1))
+    
+    expected_next = current_page + 1
+    
+    # Find links with page= parameter
+    links = soup.find_all('a', href=lambda x: x and 'page=' in x)
+    
+    # Look for link with SVG (arrow) that leads to next page
+    for link in links:
+        href = link.get('href', '')
+        text = link.get_text(strip=True)
+        has_svg = bool(link.find('svg'))
+        
+        # If has SVG and no numeric text (arrow button), check page number
+        if has_svg and not text.isdigit():
+            match = re.search(r'page=(\d+)', href)
+            if match and int(match.group(1)) == expected_next:
+                return href if href.startswith('http') else f'https://www.olx.pl{href}'
+    
+    # Fallback: look for any link to expected next page
+    for link in links:
+        href = link.get('href', '')
+        if f'page={expected_next}' in href:
+            return href if href.startswith('http') else f'https://www.olx.pl{href}'
+    
     return None
 
 
