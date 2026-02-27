@@ -1100,9 +1100,14 @@ function switchTab(tab, btn) {
   document.querySelectorAll('.listing-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   
-  // Reset sortowania przy zmianie zakładki
-  sortColumn = 'date';
-  sortDirection = 'desc';
+  // Reset sortowania przy zmianie zakładki z inteligentnymi domyślnymi
+  if (tab === 'archived') {
+    sortColumn = 'archived';
+    sortDirection = 'desc'; // Najnowsze zniknięte pierwsze
+  } else {
+    sortColumn = 'date';
+    sortDirection = 'desc'; // Najnowsze dodane pierwsze
+  }
   
   if (activeProfile) renderListings(activeProfile, tab);
 }
@@ -1114,12 +1119,12 @@ function setSortColumn(column) {
   } else {
     // Nowa kolumna - ustaw domyślny kierunek
     sortColumn = column;
-    // Dla ceny i zmiany ceny - domyślnie malejąco (najdroższe/największa zmiana first)
-    // Dla dat i tytułu - domyślnie rosnąco
-    if (column === 'price' || column === 'price_change') {
-      sortDirection = 'desc';
-    } else {
+    // Dla większości kolumn domyślnie malejąco (newest/highest first)
+    // Tylko dla tytułu rosnąco (alfabetycznie)
+    if (column === 'title') {
       sortDirection = 'asc';
+    } else {
+      sortDirection = 'desc';
     }
   }
   
@@ -1172,6 +1177,11 @@ function renderListings(key, tab) {
         valB = b.refreshed || '';
         break;
       
+      case 'archived':
+        valA = a.archived_date || '';
+        valB = b.archived_date || '';
+        break;
+      
       case 'date': // Default: first_seen lub archived_date
       default:
         valA = a.first_seen || a.archived_date || '';
@@ -1200,7 +1210,7 @@ function renderListings(key, tab) {
           <th class="sortable ${sortColumn === 'price_change' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('price_change')">Zmiana ceny</th>
           <th class="sortable ${sortColumn === 'published' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('published')">Data publikacji</th>
           <th class="sortable ${sortColumn === 'refreshed' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('refreshed')">Odświeżone</th>
-          ${tab === 'archived' ? '<th class="sortable" onclick="setSortColumn(\'archived\')">Zniknęło</th>' : ''}
+          ${tab === 'archived' ? `<th class="sortable ${sortColumn === 'archived' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('archived')">Zniknęło</th>` : ''}
         </tr>
       </thead>
       <tbody>
