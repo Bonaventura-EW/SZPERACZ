@@ -213,17 +213,31 @@ Wyświetla:
 
 Workflow: `.github/workflows/scan.yml`
 
-- Uruchamia się codziennie o 9:00 CET (8:00 UTC zimą, 7:00 UTC latem)
-- Wykonuje `python main.py --scan`
+- Uruchamia się codziennie o 9:00 czasu polskiego
+  - **Zimą (CET):** `cron: '0 8 * * *'` → 8:00 UTC = 9:00 CET
+  - **Latem (CEST):** Zmień na `cron: '0 7 * * *'` → 7:00 UTC = 9:00 CEST
+  - 📅 Zobacz [ZMIANA_CZASU_REMINDER.md](ZMIANA_CZASU_REMINDER.md) dla dat i instrukcji
+- Wykonuje `python scraper.py`
 - Commituje zaktualizowane pliki `data/*` do repo
 - Można uruchomić ręcznie: Actions → SZPERACZ OLX - Daily Scan → Run workflow
+
+### Keep-alive (co 50 dni)
+
+Workflow: `.github/workflows/keep-alive.yml`
+
+- Uruchamia się automatycznie co 50 dni
+- **Cel:** Zapobiega dezaktywacji scheduled workflows przez GitHub
+  - GitHub automatycznie wyłącza crony po 60 dniach bezczynności w repo
+  - Keep-alive robi małego commita aby "pokazać aktywność"
+- Tworzy/aktualizuje plik `.github/KEEP_ALIVE.txt` z timestampem
+- **Nie wymaga żadnej akcji z Twojej strony** — działa automatycznie
 
 ### Email raport (poniedziałki o 9:30)
 
 Workflow: `.github/workflows/weekly_report.yml`
 
 - Uruchamia się w poniedziałki o 9:30 CET
-- Wykonuje `python main.py --email`
+- Wykonuje `python email_report.py`
 - Wymaga ustawionego `EMAIL_PASSWORD` w Secrets
 
 ### Ręczne uruchomienie
