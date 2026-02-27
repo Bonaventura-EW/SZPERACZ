@@ -2,9 +2,10 @@ name: SZPERACZ OLX - Daily Scan
 
 on:
   schedule:
-    # 9:00 Polish time (CET/CEST aware)
-    # Winter (CET): 8:00 UTC = 9:00 PL
-    # Summer (CEST): 8:00 UTC = 10:00 PL
+    # 9:00 czasu polskiego przez cały rok
+    # ZIMĄ (CET, UTC+1): 8:00 UTC = 9:00 PL ← obecnie aktywne
+    # LATEM (CEST, UTC+2): zmień na '0 7 * * *' = 9:00 PL
+    # Zmiana czasu: ostatnia niedziela marca (~31.03) i października (~26.10)
     - cron: '0 8 * * *'
 
   workflow_dispatch:
@@ -47,11 +48,3 @@ jobs:
           git add data/
           git diff --cached --quiet || git commit -m "🔍 Scan: $(date '+%Y-%m-%d %H:%M') UTC"
           git push
-
-      - name: Keep workflow alive
-        run: |
-          mkdir -p .github/workflows
-          echo "Last scan: $(date)" >> .github/workflows/.keep-alive
-          git add .github/workflows/.keep-alive
-          git diff --cached --quiet || git commit -m "⏰ Keep-alive: $(date '+%Y-%m-%d')"
-          git push || true

@@ -1,0 +1,39 @@
+name: Keep Workflow Alive
+
+on:
+  schedule:
+    # Co 50 dni (GitHub wyłącza workflows po 60 dniach bezczynności)
+    - cron: '0 3 */50 * *'
+  
+  workflow_dispatch:
+    # Możliwość ręcznego uruchomienia
+
+permissions:
+  contents: write
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update keep-alive timestamp
+        run: |
+          mkdir -p .github
+          echo "Last keep-alive: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" > .github/KEEP_ALIVE.txt
+          echo "This file prevents GitHub from disabling scheduled workflows after 60 days of inactivity." >> .github/KEEP_ALIVE.txt
+          echo "" >> .github/KEEP_ALIVE.txt
+          echo "Next keep-alive: approximately $(date -u -d '+50 days' '+%Y-%m-%d')" >> .github/KEEP_ALIVE.txt
+
+      - name: Commit and push
+        run: |
+          git config user.name "Keep-Alive Bot"
+          git config user.email "keep-alive-bot@users.noreply.github.com"
+          git add .github/KEEP_ALIVE.txt
+          git diff --cached --quiet || git commit -m "🤖 Keep-alive: $(date -u '+%Y-%m-%d')"
+          git push
