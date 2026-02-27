@@ -48,6 +48,16 @@ PROFILES = {
         "label": "dawny patron",
         "is_category": False,
     },
+    "mzuri": {
+        "url": "https://www.olx.pl/oferty/uzytkownik/4avCO/",
+        "label": "mzuri",
+        "is_category": False,
+    },
+    "villahome": {
+        "url": "https://www.olx.pl/oferty/uzytkownik/1n7fOJ/",
+        "label": "villahome",
+        "is_category": False,
+    },
 }
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
