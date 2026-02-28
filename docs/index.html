@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SZPERACZ OLX — Dashboard</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -118,9 +119,50 @@ body {
   font-weight: 700;
   color: var(--accent);
   letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo span { color: var(--text-muted); font-weight: 400; }
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.logo-iris {
+  animation: logo-blink 3s ease-in-out infinite;
+  transform-origin: 22px 22px;
+}
+
+.logo-pupil {
+  animation: logo-blink 3s ease-in-out infinite, logo-look 6s ease-in-out infinite;
+  transform-origin: 22px 22px;
+}
+
+.logo-scan {
+  animation: logo-scan 2s linear infinite;
+  transform-origin: 22px 22px;
+}
+
+@keyframes logo-blink {
+  0%, 40%, 60%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.05); }
+}
+
+@keyframes logo-look {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(2px, -1px); }
+  50% { transform: translate(-2px, 1px); }
+  80% { transform: translate(1px, 1px); }
+}
+
+@keyframes logo-scan {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.6); }
+}
 
 .topbar-right {
   display: flex;
@@ -743,7 +785,33 @@ body {
 <!-- ═══ Top Bar ═══ -->
 <header class="topbar">
   <div class="topbar-left">
-    <div class="logo">SZPERACZ <span>/ OLX</span></div>
+    <div class="logo">
+      <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+        <defs>
+          <radialGradient id="lg1" cx="45%" cy="35%" r="55%">
+            <stop offset="0%" stop-color="#60a5fa"/>
+            <stop offset="100%" stop-color="#1d4ed8"/>
+          </radialGradient>
+          <radialGradient id="lg2" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="rgba(147,210,255,0.15)"/>
+            <stop offset="100%" stop-color="rgba(59,130,246,0.05)"/>
+          </radialGradient>
+        </defs>
+        <line x1="38" y1="38" x2="58" y2="58" stroke="#1e3a5f" stroke-width="7" stroke-linecap="round"/>
+        <line x1="38" y1="38" x2="58" y2="58" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+        <circle class="logo-scan" cx="22" cy="22" r="16" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0"/>
+        <circle cx="22" cy="22" r="19" fill="#0b1929" stroke="#1e3a5f" stroke-width="3"/>
+        <circle cx="22" cy="22" r="19" fill="none" stroke="#3b82f6" stroke-width="2"/>
+        <ellipse cx="22" cy="22" rx="13" ry="10" fill="#e8f4ff"/>
+        <g class="logo-iris"><circle cx="22" cy="22" r="7" fill="url(#lg1)"/></g>
+        <g class="logo-pupil">
+          <circle cx="22" cy="22" r="3.5" fill="#050d1a"/>
+          <circle cx="24" cy="20" r="1.2" fill="white" opacity="0.8"/>
+        </g>
+        <circle cx="22" cy="22" r="19" fill="url(#lg2)"/>
+      </svg>
+      SZPERACZ <span>/ OLX</span>
+    </div>
   </div>
   <div class="topbar-right">
     <button class="btn-scan" id="btnScan" onclick="openScanModal()">
