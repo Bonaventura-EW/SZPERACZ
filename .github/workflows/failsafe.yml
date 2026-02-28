@@ -1,0 +1,74 @@
+name: SZPERACZ - Failsafe Scan Trigger
+
+on:
+  schedule:
+    # Uruchamia się o 11:00 UTC codziennie jako backup
+    # Sprawdza czy dzisiejszy scan się wykonał, jeśli nie - triggeruje go
+    - cron: '0 11 * * *'
+  
+  workflow_dispatch:
+    # Możliwość ręcznego uruchomienia testowego
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  check-and-trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check if today's scan executed
+        id: check_scan
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "🔍 Sprawdzam czy dzisiejszy scan się wykonał..."
+          
+          # Pobierz datę dzisiejszą UTC
+          TODAY=$(date -u '+%Y-%m-%d')
+          echo "Data: $TODAY"
+          
+          # Sprawdź czy był już scan dzisiaj (scheduled lub manual)
+          RUNS=$(gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository }}/actions/workflows/scan.yml/runs \
+            --jq ".workflow_runs[] | select(.created_at | startswith(\"$TODAY\")) | select(.status == \"completed\" and .conclusion == \"success\") | .id" \
+            | head -1)
+          
+          if [ -n "$RUNS" ]; then
+            echo "✅ Dzisiejszy scan się wykonał (run ID: $RUNS)"
+            echo "action=skip" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Brak dzisiejszego pomyślnego scanu - triggering backup scan..."
+            echo "action=trigger" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Trigger backup scan if needed
+        if: steps.check_scan.outputs.action == 'trigger'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "🚀 Uruchamiam backup scan..."
+          
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository }}/actions/workflows/scan.yml/dispatches \
+            -f ref='main' \
+            -f inputs[reason]='Failsafe trigger - scheduled scan się nie wykonał do 11:00 UTC'
+          
+          echo "✅ Backup scan został uruchomiony"
+
+      - name: Log status
+        run: |
+          if [ "${{ steps.check_scan.outputs.action }}" == "skip" ]; then
+            echo "📊 Status: Scan już się wykonał dzisiaj - brak akcji"
+          else
+            echo "📊 Status: Backup scan został uruchomiony"
+          fi
+          
+          echo "🕐 Czas wykonania failsafe: $(date -u '+%Y-%m-%d %H:%M:%S') UTC"

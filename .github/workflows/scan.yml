@@ -2,11 +2,11 @@ name: SZPERACZ OLX - Daily Scan
 
 on:
   schedule:
-    # 9:00 czasu polskiego przez cały rok
-    # ZIMĄ (CET, UTC+1): 8:00 UTC = 9:00 PL ← obecnie aktywne
-    # LATEM (CEST, UTC+2): zmień na '0 7 * * *' = 9:00 PL
-    # Zmiana czasu: ostatnia niedziela marca (~31.03) i października (~26.10)
-    - cron: '0 8 * * *'
+    # Cron: 6:00 UTC (z uwzględnieniem opóźnień GitHub Actions ~90-150min)
+    # Faktyczne wykonanie: ~8:00-9:30 UTC = ~9:00-10:30 CET (zimą) / 10:00-11:30 CEST (latem)
+    # UWAGA: GitHub Actions ma losowe opóźnienia 1.5-2.5h dla scheduled workflows
+    # Failsafe workflow (11:00 UTC) sprawdza czy scan się wykonał i triggeruje retry jeśli nie
+    - cron: '0 6 * * *'
 
   workflow_dispatch:
     inputs:
