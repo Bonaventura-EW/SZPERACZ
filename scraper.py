@@ -701,6 +701,20 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 old = old_map[lid]
                 nl["first_seen"] = old.get("first_seen", now_str)
                 
+                # LOGIKA NAJSTARSZEJ DATY PUBLIKACJI:
+                # Priorytet: published (z OLX) > first_seen (fallback)
+                # Zachowaj najstarszą published jeśli była wcześniej zescanowana
+                old_published = old.get("published")
+                new_published = nl.get("published")
+                
+                if old_published and new_published:
+                    # Wybierz starszą datę między starą a nową published
+                    nl["published"] = min(old_published, new_published)
+                elif old_published and not new_published:
+                    # Zachowaj starą published jeśli nowa nie ma (np. odświeżone)
+                    nl["published"] = old_published
+                # else: zostaw nową published (jeśli jest) lub None
+                
                 # Znajdź pierwszą cenę (z first_seen lub najwcześniejszą z price_history)
                 first_price = old.get("price")  # Domyślnie wczorajsza cena
                 

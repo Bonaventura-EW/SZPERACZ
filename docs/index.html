@@ -1168,8 +1168,9 @@ function renderListings(key, tab) {
         break;
       
       case 'published':
-        valA = a.published || a.date_text || '';
-        valB = b.published || b.date_text || '';
+        // Sortuj po published, jeśli brak to użyj first_seen jako fallback
+        valA = a.published || (a.first_seen ? a.first_seen.split(' ')[0] : '');
+        valB = b.published || (b.first_seen ? b.first_seen.split(' ')[0] : '');
         break;
       
       case 'refreshed':
@@ -1230,7 +1231,15 @@ function renderListings(key, tab) {
       priceChangeHtml = `<span class="price-change down" title="${tooltip}">${l.price_change} zł</span>`;
     }
 
-    const published = l.published || l.date_text || '—';
+    // Data publikacji z fallbackiem:
+    // 1. published (z OLX) - najpierw próbuj użyć tej
+    // 2. first_seen - jeśli published nie ma, użyj daty pierwszego zeskanowania
+    let published = l.published || '—';
+    if (published === '—' && l.first_seen) {
+      // Użyj first_seen jako fallback, pokaż tylko datę (bez czasu)
+      published = l.first_seen.split(' ')[0];
+    }
+    
     const refreshed = l.refreshed || '—';
     const archived = l.archived_date ? l.archived_date.split(' ')[0] : '—';
 
