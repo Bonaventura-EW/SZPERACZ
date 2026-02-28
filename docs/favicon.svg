@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <style>
+      .iris { animation: blink 3s ease-in-out infinite; transform-origin: 22px 22px; }
+      .pupil { animation: blink 3s ease-in-out infinite, look 6s ease-in-out infinite; transform-origin: 22px 22px; }
+      .scan-ring { animation: scan 2s linear infinite; transform-origin: 22px 22px; }
+      @keyframes blink {
+        0%, 40%, 60%, 100% { transform: scaleY(1); }
+        50% { transform: scaleY(0.05); }
+      }
+      @keyframes look {
+        0%, 100% { transform: translate(0, 0); }
+        20% { transform: translate(2px, -1px); }
+        50% { transform: translate(-2px, 1px); }
+        80% { transform: translate(1px, 1px); }
+      }
+      @keyframes scan {
+        0% { opacity: 0.8; transform: scale(1); }
+        100% { opacity: 0; transform: scale(1.6); }
+      }
+    </style>
+    <radialGradient id="eyeGrad" cx="45%" cy="35%" r="55%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </radialGradient>
+    <radialGradient id="glassGrad" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="rgba(147,210,255,0.15)"/>
+      <stop offset="100%" stop-color="rgba(59,130,246,0.05)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Lupa - uchwyt -->
+  <line x1="38" y1="38" x2="58" y2="58" stroke="#1e3a5f" stroke-width="7" stroke-linecap="round"/>
+  <line x1="38" y1="38" x2="58" y2="58" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Scan ring pulse -->
+  <circle class="scan-ring" cx="22" cy="22" r="16" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0"/>
+
+  <!-- Obramowanie lupy -->
+  <circle cx="22" cy="22" r="19" fill="#0b1929" stroke="#1e3a5f" stroke-width="3"/>
+  <circle cx="22" cy="22" r="19" fill="none" stroke="#3b82f6" stroke-width="2"/>
+
+  <!-- Białko oka -->
+  <ellipse cx="22" cy="22" rx="13" ry="10" fill="#e8f4ff"/>
+
+  <!-- Tęczówka -->
+  <g class="iris">
+    <circle cx="22" cy="22" r="7" fill="url(#eyeGrad)"/>
+  </g>
+
+  <!-- Źrenica -->
+  <g class="pupil">
+    <circle cx="22" cy="22" r="3.5" fill="#050d1a"/>
+    <!-- Błysk -->
+    <circle cx="24" cy="20" r="1.2" fill="white" opacity="0.8"/>
+  </g>
+
+  <!-- Szkło lupy - połysk -->
+  <ellipse cx="16" cy="15" rx="6" ry="4" fill="white" opacity="0.06" transform="rotate(-20 16 15)"/>
+  <circle cx="22" cy="22" r="19" fill="url(#glassGrad)"/>
+</svg>
