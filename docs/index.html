@@ -449,23 +449,30 @@ body {
 .chart-container {
   display: flex;
   align-items: flex-end;
-  gap: 6px;
+  gap: 2px;
   height: 160px;
   padding: 0 4px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
 }
 
+.chart-container::-webkit-scrollbar { height: 6px; }
+.chart-container::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
+.chart-container::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+
 .chart-bar-wrapper {
-  flex: 1;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
   justify-content: flex-end;
+  min-width: 10px;
 }
 
 .chart-bar {
-  width: 100%;
-  max-width: 48px;
+  width: 10px;
   background: var(--chart-bar);
   border-radius: 4px 4px 0 0;
   transition: all var(--transition);
@@ -771,6 +778,8 @@ body {
   .scan-info { flex-wrap: wrap; gap: 16px; padding: 8px 16px; }
   .detail-stats { grid-template-columns: repeat(2, 1fr); }
   .chart-container { height: 120px; }
+  .chart-bar-value { font-size: 10px; top: -20px; }
+  .chart-bar-label { font-size: 9px; }
   .listings-section { overflow-x: auto; }
 }
 
@@ -853,7 +862,7 @@ body {
     </div>
     <div class="detail-stats" id="detailStats"></div>
     <div class="chart-section">
-      <div class="chart-title">Ogłoszenia — ostatnie 7 dni</div>
+      <div class="chart-title">Ogłoszenia — ostatnie 60 dni</div>
       <div class="chart-container" id="chartContainer"></div>
     </div>
     <div class="listings-section">
@@ -1129,31 +1138,38 @@ function renderChart(key) {
   if (!data) return;
 
   const counts = data.daily_counts || [];
-  // Last 7 days
-  const last7 = counts.slice(-7);
+  
+  // Mobile: 30 dni, Desktop: 60 dni
+  const isMobile = window.innerWidth <= 768;
+  const daysToShow = isMobile ? 30 : 60;
+  const lastN = counts.slice(-daysToShow);
 
-  if (last7.length === 0) {
+  if (lastN.length === 0) {
     document.getElementById('chartContainer').innerHTML = `
-      <div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych z ostatnich 7 dni</div>
+      <div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych z ostatnich ${daysToShow} dni</div>
     `;
     return;
   }
 
-  const maxCount = Math.max(...last7.map(d => d.count), 1);
+  const maxCount = Math.max(...lastN.map(d => d.count), 1);
 
   let html = '';
-  for (const entry of last7) {
+  for (let i = 0; i < lastN.length; i++) {
+    const entry = lastN[i];
     const heightPct = (entry.count / maxCount) * 100;
     const dayLabel = entry.date.slice(5); // MM-DD
     const dayParts = dayLabel.split('-');
     const shortLabel = `${dayParts[1]}.${dayParts[0]}`;
+    
+    // Pokazuj etykietę co 5 dni (indeksy 0, 5, 10, 15...)
+    const showLabel = i % 5 === 0 || i === lastN.length - 1;
 
     html += `
       <div class="chart-bar-wrapper">
-        <div class="chart-bar" style="height: ${Math.max(heightPct, 3)}%">
+        <div class="chart-bar" style="height: ${Math.max(heightPct, 3)}%" title="${entry.date}: ${entry.count} ogłoszeń">
           <span class="chart-bar-value">${entry.count}</span>
         </div>
-        <span class="chart-bar-label">${shortLabel}</span>
+        ${showLabel ? `<span class="chart-bar-label">${shortLabel}</span>` : '<span class="chart-bar-label" style="opacity:0">·</span>'}
       </div>
     `;
   }
@@ -1450,6 +1466,15 @@ loadData();
 
 // Auto-refresh every 5 minutes
 setInterval(loadData, 300000);
+
+// Re-render chart on resize (mobile/desktop switch)
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    if (activeProfile) renderChart(activeProfile);
+  }, 250);
+});
 </script>
 
 </body>
