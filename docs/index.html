@@ -449,7 +449,7 @@ body {
 .chart-container {
   display: flex;
   align-items: flex-end;
-  gap: 2px;
+  gap: 3px;
   height: 160px;
   padding: 0 4px;
   overflow-x: auto;
@@ -468,11 +468,11 @@ body {
   align-items: center;
   height: 100%;
   justify-content: flex-end;
-  min-width: 10px;
+  min-width: 16px;
 }
 
 .chart-bar {
-  width: 10px;
+  width: 16px;
   background: var(--chart-bar);
   border-radius: 4px 4px 0 0;
   transition: all var(--transition);
@@ -492,6 +492,7 @@ body {
   font-weight: 600;
   color: var(--text-primary);
   white-space: nowrap;
+  opacity: 1;
 }
 
 .chart-bar-label {
@@ -862,7 +863,7 @@ body {
     </div>
     <div class="detail-stats" id="detailStats"></div>
     <div class="chart-section">
-      <div class="chart-title">Ogłoszenia — ostatnie 60 dni</div>
+      <div class="chart-title">Ogłoszenia — ostatnie 30 dni</div>
       <div class="chart-container" id="chartContainer"></div>
     </div>
     <div class="listings-section">
@@ -1139,9 +1140,9 @@ function renderChart(key) {
 
   const counts = data.daily_counts || [];
   
-  // Mobile: 30 dni, Desktop: 60 dni
+  // Mobile: 20 dni, Desktop: 30 dni
   const isMobile = window.innerWidth <= 768;
-  const daysToShow = isMobile ? 30 : 60;
+  const daysToShow = isMobile ? 20 : 30;
   const lastN = counts.slice(-daysToShow);
 
   if (lastN.length === 0) {
@@ -1161,7 +1162,7 @@ function renderChart(key) {
     const dayParts = dayLabel.split('-');
     const shortLabel = `${dayParts[1]}.${dayParts[0]}`;
     
-    // Pokazuj etykietę co 5 dni (indeksy 0, 5, 10, 15...)
+    // Pokazuj etykietę co 5 dni (indeksy 0, 5, 10, 15...) lub ostatni
     const showLabel = i % 5 === 0 || i === lastN.length - 1;
 
     html += `
