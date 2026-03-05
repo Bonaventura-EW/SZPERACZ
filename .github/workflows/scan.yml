@@ -36,7 +36,10 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
 
       - name: Run OLX scan
         run: python scraper.py

@@ -16,6 +16,7 @@ from datetime import datetime, timedelta
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
+from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
 
 # ─── Configuration ───────────────────────────────────────────────────────────
 
@@ -339,6 +340,96 @@ def get_next_page_url(soup, current_url):
     return None
 
 
+
+# ─── Playwright Scraping (for user profiles) ────────────────────────────────
+
+def scrape_profile_playwright(profile_key, profile_config):
+    """
+    Scrape user profile using Playwright (headless browser) because OLX 
+    user profile pages now require JavaScript rendering.
+    """
+    url = profile_config["url"]
+    all_listings = []
+    header_count = None
+    page = 1
+    max_pages = 50
+    
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(
+                user_agent=random.choice(USER_AGENTS),
+                viewport={"width": 1920, "height": 1080}
+            )
+            page_obj = context.new_page()
+            
+            while url and page <= max_pages:
+                log.info(f"  [{profile_key}] Page {page}: {url}")
+                
+                try:
+                    # Navigate and wait for listings to load
+                    page_obj.goto(url, wait_until="networkidle", timeout=30000)
+                    
+                    # Wait for listing cards to appear
+                    page_obj.wait_for_selector('[data-cy="l-card"], div.css-19pezs8', timeout=10000)
+                    time.sleep(2)  # Extra wait for dynamic content
+                    
+                    # Get page content
+                    html = page_obj.content()
+                    soup = BeautifulSoup(html, "lxml")
+                    
+                    if page == 1:
+                        header_count = get_total_count_from_header(soup)
+                        log.info(f"  [{profile_key}] Header count: {header_count}")
+                    
+                    page_listings = parse_listings_from_soup(soup)
+                    log.info(f"  [{profile_key}] Page {page}: {len(page_listings)} listings")
+                    
+                    if not page_listings:
+                        break
+                    
+                    all_listings.extend(page_listings)
+                    
+                    # Find next page
+                    url = get_next_page_url(soup, url)
+                    page += 1
+                    time.sleep(random.uniform(2.0, 4.0))
+                    
+                except PlaywrightTimeout:
+                    log.warning(f"  [{profile_key}] Timeout on page {page}")
+                    break
+                except Exception as e:
+                    log.error(f"  [{profile_key}] Error on page {page}: {e}")
+                    break
+            
+            browser.close()
+    
+    except Exception as e:
+        log.error(f"  [{profile_key}] Playwright error: {e}")
+        return {
+            "listings": [],
+            "count": 0,
+            "header_count": None,
+            "pages_scraped": 0,
+        }
+    
+    # Deduplicate
+    seen_ids = set()
+    unique = []
+    for listing in all_listings:
+        lid = listing["listing_id"]
+        if lid not in seen_ids:
+            seen_ids.add(lid)
+            unique.append(listing)
+    
+    return {
+        "listings": unique,
+        "count": len(unique),
+        "header_count": header_count,
+        "pages_scraped": page - 1,
+    }
+
+
 # ─── Scraping with Crosscheck ───────────────────────────────────────────────
 
 def scrape_profile(profile_key, profile_config, session):
@@ -396,49 +487,103 @@ def scrape_profile(profile_key, profile_config, session):
 
 def scrape_with_crosscheck(profile_key, profile_config):
     log.info(f"[SCAN] Crosscheck: {profile_key}")
-
-    session1 = get_session()
-    result1 = scrape_profile(profile_key, profile_config, session1)
-
-    scraped = result1["count"]
-    header = result1["header_count"]
-
-    tolerance = 10 if profile_config.get("is_category") else 0
-    header_match = header is None or abs(scraped - header) <= tolerance
-
-    if header_match:
-        log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
-        result1["crosscheck"] = "passed"
-        result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
-        return result1
-
-    log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
-    time.sleep(random.uniform(3, 5))
-
-    session2 = get_session()
-    result2 = scrape_profile(profile_key, profile_config, session2)
-    c1, c2 = result1["count"], result2["count"]
-
-    if header is not None:
-        d1 = abs(c1 - header)
-        d2 = abs(c2 - header)
-        if d2 < d1:
-            result2["crosscheck"] = "passed_retry"
-            result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-            return result2
-        if c1 == c2:
-            result1["crosscheck"] = "consistent"
-            result1["crosscheck_detail"] = f"both={c1}, header={header}"
+    
+    # Use Playwright for user profiles (is_category=False)
+    # Use regular requests for category pages (is_category=True)
+    is_category = profile_config.get("is_category", False)
+    
+    if not is_category:
+        # User profile - use Playwright (requires JavaScript)
+        log.info(f"  [{profile_key}] Using Playwright (user profile)")
+        result1 = scrape_profile_playwright(profile_key, profile_config)
+        
+        scraped = result1["count"]
+        header = result1["header_count"]
+        
+        # No tolerance for user profiles
+        tolerance = 0
+        header_match = header is None or abs(scraped - header) <= tolerance
+        
+        if header_match:
+            log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
+            result1["crosscheck"] = "passed"
+            result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
             return result1
+        
+        # If mismatch, retry once
+        log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
+        time.sleep(random.uniform(3, 5))
+        
+        result2 = scrape_profile_playwright(profile_key, profile_config)
+        c1, c2 = result1["count"], result2["count"]
+        
+        if header is not None:
+            d1 = abs(c1 - header)
+            d2 = abs(c2 - header)
+            if d2 < d1:
+                result2["crosscheck"] = "passed_retry"
+                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
+                return result2
+            if c1 == c2:
+                result1["crosscheck"] = "consistent"
+                result1["crosscheck_detail"] = f"both={c1}, header={header}"
+                return result1
+        else:
+            if c2 > c1:
+                result2["crosscheck"] = "no_header_retry"
+                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
+                return result2
+        
+        result1["crosscheck"] = "best_of_two"
+        result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
+        return result1
+    
     else:
-        if c2 > c1:
-            result2["crosscheck"] = "no_header_retry"
-            result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
-            return result2
+        # Category page - use regular requests (works without JavaScript)
+        log.info(f"  [{profile_key}] Using requests (category page)")
 
-    result1["crosscheck"] = "best_of_two"
-    result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-    return result1
+        session1 = get_session()
+        result1 = scrape_profile(profile_key, profile_config, session1)
+
+        scraped = result1["count"]
+        header = result1["header_count"]
+
+        tolerance = 10 if profile_config.get("is_category") else 0
+        header_match = header is None or abs(scraped - header) <= tolerance
+
+        if header_match:
+            log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
+            result1["crosscheck"] = "passed"
+            result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
+            return result1
+
+        log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
+        time.sleep(random.uniform(3, 5))
+
+        session2 = get_session()
+        result2 = scrape_profile(profile_key, profile_config, session2)
+        c1, c2 = result1["count"], result2["count"]
+
+        if header is not None:
+            d1 = abs(c1 - header)
+            d2 = abs(c2 - header)
+            if d2 < d1:
+                result2["crosscheck"] = "passed_retry"
+                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
+                return result2
+            if c1 == c2:
+                result1["crosscheck"] = "consistent"
+                result1["crosscheck_detail"] = f"both={c1}, header={header}"
+                return result1
+        else:
+            if c2 > c1:
+                result2["crosscheck"] = "no_header_retry"
+                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
+                return result2
+
+        result1["crosscheck"] = "best_of_two"
+        result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
+        return result1
 
 
 # ─── Excel Operations ────────────────────────────────────────────────────────
