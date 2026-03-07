@@ -1107,7 +1107,13 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         current_ids = set()
         new_listings = []
         for listing in result["listings"]:
-            pub, ref = parse_date_text(listing.get("date_text", ""))
+            # Try to get dates directly from listing (JSON scraping provides them)
+            # Fall back to parsing date_text for DOM-scraped listings
+            pub = listing.get("published")
+            ref = listing.get("refreshed")
+            if not pub and not ref:
+                pub, ref = parse_date_text(listing.get("date_text", ""))
+            
             nl = {
                 "id": listing["listing_id"], "title": listing["title"],
                 "price": listing["price"], "price_text": listing.get("price_text", ""),
