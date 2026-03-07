@@ -349,7 +349,8 @@ def parse_prerendered_state(html):
     OLX user profile pages now use client-side rendering with data embedded as JSON.
     """
     # Find the JSON data in __PRERENDERED_STATE__
-    match = re.search(r'window\.__PRERENDERED_STATE__\s*=\s*"(.+?)";\s*window\.__', html, re.DOTALL)
+    # Pattern: window.__PRERENDERED_STATE__ = "..."; followed by window.__ or </script>
+    match = re.search(r'window\.__PRERENDERED_STATE__\s*=\s*"(.*?)";\s*(?:window\.|</script>)', html, re.DOTALL)
     if not match:
         return None, None, None
     
