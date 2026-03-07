@@ -341,7 +341,282 @@ def get_next_page_url(soup, current_url):
 
 
 
-# ─── Playwright Scraping (for user profiles) ────────────────────────────────
+# ─── JSON-based Scraping (for user profiles) ────────────────────────────────
+
+def parse_prerendered_state(html):
+    """
+    Extract listings from OLX's __PRERENDERED_STATE__ JavaScript variable.
+    OLX user profile pages now use client-side rendering with data embedded as JSON.
+    """
+    # Find the JSON data in __PRERENDERED_STATE__
+    match = re.search(r'window\.__PRERENDERED_STATE__\s*=\s*"(.+?)";\s*window\.__', html, re.DOTALL)
+    if not match:
+        return None, None, None
+    
+    try:
+        # Decode the escaped JSON string
+        # OLX encodes the JSON with unicode escapes, and UTF-8 characters 
+        # get double-encoded, so we need to:
+        # 1. Decode unicode escapes
+        # 2. Fix UTF-8 that was incorrectly decoded as Latin-1
+        import codecs
+        encoded_str = match.group(1)
+        decoded = codecs.decode(encoded_str, 'unicode_escape')
+        # Fix UTF-8 encoding: the string was treated as Latin-1 but is actually UTF-8
+        try:
+            decoded = decoded.encode('latin-1').decode('utf-8')
+        except (UnicodeDecodeError, UnicodeEncodeError):
+            pass  # Already correct encoding, skip fix
+        data = json.loads(decoded)
+    except (json.JSONDecodeError, UnicodeDecodeError) as e:
+        log.warning(f"Failed to parse __PRERENDERED_STATE__: {e}")
+        return None, None, None
+    
+    # Extract listings from userListing.adsOffers
+    user_listing = data.get('userListing', {})
+    ads_offers = user_listing.get('adsOffers', {})
+    
+    ads = ads_offers.get('data', [])
+    metadata = ads_offers.get('metadata', {})
+    links = ads_offers.get('links', {})
+    
+    total_count = metadata.get('total_elements') or metadata.get('visible_total_count')
+    next_page_url = links.get('next', {}).get('href') if isinstance(links.get('next'), dict) else None
+    
+    listings = []
+    for ad in ads:
+        # Extract price from params array
+        # Price structure: param['value']['value'] contains the numeric price
+        price = None
+        price_text = ""
+        for param in ad.get('params', []):
+            if param.get('key') == 'price':
+                value_obj = param.get('value', {})
+                if isinstance(value_obj, dict):
+                    price_text = value_obj.get('label', '')
+                    # Try to get numeric value directly
+                    price_val = value_obj.get('value')
+                    if price_val is not None:
+                        try:
+                            price = int(price_val)
+                        except (ValueError, TypeError):
+                            price = parse_price(price_text)
+                    else:
+                        price = parse_price(price_text)
+                break
+        
+        # Extract dates
+        created_time = ad.get('created_time', '')
+        last_refresh = ad.get('last_refresh_time', '')
+        
+        # Format dates
+        published = None
+        refreshed = None
+        if created_time:
+            try:
+                dt = datetime.fromisoformat(created_time.replace('Z', '+00:00'))
+                published = dt.strftime('%Y-%m-%d')
+            except:
+                pass
+        if last_refresh:
+            try:
+                dt = datetime.fromisoformat(last_refresh.replace('Z', '+00:00'))
+                refreshed = dt.strftime('%Y-%m-%d')
+            except:
+                pass
+        
+        # Build date_text for compatibility
+        date_text = ""
+        if refreshed:
+            date_text = f"Odświeżono {refreshed}"
+        elif published:
+            date_text = published
+        
+        # Extract image
+        photos = ad.get('photos', [])
+        image_url = photos[0].get('link', '') if photos else ""
+        
+        # Extract location
+        location = ad.get('location', {})
+        location_text = location.get('city', {}).get('name', '')
+        region = location.get('region', {}).get('name', '')
+        if region and location_text:
+            location_text = f"{location_text}, {region}"
+        
+        url = ad.get('url', '')
+        if not url.startswith('http'):
+            url = f"https://www.olx.pl{url}"
+        
+        listing = {
+            "title": ad.get('title', ''),
+            "price": price,
+            "price_text": price_text,
+            "url": url,
+            "listing_id": str(ad.get('id', extract_listing_id(url))),
+            "date_text": date_text,
+            "published": published,
+            "refreshed": refreshed,
+            "location": location_text,
+            "image_url": image_url,
+        }
+        
+        if listing["title"]:  # Only add if has title
+            listings.append(listing)
+    
+    return listings, total_count, next_page_url
+
+
+def scrape_user_profile_json(profile_key, profile_config, session):
+    """
+    Scrape user profile by parsing __PRERENDERED_STATE__ JSON data.
+    This is the new method for OLX user profiles which use client-side rendering.
+    Falls back to API pagination for additional pages.
+    """
+    url = profile_config["url"]
+    all_listings = []
+    header_count = None
+    page = 1
+    max_pages = 20
+    
+    # Random initial delay
+    time.sleep(random.uniform(1.5, 3.0))
+    
+    log.info(f"  [{profile_key}] Page {page}: {url}")
+    
+    try:
+        resp = session.get(url, timeout=30)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        log.error(f"  [{profile_key}] HTTP error: {e}")
+        return {
+            "listings": [],
+            "count": 0,
+            "header_count": None,
+            "pages_scraped": 0,
+        }
+    
+    # Parse first page from __PRERENDERED_STATE__
+    listings, total_count, next_api_url = parse_prerendered_state(resp.text)
+    
+    if listings is None:
+        log.warning(f"  [{profile_key}] Could not parse __PRERENDERED_STATE__, trying DOM parsing")
+        # Fallback to DOM parsing
+        soup = BeautifulSoup(resp.text, "lxml")
+        listings = parse_listings_from_soup(soup)
+        total_count = get_total_count_from_header(soup)
+    
+    header_count = total_count
+    log.info(f"  [{profile_key}] Page 1: {len(listings)} listings (total: {total_count})")
+    all_listings.extend(listings)
+    
+    # Fetch additional pages via API
+    while next_api_url and page < max_pages and len(all_listings) < (total_count or 999):
+        page += 1
+        time.sleep(random.uniform(1.5, 3.0))
+        
+        log.info(f"  [{profile_key}] API Page {page}: {next_api_url[:80]}...")
+        
+        try:
+            api_resp = session.get(next_api_url, timeout=30)
+            api_resp.raise_for_status()
+            api_data = api_resp.json()
+        except Exception as e:
+            log.warning(f"  [{profile_key}] API error on page {page}: {e}")
+            break
+        
+        ads = api_data.get('data', [])
+        if not ads:
+            break
+        
+        for ad in ads:
+            # Extract price - same structure as in parse_prerendered_state
+            price = None
+            price_text = ""
+            for param in ad.get('params', []):
+                if param.get('key') == 'price':
+                    value_obj = param.get('value', {})
+                    if isinstance(value_obj, dict):
+                        price_text = value_obj.get('label', '')
+                        price_val = value_obj.get('value')
+                        if price_val is not None:
+                            try:
+                                price = int(price_val)
+                            except (ValueError, TypeError):
+                                price = parse_price(price_text)
+                        else:
+                            price = parse_price(price_text)
+                    break
+            
+            # Dates
+            created_time = ad.get('created_time', '')
+            last_refresh = ad.get('last_refresh_time', '')
+            published = None
+            refreshed = None
+            if created_time:
+                try:
+                    dt = datetime.fromisoformat(created_time.replace('Z', '+00:00'))
+                    published = dt.strftime('%Y-%m-%d')
+                except:
+                    pass
+            if last_refresh:
+                try:
+                    dt = datetime.fromisoformat(last_refresh.replace('Z', '+00:00'))
+                    refreshed = dt.strftime('%Y-%m-%d')
+                except:
+                    pass
+            
+            date_text = f"Odświeżono {refreshed}" if refreshed else (published or "")
+            
+            photos = ad.get('photos', [])
+            image_url = photos[0].get('link', '') if photos else ""
+            
+            location = ad.get('location', {})
+            location_text = location.get('city', {}).get('name', '')
+            
+            url = ad.get('url', '')
+            if not url.startswith('http'):
+                url = f"https://www.olx.pl{url}"
+            
+            listing = {
+                "title": ad.get('title', ''),
+                "price": price,
+                "price_text": price_text,
+                "url": url,
+                "listing_id": str(ad.get('id', extract_listing_id(url))),
+                "date_text": date_text,
+                "published": published,
+                "refreshed": refreshed,
+                "location": location_text,
+                "image_url": image_url,
+            }
+            
+            if listing["title"]:
+                all_listings.append(listing)
+        
+        log.info(f"  [{profile_key}] Page {page}: {len(ads)} listings")
+        
+        # Get next page URL
+        links = api_data.get('links', {})
+        next_api_url = links.get('next', {}).get('href') if isinstance(links.get('next'), dict) else None
+    
+    # Deduplicate
+    seen_ids = set()
+    unique = []
+    for listing in all_listings:
+        lid = listing["listing_id"]
+        if lid not in seen_ids:
+            seen_ids.add(lid)
+            unique.append(listing)
+    
+    return {
+        "listings": unique,
+        "count": len(unique),
+        "header_count": header_count,
+        "pages_scraped": page,
+    }
+
+
+# ─── Playwright Scraping (DEPRECATED - kept as fallback) ────────────────────
 
 def scrape_profile_playwright(profile_key, profile_config):
     """
@@ -493,15 +768,18 @@ def scrape_with_crosscheck(profile_key, profile_config):
     is_category = profile_config.get("is_category", False)
     
     if not is_category:
-        # User profile - use Playwright (requires JavaScript)
-        log.info(f"  [{profile_key}] Using Playwright (user profile)")
-        result1 = scrape_profile_playwright(profile_key, profile_config)
+        # User profile - use JSON parsing from __PRERENDERED_STATE__
+        # This is faster and more reliable than Playwright
+        log.info(f"  [{profile_key}] Using JSON parsing (user profile)")
+        
+        session1 = get_session()
+        result1 = scrape_user_profile_json(profile_key, profile_config, session1)
         
         scraped = result1["count"]
         header = result1["header_count"]
         
-        # No tolerance for user profiles
-        tolerance = 0
+        # Allow small tolerance (API pagination might have slight delays)
+        tolerance = 2
         header_match = header is None or abs(scraped - header) <= tolerance
         
         if header_match:
@@ -514,7 +792,8 @@ def scrape_with_crosscheck(profile_key, profile_config):
         log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
         time.sleep(random.uniform(3, 5))
         
-        result2 = scrape_profile_playwright(profile_key, profile_config)
+        session2 = get_session()
+        result2 = scrape_user_profile_json(profile_key, profile_config, session2)
         c1, c2 = result1["count"], result2["count"]
         
         if header is not None:
