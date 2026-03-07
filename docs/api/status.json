@@ -1,0 +1,17 @@
+{
+  "status": "unknown",
+  "message": "Brak danych - oczekiwanie na pierwszy skan",
+  "lastScan": {
+    "timestamp": null,
+    "duration_seconds": 0,
+    "profiles_scanned": 0,
+    "total_listings": 0,
+    "new_listings": 0,
+    "price_changes": 0
+  },
+  "nextScan": {
+    "scheduled": null,
+    "in_seconds": 0
+  },
+  "profiles": {}
+}

@@ -62,8 +62,12 @@ PROFILES = {
 }
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+DOCS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs")
+API_DIR = os.path.join(DOCS_DIR, "api")
 EXCEL_PATH = os.path.join(DATA_DIR, "szperacz_olx.xlsx")
 JSON_PATH = os.path.join(DATA_DIR, "dashboard_data.json")
+API_STATUS_PATH = os.path.join(API_DIR, "status.json")
+API_HISTORY_PATH = os.path.join(API_DIR, "history.json")
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
@@ -1199,6 +1203,113 @@ def generate_dashboard_json(scan_results, scan_timestamp):
     log.info(f"Dashboard JSON saved: {JSON_PATH}")
 
 
+# ─── API JSON Generation ────────────────────────────────────────────────────
+
+def generate_api_json(scan_results, scan_timestamp, duration_seconds):
+    """Generate API status and history JSON files for mobile app."""
+    os.makedirs(API_DIR, exist_ok=True)
+    
+    now_iso = scan_timestamp.strftime("%Y-%m-%dT%H:%M:%SZ")
+    
+    # Calculate totals
+    total_listings = sum(r["count"] for r in scan_results.values())
+    profiles_scanned = len(scan_results)
+    
+    # Count new listings (compare with previous data)
+    new_listings = 0
+    price_changes = 0
+    
+    existing_data = load_existing_json()
+    for pk, result in scan_results.items():
+        if pk in existing_data.get("profiles", {}):
+            old_ids = {l["id"] for l in existing_data["profiles"][pk].get("current_listings", [])}
+            for listing in result["listings"]:
+                if listing["listing_id"] not in old_ids:
+                    new_listings += 1
+            # Count price changes from price_history
+            price_changes += len(existing_data["profiles"][pk].get("price_history", {}))
+    
+    # Determine overall status
+    error_profiles = [pk for pk, r in scan_results.items() if r.get("crosscheck") == "error"]
+    if error_profiles:
+        status = "partial_failure"
+        message = f"Błędy w profilach: {', '.join(error_profiles)}"
+    elif all(r.get("crosscheck") in ["passed", "passed_retry", "consistent"] for r in scan_results.values()):
+        status = "success"
+        message = f"Skan {profiles_scanned} profili zakończony pomyślnie"
+    else:
+        status = "success"
+        message = f"Skan zakończony z drobnymi niezgodnościami"
+    
+    # Calculate next scan time (7:00 UTC next day)
+    next_scan = scan_timestamp.replace(hour=7, minute=0, second=0, microsecond=0)
+    if scan_timestamp.hour >= 7:
+        next_scan += timedelta(days=1)
+    next_scan_iso = next_scan.strftime("%Y-%m-%dT%H:%M:%SZ")
+    seconds_to_next = int((next_scan - scan_timestamp).total_seconds())
+    
+    # Build status.json
+    status_data = {
+        "status": status,
+        "message": message,
+        "lastScan": {
+            "timestamp": now_iso,
+            "duration_seconds": duration_seconds,
+            "profiles_scanned": profiles_scanned,
+            "total_listings": total_listings,
+            "new_listings": new_listings,
+            "price_changes": price_changes
+        },
+        "nextScan": {
+            "scheduled": next_scan_iso,
+            "in_seconds": max(0, seconds_to_next)
+        },
+        "profiles": {
+            pk: {
+                "label": PROFILES[pk]["label"],
+                "count": r["count"],
+                "crosscheck": r.get("crosscheck", "unknown")
+            }
+            for pk, r in scan_results.items()
+        }
+    }
+    
+    with open(API_STATUS_PATH, "w", encoding="utf-8") as f:
+        json.dump(status_data, f, ensure_ascii=False, indent=2)
+    log.info(f"API status.json saved: {API_STATUS_PATH}")
+    
+    # Build/update history.json
+    history_data = {"scans": []}
+    if os.path.exists(API_HISTORY_PATH):
+        try:
+            with open(API_HISTORY_PATH, "r", encoding="utf-8") as f:
+                history_data = json.load(f)
+        except (json.JSONDecodeError, IOError):
+            pass
+    
+    # Add current scan to history
+    history_entry = {
+        "timestamp": now_iso,
+        "date": scan_timestamp.strftime("%Y-%m-%d"),
+        "status": status,
+        "total_listings": total_listings,
+        "profiles_scanned": profiles_scanned,
+        "duration_seconds": duration_seconds
+    }
+    
+    history_data["scans"].append(history_entry)
+    
+    # Keep only last 30 days
+    if len(history_data["scans"]) > 30:
+        history_data["scans"] = history_data["scans"][-30:]
+    
+    history_data["last_updated"] = now_iso
+    
+    with open(API_HISTORY_PATH, "w", encoding="utf-8") as f:
+        json.dump(history_data, f, ensure_ascii=False, indent=2)
+    log.info(f"API history.json saved: {API_HISTORY_PATH}")
+
+
 # ─── Main ────────────────────────────────────────────────────────────────────
 
 def run_scan():
@@ -1206,6 +1317,8 @@ def run_scan():
     os.makedirs(DATA_DIR, exist_ok=True)
     
     ts = datetime.now()
+    start_time = time.time()
+    
     log.info(f"{'='*60}")
     log.info(f"SZPERACZ OLX — Scan started {ts.strftime('%Y-%m-%d %H:%M:%S')}")
     log.info(f"{'='*60}")
@@ -1225,11 +1338,15 @@ def run_scan():
         # Long delay between profiles - bardziej naturalny pattern
         time.sleep(random.uniform(5, 10))
 
+    duration_seconds = int(time.time() - start_time)
+    
     update_excel(results, ts)
     generate_dashboard_json(results, ts)
+    generate_api_json(results, ts, duration_seconds)
 
     log.info(f"{'='*60}")
     log.info(f"SZPERACZ OLX — Scan completed {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    log.info(f"Duration: {duration_seconds} seconds")
     log.info(f"{'='*60}")
     return results
 

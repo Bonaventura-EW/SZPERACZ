@@ -48,6 +48,6 @@ jobs:
         run: |
           git config user.name "SZPERACZ Bot"
           git config user.email "szperacz-bot@users.noreply.github.com"
-          git add data/
+          git add data/ docs/api/
           git diff --cached --quiet || git commit -m "🔍 Scan: $(date '+%Y-%m-%d %H:%M') UTC"
           git push

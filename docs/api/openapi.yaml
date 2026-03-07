@@ -1,0 +1,274 @@
+openapi: 3.0.3
+info:
+  title: SZPERACZ OLX API
+  description: |
+    REST API dla monitorowania statusu skanów OLX.
+    
+    **Base URL:** `https://bonaventura-ew.github.io/SZPERACZ/api`
+    
+    API jest statyczne (pliki JSON serwowane przez GitHub Pages), 
+    więc nie wymaga autentykacji i jest publicznie dostępne.
+    
+    Dane aktualizowane są codziennie około 9:00 CET.
+  version: 1.0.0
+  contact:
+    name: SZPERACZ
+    url: https://github.com/Bonaventura-EW/SZPERACZ
+
+servers:
+  - url: https://bonaventura-ew.github.io/SZPERACZ/api
+    description: GitHub Pages (Production)
+
+paths:
+  /status.json:
+    get:
+      summary: Aktualny status ostatniego skanu
+      description: |
+        Zwraca informacje o ostatnim skanie, jego statusie,
+        liczbie ogłoszeń oraz czasie następnego skanu.
+      operationId: getStatus
+      tags:
+        - Scan Status
+      responses:
+        '200':
+          description: Status ostatniego skanu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScanStatus'
+              example:
+                status: success
+                message: Skan 5 profili zakończony pomyślnie
+                lastScan:
+                  timestamp: "2025-03-07T08:00:00Z"
+                  duration_seconds: 145
+                  profiles_scanned: 5
+                  total_listings: 847
+                  new_listings: 12
+                  price_changes: 3
+                nextScan:
+                  scheduled: "2025-03-08T07:00:00Z"
+                  in_seconds: 82800
+                profiles:
+                  wszystkie_pokoje:
+                    label: Wszystkie pokoje w Lublinie
+                    count: 523
+                    crosscheck: passed
+                  pokojewlublinie:
+                    label: pokojewlublinie
+                    count: 45
+                    crosscheck: passed
+
+  /history.json:
+    get:
+      summary: Historia skanów (ostatnie 30 dni)
+      description: |
+        Zwraca listę wszystkich skanów z ostatnich 30 dni
+        z podstawowymi informacjami o każdym skanie.
+      operationId: getHistory
+      tags:
+        - Scan History
+      responses:
+        '200':
+          description: Historia skanów
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScanHistory'
+              example:
+                last_updated: "2025-03-07T08:00:00Z"
+                scans:
+                  - timestamp: "2025-03-07T08:00:00Z"
+                    date: "2025-03-07"
+                    status: success
+                    total_listings: 847
+                    profiles_scanned: 5
+                    duration_seconds: 145
+                  - timestamp: "2025-03-06T08:00:00Z"
+                    date: "2025-03-06"
+                    status: success
+                    total_listings: 835
+                    profiles_scanned: 5
+                    duration_seconds: 152
+
+components:
+  schemas:
+    ScanStatus:
+      type: object
+      required:
+        - status
+        - message
+        - lastScan
+        - nextScan
+        - profiles
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+            - partial_failure
+            - failure
+          description: |
+            Status ostatniego skanu:
+            - `success` - wszystkie profile zeskanowane poprawnie
+            - `partial_failure` - niektóre profile miały błędy
+            - `failure` - skan całkowicie nie powiódł się
+        message:
+          type: string
+          description: Czytelny opis statusu po polsku
+          example: Skan 5 profili zakończony pomyślnie
+        lastScan:
+          $ref: '#/components/schemas/LastScanInfo'
+        nextScan:
+          $ref: '#/components/schemas/NextScanInfo'
+        profiles:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ProfileStatus'
+          description: Status każdego monitorowanego profilu
+
+    LastScanInfo:
+      type: object
+      required:
+        - timestamp
+        - duration_seconds
+        - profiles_scanned
+        - total_listings
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Czas zakończenia skanu (ISO 8601, UTC)
+          example: "2025-03-07T08:00:00Z"
+        duration_seconds:
+          type: integer
+          description: Czas trwania skanu w sekundach
+          example: 145
+        profiles_scanned:
+          type: integer
+          description: Liczba zeskanowanych profili
+          example: 5
+        total_listings:
+          type: integer
+          description: Suma ogłoszeń ze wszystkich profili
+          example: 847
+        new_listings:
+          type: integer
+          description: Liczba nowych ogłoszeń od poprzedniego skanu
+          example: 12
+        price_changes:
+          type: integer
+          description: Liczba zmian cen od poprzedniego skanu
+          example: 3
+
+    NextScanInfo:
+      type: object
+      required:
+        - scheduled
+        - in_seconds
+      properties:
+        scheduled:
+          type: string
+          format: date-time
+          description: Planowany czas następnego skanu (ISO 8601, UTC)
+          example: "2025-03-08T07:00:00Z"
+        in_seconds:
+          type: integer
+          description: Liczba sekund do następnego skanu
+          example: 82800
+
+    ProfileStatus:
+      type: object
+      required:
+        - label
+        - count
+        - crosscheck
+      properties:
+        label:
+          type: string
+          description: Czytelna nazwa profilu
+          example: Wszystkie pokoje w Lublinie
+        count:
+          type: integer
+          description: Liczba aktywnych ogłoszeń w profilu
+          example: 523
+        crosscheck:
+          type: string
+          enum:
+            - passed
+            - passed_retry
+            - consistent
+            - best_of_two
+            - error
+            - unknown
+          description: |
+            Wynik weryfikacji skanu:
+            - `passed` - dane zweryfikowane poprawnie
+            - `passed_retry` - poprawne po ponownej próbie
+            - `consistent` - spójne wyniki między próbami
+            - `best_of_two` - wybrano lepszy z dwóch wyników
+            - `error` - błąd podczas skanowania
+            - `unknown` - brak danych o weryfikacji
+
+    ScanHistory:
+      type: object
+      required:
+        - last_updated
+        - scans
+      properties:
+        last_updated:
+          type: string
+          format: date-time
+          description: Czas ostatniej aktualizacji historii
+          example: "2025-03-07T08:00:00Z"
+        scans:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanHistoryEntry'
+          description: Lista skanów (najnowsze na końcu)
+
+    ScanHistoryEntry:
+      type: object
+      required:
+        - timestamp
+        - date
+        - status
+        - total_listings
+        - profiles_scanned
+        - duration_seconds
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Czas zakończenia skanu
+          example: "2025-03-07T08:00:00Z"
+        date:
+          type: string
+          format: date
+          description: Data skanu (YYYY-MM-DD)
+          example: "2025-03-07"
+        status:
+          type: string
+          enum:
+            - success
+            - partial_failure
+            - failure
+          description: Status skanu
+        total_listings:
+          type: integer
+          description: Suma ogłoszeń
+          example: 847
+        profiles_scanned:
+          type: integer
+          description: Liczba profili
+          example: 5
+        duration_seconds:
+          type: integer
+          description: Czas trwania w sekundach
+          example: 145
+
+tags:
+  - name: Scan Status
+    description: Aktualny status systemu monitorowania
+  - name: Scan History
+    description: Historia skanów
