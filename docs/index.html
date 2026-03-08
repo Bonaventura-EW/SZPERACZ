@@ -436,15 +436,44 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .chart-title {
   font-family: var(--font-display);
   font-size: 13px;
   font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 16px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
+.chart-range-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.chart-range-tab {
+  padding: 6px 12px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  border-radius: var(--radius-sm);
+}
+
+.chart-range-tab:hover { color: var(--text-primary); background: var(--bg-accent); }
+.chart-range-tab.active { color: var(--accent); background: var(--accent-glow); }
 
 .chart-container {
   display: flex;
@@ -864,7 +893,14 @@ body {
     </div>
     <div class="detail-stats" id="detailStats"></div>
     <div class="chart-section">
-      <div class="chart-title">Ogłoszenia — ostatnie 30 dni</div>
+      <div class="chart-header">
+        <div class="chart-title" id="chartTitle">Ogłoszenia — ostatnie 14 dni</div>
+        <div class="chart-range-tabs">
+          <button class="chart-range-tab" onclick="switchChartRange(7, this)">7 dni</button>
+          <button class="chart-range-tab active" onclick="switchChartRange(14, this)">14 dni</button>
+          <button class="chart-range-tab" onclick="switchChartRange(30, this)">30 dni</button>
+        </div>
+      </div>
       <div class="chart-container" id="chartContainer"></div>
     </div>
     <div class="listings-section">
@@ -920,6 +956,7 @@ const WORKFLOW_FILE = 'scan.yml';
 let dashData = null;
 let activeProfile = null;
 let currentTab = 'current';
+let chartDays = 14;
 let sortColumn = 'date'; // Default: sortuj po dacie (newest first)
 let sortDirection = 'desc'; // desc = malejąco, asc = rosnąco
 
@@ -1123,7 +1160,12 @@ function renderDetail(key) {
     </div>
   `;
 
-  // Chart
+  // Chart - reset to default 14 days
+  chartDays = 14;
+  document.getElementById('chartTitle').textContent = 'Ogłoszenia — ostatnie 14 dni';
+  document.querySelectorAll('.chart-range-tab').forEach((t, idx) => {
+    t.classList.toggle('active', idx === 1); // 2nd button (14 dni) is active
+  });
   renderChart(key);
 
   // Listings
@@ -1135,25 +1177,42 @@ function renderDetail(key) {
 
 // ─── Chart ──────────────────────────────────────────────
 
+function switchChartRange(days, btn) {
+  chartDays = days;
+  
+  // Update active button
+  document.querySelectorAll('.chart-range-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  
+  // Update title
+  document.getElementById('chartTitle').textContent = `Ogłoszenia — ostatnie ${days} dni`;
+  
+  // Re-render chart
+  if (activeProfile) {
+    renderChart(activeProfile);
+  }
+}
+
 function renderChart(key) {
   const data = dashData.profiles[key];
   if (!data) return;
 
   const counts = data.daily_counts || [];
-  
-  // Mobile: 20 dni, Desktop: 30 dni
-  const isMobile = window.innerWidth <= 768;
-  const daysToShow = isMobile ? 20 : 30;
-  const lastN = counts.slice(-daysToShow);
+  const lastN = counts.slice(-chartDays);
 
   if (lastN.length === 0) {
     document.getElementById('chartContainer').innerHTML = `
-      <div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych z ostatnich ${daysToShow} dni</div>
+      <div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych z ostatnich ${chartDays} dni</div>
     `;
     return;
   }
 
   const maxCount = Math.max(...lastN.map(d => d.count), 1);
+  
+  // Determine label interval based on days
+  let labelInterval = 1;
+  if (chartDays === 14) labelInterval = 2;
+  if (chartDays === 30) labelInterval = 5;
 
   let html = '';
   for (let i = 0; i < lastN.length; i++) {
@@ -1163,8 +1222,8 @@ function renderChart(key) {
     const dayParts = dayLabel.split('-');
     const shortLabel = `${dayParts[1]}.${dayParts[0]}`;
     
-    // Pokazuj etykietę co 5 dni (indeksy 0, 5, 10, 15...) lub ostatni
-    const showLabel = i % 5 === 0 || i === lastN.length - 1;
+    // Show label based on interval or last item
+    const showLabel = i % labelInterval === 0 || i === lastN.length - 1;
 
     html += `
       <div class="chart-bar-wrapper">
