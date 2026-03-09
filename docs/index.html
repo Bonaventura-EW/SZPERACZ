@@ -478,31 +478,23 @@ body {
 .chart-container {
   display: flex;
   align-items: flex-end;
-  gap: 3px;
-  height: 190px;
-  padding: 30px 4px 0 4px;
-  overflow-x: auto;
-  overflow-y: visible;
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+  justify-content: center;
+  height: 160px;
+  padding: 0 4px;
+  margin-top: 24px;
 }
 
-.chart-container::-webkit-scrollbar { height: 6px; }
-.chart-container::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
-.chart-container::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
 
 .chart-bar-wrapper {
-  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
   justify-content: flex-end;
-  min-width: 16px;
 }
 
 .chart-bar {
-  width: 16px;
+  width: 100%;
   background: var(--chart-bar);
   border-radius: 4px 4px 0 0;
   transition: all var(--transition);
@@ -1209,33 +1201,41 @@ function renderChart(key) {
 
   const maxCount = Math.max(...lastN.map(d => d.count), 1);
   
-  // Determine label interval based on days
-  let labelInterval = 1;
-  if (chartDays === 14) labelInterval = 2;
-  if (chartDays === 30) labelInterval = 5;
+  // Adaptive bar width and gap based on chartDays
+  let barWidth, gap;
+  if (chartDays <= 7) {
+    barWidth = 40;
+    gap = 8;
+  } else if (chartDays <= 14) {
+    barWidth = 28;
+    gap = 6;
+  } else {
+    barWidth = 18;
+    gap = 4;
+  }
+
+  // Update container gap
+  const container = document.getElementById('chartContainer');
+  container.style.gap = `${gap}px`;
 
   let html = '';
-  for (let i = 0; i < lastN.length; i++) {
-    const entry = lastN[i];
+  for (const entry of lastN) {
     const heightPct = (entry.count / maxCount) * 100;
     const dayLabel = entry.date.slice(5); // MM-DD
     const dayParts = dayLabel.split('-');
     const shortLabel = `${dayParts[1]}.${dayParts[0]}`;
-    
-    // Show label based on interval or last item
-    const showLabel = i % labelInterval === 0 || i === lastN.length - 1;
 
     html += `
-      <div class="chart-bar-wrapper">
-        <div class="chart-bar" style="height: ${Math.max(heightPct, 3)}%" title="${entry.date}: ${entry.count} ogłoszeń">
+      <div class="chart-bar-wrapper" style="max-width: ${barWidth}px;">
+        <div class="chart-bar" style="height: ${Math.max(heightPct, 3)}%">
           <span class="chart-bar-value">${entry.count}</span>
         </div>
-        ${showLabel ? `<span class="chart-bar-label">${shortLabel}</span>` : '<span class="chart-bar-label" style="opacity:0">·</span>'}
+        <span class="chart-bar-label">${shortLabel}</span>
       </div>
     `;
   }
 
-  document.getElementById('chartContainer').innerHTML = html;
+  container.innerHTML = html;
 }
 
 // ─── Listings Table ─────────────────────────────────────
