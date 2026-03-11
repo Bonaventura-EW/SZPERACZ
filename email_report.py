@@ -14,11 +14,10 @@ from email.mime.base import MIMEBase
 from email import encoders
 from datetime import datetime, timedelta
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger("szperacz-email")
 
-SENDER_EMAIL = "slowholidays00@gmail.com"
-RECEIVER_EMAIL = "malczarski@gmail.com"
+SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "slowholidays00@gmail.com")
+RECEIVER_EMAIL = os.environ.get("RECEIVER_EMAIL", "malczarski@gmail.com")
 EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD", "")
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
@@ -95,9 +94,9 @@ def build_report_html():
         html += f'<h2>🏠 {label} ({len(listings)} ogłoszeń)</h2>'
         html += '<table><tr><th>Tytuł</th><th>Cena</th><th>Zmiana ceny</th><th>Data publ.</th><th>Odświeżone</th></tr>'
 
-        for l in listings:
-            price = f"{l['price']} zł" if l.get("price") else "—"
-            pc = l.get("price_change")
+        for listing in listings:
+            price = f"{listing['price']} zł" if listing.get("price") else "—"
+            pc = listing.get("price_change")
             if pc and pc > 0:
                 pc_html = f'<span class="up">+{pc} zł</span>'
             elif pc and pc < 0:
@@ -105,10 +104,10 @@ def build_report_html():
             else:
                 pc_html = '<span class="neutral">—</span>'
 
-            url = l.get("url", "#")
-            title = l.get("title", "—")
-            pub = l.get("published", "—") or "—"
-            ref = l.get("refreshed", "—") or "—"
+            url = listing.get("url", "#")
+            title = listing.get("title", "—")
+            pub = listing.get("published", "—") or "—"
+            ref = listing.get("refreshed", "—") or "—"
 
             html += f'<tr><td><a href="{url}">{title}</a></td><td>{price}</td><td>{pc_html}</td><td>{pub}</td><td>{ref}</td></tr>'
 
@@ -166,4 +165,5 @@ def send_report():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
     send_report()

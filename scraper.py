@@ -4,23 +4,26 @@ SZPERACZ OLX — Autonomiczny agent monitorujący ogłoszenia OLX.
 Scrape'uje profile, śledzi ceny, zapisuje do Excela i generuje JSON dla dashboardu.
 """
 
-import requests
-from bs4 import BeautifulSoup
+import codecs
 import json
+import logging
 import os
+import random
 import re
 import time
-import random
-import logging
 from datetime import datetime, timedelta
+
+import requests
+from bs4 import BeautifulSoup
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 # ─── Configuration ───────────────────────────────────────────────────────────
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger("szperacz")
 
 PROFILES = {
@@ -69,12 +72,14 @@ JSON_PATH = os.path.join(DATA_DIR, "dashboard_data.json")
 API_STATUS_PATH = os.path.join(API_DIR, "status.json")
 API_HISTORY_PATH = os.path.join(API_DIR, "history.json")
 
+LOCATION_KEYWORDS = ["Lublin", "Lublin, lubelskie"]
+
 USER_AGENTS = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3 Safari/605.1.15",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:135.0) Gecko/20100101 Firefox/135.0",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Safari/605.1.15",
 ]
 
 
@@ -91,8 +96,6 @@ def get_session():
         "Upgrade-Insecure-Requests": "1",
     })
     # Add retries with exponential backoff
-    from requests.adapters import HTTPAdapter
-    from urllib3.util.retry import Retry
     retry_strategy = Retry(
         total=3,
         backoff_factor=2,
@@ -237,7 +240,7 @@ def parse_card(card):
                 date_text = parts[1].strip()
             elif not date_text:
                 date_text = txt
-        elif txt in ["Lublin", "Lublin, lubelskie"] and not location_text:
+        elif txt in LOCATION_KEYWORDS and not location_text:
             location_text = txt
 
     img = card.select_one("img")
@@ -347,6 +350,71 @@ def get_next_page_url(soup, current_url):
 
 # ─── JSON-based Scraping (for user profiles) ────────────────────────────────
 
+def _parse_ad_from_json(ad):
+    """Parse a single OLX ad object from JSON API into a unified listing dict."""
+    price = None
+    price_text = ""
+    for param in ad.get('params', []):
+        if param.get('key') == 'price':
+            value_obj = param.get('value', {})
+            if isinstance(value_obj, dict):
+                price_text = value_obj.get('label', '')
+                price_val = value_obj.get('value')
+                if price_val is not None:
+                    try:
+                        price = int(price_val)
+                    except (ValueError, TypeError):
+                        price = parse_price(price_text)
+                else:
+                    price = parse_price(price_text)
+            break
+
+    published = None
+    refreshed = None
+    created_time = ad.get('created_time', '')
+    last_refresh = ad.get('last_refresh_time', '')
+    if created_time:
+        try:
+            dt = datetime.fromisoformat(created_time.replace('Z', '+00:00'))
+            published = dt.strftime('%Y-%m-%d')
+        except Exception:
+            pass
+    if last_refresh:
+        try:
+            dt = datetime.fromisoformat(last_refresh.replace('Z', '+00:00'))
+            refreshed = dt.strftime('%Y-%m-%d')
+        except Exception:
+            pass
+
+    date_text = f"Odświeżono {refreshed}" if refreshed else (published or "")
+
+    photos = ad.get('photos', [])
+    image_url = photos[0].get('link', '') if photos else ""
+
+    location = ad.get('location', {})
+    location_text = location.get('city', {}).get('name', '')
+    region = location.get('region', {}).get('name', '')
+    if region and location_text:
+        location_text = f"{location_text}, {region}"
+
+    url = ad.get('url', '')
+    if not url.startswith('http'):
+        url = f"https://www.olx.pl{url}"
+
+    return {
+        "title": ad.get('title', ''),
+        "price": price,
+        "price_text": price_text,
+        "url": url,
+        "listing_id": str(ad.get('id', extract_listing_id(url))),
+        "date_text": date_text,
+        "published": published,
+        "refreshed": refreshed,
+        "location": location_text,
+        "image_url": image_url,
+    }
+
+
 def parse_prerendered_state(html):
     """
     Extract listings from OLX's __PRERENDERED_STATE__ JavaScript variable.
@@ -360,11 +428,10 @@ def parse_prerendered_state(html):
     
     try:
         # Decode the escaped JSON string
-        # OLX encodes the JSON with unicode escapes, and UTF-8 characters 
+        # OLX encodes the JSON with unicode escapes, and UTF-8 characters
         # get double-encoded, so we need to:
         # 1. Decode unicode escapes
         # 2. Fix UTF-8 that was incorrectly decoded as Latin-1
-        import codecs
         encoded_str = match.group(1)
         decoded = codecs.decode(encoded_str, 'unicode_escape')
         # Fix UTF-8 encoding: the string was treated as Latin-1 but is actually UTF-8
@@ -390,84 +457,10 @@ def parse_prerendered_state(html):
     
     listings = []
     for ad in ads:
-        # Extract price from params array
-        # Price structure: param['value']['value'] contains the numeric price
-        price = None
-        price_text = ""
-        for param in ad.get('params', []):
-            if param.get('key') == 'price':
-                value_obj = param.get('value', {})
-                if isinstance(value_obj, dict):
-                    price_text = value_obj.get('label', '')
-                    # Try to get numeric value directly
-                    price_val = value_obj.get('value')
-                    if price_val is not None:
-                        try:
-                            price = int(price_val)
-                        except (ValueError, TypeError):
-                            price = parse_price(price_text)
-                    else:
-                        price = parse_price(price_text)
-                break
-        
-        # Extract dates
-        created_time = ad.get('created_time', '')
-        last_refresh = ad.get('last_refresh_time', '')
-        
-        # Format dates
-        published = None
-        refreshed = None
-        if created_time:
-            try:
-                dt = datetime.fromisoformat(created_time.replace('Z', '+00:00'))
-                published = dt.strftime('%Y-%m-%d')
-            except:
-                pass
-        if last_refresh:
-            try:
-                dt = datetime.fromisoformat(last_refresh.replace('Z', '+00:00'))
-                refreshed = dt.strftime('%Y-%m-%d')
-            except:
-                pass
-        
-        # Build date_text for compatibility
-        date_text = ""
-        if refreshed:
-            date_text = f"Odświeżono {refreshed}"
-        elif published:
-            date_text = published
-        
-        # Extract image
-        photos = ad.get('photos', [])
-        image_url = photos[0].get('link', '') if photos else ""
-        
-        # Extract location
-        location = ad.get('location', {})
-        location_text = location.get('city', {}).get('name', '')
-        region = location.get('region', {}).get('name', '')
-        if region and location_text:
-            location_text = f"{location_text}, {region}"
-        
-        url = ad.get('url', '')
-        if not url.startswith('http'):
-            url = f"https://www.olx.pl{url}"
-        
-        listing = {
-            "title": ad.get('title', ''),
-            "price": price,
-            "price_text": price_text,
-            "url": url,
-            "listing_id": str(ad.get('id', extract_listing_id(url))),
-            "date_text": date_text,
-            "published": published,
-            "refreshed": refreshed,
-            "location": location_text,
-            "image_url": image_url,
-        }
-        
-        if listing["title"]:  # Only add if has title
+        listing = _parse_ad_from_json(ad)
+        if listing["title"]:
             listings.append(listing)
-    
+
     return listings, total_count, next_page_url
 
 
@@ -534,67 +527,7 @@ def scrape_user_profile_json(profile_key, profile_config, session):
             break
         
         for ad in ads:
-            # Extract price - same structure as in parse_prerendered_state
-            price = None
-            price_text = ""
-            for param in ad.get('params', []):
-                if param.get('key') == 'price':
-                    value_obj = param.get('value', {})
-                    if isinstance(value_obj, dict):
-                        price_text = value_obj.get('label', '')
-                        price_val = value_obj.get('value')
-                        if price_val is not None:
-                            try:
-                                price = int(price_val)
-                            except (ValueError, TypeError):
-                                price = parse_price(price_text)
-                        else:
-                            price = parse_price(price_text)
-                    break
-            
-            # Dates
-            created_time = ad.get('created_time', '')
-            last_refresh = ad.get('last_refresh_time', '')
-            published = None
-            refreshed = None
-            if created_time:
-                try:
-                    dt = datetime.fromisoformat(created_time.replace('Z', '+00:00'))
-                    published = dt.strftime('%Y-%m-%d')
-                except:
-                    pass
-            if last_refresh:
-                try:
-                    dt = datetime.fromisoformat(last_refresh.replace('Z', '+00:00'))
-                    refreshed = dt.strftime('%Y-%m-%d')
-                except:
-                    pass
-            
-            date_text = f"Odświeżono {refreshed}" if refreshed else (published or "")
-            
-            photos = ad.get('photos', [])
-            image_url = photos[0].get('link', '') if photos else ""
-            
-            location = ad.get('location', {})
-            location_text = location.get('city', {}).get('name', '')
-            
-            url = ad.get('url', '')
-            if not url.startswith('http'):
-                url = f"https://www.olx.pl{url}"
-            
-            listing = {
-                "title": ad.get('title', ''),
-                "price": price,
-                "price_text": price_text,
-                "url": url,
-                "listing_id": str(ad.get('id', extract_listing_id(url))),
-                "date_text": date_text,
-                "published": published,
-                "refreshed": refreshed,
-                "location": location_text,
-                "image_url": image_url,
-            }
-            
+            listing = _parse_ad_from_json(ad)
             if listing["title"]:
                 all_listings.append(listing)
         
@@ -765,109 +698,66 @@ def scrape_profile(profile_key, profile_config, session):
     }
 
 
+def _crosscheck_result(profile_key, result1, scrape_fn, tolerance):
+    """Shared crosscheck logic: verify scraped count vs header, retry once if mismatch."""
+    scraped = result1["count"]
+    header = result1["header_count"]
+    header_match = header is None or abs(scraped - header) <= tolerance
+
+    if header_match:
+        log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
+        result1["crosscheck"] = "passed"
+        result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
+        return result1
+
+    log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
+    time.sleep(random.uniform(3, 5))
+
+    result2 = scrape_fn()
+    c1, c2 = result1["count"], result2["count"]
+
+    if header is not None:
+        d1 = abs(c1 - header)
+        d2 = abs(c2 - header)
+        if d2 < d1:
+            result2["crosscheck"] = "passed_retry"
+            result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
+            return result2
+        if c1 == c2:
+            result1["crosscheck"] = "consistent"
+            result1["crosscheck_detail"] = f"both={c1}, header={header}"
+            return result1
+    else:
+        if c2 > c1:
+            result2["crosscheck"] = "no_header_retry"
+            result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
+            return result2
+
+    result1["crosscheck"] = "best_of_two"
+    result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
+    return result1
+
+
 def scrape_with_crosscheck(profile_key, profile_config):
     log.info(f"[SCAN] Crosscheck: {profile_key}")
-    
-    # Use Playwright for user profiles (is_category=False)
-    # Use regular requests for category pages (is_category=True)
     is_category = profile_config.get("is_category", False)
-    
+
     if not is_category:
-        # User profile - use JSON parsing from __PRERENDERED_STATE__
-        # This is faster and more reliable than Playwright
         log.info(f"  [{profile_key}] Using JSON parsing (user profile)")
-        
-        session1 = get_session()
-        result1 = scrape_user_profile_json(profile_key, profile_config, session1)
-        
-        scraped = result1["count"]
-        header = result1["header_count"]
-        
-        # Allow small tolerance (API pagination might have slight delays)
-        tolerance = 2
-        header_match = header is None or abs(scraped - header) <= tolerance
-        
-        if header_match:
-            log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
-            result1["crosscheck"] = "passed"
-            result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
-            return result1
-        
-        # If mismatch, retry once
-        log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
-        time.sleep(random.uniform(3, 5))
-        
-        session2 = get_session()
-        result2 = scrape_user_profile_json(profile_key, profile_config, session2)
-        c1, c2 = result1["count"], result2["count"]
-        
-        if header is not None:
-            d1 = abs(c1 - header)
-            d2 = abs(c2 - header)
-            if d2 < d1:
-                result2["crosscheck"] = "passed_retry"
-                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-                return result2
-            if c1 == c2:
-                result1["crosscheck"] = "consistent"
-                result1["crosscheck_detail"] = f"both={c1}, header={header}"
-                return result1
-        else:
-            if c2 > c1:
-                result2["crosscheck"] = "no_header_retry"
-                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
-                return result2
-        
-        result1["crosscheck"] = "best_of_two"
-        result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-        return result1
-    
+        result1 = scrape_user_profile_json(profile_key, profile_config, get_session())
+        return _crosscheck_result(
+            profile_key, result1,
+            scrape_fn=lambda: scrape_user_profile_json(profile_key, profile_config, get_session()),
+            tolerance=2,
+        )
     else:
-        # Category page - use regular requests (works without JavaScript)
         log.info(f"  [{profile_key}] Using requests (category page)")
-
-        session1 = get_session()
-        result1 = scrape_profile(profile_key, profile_config, session1)
-
-        scraped = result1["count"]
-        header = result1["header_count"]
-
-        tolerance = 10 if profile_config.get("is_category") else 0
-        header_match = header is None or abs(scraped - header) <= tolerance
-
-        if header_match:
-            log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
-            result1["crosscheck"] = "passed"
-            result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
-            return result1
-
-        log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
-        time.sleep(random.uniform(3, 5))
-
-        session2 = get_session()
-        result2 = scrape_profile(profile_key, profile_config, session2)
-        c1, c2 = result1["count"], result2["count"]
-
-        if header is not None:
-            d1 = abs(c1 - header)
-            d2 = abs(c2 - header)
-            if d2 < d1:
-                result2["crosscheck"] = "passed_retry"
-                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-                return result2
-            if c1 == c2:
-                result1["crosscheck"] = "consistent"
-                result1["crosscheck_detail"] = f"both={c1}, header={header}"
-                return result1
-        else:
-            if c2 > c1:
-                result2["crosscheck"] = "no_header_retry"
-                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
-                return result2
-
-        result1["crosscheck"] = "best_of_two"
-        result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-        return result1
+        result1 = scrape_profile(profile_key, profile_config, get_session())
+        return _crosscheck_result(
+            profile_key, result1,
+            scrape_fn=lambda: scrape_profile(profile_key, profile_config, get_session()),
+            tolerance=10,
+        )
 
 
 # ─── Excel Operations ────────────────────────────────────────────────────────
@@ -1130,8 +1020,11 @@ def generate_dashboard_json(scan_results, scan_timestamp):
             current_ids.add(listing["listing_id"])
 
         old_map = {l["id"]: l for l in pd_.get("current_listings", [])}
+        archived_ids = {l["id"] for l in pd_.get("archived_listings", [])}
         for nl in new_listings:
             lid = nl["id"]
+            if lid not in old_map and lid in archived_ids:
+                nl["is_returning"] = True
             if lid in old_map:
                 old = old_map[lid]
                 nl["first_seen"] = old.get("first_seen", now_str)
@@ -1344,6 +1237,13 @@ def run_scan():
     generate_dashboard_json(results, ts)
     generate_api_json(results, ts, duration_seconds)
 
+    if os.path.exists(EXCEL_PATH):
+        excel_mb = os.path.getsize(EXCEL_PATH) / (1024 * 1024)
+        if excel_mb > 50:
+            log.warning(f"Plik Excel ma {excel_mb:.1f} MB — rozważ dodanie go do .gitignore (GitHub blokuje >100 MB)")
+        else:
+            log.info(f"Rozmiar pliku Excel: {excel_mb:.1f} MB")
+
     log.info(f"{'='*60}")
     log.info(f"SZPERACZ OLX — Scan completed {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     log.info(f"Duration: {duration_seconds} seconds")
@@ -1352,4 +1252,5 @@ def run_scan():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
     run_scan()
