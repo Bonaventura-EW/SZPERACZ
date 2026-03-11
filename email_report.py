@@ -16,8 +16,8 @@ from datetime import datetime, timedelta
 
 log = logging.getLogger("szperacz-email")
 
-SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "slowholidays00@gmail.com")
-RECEIVER_EMAIL = os.environ.get("RECEIVER_EMAIL", "malczarski@gmail.com")
+SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "")
+RECEIVER_EMAIL = os.environ.get("RECEIVER_EMAIL", "")
 EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD", "")
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
@@ -122,8 +122,9 @@ def build_report_html():
 
 
 def send_report():
-    if not EMAIL_PASSWORD:
-        log.error("EMAIL_PASSWORD not set!")
+    missing = [name for name, val in [("EMAIL_PASSWORD", EMAIL_PASSWORD), ("SENDER_EMAIL", SENDER_EMAIL), ("RECEIVER_EMAIL", RECEIVER_EMAIL)] if not val]
+    if missing:
+        log.error(f"Brakujące zmienne środowiskowe: {', '.join(missing)}")
         return False
 
     today = datetime.now()
