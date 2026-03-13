@@ -206,21 +206,27 @@ def fetch_listing_views(url, session):
     return None
 
 
-def fetch_views_for_listings(listings, session):
+def fetch_views_for_listings(listings, session, max_listings=None):
     """
     Fetch view counts for all listings in the list.
     Mutates each listing dict in-place by adding 'views' key.
+    max_listings: cap how many subpages to visit (None = all).
     """
-    total = len(listings)
-    log.info(f"  [views] Fetching view counts for {total} listings...")
-    for i, listing in enumerate(listings):
+    to_fetch = listings[:max_listings] if max_listings else listings
+    total = len(to_fetch)
+    skipped = len(listings) - total
+    if skipped:
+        log.info(f"  [views] Fetching view counts for {total}/{len(listings)} listings (limit={max_listings}, skipping {skipped})...")
+    else:
+        log.info(f"  [views] Fetching view counts for {total} listings...")
+    for i, listing in enumerate(to_fetch):
         views = fetch_listing_views(listing["url"], session)
         listing["views"] = views
         if views is not None:
             log.debug(f"  [views] {i+1}/{total} {listing['listing_id']}: {views}")
         else:
             log.debug(f"  [views] {i+1}/{total} {listing['listing_id']}: N/A")
-    log.info(f"  [views] Done. Got views for {sum(1 for l in listings if l.get('views') is not None)}/{total} listings")
+    log.info(f"  [views] Done. Got views for {sum(1 for l in to_fetch if l.get('views') is not None)}/{total} listings")
 
 
 # ─── Card Parsing ────────────────────────────────────────────────────────────
@@ -899,7 +905,7 @@ def scrape_with_crosscheck(profile_key, profile_config):
             log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
             result1["crosscheck"] = "passed"
             result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
-            fetch_views_for_listings(result1["listings"], session1)
+            fetch_views_for_listings(result1["listings"], session1, max_listings=50)
             return result1
 
         log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
@@ -915,23 +921,23 @@ def scrape_with_crosscheck(profile_key, profile_config):
             if d2 < d1:
                 result2["crosscheck"] = "passed_retry"
                 result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-                fetch_views_for_listings(result2["listings"], session2)
+                fetch_views_for_listings(result2["listings"], session2, max_listings=50)
                 return result2
             if c1 == c2:
                 result1["crosscheck"] = "consistent"
                 result1["crosscheck_detail"] = f"both={c1}, header={header}"
-                fetch_views_for_listings(result1["listings"], session1)
+                fetch_views_for_listings(result1["listings"], session1, max_listings=50)
                 return result1
         else:
             if c2 > c1:
                 result2["crosscheck"] = "no_header_retry"
                 result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
-                fetch_views_for_listings(result2["listings"], session2)
+                fetch_views_for_listings(result2["listings"], session2, max_listings=50)
                 return result2
 
         result1["crosscheck"] = "best_of_two"
         result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-        fetch_views_for_listings(result1["listings"], session1)
+        fetch_views_for_listings(result1["listings"], session1, max_listings=50)
         return result1
 
 
