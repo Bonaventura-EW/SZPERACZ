@@ -1130,11 +1130,34 @@ def generate_dashboard_json(scan_results, scan_timestamp):
             current_ids.add(listing["listing_id"])
 
         old_map = {l["id"]: l for l in pd_.get("current_listings", [])}
+        archived_map = {l["id"]: l for l in pd_.get("archived_listings", [])}
+
         for nl in new_listings:
             lid = nl["id"]
             if lid in old_map:
                 old = old_map[lid]
                 nl["first_seen"] = old.get("first_seen", now_str)
+                # Przenieś flagę reaktywacji jeśli była
+                if old.get("reactivated"):
+                    nl["reactivated"] = True
+                    nl["reactivation_history"] = old.get("reactivation_history", [])
+            elif lid in archived_map:
+                # Ogłoszenie wróciło z archiwum — to REAKTYWACJA
+                old_archived = archived_map[lid]
+                nl["first_seen"] = old_archived.get("first_seen", now_str)
+                nl["reactivated"] = True
+                history = old_archived.get("reactivation_history", [])
+                history.append({
+                    "active_from": old_archived.get("first_seen"),
+                    "active_to": old_archived.get("archived_date"),
+                    "reactivated_at": now_str,
+                })
+                nl["reactivation_history"] = history
+                # Usuń z archiwum
+                pd_["archived_listings"] = [a for a in pd_["archived_listings"] if a["id"] != lid]
+                log.info(f"  [REACTIVATED] {lid}: '{nl['title'][:50]}'")
+            if lid in old_map:
+                old = old_map[lid]
                 
                 # LOGIKA NAJSTARSZEJ DATY PUBLIKACJI:
                 # Priorytet: published (z OLX) > first_seen (fallback)
