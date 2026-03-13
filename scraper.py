@@ -168,67 +168,6 @@ def extract_listing_id(url):
     return parts[-1] if parts else url
 
 
-# ─── Views Fetching ──────────────────────────────────────────────────────────
-
-def fetch_listing_views(url, session):
-    """
-    Fetch a single listing page and extract the view count.
-    OLX shows: 'Wyświetlenia: 5602' at the bottom of the listing.
-    Returns int or None.
-    """
-    try:
-        time.sleep(random.uniform(1.0, 2.0))
-        resp = session.get(url, timeout=20)
-        resp.raise_for_status()
-        
-        # Try JSON embedded in page first (__PRERENDERED_STATE__ or similar)
-        # Pattern: "statistics":{"viewCount":5602}
-        m = re.search(r'"viewCount"\s*:\s*(\d+)', resp.text)
-        if m:
-            return int(m.group(1))
-        
-        # Fallback: parse DOM for "Wyświetlenia: N"
-        soup = BeautifulSoup(resp.text, "lxml")
-        for el in soup.find_all(string=re.compile(r"Wy\u015bwietlenia")):
-            m2 = re.search(r"Wy\u015bwietlenia[:\s]+(\d[\d\s]*)", el)
-            if m2:
-                return int(m2.group(1).replace(" ", ""))
-        
-        # Also check data-testid or span with numeric views text
-        for el in soup.find_all(["span", "p", "div"]):
-            txt = el.get_text(strip=True)
-            if "Wyświetlenia" in txt:
-                m3 = re.search(r"(\d[\d\s]+)", txt)
-                if m3:
-                    return int(m3.group(1).replace(" ", ""))
-    except Exception as e:
-        log.debug(f"  [views] Error fetching {url}: {e}")
-    return None
-
-
-def fetch_views_for_listings(listings, session, max_listings=None):
-    """
-    Fetch view counts for all listings in the list.
-    Mutates each listing dict in-place by adding 'views' key.
-    max_listings: cap how many subpages to visit (None = all).
-    """
-    to_fetch = listings[:max_listings] if max_listings else listings
-    total = len(to_fetch)
-    skipped = len(listings) - total
-    if skipped:
-        log.info(f"  [views] Fetching view counts for {total}/{len(listings)} listings (limit={max_listings}, skipping {skipped})...")
-    else:
-        log.info(f"  [views] Fetching view counts for {total} listings...")
-    for i, listing in enumerate(to_fetch):
-        views = fetch_listing_views(listing["url"], session)
-        listing["views"] = views
-        if views is not None:
-            log.debug(f"  [views] {i+1}/{total} {listing['listing_id']}: {views}")
-        else:
-            log.debug(f"  [views] {i+1}/{total} {listing['listing_id']}: N/A")
-    log.info(f"  [views] Done. Got views for {sum(1 for l in to_fetch if l.get('views') is not None)}/{total} listings")
-
-
 # ─── Card Parsing ────────────────────────────────────────────────────────────
 
 DATE_KEYWORDS = [
@@ -852,7 +791,6 @@ def scrape_with_crosscheck(profile_key, profile_config):
             log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
             result1["crosscheck"] = "passed"
             result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
-            fetch_views_for_listings(result1["listings"], session1)
             return result1
         
         # If mismatch, retry once
@@ -869,23 +807,19 @@ def scrape_with_crosscheck(profile_key, profile_config):
             if d2 < d1:
                 result2["crosscheck"] = "passed_retry"
                 result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-                fetch_views_for_listings(result2["listings"], session2)
                 return result2
             if c1 == c2:
                 result1["crosscheck"] = "consistent"
                 result1["crosscheck_detail"] = f"both={c1}, header={header}"
-                fetch_views_for_listings(result1["listings"], session1)
                 return result1
         else:
             if c2 > c1:
                 result2["crosscheck"] = "no_header_retry"
                 result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
-                fetch_views_for_listings(result2["listings"], session2)
                 return result2
         
         result1["crosscheck"] = "best_of_two"
         result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-        fetch_views_for_listings(result1["listings"], session1)
         return result1
     
     else:
@@ -905,7 +839,6 @@ def scrape_with_crosscheck(profile_key, profile_config):
             log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
             result1["crosscheck"] = "passed"
             result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
-            fetch_views_for_listings(result1["listings"], session1)
             return result1
 
         log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
@@ -921,23 +854,19 @@ def scrape_with_crosscheck(profile_key, profile_config):
             if d2 < d1:
                 result2["crosscheck"] = "passed_retry"
                 result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-                fetch_views_for_listings(result2["listings"], session2)
                 return result2
             if c1 == c2:
                 result1["crosscheck"] = "consistent"
                 result1["crosscheck_detail"] = f"both={c1}, header={header}"
-                fetch_views_for_listings(result1["listings"], session1)
                 return result1
         else:
             if c2 > c1:
                 result2["crosscheck"] = "no_header_retry"
                 result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
-                fetch_views_for_listings(result2["listings"], session2)
                 return result2
 
         result1["crosscheck"] = "best_of_two"
         result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-        fetch_views_for_listings(result1["listings"], session1)
         return result1
 
 
@@ -1001,7 +930,7 @@ def update_excel(scan_results, scan_timestamp):
     profile_headers = [
         "Data scanu", "Godzina", "Liczba ogłoszeń", "Zmiana vs poprzedni",
         "Crosscheck", "Tytuł", "Cena (zł)", "Zmiana ceny",
-        "Data publikacji", "Data odświeżenia", "URL", "ID ogłoszenia", "Wyświetlenia"
+        "Data publikacji", "Data odświeżenia", "URL", "ID ogłoszenia"
     ]
 
     for pk, result in scan_results.items():
@@ -1042,11 +971,10 @@ def update_excel(scan_results, scan_timestamp):
             ws.cell(row=row, column=10, value=ref or "")
             ws.cell(row=row, column=11, value=listing["url"])
             ws.cell(row=row, column=12, value=listing["listing_id"])
-            ws.cell(row=row, column=13, value=listing.get("views"))
-            for c in range(1, 14):
+            for c in range(1, 13):
                 style_data_cell(ws.cell(row=row, column=c))
 
-        for idx, w in enumerate([12, 8, 15, 15, 14, 50, 12, 12, 14, 14, 60, 15, 14], 1):
+        for idx, w in enumerate([12, 8, 15, 15, 14, 50, 12, 12, 14, 14, 60, 15], 1):
             ws.column_dimensions[get_column_letter(idx)].width = w
 
     # Historia cen
@@ -1196,7 +1124,6 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 "url": listing["url"], "published": pub, "refreshed": ref,
                 "date_text": listing.get("date_text", ""),
                 "image_url": listing.get("image_url", ""),
-                "views": listing.get("views"),
                 "first_seen": now_str, "last_seen": now_str,
             }
             new_listings.append(nl)
