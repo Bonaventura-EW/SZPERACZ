@@ -2,8 +2,8 @@
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2026-03-13T08:14:13Z",
-    "duration_seconds": 1323,
+    "timestamp": "2026-03-13T12:02:14Z",
+    "duration_seconds": 1289,
     "profiles_scanned": 7,
     "total_listings": 475,
     "new_listings": 0,
@@ -11,7 +11,7 @@
   },
   "nextScan": {
     "scheduled": "2026-03-14T07:00:00Z",
-    "in_seconds": 81946
+    "in_seconds": 68265
   },
   "profiles": {
     "wszystkie_pokoje": {
