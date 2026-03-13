@@ -1381,6 +1381,11 @@ function renderListings(key, tab) {
         valA = a.archived_date || '';
         valB = b.archived_date || '';
         break;
+
+      case 'days_active':
+        valA = a.first_seen ? Math.floor((Date.now() - new Date(a.first_seen.replace(' ', 'T'))) / 86400000) : 0;
+        valB = b.first_seen ? Math.floor((Date.now() - new Date(b.first_seen.replace(' ', 'T'))) / 86400000) : 0;
+        break;
       
       case 'date': // Default: first_seen lub archived_date
       default:
@@ -1410,6 +1415,7 @@ function renderListings(key, tab) {
           <th class="sortable ${sortColumn === 'price_change' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('price_change')">Zmiana ceny</th>
           <th class="sortable ${sortColumn === 'published' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('published')">Data publikacji</th>
           <th class="sortable ${sortColumn === 'refreshed' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('refreshed')">Odświeżone</th>
+          <th class="sortable ${sortColumn === 'days_active' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('days_active')" title="Dni od pierwszego zeskanowania">Dni aktywne</th>
           ${tab === 'archived' ? `<th class="sortable ${sortColumn === 'archived' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('archived')">Zniknęło</th>` : ''}
         </tr>
       </thead>
@@ -1442,6 +1448,26 @@ function renderListings(key, tab) {
     const refreshed = l.refreshed || '—';
     const archived = l.archived_date ? l.archived_date.split(' ')[0] : '—';
 
+    // Dni aktywne: od first_seen do teraz (aktywne) lub do archived_date (archiwum)
+    let daysActive = '—';
+    if (l.first_seen) {
+      const start = new Date(l.first_seen.replace(' ', 'T'));
+      const end = l.archived_date ? new Date(l.archived_date.replace(' ', 'T')) : new Date();
+      const days = Math.floor((end - start) / 86400000);
+      daysActive = days === 0 ? '<1' : String(days);
+    }
+
+    // Kolor dni: zielony (świeże ≤7), żółty (7-30), czerwony (>30)
+    let daysColor = 'var(--text-secondary)';
+    if (daysActive !== '—' && daysActive !== '<1') {
+      const n = parseInt(daysActive);
+      if (n <= 7) daysColor = 'var(--green)';
+      else if (n <= 30) daysColor = 'var(--orange)';
+      else daysColor = 'var(--red)';
+    } else if (daysActive === '<1') {
+      daysColor = 'var(--green)';
+    }
+
     const refreshIcon = l.refreshed && l.refreshed !== '—' ? `
       <span class="refresh-badge" title="">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1458,6 +1484,7 @@ function renderListings(key, tab) {
         <td>${priceChangeHtml}</td>
         <td class="date-cell">${published}</td>
         <td class="date-cell">${refreshed}</td>
+        <td class="date-cell" style="font-family:var(--font-display);font-weight:700;color:${daysColor};text-align:center;">${daysActive}${daysActive !== '—' ? '<span style="font-weight:400;font-size:10px;color:var(--text-muted)"> dni</span>' : ''}</td>
         ${tab === 'archived' ? `<td class="date-cell">${archived}</td>` : ''}
       </tr>
     `;
