@@ -619,6 +619,12 @@ body {
 
 .listings-table tr:hover td { background: var(--bg-accent); }
 
+.listing-title {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
 .listing-title a {
   color: var(--text-primary);
   text-decoration: none;
@@ -627,6 +633,54 @@ body {
 }
 
 .listing-title a:hover { color: var(--accent); }
+
+.refresh-badge {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: 7px;
+  color: var(--accent);
+  opacity: 0.75;
+  cursor: default;
+  transition: opacity var(--transition), transform var(--transition);
+  position: relative;
+}
+
+.refresh-badge:hover {
+  opacity: 1;
+}
+
+.refresh-badge:hover svg {
+  animation: spin-once 0.5s ease;
+}
+
+.refresh-badge .refresh-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+}
+
+.refresh-badge:hover .refresh-tooltip {
+  display: block;
+}
+
+@keyframes spin-once {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
 .price-tag {
   font-family: var(--font-display);
@@ -1388,9 +1442,18 @@ function renderListings(key, tab) {
     const refreshed = l.refreshed || '—';
     const archived = l.archived_date ? l.archived_date.split(' ')[0] : '—';
 
+    const refreshIcon = l.refreshed && l.refreshed !== '—' ? `
+      <span class="refresh-badge" title="">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+        </svg>
+        <span class="refresh-tooltip">Odświeżono: ${escapeHtml(l.refreshed)}</span>
+      </span>` : '';
+
     html += `
       <tr>
-        <td class="listing-title"><a href="${escapeHtml(l.url || '#')}" target="_blank">${escapeHtml(l.title || '—')}</a></td>
+        <td class="listing-title"><a href="${escapeHtml(l.url || '#')}" target="_blank">${escapeHtml(l.title || '—')}</a>${refreshIcon}</td>
         <td><span class="price-tag">${price}</span></td>
         <td>${priceChangeHtml}</td>
         <td class="date-cell">${published}</td>
