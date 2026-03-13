@@ -905,7 +905,7 @@ def scrape_with_crosscheck(profile_key, profile_config):
             log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
             result1["crosscheck"] = "passed"
             result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
-            fetch_views_for_listings(result1["listings"], session1, max_listings=50)
+            fetch_views_for_listings(result1["listings"], session1)
             return result1
 
         log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
@@ -921,23 +921,23 @@ def scrape_with_crosscheck(profile_key, profile_config):
             if d2 < d1:
                 result2["crosscheck"] = "passed_retry"
                 result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-                fetch_views_for_listings(result2["listings"], session2, max_listings=50)
+                fetch_views_for_listings(result2["listings"], session2)
                 return result2
             if c1 == c2:
                 result1["crosscheck"] = "consistent"
                 result1["crosscheck_detail"] = f"both={c1}, header={header}"
-                fetch_views_for_listings(result1["listings"], session1, max_listings=50)
+                fetch_views_for_listings(result1["listings"], session1)
                 return result1
         else:
             if c2 > c1:
                 result2["crosscheck"] = "no_header_retry"
                 result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
-                fetch_views_for_listings(result2["listings"], session2, max_listings=50)
+                fetch_views_for_listings(result2["listings"], session2)
                 return result2
 
         result1["crosscheck"] = "best_of_two"
         result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-        fetch_views_for_listings(result1["listings"], session1, max_listings=50)
+        fetch_views_for_listings(result1["listings"], session1)
         return result1
 
 
