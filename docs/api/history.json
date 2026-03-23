@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-22T06:34:59Z",
+  "last_updated": "2026-03-23T06:54:55Z",
   "scans": [
     {
       "timestamp": "2026-03-07T17:58:55Z",
@@ -152,6 +152,14 @@
       "total_listings": 470,
       "profiles_scanned": 7,
       "duration_seconds": 179
+    },
+    {
+      "timestamp": "2026-03-23T06:54:55Z",
+      "date": "2026-03-23",
+      "status": "success",
+      "total_listings": 479,
+      "profiles_scanned": 7,
+      "duration_seconds": 153
     }
   ]
 }
