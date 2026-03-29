@@ -1,0 +1,131 @@
+# 📋 CHANGELOG
+
+Wszystkie istotne zmiany w projekcie SZPERACZ OLX są dokumentowane w tym pliku.
+
+Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
+
+---
+
+## [Unreleased]
+
+### Planowane
+- Ulepszenie systemu raportów email
+- Alerty cenowe w czasie rzeczywistym
+- Integracja z Telegram Bot
+
+---
+
+## [2026-03-29] - Email Report System Enhancement
+
+### Stan początkowy
+- Istniejący `email_report.py` z podstawowym szablonem HTML
+- Workflow `weekly_report.yml` uruchamiany w poniedziałki o 9:30 CET
+- Brak wykresów w emailu
+- Podstawowe tabele z danymi
+
+### Added
+- [x] Matplotlib do zależności (wykresy inline Base64)
+- [x] Funkcja `generate_trend_chart()` — wykresy słupkowe 7-dniowe jako Base64 PNG
+- [x] Funkcja `calculate_weekly_stats()` — statystyki tygodniowe (min/max/avg)
+- [x] Nowy szablon HTML z sekcją analityczną
+- [x] Grid ze statystykami (aktualna liczba, zakres, średnia cena, nowe 24h)
+- [x] Embedded wykresy w emailu (inline Base64)
+- [x] Tabela z top 10 najnowszych ogłoszeń dla każdego profilu
+- [x] Profesjonalny styling (gradienty, zaokrąglone rogi, responsive grid)
+
+### Changed
+- [x] Całkowicie przepisany `email_report.py` — nowa architektura
+- [x] Zmieniony subject: "Raport analityczny" zamiast "Raport tygodniowy"
+- [x] Dodano emoji do sekcji (📊, 📌, 🏠, 🤖)
+- [x] Improved logging (emoji statusy ✅ ❌)
+
+### Technical Details
+- **Matplotlib Backend:** `Agg` (non-interactive, server-safe)
+- **Chart Format:** PNG → Base64 → `data:image/png;base64,...`
+- **Chart Resolution:** 800x300px @ 100 DPI
+- **Color Scheme:** Tailwind-inspired (#3b82f6 primary, #10b981 success, #ef4444 danger)
+- **Email Size:** ~200-500KB (zależnie od liczby wykresów)
+
+### Files Modified
+- `requirements.txt` - dodano matplotlib>=3.8.0
+- `email_report.py` - kompletny rewrite (170 → 430 linii)
+
+---
+
+## [2026-02-27] - Scan Timing Fix
+
+### Changed
+- Zmieniono harmonogram skanów z 6:00 UTC na 7:00 UTC (9:00 CET zimą)
+- Dodano dokumentację `ZMIANA_CZASU_REMINDER.md`
+
+### Fixed
+- Problem z automatyczną dezaktywacją workflow po 60 dniach
+- Dodano `keep-alive.yml` workflow
+
+### Files Modified
+- `.github/workflows/scan.yml`
+- `.github/workflows/keep-alive.yml`
+- `ZMIANA_CZASU_REMINDER.md` (nowy)
+
+---
+
+## [2026-02-20] - Initial Project Setup
+
+### Added
+- Podstawowy scraper OLX (`scraper.py`)
+- GitHub Actions workflow dla daily scan
+- Dashboard na GitHub Pages (`docs/index.html`)
+- Excel export z historią cen
+- JSON API dla dashboardu
+- Email reporting system (podstawowy)
+
+### Technical Details
+- Python 3.11+
+- BeautifulSoup4 dla parsowania HTML
+- OpenPyXL dla Excela
+- GitHub Actions dla automatyzacji
+- GitHub Pages dla dashboardu
+
+### Files Created
+- `scraper.py`
+- `main.py`
+- `email_report.py`
+- `.github/workflows/scan.yml`
+- `.github/workflows/weekly_report.yml`
+- `docs/index.html`
+- `requirements.txt`
+- `README.md`
+- `PROJECT_STRUCTURE.md`
+- `SETUP_GUIDE.md`
+
+---
+
+## Legenda typów zmian
+
+- **Added**: Nowe funkcje
+- **Changed**: Zmiany w istniejących funkcjach
+- **Deprecated**: Funkcje które zostaną usunięte
+- **Removed**: Usunięte funkcje
+- **Fixed**: Poprawki błędów
+- **Security**: Poprawki bezpieczeństwa
+
+---
+
+## Konwencje commitów
+
+```
+🔍 Scan: zmiany w scraper.py lub logice skanowania
+📊 Data: zmiany w strukturze danych (JSON/Excel)
+📧 Email: zmiany w systemie raportów email
+🎨 UI: zmiany w dashboardzie (docs/index.html)
+🔧 Config: zmiany w konfiguracji
+📝 Docs: aktualizacje dokumentacji
+🐛 Fix: poprawki błędów
+✨ Feature: nowe funkcje
+♻️ Refactor: refaktoryzacja bez zmian funkcjonalności
+🚀 Deploy: zmiany w GitHub Actions workflow
+```
+
+---
+
+**Ostatnia aktualizacja:** 2026-03-29

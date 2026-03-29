@@ -48,11 +48,14 @@
   - 90-dniowa historia daily_counts
   - Price history dla każdego ogłoszenia
 
-### 📧 Raporty email
-- Cotygodniowy raport HTML (każdy poniedziałek)
-- Tabele z podsumowaniem profili
-- Szczegóły wszystkich aktualnych ogłoszeń
-- Załącznik Excel
+### 📧 Raporty email (NOWE: Analityka)
+- **Cotygodniowy raport analityczny** (każdy poniedziałek o 9:30 CET)
+- **Embedded wykresy trendów** (matplotlib Base64 inline)
+- **Statystyki tygodniowe:** min/max liczba ogłoszeń, średnia/min/max cena
+- **Nowe ogłoszenia (24h)** — licznik dla każdego profilu
+- **Top 10 najnowszych** ogłoszeń w każdym profilu
+- **Załącznik Excel** z pełnymi danymi
+- Profesjonalny HTML z responsive grid i gradientami
 
 ### 🌐 Interaktywny dashboard
 - Widok wszystkich profili na jednym ekranie
