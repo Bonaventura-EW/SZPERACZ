@@ -39,12 +39,19 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 - [x] Dodano emoji do sekcji (📊, 📌, 🏠, 🤖)
 - [x] Improved logging (emoji statusy ✅ ❌)
 
+### Fixed
+- [x] Stats grid layout — zmieniono z CSS Grid na `<table>` dla lepszej kompatybilności email
+- [x] Karty stats wyświetlają się teraz **poziomo w jednym rzędzie** zamiast pionowo
+- [x] Dodano `table-layout: fixed` i `width: 25%` dla równych kart
+- [x] Używamy `<td class="stat-card">` zamiast `<div>` dla cross-client compatibility
+
 ### Technical Details
 - **Matplotlib Backend:** `Agg` (non-interactive, server-safe)
 - **Chart Format:** PNG → Base64 → `data:image/png;base64,...`
 - **Chart Resolution:** 800x300px @ 100 DPI
 - **Color Scheme:** Tailwind-inspired (#3b82f6 primary, #10b981 success, #ef4444 danger)
 - **Email Size:** ~200-500KB (zależnie od liczby wykresów)
+- **Email Compatibility:** Table-based layout (works in Gmail, Outlook, Apple Mail)
 
 ### Testing
 - [x] Workflow triggered via GitHub API
@@ -52,6 +59,7 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 - [x] Status: ✅ SUCCESS (completed in ~20s)
 - [x] Email wysłany do malczarski@gmail.com
 - [x] Załącznik Excel poprawnie dołączony
+- [x] Layout fix: stats cards teraz poziomo
 
 ### Files Modified
 - `requirements.txt` - dodano matplotlib>=3.8.0

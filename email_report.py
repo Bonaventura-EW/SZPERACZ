@@ -222,17 +222,21 @@ def build_report_html():
             color: #1e293b;
         }}
         .stats-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-spacing: 12px 0;
             margin: 20px 0;
         }}
         .stat-card {{
+            display: table-cell;
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border: 1px solid #e2e8f0;
             border-radius: 10px;
             padding: 20px;
             text-align: center;
+            vertical-align: top;
+            width: 25%;
         }}
         .stat-value {{
             font-size: 32px;
@@ -371,28 +375,30 @@ def build_report_html():
         change_sign = "+" if stats["change"] > 0 else ""
         
         html += f'''
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Aktualna liczba</div>
-                <div class="stat-value">{stats["current"]}</div>
-                <div class="stat-change {change_class}">{change_sign}{stats["change"]} {change_symbol} (7 dni)</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Zakres (tydzień)</div>
-                <div class="stat-value" style="font-size:24px;">{stats["min_count"]} – {stats["max_count"]}</div>
-                <div class="stat-change neutral">min / max</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Średnia cena</div>
-                <div class="stat-value" style="font-size:28px;">{stats["avg_price"]} zł</div>
-                <div class="stat-change neutral">{stats["min_price"]} – {stats["max_price"]} zł</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Nowe (24h)</div>
-                <div class="stat-value" style="color:#10b981;">{stats["new_24h"]}</div>
-                <div class="stat-change neutral">z {stats["total_listings"]} aktywnych</div>
-            </div>
-        </div>
+        <table class="stats-grid" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="stat-card">
+                    <div class="stat-label">Aktualna liczba</div>
+                    <div class="stat-value">{stats["current"]}</div>
+                    <div class="stat-change {change_class}">{change_sign}{stats["change"]} {change_symbol} (7 dni)</div>
+                </td>
+                <td class="stat-card">
+                    <div class="stat-label">Zakres (tydzień)</div>
+                    <div class="stat-value" style="font-size:24px;">{stats["min_count"]} – {stats["max_count"]}</div>
+                    <div class="stat-change neutral">min / max</div>
+                </td>
+                <td class="stat-card">
+                    <div class="stat-label">Średnia cena</div>
+                    <div class="stat-value" style="font-size:28px;">{stats["avg_price"]} zł</div>
+                    <div class="stat-change neutral">{stats["min_price"]} – {stats["max_price"]} zł</div>
+                </td>
+                <td class="stat-card">
+                    <div class="stat-label">Nowe (24h)</div>
+                    <div class="stat-value" style="color:#10b981;">{stats["new_24h"]}</div>
+                    <div class="stat-change neutral">z {stats["total_listings"]} aktywnych</div>
+                </td>
+            </tr>
+        </table>
         '''
         
         # Chart
