@@ -1330,7 +1330,17 @@ function renderChart(key) {
     return;
   }
 
-  const maxCount = Math.max(...lastN.map(d => d.count), 1);
+  // Dynamic Y-axis scaling
+  const values = lastN.map(d => d.count);
+  const minCount = Math.min(...values);
+  const maxCount = Math.max(...values);
+  const range = maxCount - minCount;
+  
+  // Add 10% padding to top and bottom for better visibility
+  const padding = Math.max(1, Math.ceil(range * 0.1));
+  const yMin = Math.max(0, minCount - padding);
+  const yMax = maxCount + padding;
+  const yRange = yMax - yMin;
   
   // Adaptive bar width and gap based on chartDays
   let barWidth, gap;
@@ -1351,7 +1361,8 @@ function renderChart(key) {
 
   let html = '';
   for (const entry of lastN) {
-    const heightPct = (entry.count / maxCount) * 100;
+    // Calculate height based on dynamic range
+    const heightPct = yRange > 0 ? ((entry.count - yMin) / yRange) * 100 : 50;
     const dayLabel = entry.date.slice(5); // MM-DD
     const dayParts = dayLabel.split('-');
     const shortLabel = `${dayParts[1]}.${dayParts[0]}`;

@@ -21,14 +21,22 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 - [x] Przekierowanie do profilu OLX w nowej karcie
 - [x] Hover effect i animacja
 
+### Changed
+- [x] **Dynamiczna skala Y w wykresach** — zamiast zawsze od 0
+- [x] Wykres teraz pokazuje zakres od `min - 10%` do `max + 10%`
+- [x] Małe różnice (405→409) są teraz widoczne na wykresie
+- [x] Skala uwzględnia wybrany zakres (7/14/30 dni)
+
 ### Technical Details
 - Link wyświetlany obok nazwy profilu w detail-header
 - SVG icon: external link (stroke width 2)
 - Stylizacja: border, padding, hover transform
 - Target: `_blank` (nowa karta)
+- **Chart scaling:** `heightPct = ((value - yMin) / yRange) * 100`
+- **Y-axis range:** `yMin = max(0, min - 10%)`, `yMax = max + 10%`
 
 ### Files Modified
-- `docs/index.html` - dodano CSS `.profile-link` + JS w `renderDetail()`
+- `docs/index.html` - dodano CSS `.profile-link` + JS w `renderDetail()` + dynamic Y-scale w `renderChart()`
 
 ---
 
