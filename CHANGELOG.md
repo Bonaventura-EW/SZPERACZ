@@ -9,9 +9,26 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 ## [Unreleased]
 
 ### Planowane
-- Ulepszenie systemu raportów email
-- Alerty cenowe w czasie rzeczywistym
 - Integracja z Telegram Bot
+
+---
+
+## [2026-03-29] - Dashboard Profile Links
+
+### Added
+- [x] Link "Zobacz na OLX" w nagłówku detail panelu
+- [x] Klikany przycisk z ikoną external link
+- [x] Przekierowanie do profilu OLX w nowej karcie
+- [x] Hover effect i animacja
+
+### Technical Details
+- Link wyświetlany obok nazwy profilu w detail-header
+- SVG icon: external link (stroke width 2)
+- Stylizacja: border, padding, hover transform
+- Target: `_blank` (nowa karta)
+
+### Files Modified
+- `docs/index.html` - dodano CSS `.profile-link` + JS w `renderDetail()`
 
 ---
 

@@ -383,6 +383,35 @@ body {
   font-family: var(--font-display);
   font-size: 16px;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bg-accent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.profile-link:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.profile-link svg {
+  width: 14px;
+  height: 14px;
 }
 
 .detail-close {
@@ -1193,8 +1222,19 @@ function renderDetail(key) {
   const data = dashData.profiles[key];
   if (!data) return;
 
-  // Title
-  document.getElementById('detailTitle').textContent = data.label || key;
+  // Title with profile link
+  const profileUrl = data.url || '#';
+  document.getElementById('detailTitle').innerHTML = `
+    <span>${escapeHtml(data.label || key)}</span>
+    <a href="${escapeHtml(profileUrl)}" target="_blank" class="profile-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <line x1="10" y1="14" x2="21" y2="3"></line>
+      </svg>
+      Zobacz na OLX
+    </a>
+  `;
 
   // Stats
   const listings = data.current_listings || [];
