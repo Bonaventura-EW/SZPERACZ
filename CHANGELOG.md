@@ -41,20 +41,27 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
   - Kalkulacja: `prices = [l["price"] for l in result["listings"] if ...]`
   - Round average price: `round(sum(prices) / len(prices))`
   - Zapisywane w `daily_counts`: `avg_price`, `min_price`, `max_price`
+- **Backfill:** `backfill_prices.py` — wypełnienie historycznych danych
+  - Dla wpisów z `None` w cenach użyto aktualnych cen jako przybliżenia
+  - Zaktualizowano ~35 wpisów na profil (36 dni historii)
 - **Frontend:** `docs/index.html`
   - Nowa sekcja: `.line-chart-section` + CSS
   - Chart.js plugin: `chartjs-plugin-zoom` v2.0.1
+  - **Hammer.js v2.0.8** — wymagane dla gestów przeciągania (pan)
   - Funkcja: `renderLineChart(key)` — dynamiczna zmiana danych
   - Funkcja: `switchMetric(metric, btn)` — toggle między metrykami
   - Funkcja: `resetLineChartZoom()` — reset zoom
   - Responsywne: `height: 220px`, adaptive ticks
 - **CDN:**
+  - `https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js`
   - `https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js`
   - `https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js`
 
 ### Files Modified 📝
 - `scraper.py` — rozszerzenie `generate_dashboard_json()` o statystyki cenowe
 - `docs/index.html` — nowa sekcja HTML + CSS + JavaScript dla wykresu liniowego
+- `backfill_prices.py` — skrypt jednorazowy do wypełnienia historycznych danych
+- `data/dashboard_data.json` — wypełnione statystyki cenowe dla 36 dni historii
 
 ---
 
