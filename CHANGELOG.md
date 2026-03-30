@@ -24,7 +24,7 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
   - ⬆️ Maksymalna cena
 - **Zoom interaktywny:**
   - 🖱️ Kółko myszy — przybliżanie/oddalanie
-  - Shift + przeciągnięcie — przesuwanie wykresu (pan)
+  - **Przeciąganie** — przesuwanie wykresu (pan) **bez konieczności trzymania Shift**
   - Przycisk "Reset zoom" (pojawia się po przybliżeniu)
 - **Tooltips** z dokładnymi wartościami przy hover
 - **Statystyki cenowe w backend:**
