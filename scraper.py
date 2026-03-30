@@ -1091,11 +1091,20 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         pd_ = data["profiles"][pk]
         dc = pd_["daily_counts"]
 
+        # Kalkuluj statystyki cenowe z obecnych ogłoszeń
+        prices = [l["price"] for l in result["listings"] if l.get("price") is not None and l["price"] > 0]
+        avg_price = round(sum(prices) / len(prices)) if prices else None
+        min_price = min(prices) if prices else None
+        max_price = max(prices) if prices else None
+
         today_entry = next((d for d in dc if d["date"] == today), None)
         if today_entry:
             if result["count"] >= today_entry["count"]:
                 today_entry["count"] = result["count"]
                 today_entry["timestamp"] = now_str
+                today_entry["avg_price"] = avg_price
+                today_entry["min_price"] = min_price
+                today_entry["max_price"] = max_price
                 # Przelicz change względem wczoraj, nie poprzedniej wartości dzisiejszej
                 yesterday_entry = dc[-2] if len(dc) >= 2 else None
                 if yesterday_entry:
@@ -1103,7 +1112,15 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         else:
             prev_c = dc[-1]["count"] if dc else None
             ch = result["count"] - prev_c if prev_c is not None else 0
-            dc.append({"date": today, "count": result["count"], "change": ch, "timestamp": now_str})
+            dc.append({
+                "date": today,
+                "count": result["count"],
+                "change": ch,
+                "timestamp": now_str,
+                "avg_price": avg_price,
+                "min_price": min_price,
+                "max_price": max_price
+            })
 
         if len(dc) > 90:
             pd_["daily_counts"] = dc[-90:]

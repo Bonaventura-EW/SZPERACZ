@@ -554,6 +554,87 @@ body {
   text-align: center;
 }
 
+/* ─── Line Chart ─── */
+.line-chart-section {
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.line-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.metric-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.metric-tab {
+  padding: 6px 12px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.metric-tab:hover { color: var(--text-primary); background: var(--bg-accent); }
+.metric-tab.active { color: var(--accent); background: var(--accent-glow); border-color: var(--accent); }
+
+.line-chart-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  background: var(--bg-accent);
+}
+
+.line-chart-info {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.line-chart-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-reset-zoom {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-family: var(--font-display);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+  display: none;
+}
+
+.btn-reset-zoom:hover { border-color: var(--accent); color: var(--accent); }
+.btn-reset-zoom.visible { display: block; }
+
 /* ─── Listings Table ─── */
 .listings-section {
   padding: 24px;
@@ -1015,6 +1096,30 @@ body {
       </div>
       <div class="chart-container" id="chartContainer"></div>
     </div>
+    
+    <!-- Line Chart Section -->
+    <div class="line-chart-section">
+      <div class="line-chart-header">
+        <div class="chart-title">Trend w czasie</div>
+        <div class="metric-tabs">
+          <button class="metric-tab active" data-metric="count" onclick="switchMetric('count', this)">📊 Ogłoszenia</button>
+          <button class="metric-tab" data-metric="avg_price" onclick="switchMetric('avg_price', this)">💰 Średnia cena</button>
+          <button class="metric-tab" data-metric="min_price" onclick="switchMetric('min_price', this)">⬇️ Min cena</button>
+          <button class="metric-tab" data-metric="max_price" onclick="switchMetric('max_price', this)">⬆️ Max cena</button>
+        </div>
+      </div>
+      <div class="line-chart-canvas-wrapper">
+        <canvas id="lineChart"></canvas>
+      </div>
+      <div class="line-chart-info">
+        <span id="lineChartDataInfo">—</span>
+        <div class="line-chart-controls">
+          <span style="color: var(--text-secondary);">🖱️ Kółko myszy = zoom</span>
+          <button id="resetZoom" class="btn-reset-zoom" onclick="resetLineChartZoom()">Reset zoom</button>
+        </div>
+      </div>
+    </div>
+    
     <div class="listings-section">
       <div class="listings-tabs">
         <button class="listing-tab active" onclick="switchTab('current', this)">Aktualne</button>
@@ -1071,6 +1176,8 @@ let currentTab = 'current';
 let chartDays = 14;
 let sortColumn = 'date'; // Default: sortuj po dacie (newest first)
 let sortDirection = 'desc'; // desc = malejąco, asc = rosnąco
+let lineChart = null; // Instancja wykresu liniowego
+let currentMetric = 'count'; // Aktywna metryka: count, avg_price, min_price, max_price
 
 // ─── Data Loading ───────────────────────────────────────
 
@@ -1291,6 +1398,13 @@ function renderDetail(key) {
   });
   renderChart(key);
 
+  // Line Chart - reset to count metric
+  currentMetric = 'count';
+  document.querySelectorAll('.metric-tab').forEach((t, idx) => {
+    t.classList.toggle('active', idx === 0); // First button (Ogłoszenia) is active
+  });
+  renderLineChart(key);
+
   // Listings
   currentTab = 'current';
   document.querySelectorAll('.listing-tab').forEach(t => t.classList.remove('active'));
@@ -1378,6 +1492,200 @@ function renderChart(key) {
   }
 
   container.innerHTML = html;
+}
+
+// ─── Line Chart with Zoom ───────────────────────────────
+
+function renderLineChart(key) {
+  const data = dashData.profiles[key];
+  if (!data) return;
+
+  const counts = data.daily_counts || [];
+  
+  if (counts.length === 0) {
+    document.getElementById('lineChart').parentElement.innerHTML = `
+      <div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych historycznych</div>
+    `;
+    return;
+  }
+
+  // Przygotuj dane dla wszystkich metryk
+  const labels = counts.map(d => {
+    const parts = d.date.slice(5).split('-');
+    return `${parts[1]}.${parts[0]}`;
+  });
+  
+  const countData = counts.map(d => d.count);
+  const avgPriceData = counts.map(d => d.avg_price || null);
+  const minPriceData = counts.map(d => d.min_price || null);
+  const maxPriceData = counts.map(d => d.max_price || null);
+
+  // Mapowanie metryk
+  const metricConfig = {
+    count: {
+      data: countData,
+      label: 'Liczba ogłoszeń',
+      color: '#3b82f6',
+      suffix: ' ogłoszeń'
+    },
+    avg_price: {
+      data: avgPriceData,
+      label: 'Średnia cena',
+      color: '#10b981',
+      suffix: ' zł'
+    },
+    min_price: {
+      data: minPriceData,
+      label: 'Minimalna cena',
+      color: '#f59e0b',
+      suffix: ' zł'
+    },
+    max_price: {
+      data: maxPriceData,
+      label: 'Maksymalna cena',
+      color: '#ef4444',
+      suffix: ' zł'
+    }
+  };
+
+  const config = metricConfig[currentMetric];
+
+  // Aktualizuj info o danych
+  document.getElementById('lineChartDataInfo').textContent = 
+    `Wyświetlam pełną historię: ${counts.length} dni danych`;
+
+  // Zniszcz poprzedni wykres jeśli istnieje
+  if (lineChart) {
+    lineChart.destroy();
+  }
+
+  // Utwórz nowy wykres
+  const ctx = document.getElementById('lineChart').getContext('2d');
+  lineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: config.label,
+        data: config.data,
+        borderColor: config.color,
+        backgroundColor: config.color + '20',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.3,
+        pointRadius: 3,
+        pointBackgroundColor: config.color,
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointHoverRadius: 6,
+        pointHoverBackgroundColor: config.color,
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          padding: 12,
+          titleFont: { size: 12 },
+          bodyFont: { size: 13, weight: 'bold' },
+          displayColors: false,
+          callbacks: {
+            title: (ctx) => ctx[0].label,
+            label: (ctx) => {
+              const value = ctx.parsed.y;
+              return value !== null ? Math.round(value) + config.suffix : 'Brak danych';
+            }
+          }
+        },
+        zoom: {
+          zoom: {
+            wheel: {
+              enabled: true,
+              speed: 0.1
+            },
+            pinch: {
+              enabled: true
+            },
+            mode: 'x',
+            onZoomComplete: function({chart}) {
+              const resetBtn = document.getElementById('resetZoom');
+              const scales = chart.scales.x;
+              const isZoomed = scales.min !== undefined || scales.max !== undefined;
+              if (isZoomed) {
+                resetBtn.classList.add('visible');
+              } else {
+                resetBtn.classList.remove('visible');
+              }
+            }
+          },
+          pan: {
+            enabled: true,
+            mode: 'x',
+            modifierKey: 'shift'
+          },
+          limits: {
+            x: { min: 'original', max: 'original' }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: currentMetric === 'count' ? false : true,
+          ticks: { 
+            precision: 0,
+            font: { size: 11 },
+            color: '#888',
+            callback: function(value) {
+              return Math.round(value);
+            }
+          },
+          grid: { color: 'rgba(0,0,0,0.05)' }
+        },
+        x: {
+          ticks: { 
+            font: { size: 11 },
+            color: '#888',
+            maxRotation: 45,
+            minRotation: 45,
+            autoSkip: true,
+            maxTicksLimit: 20
+          },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+function resetLineChartZoom() {
+  if (lineChart) {
+    lineChart.resetZoom();
+    document.getElementById('resetZoom').classList.remove('visible');
+  }
+}
+
+function switchMetric(metric, btn) {
+  currentMetric = metric;
+  
+  // Aktualizuj style przycisków
+  document.querySelectorAll('.metric-tab').forEach(b => {
+    b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  
+  // Przerenderuj wykres z nową metryką
+  if (activeProfile) {
+    renderLineChart(activeProfile);
+  }
 }
 
 // ─── Listings Table ─────────────────────────────────────
@@ -1730,10 +2038,16 @@ let resizeTimer;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
-    if (activeProfile) renderChart(activeProfile);
+    if (activeProfile) {
+      renderChart(activeProfile);
+      renderLineChart(activeProfile);
+    }
   }, 250);
 });
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
 
 </body>
 </html>
