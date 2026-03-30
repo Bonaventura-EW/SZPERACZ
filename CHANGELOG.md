@@ -13,6 +13,51 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-03-30] - Wykres Liniowy z Zoom i Metrykami Cenowymi
+
+### Added ✨
+- **Wykres liniowy** z pełną historią danych (wszystkie dostępne dni)
+- **4 metryki do wyboru:**
+  - 📊 Ogłoszenia (liczba)
+  - 💰 Średnia cena
+  - ⬇️ Minimalna cena
+  - ⬆️ Maksymalna cena
+- **Zoom interaktywny:**
+  - 🖱️ Kółko myszy — przybliżanie/oddalanie
+  - Shift + przeciągnięcie — przesuwanie wykresu (pan)
+  - Przycisk "Reset zoom" (pojawia się po przybliżeniu)
+- **Tooltips** z dokładnymi wartościami przy hover
+- **Statystyki cenowe w backend:**
+  - Kalkulacja `avg_price`, `min_price`, `max_price` przy każdym skanie
+  - Zapis do `daily_counts` w JSON
+
+### Changed 🔄
+- Dashboard: wykres liniowy POD wykresem słupkowym
+- Struktura `daily_counts` rozszerzona o pola cenowe
+- Przyciski metryk z ikonkami (emoji)
+
+### Technical Details 🔧
+- **Backend:** `scraper.py` — funkcja `generate_dashboard_json()`
+  - Kalkulacja: `prices = [l["price"] for l in result["listings"] if ...]`
+  - Round average price: `round(sum(prices) / len(prices))`
+  - Zapisywane w `daily_counts`: `avg_price`, `min_price`, `max_price`
+- **Frontend:** `docs/index.html`
+  - Nowa sekcja: `.line-chart-section` + CSS
+  - Chart.js plugin: `chartjs-plugin-zoom` v2.0.1
+  - Funkcja: `renderLineChart(key)` — dynamiczna zmiana danych
+  - Funkcja: `switchMetric(metric, btn)` — toggle między metrykami
+  - Funkcja: `resetLineChartZoom()` — reset zoom
+  - Responsywne: `height: 220px`, adaptive ticks
+- **CDN:**
+  - `https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js`
+  - `https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js`
+
+### Files Modified 📝
+- `scraper.py` — rozszerzenie `generate_dashboard_json()` o statystyki cenowe
+- `docs/index.html` — nowa sekcja HTML + CSS + JavaScript dla wykresu liniowego
+
+---
+
 ## [2026-03-29] - Dashboard Profile Links
 
 ### Added

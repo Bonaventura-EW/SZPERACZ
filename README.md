@@ -33,8 +33,10 @@
 ### 📊 Analityka
 - Śledzenie zmian liczby ogłoszeń w czasie
 - Monitorowanie zmian cen (historia cen dla każdego ogłoszenia)
+- **Statystyki cenowe w daily_counts:** avg_price, min_price, max_price
 - Wykrywanie nowych i archiwalnych ogłoszeń
 - Statystyki: min/max/avg cena, nowe ogłoszenia (24h)
+- **Wykresy trendów** — wizualizacja historii z możliwością zoom
 
 ### 📁 Eksport danych
 - **Excel** (`data/szperacz_olx.xlsx`):
@@ -59,8 +61,14 @@
 
 ### 🌐 Interaktywny dashboard
 - Widok wszystkich profili na jednym ekranie
-- Wykresy słupkowe (ostatnie 7 dni)
+- **Wykres słupkowy** — ostatnie 7/14/30 dni (przełączalne)
+- **Wykres liniowy z zoom** — pełna historia danych:
+  - 🖱️ Zoom kółkiem myszy
+  - 4 metryki: Ogłoszenia / Średnia cena / Min cena / Max cena
+  - Tooltips z wartościami przy hover
+  - Reset zoom button
 - Tabele z aktualnymi i archiwalnymi ogłoszeniami
+- Sortowanie kolumn (kliknij nagłówek)
 - Tryb jasny/ciemny
 - Ręczne uruchamianie skanów przez GUI
 
