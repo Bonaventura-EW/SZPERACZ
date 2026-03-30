@@ -220,6 +220,13 @@ Wyświetla:
 
 ## 🤖 GitHub Actions
 
+### ⚡ Node.js 24 Ready
+Wszystkie workflow'e zostały zaktualizowane do Node.js 24 compatible versions:
+- `actions/checkout@v6`
+- `actions/setup-python@v6`
+
+To zapewnia kompatybilność po deprecacji Node.js 20 (2 czerwca 2026).
+
 ### Automatyczne skany (codziennie o 9:00)
 
 Workflow: `.github/workflows/scan.yml`

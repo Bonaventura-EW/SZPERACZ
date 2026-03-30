@@ -13,6 +13,34 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-03-30] - GitHub Actions Node.js 24 Upgrade
+
+### Changed 🔄
+- **GitHub Actions:** Upgrade do Node.js 24 compatible versions
+  - `actions/checkout@v4` → `actions/checkout@v6`
+  - `actions/setup-python@v5` → `actions/setup-python@v6`
+- **Zaktualizowane workflow'e:**
+  - `.github/workflows/scan.yml`
+  - `.github/workflows/weekly_report.yml`
+  - `.github/workflows/keep-alive.yml`
+
+### Fixed 🐛
+- Rozwiązano deprecation warning Node.js 20 w GitHub Actions
+- Przygotowanie na wymuszenie Node.js 24 (2 czerwca 2026)
+
+### Technical Details 🔧
+- Node.js 20 osiągnie EOL 30 kwietnia 2026
+- GitHub Actions wymusza Node.js 24 od 2 czerwca 2026
+- Wszystkie akcje teraz kompatybilne z Node.js 24
+- Wymagany runner version: v2.327.1 lub nowszy (automatycznie zapewniony przez GitHub)
+
+### References 📚
+- [GitHub Blog: Deprecation of Node 20](https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/)
+- [actions/checkout v6.0.0](https://github.com/actions/checkout/releases/tag/v6.0.0)
+- [actions/setup-python v6.0.0](https://github.com/actions/setup-python/releases/tag/v6.0.0)
+
+---
+
 ## [2026-03-30] - Wykres Liniowy z Zoom i Metrykami Cenowymi
 
 ### Added ✨
