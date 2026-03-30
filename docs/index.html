@@ -1114,7 +1114,7 @@ body {
       <div class="line-chart-info">
         <span id="lineChartDataInfo">—</span>
         <div class="line-chart-controls">
-          <span style="color: var(--text-secondary);">🖱️ Kółko myszy = zoom</span>
+          <span style="color: var(--text-secondary);">🖱️ Kółko = zoom | Przeciągnij = przesuń</span>
           <button id="resetZoom" class="btn-reset-zoom" onclick="resetLineChartZoom()">Reset zoom</button>
         </div>
       </div>
@@ -1630,7 +1630,16 @@ function renderLineChart(key) {
           pan: {
             enabled: true,
             mode: 'x',
-            modifierKey: 'shift'
+            onPanComplete: function({chart}) {
+              const resetBtn = document.getElementById('resetZoom');
+              const scales = chart.scales.x;
+              const isZoomed = scales.min !== undefined || scales.max !== undefined;
+              if (isZoomed) {
+                resetBtn.classList.add('visible');
+              } else {
+                resetBtn.classList.remove('visible');
+              }
+            }
           },
           limits: {
             x: { min: 'original', max: 'original' }
