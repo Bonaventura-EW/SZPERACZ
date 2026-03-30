@@ -9,217 +9,325 @@
           "date": "2026-02-23",
           "count": 437,
           "change": 0,
-          "timestamp": "2026-02-23 18:24:12"
+          "timestamp": "2026-02-23 18:24:12",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-02-24",
           "count": 447,
           "change": 10,
-          "timestamp": "2026-02-24 08:46:29"
+          "timestamp": "2026-02-24 08:46:29",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-02-25",
           "count": 448,
           "change": 1,
-          "timestamp": "2026-02-25 10:40:20"
+          "timestamp": "2026-02-25 10:40:20",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-02-26",
           "count": 436,
           "change": -12,
-          "timestamp": "2026-02-26 10:31:13"
+          "timestamp": "2026-02-26 10:31:13",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-02-27",
           "count": 427,
           "change": -9,
-          "timestamp": "2026-02-27 09:39:47"
+          "timestamp": "2026-02-27 09:39:47",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-02-28",
           "count": 424,
           "change": -3,
-          "timestamp": "2026-02-28 08:29:29"
+          "timestamp": "2026-02-28 08:29:29",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-01",
           "count": 427,
           "change": 3,
-          "timestamp": "2026-03-01 07:47:18"
+          "timestamp": "2026-03-01 07:47:18",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-02",
           "count": 421,
           "change": -6,
-          "timestamp": "2026-03-02 07:59:52"
+          "timestamp": "2026-03-02 07:59:52",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-03",
           "count": 430,
           "change": 9,
-          "timestamp": "2026-03-03 07:57:01"
+          "timestamp": "2026-03-03 07:57:01",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-04",
           "count": 435,
           "change": 5,
-          "timestamp": "2026-03-04 07:53:36"
+          "timestamp": "2026-03-04 07:53:36",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-05",
           "count": 427,
           "change": -8,
-          "timestamp": "2026-03-05 07:56:39"
+          "timestamp": "2026-03-05 07:56:39",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-06",
           "count": 420,
           "change": -7,
-          "timestamp": "2026-03-06 07:54:10"
+          "timestamp": "2026-03-06 07:54:10",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-07",
           "count": 426,
           "change": 6,
-          "timestamp": "2026-03-07 07:19:32"
+          "timestamp": "2026-03-07 07:19:32",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-08",
           "count": 419,
           "change": -7,
-          "timestamp": "2026-03-08 07:44:11"
+          "timestamp": "2026-03-08 07:44:11",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-09",
           "count": 409,
           "change": -10,
-          "timestamp": "2026-03-09 08:01:10"
+          "timestamp": "2026-03-09 08:01:10",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-10",
           "count": 426,
           "change": 17,
-          "timestamp": "2026-03-10 07:58:01"
+          "timestamp": "2026-03-10 07:58:01",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-11",
           "count": 418,
           "change": -8,
-          "timestamp": "2026-03-11 07:57:53"
+          "timestamp": "2026-03-11 07:57:53",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-12",
           "count": 414,
           "change": -4,
-          "timestamp": "2026-03-12 07:59:13"
+          "timestamp": "2026-03-12 07:59:13",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-13",
           "count": 414,
           "change": 0,
-          "timestamp": "2026-03-13 07:59:36"
+          "timestamp": "2026-03-13 07:59:36",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-14",
           "count": 397,
           "change": -17,
-          "timestamp": "2026-03-14 07:51:06"
+          "timestamp": "2026-03-14 07:51:06",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-15",
           "count": 395,
           "change": -2,
-          "timestamp": "2026-03-15 06:41:03"
+          "timestamp": "2026-03-15 06:41:03",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-16",
           "count": 405,
           "change": 10,
-          "timestamp": "2026-03-16 07:02:01"
+          "timestamp": "2026-03-16 07:02:01",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-17",
           "count": 407,
           "change": 2,
-          "timestamp": "2026-03-17 06:46:30"
+          "timestamp": "2026-03-17 06:46:30",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-18",
           "count": 407,
           "change": 0,
-          "timestamp": "2026-03-18 06:45:47"
+          "timestamp": "2026-03-18 06:45:47",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-19",
           "count": 406,
           "change": -1,
-          "timestamp": "2026-03-19 06:41:23"
+          "timestamp": "2026-03-19 06:41:23",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-20",
           "count": 409,
           "change": 3,
-          "timestamp": "2026-03-20 06:38:20"
+          "timestamp": "2026-03-20 06:38:20",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-21",
           "count": 409,
           "change": 0,
-          "timestamp": "2026-03-21 06:27:14"
+          "timestamp": "2026-03-21 06:27:14",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-22",
           "count": 407,
           "change": -2,
-          "timestamp": "2026-03-22 06:34:59"
+          "timestamp": "2026-03-22 06:34:59",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-23",
           "count": 418,
           "change": 11,
-          "timestamp": "2026-03-23 06:54:55"
+          "timestamp": "2026-03-23 06:54:55",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-24",
           "count": 409,
           "change": -9,
-          "timestamp": "2026-03-24 06:47:29"
+          "timestamp": "2026-03-24 06:47:29",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-25",
           "count": 401,
           "change": -8,
-          "timestamp": "2026-03-25 06:46:08"
+          "timestamp": "2026-03-25 06:46:08",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-26",
           "count": 409,
           "change": 8,
-          "timestamp": "2026-03-26 06:53:32"
+          "timestamp": "2026-03-26 06:53:32",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-27",
           "count": 417,
           "change": 8,
-          "timestamp": "2026-03-27 06:53:34"
+          "timestamp": "2026-03-27 06:53:34",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-28",
           "count": 409,
           "change": -8,
-          "timestamp": "2026-03-28 06:41:43"
+          "timestamp": "2026-03-28 06:41:43",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-29",
           "count": 408,
           "change": -1,
-          "timestamp": "2026-03-29 06:49:28"
+          "timestamp": "2026-03-29 06:49:28",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         },
         {
           "date": "2026-03-30",
           "count": 408,
           "change": 0,
-          "timestamp": "2026-03-30 07:12:30"
+          "timestamp": "2026-03-30 07:12:30",
+          "avg_price": 912,
+          "min_price": 1,
+          "max_price": 2400
         }
       ],
       "current_listings": [
@@ -11330,211 +11438,316 @@
           "date": "2026-02-23",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-23 18:24:12"
+          "timestamp": "2026-02-23 18:24:12",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-02-24",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-24 09:38:07"
+          "timestamp": "2026-02-24 09:38:07",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-02-25",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-25 11:01:06"
+          "timestamp": "2026-02-25 11:01:06",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-02-26",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-26 10:31:13"
+          "timestamp": "2026-02-26 10:31:13",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-02-27",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-27 14:48:27"
+          "timestamp": "2026-02-27 14:48:27",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-02-28",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-28 08:29:29"
+          "timestamp": "2026-02-28 08:29:29",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-01",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-01 07:47:18"
+          "timestamp": "2026-03-01 07:47:18",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-02",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-02 07:59:52"
+          "timestamp": "2026-03-02 07:59:52",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-03",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-03 07:57:01"
+          "timestamp": "2026-03-03 07:57:01",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-04",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-04 07:53:36"
+          "timestamp": "2026-03-04 07:53:36",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-05",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-05 10:26:35"
+          "timestamp": "2026-03-05 10:26:35",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-06",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-06 07:54:10"
+          "timestamp": "2026-03-06 07:54:10",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-07",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-07 17:58:55"
+          "timestamp": "2026-03-07 17:58:55",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-08",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-08 07:44:11"
+          "timestamp": "2026-03-08 07:44:11",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-09",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-09 08:01:10"
+          "timestamp": "2026-03-09 08:01:10",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-10",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-10 07:58:01"
+          "timestamp": "2026-03-10 07:58:01",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-11",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-11 07:57:53"
+          "timestamp": "2026-03-11 07:57:53",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-12",
           "count": 3,
           "change": 1,
-          "timestamp": "2026-03-12 07:59:13"
+          "timestamp": "2026-03-12 07:59:13",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-13",
           "count": 3,
           "change": 0,
-          "timestamp": "2026-03-13 13:03:21"
+          "timestamp": "2026-03-13 13:03:21",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-14",
           "count": 3,
           "change": 0,
-          "timestamp": "2026-03-14 07:51:06"
+          "timestamp": "2026-03-14 07:51:06",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-15",
           "count": 3,
           "change": 0,
-          "timestamp": "2026-03-15 06:41:03"
+          "timestamp": "2026-03-15 06:41:03",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-16",
           "count": 3,
           "change": 0,
-          "timestamp": "2026-03-16 07:02:01"
+          "timestamp": "2026-03-16 07:02:01",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-17",
           "count": 3,
           "change": 0,
-          "timestamp": "2026-03-17 06:46:30"
+          "timestamp": "2026-03-17 06:46:30",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-18",
           "count": 3,
           "change": 0,
-          "timestamp": "2026-03-18 06:45:47"
+          "timestamp": "2026-03-18 06:45:47",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-19",
           "count": 3,
           "change": 0,
-          "timestamp": "2026-03-19 06:41:23"
+          "timestamp": "2026-03-19 06:41:23",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-20",
           "count": 3,
           "change": 0,
-          "timestamp": "2026-03-20 06:38:20"
+          "timestamp": "2026-03-20 06:38:20",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-21",
           "count": 1,
           "change": -2,
-          "timestamp": "2026-03-21 06:27:14"
+          "timestamp": "2026-03-21 06:27:14",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-22",
           "count": 1,
           "change": 0,
-          "timestamp": "2026-03-22 06:34:59"
+          "timestamp": "2026-03-22 06:34:59",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-23",
           "count": 1,
           "change": 0,
-          "timestamp": "2026-03-23 06:54:55"
+          "timestamp": "2026-03-23 06:54:55",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-24",
           "count": 2,
           "change": 1,
-          "timestamp": "2026-03-24 06:47:29"
+          "timestamp": "2026-03-24 06:47:29",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-25",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-25 06:46:08"
+          "timestamp": "2026-03-25 06:46:08",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-26",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-26 06:53:32"
+          "timestamp": "2026-03-26 06:53:32",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-27",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-27 06:53:34"
+          "timestamp": "2026-03-27 06:53:34",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-28",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-28 06:41:43"
+          "timestamp": "2026-03-28 06:41:43",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-29",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-29 06:49:28"
+          "timestamp": "2026-03-29 06:49:28",
+          "avg_price": 700,
+          "min_price": 600,
+          "max_price": 800
         },
         {
           "date": "2026-03-30",
@@ -11666,211 +11879,316 @@
           "date": "2026-02-23",
           "count": 4,
           "change": 0,
-          "timestamp": "2026-02-23 18:24:12"
+          "timestamp": "2026-02-23 18:24:12",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-02-24",
           "count": 4,
           "change": 0,
-          "timestamp": "2026-02-24 09:38:07"
+          "timestamp": "2026-02-24 09:38:07",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-02-25",
           "count": 3,
           "change": -1,
-          "timestamp": "2026-02-25 11:01:06"
+          "timestamp": "2026-02-25 11:01:06",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-02-26",
           "count": 5,
           "change": 2,
-          "timestamp": "2026-02-26 10:31:13"
+          "timestamp": "2026-02-26 10:31:13",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-02-27",
           "count": 5,
           "change": 0,
-          "timestamp": "2026-02-27 10:05:07"
+          "timestamp": "2026-02-27 10:05:07",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-02-28",
           "count": 5,
           "change": 0,
-          "timestamp": "2026-02-28 08:29:29"
+          "timestamp": "2026-02-28 08:29:29",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-01",
           "count": 5,
           "change": 0,
-          "timestamp": "2026-03-01 07:47:18"
+          "timestamp": "2026-03-01 07:47:18",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-02",
           "count": 5,
           "change": 0,
-          "timestamp": "2026-03-02 07:59:52"
+          "timestamp": "2026-03-02 07:59:52",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-03",
           "count": 5,
           "change": 0,
-          "timestamp": "2026-03-03 07:57:01"
+          "timestamp": "2026-03-03 07:57:01",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-04",
           "count": 5,
           "change": 0,
-          "timestamp": "2026-03-04 07:53:36"
+          "timestamp": "2026-03-04 07:53:36",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-05",
           "count": 6,
           "change": 1,
-          "timestamp": "2026-03-05 10:26:35"
+          "timestamp": "2026-03-05 10:26:35",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-06",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-06 07:54:10"
+          "timestamp": "2026-03-06 07:54:10",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-07",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-07 17:58:55"
+          "timestamp": "2026-03-07 17:58:55",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-08",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-08 07:44:11"
+          "timestamp": "2026-03-08 07:44:11",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-09",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-09 08:01:10"
+          "timestamp": "2026-03-09 08:01:10",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-10",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-10 07:58:01"
+          "timestamp": "2026-03-10 07:58:01",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-11",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-11 07:57:53"
+          "timestamp": "2026-03-11 07:57:53",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-12",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-12 07:59:13"
+          "timestamp": "2026-03-12 07:59:13",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-13",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-13 13:03:21"
+          "timestamp": "2026-03-13 13:03:21",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-14",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-14 07:51:06"
+          "timestamp": "2026-03-14 07:51:06",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-15",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-15 06:41:03"
+          "timestamp": "2026-03-15 06:41:03",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-16",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-16 07:02:01"
+          "timestamp": "2026-03-16 07:02:01",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-17",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-17 06:46:30"
+          "timestamp": "2026-03-17 06:46:30",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-18",
           "count": 6,
           "change": 0,
-          "timestamp": "2026-03-18 06:45:47"
+          "timestamp": "2026-03-18 06:45:47",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-19",
           "count": 7,
           "change": 1,
-          "timestamp": "2026-03-19 06:41:23"
+          "timestamp": "2026-03-19 06:41:23",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-20",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-20 06:38:20"
+          "timestamp": "2026-03-20 06:38:20",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-21",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-21 06:27:14"
+          "timestamp": "2026-03-21 06:27:14",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-22",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-22 06:34:59"
+          "timestamp": "2026-03-22 06:34:59",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-23",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-23 06:54:55"
+          "timestamp": "2026-03-23 06:54:55",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-24",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-24 06:47:29"
+          "timestamp": "2026-03-24 06:47:29",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-25",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-25 06:46:08"
+          "timestamp": "2026-03-25 06:46:08",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-26",
           "count": 10,
           "change": 3,
-          "timestamp": "2026-03-26 06:53:32"
+          "timestamp": "2026-03-26 06:53:32",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-27",
           "count": 10,
           "change": 0,
-          "timestamp": "2026-03-27 06:53:34"
+          "timestamp": "2026-03-27 06:53:34",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-28",
           "count": 10,
           "change": 0,
-          "timestamp": "2026-03-28 06:41:43"
+          "timestamp": "2026-03-28 06:41:43",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-29",
           "count": 10,
           "change": 0,
-          "timestamp": "2026-03-29 06:49:28"
+          "timestamp": "2026-03-29 06:49:28",
+          "avg_price": 1566,
+          "min_price": 549,
+          "max_price": 2499
         },
         {
           "date": "2026-03-30",
@@ -12197,211 +12515,316 @@
           "date": "2026-02-23",
           "count": 0,
           "change": 0,
-          "timestamp": "2026-02-23 18:24:12"
+          "timestamp": "2026-02-23 18:24:12",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-02-24",
           "count": 0,
           "change": 0,
-          "timestamp": "2026-02-24 09:38:07"
+          "timestamp": "2026-02-24 09:38:07",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-02-25",
           "count": 0,
           "change": 0,
-          "timestamp": "2026-02-25 11:01:06"
+          "timestamp": "2026-02-25 11:01:06",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-02-26",
           "count": 0,
           "change": 0,
-          "timestamp": "2026-02-26 10:31:13"
+          "timestamp": "2026-02-26 10:31:13",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-02-27",
           "count": 0,
           "change": 0,
-          "timestamp": "2026-02-27 14:48:27"
+          "timestamp": "2026-02-27 14:48:27",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-02-28",
           "count": 0,
           "change": 0,
-          "timestamp": "2026-02-28 08:29:29"
+          "timestamp": "2026-02-28 08:29:29",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-01",
           "count": 0,
           "change": 0,
-          "timestamp": "2026-03-01 07:47:18"
+          "timestamp": "2026-03-01 07:47:18",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-02",
           "count": 0,
           "change": 0,
-          "timestamp": "2026-03-02 07:59:52"
+          "timestamp": "2026-03-02 07:59:52",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-03",
           "count": 0,
           "change": 0,
-          "timestamp": "2026-03-03 07:57:01"
+          "timestamp": "2026-03-03 07:57:01",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-04",
           "count": 1,
           "change": 1,
-          "timestamp": "2026-03-04 07:53:36"
+          "timestamp": "2026-03-04 07:53:36",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-05",
           "count": 1,
           "change": 0,
-          "timestamp": "2026-03-05 10:26:35"
+          "timestamp": "2026-03-05 10:26:35",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-06",
           "count": 1,
           "change": 0,
-          "timestamp": "2026-03-06 07:54:10"
+          "timestamp": "2026-03-06 07:54:10",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-07",
           "count": 1,
           "change": 0,
-          "timestamp": "2026-03-07 17:58:55"
+          "timestamp": "2026-03-07 17:58:55",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-08",
           "count": 1,
           "change": 0,
-          "timestamp": "2026-03-08 07:44:11"
+          "timestamp": "2026-03-08 07:44:11",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-09",
           "count": 1,
           "change": 0,
-          "timestamp": "2026-03-09 08:01:10"
+          "timestamp": "2026-03-09 08:01:10",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-10",
           "count": 1,
           "change": 0,
-          "timestamp": "2026-03-10 07:58:01"
+          "timestamp": "2026-03-10 07:58:01",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-11",
           "count": 2,
           "change": 1,
-          "timestamp": "2026-03-11 07:57:53"
+          "timestamp": "2026-03-11 07:57:53",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-12",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-12 07:59:13"
+          "timestamp": "2026-03-12 07:59:13",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-13",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-13 13:03:21"
+          "timestamp": "2026-03-13 13:03:21",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-14",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-14 07:51:06"
+          "timestamp": "2026-03-14 07:51:06",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-15",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-15 06:41:03"
+          "timestamp": "2026-03-15 06:41:03",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-16",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-16 07:02:01"
+          "timestamp": "2026-03-16 07:02:01",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-17",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-17 06:46:30"
+          "timestamp": "2026-03-17 06:46:30",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-18",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-18 06:45:47"
+          "timestamp": "2026-03-18 06:45:47",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-19",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-19 06:41:23"
+          "timestamp": "2026-03-19 06:41:23",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-20",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-20 06:38:20"
+          "timestamp": "2026-03-20 06:38:20",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-21",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-21 06:27:14"
+          "timestamp": "2026-03-21 06:27:14",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-22",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-22 06:34:59"
+          "timestamp": "2026-03-22 06:34:59",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-23",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-23 06:54:55"
+          "timestamp": "2026-03-23 06:54:55",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-24",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-24 06:47:29"
+          "timestamp": "2026-03-24 06:47:29",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-25",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-25 06:46:08"
+          "timestamp": "2026-03-25 06:46:08",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-26",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-26 06:53:32"
+          "timestamp": "2026-03-26 06:53:32",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-27",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-27 06:53:34"
+          "timestamp": "2026-03-27 06:53:34",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-28",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-28 06:41:43"
+          "timestamp": "2026-03-28 06:41:43",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-29",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-29 06:49:28"
+          "timestamp": "2026-03-29 06:49:28",
+          "avg_price": 790,
+          "min_price": 590,
+          "max_price": 990
         },
         {
           "date": "2026-03-30",
@@ -12520,211 +12943,316 @@
           "date": "2026-02-23",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-23 18:24:12"
+          "timestamp": "2026-02-23 18:24:12",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-02-24",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-24 09:38:07"
+          "timestamp": "2026-02-24 09:38:07",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-02-25",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-25 11:01:06"
+          "timestamp": "2026-02-25 11:01:06",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-02-26",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-26 10:31:13"
+          "timestamp": "2026-02-26 10:31:13",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-02-27",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-27 14:48:27"
+          "timestamp": "2026-02-27 14:48:27",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-02-28",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-02-28 08:29:29"
+          "timestamp": "2026-02-28 08:29:29",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-01",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-01 07:47:18"
+          "timestamp": "2026-03-01 07:47:18",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-02",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-02 07:59:52"
+          "timestamp": "2026-03-02 07:59:52",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-03",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-03 07:57:01"
+          "timestamp": "2026-03-03 07:57:01",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-04",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-04 07:53:36"
+          "timestamp": "2026-03-04 07:53:36",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-05",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-05 10:26:35"
+          "timestamp": "2026-03-05 10:26:35",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-06",
           "count": 2,
           "change": 0,
-          "timestamp": "2026-03-06 07:54:10"
+          "timestamp": "2026-03-06 07:54:10",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-07",
           "count": 8,
           "change": 6,
-          "timestamp": "2026-03-07 17:58:55"
+          "timestamp": "2026-03-07 17:58:55",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-08",
           "count": 8,
           "change": 0,
-          "timestamp": "2026-03-08 07:44:11"
+          "timestamp": "2026-03-08 07:44:11",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-09",
           "count": 8,
           "change": 0,
-          "timestamp": "2026-03-09 08:01:10"
+          "timestamp": "2026-03-09 08:01:10",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-10",
           "count": 8,
           "change": 0,
-          "timestamp": "2026-03-10 07:58:01"
+          "timestamp": "2026-03-10 07:58:01",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-11",
           "count": 8,
           "change": 0,
-          "timestamp": "2026-03-11 07:57:53"
+          "timestamp": "2026-03-11 07:57:53",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-12",
           "count": 8,
           "change": 0,
-          "timestamp": "2026-03-12 07:59:13"
+          "timestamp": "2026-03-12 07:59:13",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-13",
           "count": 8,
           "change": 0,
-          "timestamp": "2026-03-13 13:03:21"
+          "timestamp": "2026-03-13 13:03:21",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-14",
           "count": 8,
           "change": 0,
-          "timestamp": "2026-03-14 07:51:06"
+          "timestamp": "2026-03-14 07:51:06",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-15",
           "count": 8,
           "change": 0,
-          "timestamp": "2026-03-15 06:41:03"
+          "timestamp": "2026-03-15 06:41:03",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-16",
           "count": 8,
           "change": 0,
-          "timestamp": "2026-03-16 07:02:01"
+          "timestamp": "2026-03-16 07:02:01",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-17",
           "count": 7,
           "change": -1,
-          "timestamp": "2026-03-17 06:46:30"
+          "timestamp": "2026-03-17 06:46:30",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-18",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-18 06:45:47"
+          "timestamp": "2026-03-18 06:45:47",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-19",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-19 06:41:23"
+          "timestamp": "2026-03-19 06:41:23",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-20",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-20 06:38:20"
+          "timestamp": "2026-03-20 06:38:20",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-21",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-21 06:27:14"
+          "timestamp": "2026-03-21 06:27:14",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-22",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-22 06:34:59"
+          "timestamp": "2026-03-22 06:34:59",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-23",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-23 06:54:55"
+          "timestamp": "2026-03-23 06:54:55",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-24",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-24 06:47:29"
+          "timestamp": "2026-03-24 06:47:29",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-25",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-25 06:46:08"
+          "timestamp": "2026-03-25 06:46:08",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-26",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-26 06:53:32"
+          "timestamp": "2026-03-26 06:53:32",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-27",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-27 06:53:34"
+          "timestamp": "2026-03-27 06:53:34",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-28",
           "count": 7,
           "change": 0,
-          "timestamp": "2026-03-28 06:41:43"
+          "timestamp": "2026-03-28 06:41:43",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-29",
           "count": 8,
           "change": 1,
-          "timestamp": "2026-03-29 06:49:28"
+          "timestamp": "2026-03-29 06:49:28",
+          "avg_price": 811,
+          "min_price": 690,
+          "max_price": 1080
         },
         {
           "date": "2026-03-30",
@@ -13021,193 +13549,289 @@
           "date": "2026-02-27",
           "count": 52,
           "change": 0,
-          "timestamp": "2026-02-27 14:48:27"
+          "timestamp": "2026-02-27 14:48:27",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-02-28",
           "count": 52,
           "change": 0,
-          "timestamp": "2026-02-28 08:29:29"
+          "timestamp": "2026-02-28 08:29:29",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-01",
           "count": 52,
           "change": 0,
-          "timestamp": "2026-03-01 07:47:18"
+          "timestamp": "2026-03-01 07:47:18",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-02",
           "count": 52,
           "change": 0,
-          "timestamp": "2026-03-02 07:59:52"
+          "timestamp": "2026-03-02 07:59:52",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-03",
           "count": 48,
           "change": -4,
-          "timestamp": "2026-03-03 07:57:01"
+          "timestamp": "2026-03-03 07:57:01",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-04",
           "count": 48,
           "change": 0,
-          "timestamp": "2026-03-04 07:53:36"
+          "timestamp": "2026-03-04 07:53:36",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-05",
           "count": 46,
           "change": -2,
-          "timestamp": "2026-03-05 10:26:35"
+          "timestamp": "2026-03-05 10:26:35",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-06",
           "count": 0,
           "change": -46,
-          "timestamp": "2026-03-06 07:54:10"
+          "timestamp": "2026-03-06 07:54:10",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-07",
           "count": 47,
           "change": 47,
-          "timestamp": "2026-03-07 17:58:55"
+          "timestamp": "2026-03-07 17:58:55",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-08",
           "count": 47,
           "change": 0,
-          "timestamp": "2026-03-08 07:44:11"
+          "timestamp": "2026-03-08 07:44:11",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-09",
           "count": 46,
           "change": -1,
-          "timestamp": "2026-03-09 08:01:10"
+          "timestamp": "2026-03-09 08:01:10",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-10",
           "count": 44,
           "change": -2,
-          "timestamp": "2026-03-10 07:58:01"
+          "timestamp": "2026-03-10 07:58:01",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-11",
           "count": 45,
           "change": 1,
-          "timestamp": "2026-03-11 07:57:53"
+          "timestamp": "2026-03-11 07:57:53",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-12",
           "count": 41,
           "change": -4,
-          "timestamp": "2026-03-12 07:59:13"
+          "timestamp": "2026-03-12 07:59:13",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-13",
           "count": 44,
           "change": 3,
-          "timestamp": "2026-03-13 12:02:14"
+          "timestamp": "2026-03-13 12:02:14",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-14",
           "count": 43,
           "change": -1,
-          "timestamp": "2026-03-14 07:51:06"
+          "timestamp": "2026-03-14 07:51:06",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-15",
           "count": 43,
           "change": 0,
-          "timestamp": "2026-03-15 06:41:03"
+          "timestamp": "2026-03-15 06:41:03",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-16",
           "count": 43,
           "change": 0,
-          "timestamp": "2026-03-16 07:02:01"
+          "timestamp": "2026-03-16 07:02:01",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-17",
           "count": 42,
           "change": -1,
-          "timestamp": "2026-03-17 06:46:30"
+          "timestamp": "2026-03-17 06:46:30",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-18",
           "count": 49,
           "change": 7,
-          "timestamp": "2026-03-18 06:45:47"
+          "timestamp": "2026-03-18 06:45:47",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-19",
           "count": 46,
           "change": -3,
-          "timestamp": "2026-03-19 06:41:23"
+          "timestamp": "2026-03-19 06:41:23",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-20",
           "count": 47,
           "change": 1,
-          "timestamp": "2026-03-20 06:38:20"
+          "timestamp": "2026-03-20 06:38:20",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-21",
           "count": 46,
           "change": -1,
-          "timestamp": "2026-03-21 06:27:14"
+          "timestamp": "2026-03-21 06:27:14",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-22",
           "count": 46,
           "change": 0,
-          "timestamp": "2026-03-22 06:34:59"
+          "timestamp": "2026-03-22 06:34:59",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-23",
           "count": 44,
           "change": -2,
-          "timestamp": "2026-03-23 06:54:55"
+          "timestamp": "2026-03-23 06:54:55",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-24",
           "count": 47,
           "change": 3,
-          "timestamp": "2026-03-24 06:47:29"
+          "timestamp": "2026-03-24 06:47:29",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-25",
           "count": 46,
           "change": -1,
-          "timestamp": "2026-03-25 06:46:08"
+          "timestamp": "2026-03-25 06:46:08",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-26",
           "count": 45,
           "change": -1,
-          "timestamp": "2026-03-26 06:53:32"
+          "timestamp": "2026-03-26 06:53:32",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-27",
           "count": 42,
           "change": -3,
-          "timestamp": "2026-03-27 06:53:34"
+          "timestamp": "2026-03-27 06:53:34",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-28",
           "count": 52,
           "change": 10,
-          "timestamp": "2026-03-28 06:41:43"
+          "timestamp": "2026-03-28 06:41:43",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-29",
           "count": 52,
           "change": 0,
-          "timestamp": "2026-03-29 06:49:28"
+          "timestamp": "2026-03-29 06:49:28",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         },
         {
           "date": "2026-03-30",
           "count": 51,
           "change": -1,
-          "timestamp": "2026-03-30 07:12:30"
+          "timestamp": "2026-03-30 07:12:30",
+          "avg_price": 2227,
+          "min_price": 460,
+          "max_price": 6000
         }
       ],
       "current_listings": [
