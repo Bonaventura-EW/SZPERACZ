@@ -48,6 +48,10 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
   - Mediana = wartość środkowa (odporna na outliers)
   - Lepiej reprezentuje "typową" cenę
   - 2 przyciski zamiast 4: 📊 Ogłoszenia | 💰 Mediana ceny
+- **Prawdziwe historyczne mediany:**
+  - Mediana liczona dla ogłoszeń które **istniały danego dnia**
+  - Używa `first_seen` ≤ data ≤ `archived_date` (lub wciąż aktywne)
+  - Pokazuje **rzeczywiste zmiany cen w czasie**, nie snapshoty
 
 ### Removed ➖
 - ⬇️ Min cena (przycisk i metryka)
@@ -56,12 +60,21 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ### Technical Details 🔧
 - **Backend:** Mediana = sorted_prices[n//2] dla nieparzystej liczby, średnia dwóch środkowych dla parzystej
-- **Backfill:** Przerobione wszystkie historyczne wpisy (37 dni × 6 profili)
+- **Rebuild:** Przebudowa wszystkich historycznych median (37 dni × 6 profili)
+  - Dla każdego dnia: znajdź aktywne ogłoszenia + oblicz medianę ich cen
+  - Skrypt: `rebuild_historical_medians.py`
 - **Frontend:** Uproszczona konfiguracja metricConfig (2 metryki zamiast 4)
 
 ### Example 📊
-- Profile "poqui": mediana **1450 zł** vs poprzednia średnia 1659 zł
-- Profile "wszystkie_pokoje": mediana **850 zł** vs poprzednia średnia 912 zł
+**Profile "poqui" - historia zmian:**
+- 2026-03-22-25: 7 ogłoszeń, mediana **1400 zł**
+- 2026-03-26-29: 10 ogłoszeń (pojawiły się 3 nowe), mediana **1450 zł** ↑
+- 2026-03-30: 10 ogłoszeń, mediana **1499 zł** ↑
+- 2026-03-31: 10 ogłoszeń, mediana **1450 zł** ↓
+
+**Profile "dawny_patron":**
+- 2026-03-22-28: 7 ogłoszeń, mediana **730 zł**
+- 2026-03-29-31: 8 ogłoszeń (pojawiło się nowe), mediana **750 zł** ↑
 
 ---
 
