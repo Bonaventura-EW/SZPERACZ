@@ -1103,9 +1103,7 @@ body {
         <div class="chart-title">Trend w czasie</div>
         <div class="metric-tabs">
           <button class="metric-tab active" data-metric="count" onclick="switchMetric('count', this)">📊 Ogłoszenia</button>
-          <button class="metric-tab" data-metric="avg_price" onclick="switchMetric('avg_price', this)">💰 Średnia cena</button>
-          <button class="metric-tab" data-metric="min_price" onclick="switchMetric('min_price', this)">⬇️ Min cena</button>
-          <button class="metric-tab" data-metric="max_price" onclick="switchMetric('max_price', this)">⬆️ Max cena</button>
+          <button class="metric-tab" data-metric="median_price" onclick="switchMetric('median_price', this)">💰 Mediana ceny</button>
         </div>
       </div>
       <div class="line-chart-canvas-wrapper">
@@ -1509,16 +1507,14 @@ function renderLineChart(key) {
     return;
   }
 
-  // Przygotuj dane dla wszystkich metryk
+  // Przygotuj dane dla metryk
   const labels = counts.map(d => {
     const parts = d.date.slice(5).split('-');
     return `${parts[1]}.${parts[0]}`;
   });
   
   const countData = counts.map(d => d.count);
-  const avgPriceData = counts.map(d => d.avg_price || null);
-  const minPriceData = counts.map(d => d.min_price || null);
-  const maxPriceData = counts.map(d => d.max_price || null);
+  const medianPriceData = counts.map(d => d.median_price || null);
 
   // Mapowanie metryk
   const metricConfig = {
@@ -1528,22 +1524,10 @@ function renderLineChart(key) {
       color: '#3b82f6',
       suffix: ' ogłoszeń'
     },
-    avg_price: {
-      data: avgPriceData,
-      label: 'Średnia cena',
+    median_price: {
+      data: medianPriceData,
+      label: 'Mediana ceny',
       color: '#10b981',
-      suffix: ' zł'
-    },
-    min_price: {
-      data: minPriceData,
-      label: 'Minimalna cena',
-      color: '#f59e0b',
-      suffix: ' zł'
-    },
-    max_price: {
-      data: maxPriceData,
-      label: 'Maksymalna cena',
-      color: '#ef4444',
       suffix: ' zł'
     }
   };
