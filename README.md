@@ -33,9 +33,9 @@
 ### 📊 Analityka
 - Śledzenie zmian liczby ogłoszeń w czasie
 - Monitorowanie zmian cen (historia cen dla każdego ogłoszenia)
-- **Statystyki cenowe w daily_counts:** avg_price, min_price, max_price
+- **Mediana cen w daily_counts** (wartość środkowa, odporna na outliers)
 - Wykrywanie nowych i archiwalnych ogłoszeń
-- Statystyki: min/max/avg cena, nowe ogłoszenia (24h)
+- Statystyki: mediana ceny, nowe ogłoszenia (24h)
 - **Wykresy trendów** — wizualizacja historii z możliwością zoom
 
 ### 📁 Eksport danych
@@ -64,8 +64,9 @@
 - **Wykres słupkowy** — ostatnie 7/14/30 dni (przełączalne)
 - **Wykres liniowy z zoom** — pełna historia danych:
   - 🖱️ Zoom kółkiem myszy
-  - 4 metryki: Ogłoszenia / Średnia cena / Min cena / Max cena
+  - **2 metryki:** 📊 Ogłoszenia | 💰 Mediana ceny
   - Tooltips z wartościami przy hover
+  - Gładkie krzywe (tension: 0.4)
   - Reset zoom button
 - Tabele z aktualnymi i archiwalnymi ogłoszeniami
 - Sortowanie kolumn (kliknij nagłówek)

@@ -41,6 +41,30 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-03-31] - Mediana Zamiast Średniej
+
+### Changed 🔄
+- **Mediana ceny** zamiast średniej/min/max:
+  - Mediana = wartość środkowa (odporna na outliers)
+  - Lepiej reprezentuje "typową" cenę
+  - 2 przyciski zamiast 4: 📊 Ogłoszenia | 💰 Mediana ceny
+
+### Removed ➖
+- ⬇️ Min cena (przycisk i metryka)
+- ⬆️ Max cena (przycisk i metryka)
+- avg_price, min_price, max_price z daily_counts
+
+### Technical Details 🔧
+- **Backend:** Mediana = sorted_prices[n//2] dla nieparzystej liczby, średnia dwóch środkowych dla parzystej
+- **Backfill:** Przerobione wszystkie historyczne wpisy (37 dni × 6 profili)
+- **Frontend:** Uproszczona konfiguracja metricConfig (2 metryki zamiast 4)
+
+### Example 📊
+- Profile "poqui": mediana **1450 zł** vs poprzednia średnia 1659 zł
+- Profile "wszystkie_pokoje": mediana **850 zł** vs poprzednia średnia 912 zł
+
+---
+
 ## [2026-03-30] - Wykres Liniowy z Zoom i Metrykami Cenowymi
 
 ### Added ✨
