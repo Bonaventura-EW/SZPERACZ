@@ -41,6 +41,52 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-01] - Mediana z Nowych Ogłoszeń
+
+### Changed 🔄
+- **Mediana tylko z NOWYCH ogłoszeń:**
+  - Liczy się tylko ogłoszenia gdzie `first_seen == dany dzień`
+  - Pokazuje jak zmieniają się ceny **nowych ofert wchodzących na rynek**
+  - `None` gdy danego dnia nie dodano żadnych ogłoszeń
+- **Zmienne mediany w czasie:**
+  - Duże profile (wszystkie_pokoje): zmienne 775-1100 zł
+  - Małe profile: dużo `None` (dodają rzadko)
+
+### Technical Details 🔧
+**Backend (scraper.py):**
+```python
+old_ids = set(l["id"] for l in pd_.get("current_listings", []))
+new_listings = [l for l in result["listings"] if l["listing_id"] not in old_ids]
+new_prices = [l["price"] for l in new_listings if ...]
+median_price = calculate_median(new_prices)  # None jeśli brak nowych
+```
+
+**Rebuild (rebuild_historical_medians.py):**
+```python
+if first_seen == entry_date:  # DOKŁADNIE tego dnia, nie <=
+    prices_on_that_day.append(price)
+```
+
+### Example 📊
+**Profile "wszystkie_pokoje" (codziennie nowe):**
+- 2026-03-17: 800 zł
+- 2026-03-18: 950 zł ↑
+- 2026-03-21: 1000 zł ↑
+- 2026-03-28: 775 zł ↓
+- 2026-03-31: 1100 zł ↑
+
+**Profile "poqui" (dodają rzadko):**
+- 2026-03-19: 1400 zł
+- 2026-03-20-25: None (nic nie dodali)
+- 2026-03-26: 1499 zł
+- 2026-03-27-29: None
+- 2026-03-30: 2499 zł ↑
+
+**Profile "mzuri" (aktywny, duże wahania):**
+- 850 zł → 2200 zł → 2520 zł → 1920 zł → 850 zł
+
+---
+
 ## [2026-03-31] - Mediana Zamiast Średniej
 
 ### Changed 🔄
