@@ -66,25 +66,18 @@ def rebuild_medians():
             
             entry_date = datetime.strptime(entry_date_str, "%Y-%m-%d").date()
             
-            # Znajdź ogłoszenia które istniały tego dnia
+            # Znajdź ogłoszenia które POJAWIŁY SIĘ tego dnia
             prices_on_that_day = []
             
             for listing in all_listings:
                 first_seen = parse_datetime(listing.get("first_seen"))
-                archived_date = parse_datetime(listing.get("archived_date"))
                 price = listing.get("price")
                 
                 if not first_seen or price is None or price <= 0:
                     continue
                 
-                # Sprawdź czy ogłoszenie istniało entry_date
-                was_active = first_seen <= entry_date
-                
-                if archived_date:
-                    # Jeśli jest archived_date, sprawdź czy nie zniknęło wcześniej
-                    was_active = was_active and entry_date <= archived_date
-                
-                if was_active:
+                # Sprawdź czy ogłoszenie pojawiło się DOKŁADNIE entry_date
+                if first_seen == entry_date:
                     prices_on_that_day.append(price)
             
             # Oblicz medianę

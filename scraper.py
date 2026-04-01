@@ -1091,10 +1091,14 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         pd_ = data["profiles"][pk]
         dc = pd_["daily_counts"]
 
-        # Kalkuluj medianę cen z obecnych ogłoszeń
-        prices = [l["price"] for l in result["listings"] if l.get("price") is not None and l["price"] > 0]
-        if prices:
-            sorted_prices = sorted(prices)
+        # Identyfikuj NOWE ogłoszenia (których nie było w poprzednim skanie)
+        old_ids = set(l["id"] for l in pd_.get("current_listings", []))
+        new_listings = [l for l in result["listings"] if l["listing_id"] not in old_ids]
+        
+        # Kalkuluj medianę cen TYLKO z nowych ogłoszeń
+        new_prices = [l["price"] for l in new_listings if l.get("price") is not None and l["price"] > 0]
+        if new_prices:
+            sorted_prices = sorted(new_prices)
             n = len(sorted_prices)
             if n % 2 == 0:
                 median_price = round((sorted_prices[n//2 - 1] + sorted_prices[n//2]) / 2)
