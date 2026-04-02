@@ -1084,7 +1084,11 @@ def update_excel(scan_results, scan_timestamp):
             # Sesje promocji (total count)
             sessions_cell = ws.cell(row=row, column=10)
             sessions_count = listing.get("promoted_sessions_count", 0)
-            sessions_cell.value = sessions_count if sessions_count > 0 else "—"
+            # Show count for any promoted listing (even if sessions_count==0 for first detection)
+            if sessions_count > 0 or listing.get("is_promoted"):
+                sessions_cell.value = max(sessions_count, 1) if listing.get("is_promoted") else "—"
+            else:
+                sessions_cell.value = "—"
             if sessions_count > 1:
                 sessions_cell.font = Font(name="Arial", size=10, color="3B82F6")
             else:
