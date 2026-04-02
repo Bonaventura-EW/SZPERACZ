@@ -459,6 +459,15 @@ body {
   letter-spacing: 0.5px;
 }
 
+.detail-stat.promoted-stat {
+  background: var(--accent-glow);
+  border: 1px solid var(--accent);
+}
+
+.detail-stat.promoted-stat .detail-stat-value {
+  color: var(--accent);
+}
+
 /* ─── Chart ─── */
 .chart-section {
   padding: 24px;
@@ -1360,6 +1369,21 @@ function renderDetail(key) {
     const oneDayAgo = new Date(Date.now() - 86400000);
     return fs > oneDayAgo;
   }).length;
+  
+  // NEW: Promoted stats
+  const promotedCount = listings.filter(l => l.is_promoted).length;
+  const promotedPct = count > 0 ? Math.round(promotedCount / count * 100) : 0;
+  
+  // Promotion breakdown
+  const promoBreakdown = {};
+  listings.forEach(l => {
+    if (l.is_promoted) {
+      const type = l.promotion_type || 'unknown';
+      promoBreakdown[type] = (promoBreakdown[type] || 0) + 1;
+    }
+  });
+  
+  const promoTypesCount = Object.keys(promoBreakdown).length;
 
   document.getElementById('detailStats').innerHTML = `
     <div class="detail-stat">
@@ -1374,6 +1398,24 @@ function renderDetail(key) {
       <div class="detail-stat-value">${newListings}</div>
       <div class="detail-stat-label">Nowe (24h)</div>
     </div>
+    
+    <!-- NEW: Promoted stat -->
+    <div class="detail-stat promoted-stat" title="${Object.entries(promoBreakdown).map(([k,v]) => `${k}: ${v}`).join(', ')}">
+      <div class="detail-stat-value">
+        ${promotedCount} <span style="font-size:14px;opacity:0.7">(${promotedPct}%)</span>
+      </div>
+      <div class="detail-stat-label">🎯 Promowane</div>
+    </div>
+    
+    ${promoTypesCount > 0 ? `
+    <div class="detail-stat" title="${Object.entries(promoBreakdown).map(([k,v]) => `${k}: ${v}`).join(', ')}" style="cursor:help">
+      <div class="detail-stat-value" style="font-size:20px">
+        ${promoTypesCount}
+      </div>
+      <div class="detail-stat-label">Typy promocji</div>
+    </div>
+    ` : ''}
+    
     <div class="detail-stat">
       <div class="detail-stat-value">${avgPrice} zł</div>
       <div class="detail-stat-label">Średnia cena</div>
@@ -1750,6 +1792,21 @@ function renderListings(key, tab) {
         valB = b.price || 0;
         break;
       
+      case 'is_promoted':
+        valA = a.is_promoted ? 1 : 0;
+        valB = b.is_promoted ? 1 : 0;
+        break;
+      
+      case 'promoted_days':
+        valA = a.promoted_days_current || 0;
+        valB = b.promoted_days_current || 0;
+        break;
+      
+      case 'promoted_sessions':
+        valA = a.promoted_sessions_count || 0;
+        valB = b.promoted_sessions_count || 0;
+        break;
+      
       case 'price_change':
         valA = a.price_change || 0;
         valB = b.price_change || 0;
@@ -1801,6 +1858,9 @@ function renderListings(key, tab) {
         <tr>
           <th class="sortable ${sortColumn === 'title' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('title')">Ogłoszenie</th>
           <th class="sortable ${sortColumn === 'price' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('price')">Cena</th>
+          <th class="sortable ${sortColumn === 'is_promoted' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('is_promoted')" title="Czy ogłoszenie jest promowane">🎯</th>
+          <th class="sortable ${sortColumn === 'promoted_days' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('promoted_days')" title="Dni w bieżącej sesji promocji">Dni prom.</th>
+          <th class="sortable ${sortColumn === 'promoted_sessions' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('promoted_sessions')" title="Ile razy było promowane">Sesje</th>
           <th class="sortable ${sortColumn === 'price_change' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('price_change')">Zmiana ceny</th>
           <th class="sortable ${sortColumn === 'published' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('published')">Data publikacji</th>
           <th class="sortable ${sortColumn === 'refreshed' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('refreshed')">Odświeżone</th>
@@ -1886,9 +1946,39 @@ function renderListings(key, tab) {
     }
 
     html += `
-      <tr>
+      <tr ${l.is_promoted ? 'style="background: var(--accent-glow);"' : ''}>
         <td class="listing-title"><a href="${escapeHtml(l.url || '#')}" target="_blank">${escapeHtml(l.title || '—')}</a>${refreshIcon}${reactivationIcon}</td>
         <td><span class="price-tag">${price}</span></td>
+        
+        <!-- NEW: Promoted badge -->
+        <td style="text-align:center;">
+          ${l.is_promoted ? `
+            <span style="font-size:16px;" title="${l.promotion_type || 'promoted'}">
+              ${l.promotion_type === 'featured' ? '⭐' : 
+                l.promotion_type === 'top_ad' ? '🔝' : 
+                l.promotion_type === 'highlight' ? '✨' : '🎯'}
+            </span>
+          ` : '<span style="color:var(--text-muted);font-size:12px;">—</span>'}
+        </td>
+        
+        <!-- NEW: Dni promowane -->
+        <td style="text-align:center;font-family:var(--font-display);">
+          ${l.is_promoted && l.promoted_days_current ? `
+            <span style="color:${l.promoted_days_current > 7 ? 'var(--orange)' : 'var(--green)'};font-weight:700;">
+              ${l.promoted_days_current}
+            </span>
+          ` : '<span style="color:var(--text-muted);font-size:12px;">—</span>'}
+        </td>
+        
+        <!-- NEW: Sesje promocji -->
+        <td style="text-align:center;font-family:var(--font-display);">
+          ${l.promoted_sessions_count ? `
+            <span style="color:var(--accent);font-weight:600;" title="Promowane ${l.promoted_sessions_count}× dotychczas">
+              ${l.promoted_sessions_count}
+            </span>
+          ` : '<span style="color:var(--text-muted);font-size:12px;">—</span>'}
+        </td>
+        
         <td>${priceChangeHtml}</td>
         <td class="date-cell">${published}</td>
         <td class="date-cell">${refreshed}</td>
