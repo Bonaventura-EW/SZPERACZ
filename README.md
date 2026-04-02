@@ -37,23 +37,33 @@
 - Wykrywanie nowych i archiwalnych ogłoszeń
 - Statystyki: mediana ceny, nowe ogłoszenia (24h)
 - **Wykresy trendów** — wizualizacja historii z możliwością zoom
+- **🎯 Promoted Listings Detection** (NOWE):
+  - Automatyczne rozpoznawanie płatnych ogłoszeń (featured/top_ad/highlight)
+  - Tracking dni promocji i liczby sesji promocyjnych
+  - Analiza % promowanych ogłoszeń per profil
+  - Competitor benchmarking po strategii marketingowej
 
 ### 📁 Eksport danych
 - **Excel** (`data/szperacz_olx.xlsx`):
   - Arkusz dla każdego profilu z historią skanów
+  - Kolumny: Data | Tytuł | Cena | 🎯 Prom. | Dni prom. | Sesje | Typ | Zmiana ceny | Daty
   - Arkusz "historia_cen" ze wszystkimi zmianami cen
   - Arkusz "podsumowanie" z bieżącym statusem
-  - Kolorowe formatowanie (zielony ↑ czerwony ↓)
+  - Kolorowe formatowanie (zielony ↑ czerwony ↓, emoji badges dla promoted)
   
 - **JSON** (`data/dashboard_data.json`):
   - Struktura zoptymalizowana pod dashboard
   - 90-dniowa historia daily_counts
   - Price history dla każdego ogłoszenia
 
-### 📧 Raporty email (NOWE: Analityka)
+### 📧 Raporty email (NOWE: Analityka + Promoted)
 - **Cotygodniowy raport analityczny** (każdy poniedziałek o 9:30 CET)
 - **Embedded wykresy trendów** (matplotlib Base64 inline)
 - **Statystyki tygodniowe:** min/max liczba ogłoszeń, średnia/min/max cena
+- **🎯 Analiza promocji:**
+  - Tabela % promowanych per profil z trendem 7-dniowym
+  - Competitor ranking (🥇🥈🥉) według strategii marketingowej
+  - Auto-generated insights (aggressive/moderate/light/organic tiers)
 - **Nowe ogłoszenia (24h)** — licznik dla każdego profilu
 - **Top 10 najnowszych** ogłoszeń w każdym profilu
 - **Załącznik Excel** z pełnymi danymi
@@ -61,6 +71,7 @@
 
 ### 🌐 Interaktywny dashboard
 - Widok wszystkich profili na jednym ekranie
+- **Stat cards z promoted metrics:** 🎯 Promowane X (Y%) + breakdown
 - **Wykres słupkowy** — ostatnie 7/14/30 dni (przełączalne)
 - **Wykres liniowy z zoom** — pełna historia danych:
   - 🖱️ Zoom kółkiem myszy
@@ -68,8 +79,12 @@
   - Tooltips z wartościami przy hover
   - Gładkie krzywe (tension: 0.4)
   - Reset zoom button
-- Tabele z aktualnymi i archiwalnymi ogłoszeniami
-- Sortowanie kolumn (kliknij nagłówek)
+- **Tabele z promoted columns:**
+  - 🎯 Emoji badge (⭐ Featured / 🔝 Top Ad / ✨ Highlight)
+  - Dni prom. (current session, color-coded)
+  - Sesje prom. (total promotion count)
+  - Sortowanie wszystkich kolumn (kliknij nagłówek)
+  - Highlighted rows dla promoted listings
 - Tryb jasny/ciemny
 - Ręczne uruchamianie skanów przez GUI
 
