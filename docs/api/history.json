@@ -1,14 +1,6 @@
 {
-  "last_updated": "2026-04-02T08:00:29Z",
+  "last_updated": "2026-04-02T08:28:17Z",
   "scans": [
-    {
-      "timestamp": "2026-03-12T07:59:13Z",
-      "date": "2026-03-12",
-      "status": "success",
-      "total_listings": 474,
-      "profiles_scanned": 7,
-      "duration_seconds": 162
-    },
     {
       "timestamp": "2026-03-13T07:59:36Z",
       "date": "2026-03-13",
@@ -240,6 +232,14 @@
       "total_listings": 459,
       "profiles_scanned": 7,
       "duration_seconds": 162
+    },
+    {
+      "timestamp": "2026-04-02T08:28:17Z",
+      "date": "2026-04-02",
+      "status": "success",
+      "total_listings": 462,
+      "profiles_scanned": 7,
+      "duration_seconds": 157
     }
   ]
 }
