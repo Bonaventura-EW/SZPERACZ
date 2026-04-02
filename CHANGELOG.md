@@ -13,6 +13,26 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-02] - 💰 ROI Calculator & Advanced Analytics
+
+### Added ✨
+- **ROI Calculator (Email Report):**
+  - Koszt promocji OLX: 69.49 zł / 7 dni (~9.93 zł/dzień)
+  - Weekly cost calculation per profile
+  - Cost per listing metric
+  - Coverage % (promoted / total listings)
+  - Average promotion days per listing
+  - Total weekly cost summary (with monthly/yearly projections)
+  - Tabela: Profil | Promowane | Koszt tygodniowy | Koszt/listing | Pokrycie | Śr. dni
+
+- **Promoted Trend Chart (Dashboard):**
+  - Nowa metryka w line chart: 🎯 % Promowanych
+  - Toggle: 📊 Ogłoszenia | 💰 Mediana ceny | 🎯 % Promowanych
+  - Orange line chart showing promoted percentage over time
+  - Historical trend analysis (7/14/30 days)
+
+---
+
 ## [2026-04-02] - 🎯 Promoted Listings Detection & Analytics
 
 ### Added ✨
