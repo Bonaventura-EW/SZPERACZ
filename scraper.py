@@ -1260,6 +1260,22 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 today_entry["count"] = result["count"]
                 today_entry["timestamp"] = now_str
                 today_entry["median_price"] = median_price
+                
+                # NEW: Update promoted stats
+                total = result["count"]
+                promoted_count = sum(1 for l in result["listings"] if l.get("is_promoted"))
+                promoted_pct = round(promoted_count / total * 100, 1) if total > 0 else 0
+                
+                promo_breakdown = {}
+                for l in result["listings"]:
+                    if l.get("is_promoted"):
+                        ptype = l.get("promotion_type", 'unknown')
+                        promo_breakdown[ptype] = promo_breakdown.get(ptype, 0) + 1
+                
+                today_entry["promoted_count"] = promoted_count
+                today_entry["promoted_percentage"] = promoted_pct
+                today_entry["promotion_breakdown"] = promo_breakdown
+                
                 # Przelicz change względem wczoraj, nie poprzedniej wartości dzisiejszej
                 yesterday_entry = dc[-2] if len(dc) >= 2 else None
                 if yesterday_entry:
