@@ -343,6 +343,34 @@ def build_report_html():
             padding-top: 30px;
             border-top: 2px dashed #e5e7eb;
         }}
+        .promo-badge {{
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fef3c7;
+            color: #92400e;
+        }}
+        .promo-featured {{ background: #fef3c7; color: #92400e; }}
+        .promo-top {{ background: #dbeafe; color: #1e40af; }}
+        .promo-highlight {{ background: #d1fae5; color: #065f46; }}
+        .insight-box {{
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }}
+        .insight-box ul {{
+            margin: 8px 0;
+            padding-left: 20px;
+        }}
+        .insight-box li {{
+            margin: 8px 0;
+            color: #334155;
+            line-height: 1.6;
+        }}
     </style>
     </head>
     <body>
@@ -356,9 +384,155 @@ def build_report_html():
         </div>
     """
 
-    # ─── Profile Analytics Sections ───
-    profiles_data = data.get("profiles", {})
+    # ─── PROMOTED ANALYSIS SECTION ───
+    html += '<h2>🎯 Analiza promocji</h2>'
+    html += '''
+    <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+        <tr style="background:#f1f5f9;">
+            <th style="padding:12px;text-align:left;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Profil</th>
+            <th style="padding:12px;text-align:center;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Promowane</th>
+            <th style="padding:12px;text-align:center;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">% Promowanych</th>
+            <th style="padding:12px;text-align:center;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Trend (7 dni)</th>
+            <th style="padding:12px;text-align:left;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Typ dominujący</th>
+        </tr>
+    '''
     
+    profiles_data = data.get("profiles", {})
+    promo_insights = []
+    
+    for pk, pd in profiles_data.items():
+        label = pd.get("label", pk)
+        dc = pd.get("daily_counts", [])
+        week = [d for d in dc if d.get("date", "") >= week_ago_str]
+        
+        if not week:
+            continue
+        
+        latest = week[-1]
+        total = latest.get("count", 0)
+        promoted = latest.get("promoted_count", 0)
+        pct = latest.get("promoted_percentage", 0)
+        
+        # Calculate trend
+        trend_html = '—'
+        if len(week) >= 2:
+            first_pct = week[0].get("promoted_percentage", 0)
+            trend_diff = pct - first_pct
+            if trend_diff > 5:
+                trend_html = f'<span style="color:#059669;font-weight:700;">+{trend_diff:.1f}pp ↑</span>'
+            elif trend_diff < -5:
+                trend_html = f'<span style="color:#dc2626;font-weight:700;">{trend_diff:.1f}pp ↓</span>'
+            else:
+                trend_html = '<span style="color:#64748b;">stabilny</span>'
+        
+        # Dominant type
+        breakdown = latest.get("promotion_breakdown", {})
+        dominant_str = '—'
+        if breakdown:
+            dominant = max(breakdown.items(), key=lambda x: x[1])
+            type_badge_class = {
+                'featured': 'promo-featured',
+                'top_ad': 'promo-top',
+                'highlight': 'promo-highlight'
+            }.get(dominant[0], 'promo-badge')
+            dominant_str = f'<span class="promo-badge {type_badge_class}">{dominant[0]} ({dominant[1]})</span>'
+        
+        html += f'''
+        <tr>
+            <td style="padding:10px;border-bottom:1px solid #e5e7eb;"><strong>{label}</strong></td>
+            <td style="padding:10px;text-align:center;border-bottom:1px solid #e5e7eb;">{promoted} / {total}</td>
+            <td style="padding:10px;text-align:center;border-bottom:1px solid #e5e7eb;font-weight:700;color:#3b82f6;font-size:15px;">{pct}%</td>
+            <td style="padding:10px;text-align:center;border-bottom:1px solid #e5e7eb;">{trend_html}</td>
+            <td style="padding:10px;border-bottom:1px solid #e5e7eb;">{dominant_str}</td>
+        </tr>
+        '''
+        
+        # Generate insights
+        avg_pct = sum(d.get("promoted_percentage", 0) for d in week) / len(week) if week else 0
+        if avg_pct > 50:
+            promo_insights.append(f"<strong>{label}</strong> stosuje agresywną strategię promocyjną (średnio {avg_pct:.0f}% promowanych)")
+        elif avg_pct < 10 and total > 5:
+            promo_insights.append(f"<strong>{label}</strong> nie inwestuje w promocje (tylko {avg_pct:.0f}%)")
+        
+        if len(week) >= 2 and trend_diff > 15:
+            promo_insights.append(f"<strong>{label}</strong> znacząco zwiększył inwestycję w promocje (+{trend_diff:.0f}pp w tydzień)")
+    
+    html += '</table>'
+    
+    # Insights box
+    if promo_insights:
+        html += '''
+        <div class="insight-box">
+            <h3 style="margin:0 0 12px 0;color:#1e40af;font-size:16px;">💡 Insights</h3>
+            <ul style="margin:0;padding-left:20px;">
+        '''
+        for insight in promo_insights[:5]:  # Max 5 insights
+            html += f'<li>{insight}</li>'
+        html += '</ul></div>'
+    
+    # ─── Competitor Ranking ───
+    html += '<h2>🏆 Ranking konkurencji (% promowanych)</h2>'
+    
+    # Calculate rankings
+    rankings = []
+    for pk, pd in profiles_data.items():
+        dc = pd.get("daily_counts", [])
+        week = [d for d in dc if d.get("date", "") >= week_ago_str]
+        if not week:
+            continue
+        
+        avg_pct = sum(d.get("promoted_percentage", 0) for d in week) / len(week)
+        total = week[-1].get("count", 0)
+        
+        # Assign tier
+        if avg_pct >= 60:
+            tier = "🔥 Aggressive"
+            tier_color = "#dc2626"
+        elif avg_pct >= 30:
+            tier = "⚡ Moderate"
+            tier_color = "#f59e0b"
+        elif avg_pct >= 10:
+            tier = "💡 Light"
+            tier_color = "#3b82f6"
+        else:
+            tier = "🌱 Organic"
+            tier_color = "#059669"
+        
+        rankings.append({
+            'label': pd.get("label", pk),
+            'pct': avg_pct,
+            'tier': tier,
+            'tier_color': tier_color,
+            'total': total
+        })
+    
+    rankings.sort(key=lambda x: x['pct'], reverse=True)
+    
+    html += '''
+    <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+        <tr style="background:#f1f5f9;">
+            <th style="padding:12px;text-align:center;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;width:60px;">Miejsce</th>
+            <th style="padding:12px;text-align:left;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Profil</th>
+            <th style="padding:12px;text-align:center;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">% Promowanych</th>
+            <th style="padding:12px;text-align:left;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Strategia</th>
+        </tr>
+    '''
+    
+    medals = ['🥇', '🥈', '🥉']
+    for i, rank in enumerate(rankings[:10], 1):  # Top 10
+        medal = medals[i-1] if i <= 3 else f'{i}.'
+        html += f'''
+        <tr>
+            <td style="padding:10px;text-align:center;border-bottom:1px solid #e5e7eb;font-size:18px;">{medal}</td>
+            <td style="padding:10px;border-bottom:1px solid #e5e7eb;"><strong>{rank['label']}</strong></td>
+            <td style="padding:10px;text-align:center;border-bottom:1px solid #e5e7eb;font-weight:700;color:#3b82f6;font-size:16px;">{rank['pct']:.1f}%</td>
+            <td style="padding:10px;border-bottom:1px solid #e5e7eb;"><span style="color:{rank['tier_color']};font-weight:700;">{rank['tier']}</span></td>
+        </tr>
+        '''
+    
+    html += '</table>'
+
+    # ─── Profile Analytics Sections ───
     for pk, pd in profiles_data.items():
         label = pd.get("label", pk)
         stats = calculate_weekly_stats(pd, week_ago_str)
