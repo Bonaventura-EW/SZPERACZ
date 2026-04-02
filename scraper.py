@@ -1085,7 +1085,10 @@ def update_excel(scan_results, scan_timestamp):
             sessions_cell = ws.cell(row=row, column=10)
             sessions_count = listing.get("promoted_sessions_count", 0)
             sessions_cell.value = sessions_count if sessions_count > 0 else "—"
-            sessions_cell.font = Font(name="Arial", size=10, color="3B82F6" if sessions_count > 1 else "inherit")
+            if sessions_count > 1:
+                sessions_cell.font = Font(name="Arial", size=10, color="3B82F6")
+            else:
+                sessions_cell.font = DATA_FONT
             sessions_cell.alignment = Alignment(horizontal="center", vertical="center")
             sessions_cell.border = THIN_BORDER
             
