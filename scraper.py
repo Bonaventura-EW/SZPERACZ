@@ -1015,7 +1015,9 @@ def update_excel(scan_results, scan_timestamp):
 
     profile_headers = [
         "Data scanu", "Godzina", "Liczba ogłoszeń", "Zmiana vs poprzedni",
-        "Crosscheck", "Tytuł", "Cena (zł)", "Zmiana ceny",
+        "Crosscheck", "Tytuł", "Cena (zł)", 
+        "🎯 Prom.", "Dni prom.", "Sesje prom.", "Typ prom.",  # NEW: Promoted columns
+        "Zmiana ceny",
         "Data publikacji", "Data odświeżenia", "URL", "ID ogłoszenia"
     ]
 
@@ -1053,14 +1055,70 @@ def update_excel(scan_results, scan_timestamp):
             ws.cell(row=row, column=2, value=scan_timestamp.strftime("%H:%M"))
             ws.cell(row=row, column=6, value=listing["title"])
             ws.cell(row=row, column=7, value=listing["price"])
-            ws.cell(row=row, column=9, value=pub or "")
-            ws.cell(row=row, column=10, value=ref or "")
-            ws.cell(row=row, column=11, value=listing["url"])
-            ws.cell(row=row, column=12, value=listing["listing_id"])
-            for c in range(1, 13):
+            
+            # NEW: Promoted columns (8-11)
+            is_promoted = listing.get("is_promoted", False)
+            promo_cell = ws.cell(row=row, column=8)
+            if is_promoted:
+                promo_cell.value = "✓"
+                promo_cell.font = Font(name="Arial", size=11, color="00B050", bold=True)
+            else:
+                promo_cell.value = "—"
+                promo_cell.font = Font(name="Arial", size=10, color="999999")
+            promo_cell.alignment = Alignment(horizontal="center", vertical="center")
+            promo_cell.border = THIN_BORDER
+            
+            # Dni promowane (current session only)
+            days_cell = ws.cell(row=row, column=9)
+            promoted_days = listing.get("promoted_days_current", 0)
+            days_cell.value = promoted_days if is_promoted else "—"
+            if promoted_days > 7:
+                days_cell.font = Font(name="Arial", size=10, color="FF6B00", bold=True)  # Orange for 7+ days
+            elif promoted_days > 0:
+                days_cell.font = Font(name="Arial", size=10, color="00B050")
+            else:
+                days_cell.font = DATA_FONT
+            days_cell.alignment = Alignment(horizontal="center", vertical="center")
+            days_cell.border = THIN_BORDER
+            
+            # Sesje promocji (total count)
+            sessions_cell = ws.cell(row=row, column=10)
+            sessions_count = listing.get("promoted_sessions_count", 0)
+            sessions_cell.value = sessions_count if sessions_count > 0 else "—"
+            sessions_cell.font = Font(name="Arial", size=10, color="3B82F6" if sessions_count > 1 else "inherit")
+            sessions_cell.alignment = Alignment(horizontal="center", vertical="center")
+            sessions_cell.border = THIN_BORDER
+            
+            # Typ promocji
+            type_cell = ws.cell(row=row, column=11)
+            promo_type = listing.get("promotion_type")
+            if promo_type:
+                type_map = {
+                    'featured': '⭐ Featured',
+                    'top_ad': '🔝 Top Ad',
+                    'highlight': '✨ Highlight',
+                    'unknown': '🎯 Promo'
+                }
+                type_cell.value = type_map.get(promo_type, promo_type)
+                type_cell.font = Font(name="Arial", size=9, color="F59E0B")
+            else:
+                type_cell.value = "—"
+                type_cell.font = DATA_FONT
+            style_data_cell(type_cell)
+            
+            # Zmiana ceny (shifted to column 12)
+            ws.cell(row=row, column=12, value=listing.get("price_change"))
+            
+            # Data publikacji, odświeżenia (shifted to 13-14)
+            ws.cell(row=row, column=13, value=pub or "")
+            ws.cell(row=row, column=14, value=ref or "")
+            ws.cell(row=row, column=15, value=listing["url"])
+            ws.cell(row=row, column=16, value=listing["listing_id"])
+            for c in range(1, 17):
                 style_data_cell(ws.cell(row=row, column=c))
 
-        for idx, w in enumerate([12, 8, 15, 15, 14, 50, 12, 12, 14, 14, 60, 15], 1):
+        # Column widths: Data, Godz, Liczba, Zmiana, Cross, Tytuł, Cena, Prom., Dni, Sesje, Typ, ZmCeny, Publ, Odsw, URL, ID
+        for idx, w in enumerate([12, 8, 15, 15, 14, 50, 12, 8, 8, 8, 14, 12, 14, 14, 60, 15], 1):
             ws.column_dimensions[get_column_letter(idx)].width = w
 
     # Historia cen
