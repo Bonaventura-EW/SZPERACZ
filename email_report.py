@@ -35,6 +35,17 @@ EXCEL_PATH = os.path.join(DATA_DIR, "szperacz_olx.xlsx")
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 
+# ─── ROI Configuration ──────────────────────────────────────────────────────
+# OLX promotion costs (based on real pricing: 69.49 zł / 7 days)
+PROMO_COSTS = {
+    "featured": 69.49,      # zł per 7 days (most common)
+    "top_ad": 69.49,        # zł per 7 days (assuming same)
+    "highlight": 69.49,     # zł per 7 days (assuming same)
+    "unknown": 69.49,       # zł per 7 days (default)
+}
+
+COST_PER_DAY = 69.49 / 7  # ~9.93 zł per day
+
 
 # ─── Chart Generator ────────────────────────────────────────────────────────
 
@@ -176,6 +187,66 @@ def is_new_listing(listing):
         return fs > datetime.now() - timedelta(days=1)
     except:
         return False
+
+
+def calculate_promotion_roi(profile_data, week_ago_str):
+    """
+    Calculate ROI metrics for promoted listings.
+    
+    Returns: {
+        'weekly_cost': total cost for promoted listings this week,
+        'daily_cost': average daily cost,
+        'cost_per_listing': cost per promoted listing,
+        'promoted_count': number of promoted listings,
+        'coverage_pct': % of listings that are promoted,
+        'avg_promotion_days': average days promoted per listing
+    }
+    """
+    listings = profile_data.get("current_listings", [])
+    if not listings:
+        return None
+    
+    promoted = [l for l in listings if l.get("is_promoted")]
+    if not promoted:
+        return None
+    
+    promoted_count = len(promoted)
+    total_count = len(listings)
+    
+    # Calculate total promotion days (sum of all current sessions)
+    total_promo_days = sum(l.get("promoted_days_current", 0) for l in promoted)
+    avg_days = total_promo_days / promoted_count if promoted_count > 0 else 0
+    
+    # Calculate weekly cost based on promotion type breakdown
+    dc = profile_data.get("daily_counts", [])
+    week = [d for d in dc if d.get("date", "") >= week_ago_str]
+    
+    if week:
+        latest = week[-1]
+        breakdown = latest.get("promotion_breakdown", {})
+        
+        # Cost = number of listings * cost per type
+        weekly_cost = sum(
+            count * PROMO_COSTS.get(ptype, PROMO_COSTS["unknown"])
+            for ptype, count in breakdown.items()
+        )
+    else:
+        # Fallback: assume all are featured type
+        weekly_cost = promoted_count * PROMO_COSTS["featured"]
+    
+    daily_cost = weekly_cost / 7
+    cost_per_listing = weekly_cost / promoted_count if promoted_count > 0 else 0
+    coverage_pct = round(promoted_count / total_count * 100, 1) if total_count > 0 else 0
+    
+    return {
+        'weekly_cost': round(weekly_cost, 2),
+        'daily_cost': round(daily_cost, 2),
+        'cost_per_listing': round(cost_per_listing, 2),
+        'promoted_count': promoted_count,
+        'total_count': total_count,
+        'coverage_pct': coverage_pct,
+        'avg_promotion_days': round(avg_days, 1),
+    }
 
 
 # ─── HTML Report Builder ───────────────────────────────────────────────────
@@ -554,6 +625,58 @@ def build_report_html():
         '''
     
     html += '</table>'
+
+    # ─── ROI ANALYSIS SECTION ───
+    html += '<h2>💰 Analiza ROI promocji</h2>'
+    html += f'''
+    <div class="insight-box" style="background:#fff7ed;border-left-color:#f59e0b;">
+        <p style="margin:0 0 8px 0;color:#78350f;font-size:13px;">
+            <strong>Założenia:</strong> Koszt promocji OLX = {PROMO_COSTS["featured"]:.2f} zł / 7 dni
+            (Featured/Top Ad/Highlight: ~{COST_PER_DAY:.2f} zł/dzień)
+        </p>
+    </div>
+    '''
+    
+    html += '''
+    <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+        <tr style="background:#f1f5f9;">
+            <th style="padding:12px;text-align:left;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Profil</th>
+            <th style="padding:12px;text-align:center;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Promowane</th>
+            <th style="padding:12px;text-align:center;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Koszt tygodniowy</th>
+            <th style="padding:12px;text-align:center;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Koszt / listing</th>
+            <th style="padding:12px;text-align:center;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Pokrycie</th>
+            <th style="padding:12px;text-align:center;font-size:13px;color:#475569;border-bottom:2px solid #cbd5e1;">Śr. dni</th>
+        </tr>
+    '''
+    
+    total_weekly_cost = 0
+    for pk, pd in profiles_data.items():
+        roi = calculate_promotion_roi(pd, week_ago_str)
+        if not roi:
+            continue
+        
+        label = pd.get("label", pk)
+        total_weekly_cost += roi['weekly_cost']
+        
+        html += f'''
+        <tr>
+            <td style="padding:10px;border-bottom:1px solid #e5e7eb;"><strong>{label}</strong></td>
+            <td style="padding:10px;text-align:center;border-bottom:1px solid #e5e7eb;">{roi['promoted_count']} / {roi['total_count']}</td>
+            <td style="padding:10px;text-align:center;border-bottom:1px solid #e5e7eb;font-weight:700;color:#dc2626;font-size:15px;">{roi['weekly_cost']:.2f} zł</td>
+            <td style="padding:10px;text-align:center;border-bottom:1px solid #e5e7eb;color:#64748b;">{roi['cost_per_listing']:.2f} zł</td>
+            <td style="padding:10px;text-align:center;border-bottom:1px solid #e5e7eb;font-weight:700;color:#3b82f6;">{roi['coverage_pct']}%</td>
+            <td style="padding:10px;text-align:center;border-bottom:1px solid #e5e7eb;color:#64748b;">{roi['avg_promotion_days']:.1f}</td>
+        </tr>
+        '''
+    
+    html += f'''
+        <tr style="background:#fef3c7;font-weight:700;">
+            <td style="padding:12px;border-top:2px solid #cbd5e1;" colspan="2">RAZEM</td>
+            <td style="padding:12px;text-align:center;border-top:2px solid #cbd5e1;font-size:16px;color:#dc2626;">{total_weekly_cost:.2f} zł</td>
+            <td style="padding:12px;text-align:center;border-top:2px solid #cbd5e1;color:#64748b;" colspan="3">Szacunkowy koszt tygodniowy</td>
+        </tr>
+    </table>
+    '''
 
     # ─── Profile Analytics Sections ───
     for pk, pd in profiles_data.items():
