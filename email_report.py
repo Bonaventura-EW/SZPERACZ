@@ -131,6 +131,24 @@ def calculate_weekly_stats(profile_data, week_ago_str):
     listings = profile_data.get("current_listings", [])
     prices = [l["price"] for l in listings if l.get("price") and l["price"] > 0]
     
+    # NEW: Promoted statistics
+    promoted_count = sum(1 for l in listings if l.get("is_promoted"))
+    promoted_pct = round(promoted_count / len(listings) * 100, 1) if listings else 0
+    
+    # Promotion breakdown
+    promo_breakdown = {}
+    for l in listings:
+        if l.get("is_promoted"):
+            ptype = l.get("promotion_type", 'unknown')
+            promo_breakdown[ptype] = promo_breakdown.get(ptype, 0) + 1
+    
+    # Promoted trend (first vs last in week)
+    promoted_trend = 0
+    if len(week) >= 2:
+        first_promoted_pct = week[0].get("promoted_percentage", 0)
+        last_promoted_pct = week[-1].get("promoted_percentage", 0)
+        promoted_trend = last_promoted_pct - first_promoted_pct
+    
     return {
         "current": current,
         "change": change,
@@ -141,6 +159,11 @@ def calculate_weekly_stats(profile_data, week_ago_str):
         "max_price": max(prices) if prices else 0,
         "total_listings": len(listings),
         "new_24h": len([l for l in listings if is_new_listing(l)]),
+        # NEW: Promoted stats
+        "promoted_count": promoted_count,
+        "promoted_pct": promoted_pct,
+        "promoted_breakdown": promo_breakdown,
+        "promoted_trend": promoted_trend,
     }
 
 
@@ -599,6 +622,7 @@ def build_report_html():
             <table>
                 <tr>
                     <th>Tytuł</th>
+                    <th style="text-align:center;width:50px;">🎯</th>
                     <th>Cena</th>
                     <th style="text-align:center;">Data publikacji</th>
                 </tr>
@@ -610,9 +634,26 @@ def build_report_html():
                 price = f'{listing["price"]} zł' if listing.get("price") else "—"
                 pub_date = listing.get("published", listing.get("date_text", "—"))
                 
+                # Promoted badge
+                promoted_badge = ''
+                if listing.get("is_promoted"):
+                    promo_type = listing.get("promotion_type", 'unknown')
+                    emoji = {
+                        'featured': '⭐',
+                        'top_ad': '🔝',
+                        'highlight': '✨'
+                    }.get(promo_type, '🎯')
+                    promoted_badge = f'<span style="font-size:16px;" title="{promo_type}">{emoji}</span>'
+                else:
+                    promoted_badge = '<span style="color:#cbd5e1;">—</span>'
+                
+                # Highlight promoted rows
+                row_style = 'background:#eff6ff;' if listing.get("is_promoted") else ''
+                
                 html += f'''
-                <tr>
+                <tr style="{row_style}">
                     <td><a href="{url}" target="_blank">{title}</a></td>
+                    <td style="text-align:center;">{promoted_badge}</td>
                     <td><span class="price">{price}</span></td>
                     <td style="text-align:center;color:#64748b;">{pub_date}</td>
                 </tr>
