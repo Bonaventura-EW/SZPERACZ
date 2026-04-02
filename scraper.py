@@ -177,6 +177,85 @@ DATE_KEYWORDS = [
 ]
 
 
+def detect_promoted_status(card):
+    """
+    Detect if listing is promoted/featured.
+    
+    Primary strategy: OLX adds ?search_reason=search%7Cpromoted to promoted URLs
+    Fallback strategies: badges, CSS classes, text markers
+    
+    Returns: {
+        'is_promoted': bool,
+        'promotion_type': str,  # 'featured', 'top_ad', 'highlight', 'unknown'
+        'confidence': float      # 0.0 - 1.0
+    }
+    """
+    signals = []
+    
+    # STRATEGIA 0: URL parameter (STRONGEST for OLX)
+    all_links = card.select('a[href*="/d/oferta/"]')
+    for link in all_links:
+        href = link.get('href', '')
+        if 'search_reason=search%7Cpromoted' in href or ('promoted' in href.lower() and '/d/oferta/' in href):
+            signals.append(('url_parameter', 1.0))
+            break
+    
+    # STRATEGIA 1: data-testid attributes
+    if card.select_one('[data-testid="adCard-featured"]'):
+        signals.append(('featured_badge', 1.0))
+    
+    if card.select_one('[data-testid="listing-ad-badge"]'):
+        signals.append(('ad_badge', 0.9))
+    
+    # STRATEGIA 2: CSS classes
+    promoted_classes = ['featured', 'promoted', 'highlighted', 'top-ad', 'premium', 'vip', 'wyroznie']
+    element_classes = ' '.join(card.get('class', [])).lower()
+    if any(kw in element_classes for kw in promoted_classes):
+        signals.append(('css_class', 0.8))
+    
+    # STRATEGIA 3: Text badges
+    text_content = card.get_text()
+    badges = ['Wyróżnione', 'Promowane', 'Premium', 'TOP', 'Pilne']
+    if any(badge in text_content for badge in badges):
+        signals.append(('text_badge', 0.85))
+    
+    # STRATEGIA 4: Icon markers
+    if card.select('svg[data-icon*="star"]') or card.select('svg[data-icon*="fire"]'):
+        signals.append(('icon_marker', 0.75))
+    
+    # STRATEGIA 5: data attributes
+    if card.get('data-promoted') or card.get('data-featured'):
+        signals.append(('data_attribute', 1.0))
+    
+    # No signals = organic listing
+    if not signals:
+        return {
+            'is_promoted': False,
+            'promotion_type': None,
+            'confidence': 1.0
+        }
+    
+    # Promoted listing detected
+    max_confidence = max(s[1] for s in signals)
+    signal_types = [s[0] for s in signals]
+    
+    # Determine promotion type
+    if 'url_parameter' in signal_types or 'featured_badge' in signal_types or 'data_attribute' in signal_types:
+        promo_type = 'featured'
+    elif 'ad_badge' in signal_types:
+        promo_type = 'top_ad'
+    elif 'text_badge' in signal_types or 'css_class' in signal_types:
+        promo_type = 'highlight'
+    else:
+        promo_type = 'unknown'
+    
+    return {
+        'is_promoted': True,
+        'promotion_type': promo_type,
+        'confidence': max_confidence
+    }
+
+
 def parse_card(card):
     """Parse a single OLX listing card. Works for both profile and category pages."""
     title = ""
@@ -242,6 +321,9 @@ def parse_card(card):
 
     img = card.select_one("img")
     image_url = img.get("src", "") if img else ""
+    
+    # NEW: Detect promoted status
+    promo_status = detect_promoted_status(card)
 
     return {
         "title": title,
@@ -252,6 +334,10 @@ def parse_card(card):
         "url": full_url,
         "listing_id": extract_listing_id(full_url),
         "image_url": image_url,
+        # NEW: Promoted fields
+        "is_promoted": promo_status['is_promoted'],
+        "promotion_type": promo_status['promotion_type'],
+        "promotion_confidence": promo_status['confidence'],
     }
 
 
@@ -1120,12 +1206,29 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         else:
             prev_c = dc[-1]["count"] if dc else None
             ch = result["count"] - prev_c if prev_c is not None else 0
+            
+            # NEW: Calculate promoted stats
+            total = result["count"]
+            promoted_count = sum(1 for l in result["listings"] if l.get("is_promoted"))
+            promoted_pct = round(promoted_count / total * 100, 1) if total > 0 else 0
+            
+            # Count by promotion type
+            promo_breakdown = {}
+            for l in result["listings"]:
+                if l.get("is_promoted"):
+                    ptype = l.get("promotion_type", 'unknown')
+                    promo_breakdown[ptype] = promo_breakdown.get(ptype, 0) + 1
+            
             dc.append({
                 "date": today,
                 "count": result["count"],
                 "change": ch,
                 "timestamp": now_str,
-                "median_price": median_price
+                "median_price": median_price,
+                # NEW: Promoted metrics
+                "promoted_count": promoted_count,
+                "promoted_percentage": promoted_pct,
+                "promotion_breakdown": promo_breakdown
             })
 
         if len(dc) > 90:
@@ -1148,6 +1251,9 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 "date_text": listing.get("date_text", ""),
                 "image_url": listing.get("image_url", ""),
                 "first_seen": now_str, "last_seen": now_str,
+                # NEW: Promoted fields
+                "is_promoted": listing.get("is_promoted", False),
+                "promotion_type": listing.get("promotion_type"),
             }
             new_listings.append(nl)
             current_ids.add(listing["listing_id"])
@@ -1221,6 +1327,59 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     nl["price_change"] = new_price - first_price
                     if nl["price_change"] != 0:
                         nl["previous_price"] = first_price  # Dla kompatybilności
+                
+                # ═══ PROMOTION TRACKING ═══
+                # Track promotion periods: start date, end date, type, consecutive days
+                if "promotion_history" not in pd_:
+                    pd_["promotion_history"] = {}
+                
+                if lid not in pd_["promotion_history"]:
+                    pd_["promotion_history"][lid] = []
+                
+                old_is_promoted = old.get("is_promoted", False)
+                new_is_promoted = nl.get("is_promoted", False)
+                
+                # Preserve old promotion data
+                nl["promotion_history"] = old.get("promotion_history", [])
+                nl["promoted_days_current"] = old.get("promoted_days_current", 0)
+                nl["promoted_sessions_count"] = old.get("promoted_sessions_count", 0)
+                
+                if new_is_promoted and not old_is_promoted:
+                    # STARTED promotion today
+                    nl["promotion_started_at"] = now_str
+                    nl["promoted_days_current"] = 1
+                    nl["promoted_sessions_count"] = old.get("promoted_sessions_count", 0) + 1
+                    log.info(f"  [PROMO START] {lid}: Session #{nl['promoted_sessions_count']}")
+                
+                elif new_is_promoted and old_is_promoted:
+                    # CONTINUING promotion
+                    nl["promotion_started_at"] = old.get("promotion_started_at", now_str)
+                    nl["promoted_days_current"] = old.get("promoted_days_current", 0) + 1
+                    nl["promoted_sessions_count"] = old.get("promoted_sessions_count", 0)
+                
+                elif not new_is_promoted and old_is_promoted:
+                    # ENDED promotion today
+                    promo_start = old.get("promotion_started_at", now_str)
+                    days = old.get("promoted_days_current", 1)
+                    
+                    # Save to history
+                    nl["promotion_history"].append({
+                        "start_date": promo_start,
+                        "end_date": now_str,
+                        "days": days,
+                        "promotion_type": old.get("promotion_type", "unknown"),
+                        "session_number": old.get("promoted_sessions_count", 0)
+                    })
+                    
+                    # Reset current counters
+                    nl["promoted_days_current"] = 0
+                    nl["promoted_sessions_count"] = old.get("promoted_sessions_count", 0)
+                    nl.pop("promotion_started_at", None)
+                    
+                    # Save to profile-level history
+                    pd_["promotion_history"][lid] = nl["promotion_history"]
+                    
+                    log.info(f"  [PROMO END] {lid}: Lasted {days} days, session #{nl['promotion_history'][-1]['session_number']}")
 
         # CRITICAL: Nie archiwizuj ogłoszeń jeśli scan znalazł 0 (prawdopodobnie błąd scrapera)
         # Zapobiega fałszywej archiwizacji przy OLX blocking / scraper errors
