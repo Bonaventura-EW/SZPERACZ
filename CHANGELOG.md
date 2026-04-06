@@ -23,6 +23,12 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
   - Dashboard: nowa kolumna "Licz. odsw." w tabeli ogłoszeń z sortowaniem
   - Kolor accent dla ogłoszeń z refresh_count > 0
   
+- **Refresh History Tracking:**
+  - Nowe pole `refresh_history[]` - pełna historia odświeżeń (analogiczne do `reactivation_history`)
+  - Każdy wpis zawiera: `refreshed_at`, `detected_at`, `old_date`
+  - Buduje timeline od momentu wdrożenia (dane historyczne sprzed tego są stracone - OLX nie przechowuje historii)
+  - Pozwala na dokładną analizę: kiedy było każde odświeżenie, jak często sprzedawca odświeża portfolio
+  
 - **Wykres "Odświeżenia/Reaktywacje" (nowa metryka w line chart):**
   - Nowy przycisk 🔄 w przełączniku metryk (obok Ogłoszenia, Mediana, % Promowanych)
   - Dwie linie na wykresie:

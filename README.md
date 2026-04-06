@@ -33,7 +33,10 @@
 ### 📊 Analityka
 - Śledzenie zmian liczby ogłoszeń w czasie
 - Monitorowanie zmian cen (historia cen dla każdego ogłoszenia)
-- **Tracking odświeżeń** — zlicza ile razy ogłoszenie zostało odświeżone przez sprzedawcę
+- **Tracking odświeżeń:**
+  - `refresh_count` — zlicza ile razy ogłoszenie zostało odświeżone przez sprzedawcę
+  - `refresh_history[]` — pełna timeline z datami każdego odświeżenia (od momentu wdrożenia)
+  - Umożliwia analizę: jak często sprzedawcy odświeżają portfolio, które ogłoszenia są najczęściej odświeżane
 - **Mediana cen w daily_counts** (wartość środkowa, odporna na outliers)
 - Wykrywanie nowych i archiwalnych ogłoszeń
 - Statystyki: mediana ceny, nowe ogłoszenia (24h)
@@ -91,6 +94,7 @@
   - Dni prom. (current session, color-coded)
   - Sesje prom. (total promotion count)
   - **Liczba odświeżeń** — tracking ile razy ogłoszenie zostało odświeżone
+  - **Historia odświeżeń** — `refresh_history[]` przechowuje pełną timeline z datami każdego odświeżenia
   - Sortowanie wszystkich kolumn (kliknij nagłówek)
   - Highlighted rows dla promoted listings
 - Tryb jasny/ciemny
