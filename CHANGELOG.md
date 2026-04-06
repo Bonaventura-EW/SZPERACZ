@@ -22,8 +22,14 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
   - Automatyczna inkrementacja gdy `refreshed` date się zmienia
   - Dashboard: nowa kolumna "Licz. odsw." w tabeli ogłoszeń z sortowaniem
   - Kolor accent dla ogłoszeń z refresh_count > 0
-  - **Daily refresh count** - wykres słupkowy pokazuje ile ogłoszeń zostało odświeżonych danego dnia
-  - Tooltip w wykresie: "X ogłoszeń, Y odświeżonych"
+  
+- **Wykres "Odświeżenia/Reaktywacje" (nowa metryka w line chart):**
+  - Nowy przycisk 🔄 w przełączniku metryk (obok Ogłoszenia, Mediana, % Promowanych)
+  - Dwie linie na wykresie:
+    - 🔵 Odświeżenia (refreshed_count per dzień)
+    - 🟢 Reaktywacje (reactivated_count per dzień)
+  - Tracking w daily_counts: `refreshed_count`, `reactivated_count`
+  - Legenda i tooltips dla obu metryk
 
 ### Fixed 🐛
 - **Workflow Comments:**

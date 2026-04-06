@@ -1114,6 +1114,7 @@ body {
           <button class="metric-tab active" data-metric="count" onclick="switchMetric('count', this)">📊 Ogłoszenia</button>
           <button class="metric-tab" data-metric="median_price" onclick="switchMetric('median_price', this)">💰 Mediana ceny</button>
           <button class="metric-tab" data-metric="promoted_pct" onclick="switchMetric('promoted_pct', this)">🎯 % Promowanych</button>
+          <button class="metric-tab" data-metric="refresh_reactivation" onclick="switchMetric('refresh_reactivation', this)">🔄 Odśw./Reakt.</button>
         </div>
       </div>
       <div class="line-chart-canvas-wrapper">
@@ -1522,13 +1523,10 @@ function renderChart(key) {
     const dayParts = dayLabel.split('-');
     const shortLabel = `${dayParts[1]}.${dayParts[0]}`;
 
-    const refreshedCount = entry.refreshed_count || 0;
-    const refreshedHtml = refreshedCount > 0 ? `<br><span style="font-size:9px;color:var(--accent);">🔄 ${refreshedCount}</span>` : '';
-
     html += `
       <div class="chart-bar-wrapper" style="max-width: ${barWidth}px;">
-        <div class="chart-bar" style="height: ${Math.max(heightPct, 3)}%" title="${entry.count} ogłoszeń${refreshedCount > 0 ? `, ${refreshedCount} odświeżonych` : ''}">
-          <span class="chart-bar-value">${entry.count}${refreshedHtml}</span>
+        <div class="chart-bar" style="height: ${Math.max(heightPct, 3)}%">
+          <span class="chart-bar-value">${entry.count}</span>
         </div>
         <span class="chart-bar-label">${shortLabel}</span>
       </div>
@@ -1562,6 +1560,8 @@ function renderLineChart(key) {
   const countData = counts.map(d => d.count);
   const medianPriceData = counts.map(d => d.median_price || null);
   const promotedPctData = counts.map(d => d.promoted_percentage || 0);
+  const refreshedData = counts.map(d => d.refreshed_count || 0);
+  const reactivatedData = counts.map(d => d.reactivated_count || 0);
 
   // Mapowanie metryk
   const metricConfig = {
@@ -1582,6 +1582,24 @@ function renderLineChart(key) {
       label: '% Promowanych',
       color: '#f59e0b',
       suffix: '%'
+    },
+    refresh_reactivation: {
+      // Specjalna obsługa - dwie linie
+      multiLine: true,
+      datasets: [
+        {
+          data: refreshedData,
+          label: 'Odświeżenia',
+          color: '#3b82f6',
+          suffix: ' odśw.'
+        },
+        {
+          data: reactivatedData,
+          label: 'Reaktywacje',
+          color: '#10b981',
+          suffix: ' reakt.'
+        }
+      ]
     }
   };
 
@@ -1596,29 +1614,57 @@ function renderLineChart(key) {
     lineChart.destroy();
   }
 
+  // Przygotuj datasets - dla multi-line używamy wielu linii, inaczej jedną
+  let datasets;
+  if (config.multiLine) {
+    // Dwie linie dla odświeżeń i reaktywacji
+    datasets = config.datasets.map(ds => ({
+      label: ds.label,
+      data: ds.data,
+      borderColor: ds.color,
+      backgroundColor: ds.color + '20',
+      borderWidth: 2,
+      fill: true,
+      tension: 0.4,
+      pointRadius: 3,
+      pointBackgroundColor: ds.color,
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      pointHoverRadius: 6,
+      pointHoverBackgroundColor: ds.color,
+      pointHoverBorderColor: '#fff',
+      pointHoverBorderWidth: 3,
+      _customSuffix: ds.suffix  // Dla tooltip
+    }));
+  } else {
+    // Pojedyncza linia dla standardowych metryk
+    datasets = [{
+      label: config.label,
+      data: config.data,
+      borderColor: config.color,
+      backgroundColor: config.color + '20',
+      borderWidth: 2,
+      fill: true,
+      tension: 0.4,
+      pointRadius: 3,
+      pointBackgroundColor: config.color,
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      pointHoverRadius: 6,
+      pointHoverBackgroundColor: config.color,
+      pointHoverBorderColor: '#fff',
+      pointHoverBorderWidth: 3,
+      _customSuffix: config.suffix  // Dla tooltip
+    }];
+  }
+
   // Utwórz nowy wykres
   const ctx = document.getElementById('lineChart').getContext('2d');
   lineChart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: labels,
-      datasets: [{
-        label: config.label,
-        data: config.data,
-        borderColor: config.color,
-        backgroundColor: config.color + '20',
-        borderWidth: 2,
-        fill: true,
-        tension: 0.4,
-        pointRadius: 3,
-        pointBackgroundColor: config.color,
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2,
-        pointHoverRadius: 6,
-        pointHoverBackgroundColor: config.color,
-        pointHoverBorderColor: '#fff',
-        pointHoverBorderWidth: 3
-      }]
+      datasets: datasets
     },
     options: {
       responsive: true,
@@ -1628,18 +1674,29 @@ function renderLineChart(key) {
         intersect: false
       },
       plugins: {
-        legend: { display: false },
+        legend: { 
+          display: config.multiLine || false,  // Pokaż legendę tylko dla multi-line
+          position: 'top',
+          labels: {
+            color: 'var(--text-primary)',
+            font: { size: 11 },
+            usePointStyle: true,
+            padding: 10
+          }
+        },
         tooltip: {
           backgroundColor: 'rgba(0,0,0,0.85)',
           padding: 12,
           titleFont: { size: 12 },
           bodyFont: { size: 13, weight: 'bold' },
-          displayColors: false,
+          displayColors: config.multiLine || false,  // Pokaż kolory dla multi-line
           callbacks: {
             title: (ctx) => ctx[0].label,
             label: (ctx) => {
               const value = ctx.parsed.y;
-              return value !== null ? Math.round(value) + config.suffix : 'Brak danych';
+              const suffix = ctx.dataset._customSuffix || '';
+              const label = config.multiLine ? ctx.dataset.label + ': ' : '';
+              return value !== null ? label + Math.round(value) + suffix : 'Brak danych';
             }
           }
         },

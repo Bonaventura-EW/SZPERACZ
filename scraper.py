@@ -1305,6 +1305,7 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 # NEW: Count refreshed today
                 refreshed_count = sum(1 for l in result["listings"] if l.get("refreshed") == today)
                 today_entry["refreshed_count"] = refreshed_count
+                today_entry["reactivated_count"] = 0  # Will be updated later after new_listings processing
                 
                 # Przelicz change względem wczoraj, nie poprzedniej wartości dzisiejszej
                 yesterday_entry = dc[-2] if len(dc) >= 2 else None
@@ -1339,8 +1340,9 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 "promoted_count": promoted_count,
                 "promoted_percentage": promoted_pct,
                 "promotion_breakdown": promo_breakdown,
-                # NEW: Refresh count
+                # NEW: Refresh and reactivation counts
                 "refreshed_count": refreshed_count,
+                "reactivated_count": 0,  # Will be updated later after new_listings processing
             })
 
         if len(dc) > 90:
@@ -1515,6 +1517,12 @@ def generate_dashboard_json(scan_results, scan_timestamp):
 
             if len(pd_["archived_listings"]) > 200:
                 pd_["archived_listings"] = pd_["archived_listings"][-200:]
+            
+            # NEW: Count reactivations today and update daily_counts
+            reactivated_count = sum(1 for l in new_listings if l.get("reactivated"))
+            today_entry = next((d for d in dc if d["date"] == today), None)
+            if today_entry:
+                today_entry["reactivated_count"] = reactivated_count
             
             # Aktualizuj current_listings TYLKO gdy scan był poprawny (count > 0)
             pd_["current_listings"] = new_listings
