@@ -52,6 +52,14 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 - Poprawka: sprawdza `reactivation_history[-1].reactivated_at == date`
 - Dane historyczne odtworzone z reactivation_history
 
+- **Excel refresh_count column:**
+  - Kolumna "Liczba odświeżeń" nie była zapisywana do Excel mimo że istniała w nagłówkach
+  - Root cause #1: `update_excel()` wywoływany przed `generate_dashboard_json()` → ładował stary JSON bez nowych refresh_count
+  - Root cause #2: `get_or_create_sheet()` nie aktualizował nagłówków dla istniejących arkuszy
+  - Fix #1: Zamieniono kolejność - najpierw JSON, potem Excel
+  - Fix #2: `get_or_create_sheet()` teraz aktualizuje nagłówki gdy się zmieniły
+  - Zweryfikowano: kolumna dodana, wartości poprawnie zapisane (96 ogłoszeń z refresh_count > 0)
+
 ### Fixed 🐛
 - **Workflow Comments:**
   - scan.yml: zmiana crona z `0 6 * * *` na `0 7 * * *` (zgodnie z preferencją użytkownika)
