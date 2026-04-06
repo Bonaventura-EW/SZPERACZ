@@ -1519,7 +1519,16 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 pd_["archived_listings"] = pd_["archived_listings"][-200:]
             
             # NEW: Count reactivations today and update daily_counts
-            reactivated_count = sum(1 for l in new_listings if l.get("reactivated"))
+            # Zlicz tylko te które zostały reaktywowane DZISIAJ (sprawdź reactivation_history)
+            reactivated_count = 0
+            for l in new_listings:
+                history = l.get("reactivation_history", [])
+                if history:
+                    last_reactivation = history[-1]
+                    reactivated_at = last_reactivation.get("reactivated_at", "")
+                    if reactivated_at.startswith(today):
+                        reactivated_count += 1
+            
             today_entry = next((d for d in dc if d["date"] == today), None)
             if today_entry:
                 today_entry["reactivated_count"] = reactivated_count

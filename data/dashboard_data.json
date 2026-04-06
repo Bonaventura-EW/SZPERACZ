@@ -136,140 +136,160 @@
           "count": 414,
           "change": 0,
           "timestamp": "2026-03-13 07:59:36",
-          "median_price": 800
+          "median_price": 800,
+          "reactivated_count": 9
         },
         {
           "date": "2026-03-14",
           "count": 397,
           "change": -17,
           "timestamp": "2026-03-14 07:51:06",
-          "median_price": 1000
+          "median_price": 1000,
+          "reactivated_count": 2
         },
         {
           "date": "2026-03-15",
           "count": 395,
           "change": -2,
           "timestamp": "2026-03-15 06:41:03",
-          "median_price": 799
+          "median_price": 799,
+          "reactivated_count": 4
         },
         {
           "date": "2026-03-16",
           "count": 405,
           "change": 10,
           "timestamp": "2026-03-16 07:02:01",
-          "median_price": 825
+          "median_price": 825,
+          "reactivated_count": 2
         },
         {
           "date": "2026-03-17",
           "count": 407,
           "change": 2,
           "timestamp": "2026-03-17 06:46:30",
-          "median_price": 800
+          "median_price": 800,
+          "reactivated_count": 3
         },
         {
           "date": "2026-03-18",
           "count": 407,
           "change": 0,
           "timestamp": "2026-03-18 06:45:47",
-          "median_price": 950
+          "median_price": 950,
+          "reactivated_count": 3
         },
         {
           "date": "2026-03-19",
           "count": 406,
           "change": -1,
           "timestamp": "2026-03-19 06:41:23",
-          "median_price": 825
+          "median_price": 825,
+          "reactivated_count": 3
         },
         {
           "date": "2026-03-20",
           "count": 409,
           "change": 3,
           "timestamp": "2026-03-20 06:38:20",
-          "median_price": 875
+          "median_price": 875,
+          "reactivated_count": 5
         },
         {
           "date": "2026-03-21",
           "count": 409,
           "change": 0,
           "timestamp": "2026-03-21 06:27:14",
-          "median_price": 1000
+          "median_price": 1000,
+          "reactivated_count": 1
         },
         {
           "date": "2026-03-22",
           "count": 407,
           "change": -2,
           "timestamp": "2026-03-22 06:34:59",
-          "median_price": 800
+          "median_price": 800,
+          "reactivated_count": 3
         },
         {
           "date": "2026-03-23",
           "count": 418,
           "change": 11,
           "timestamp": "2026-03-23 06:54:55",
-          "median_price": 1000
+          "median_price": 1000,
+          "reactivated_count": 7
         },
         {
           "date": "2026-03-24",
           "count": 409,
           "change": -9,
           "timestamp": "2026-03-24 06:47:29",
-          "median_price": 800
+          "median_price": 800,
+          "reactivated_count": 4
         },
         {
           "date": "2026-03-25",
           "count": 401,
           "change": -8,
           "timestamp": "2026-03-25 06:46:08",
-          "median_price": 880
+          "median_price": 880,
+          "reactivated_count": 5
         },
         {
           "date": "2026-03-26",
           "count": 409,
           "change": 8,
           "timestamp": "2026-03-26 06:53:32",
-          "median_price": 900
+          "median_price": 900,
+          "reactivated_count": 3
         },
         {
           "date": "2026-03-27",
           "count": 417,
           "change": 8,
           "timestamp": "2026-03-27 06:53:34",
-          "median_price": 900
+          "median_price": 900,
+          "reactivated_count": 11
         },
         {
           "date": "2026-03-28",
           "count": 409,
           "change": -8,
           "timestamp": "2026-03-28 06:41:43",
-          "median_price": 775
+          "median_price": 775,
+          "reactivated_count": 2
         },
         {
           "date": "2026-03-29",
           "count": 408,
           "change": -1,
           "timestamp": "2026-03-29 06:49:28",
-          "median_price": 900
+          "median_price": 900,
+          "reactivated_count": 3
         },
         {
           "date": "2026-03-30",
           "count": 409,
           "change": 1,
           "timestamp": "2026-03-30 16:48:35",
-          "median_price": 1000
+          "median_price": 1000,
+          "reactivated_count": 6
         },
         {
           "date": "2026-03-31",
           "count": 409,
           "change": 0,
           "timestamp": "2026-03-31 06:58:55",
-          "median_price": 1100
+          "median_price": 1100,
+          "reactivated_count": 2
         },
         {
           "date": "2026-04-01",
           "count": 399,
           "change": -10,
           "timestamp": "2026-04-01 07:06:03",
-          "median_price": 900
+          "median_price": 900,
+          "reactivated_count": 4
         },
         {
           "date": "2026-04-02",
@@ -281,7 +301,8 @@
           "promoted_percentage": 6.1,
           "promotion_breakdown": {
             "featured": 24
-          }
+          },
+          "reactivated_count": 8
         },
         {
           "date": "2026-04-03",
@@ -293,7 +314,8 @@
           "promoted_percentage": 5.8,
           "promotion_breakdown": {
             "featured": 22
-          }
+          },
+          "reactivated_count": 1
         },
         {
           "date": "2026-04-04",
@@ -305,7 +327,8 @@
           "promoted_percentage": 5.1,
           "promotion_breakdown": {
             "featured": 19
-          }
+          },
+          "reactivated_count": 2
         },
         {
           "date": "2026-04-05",
@@ -317,7 +340,8 @@
           "promoted_percentage": 3.8,
           "promotion_breakdown": {
             "featured": 14
-          }
+          },
+          "reactivated_count": 3
         },
         {
           "date": "2026-04-06",
@@ -331,7 +355,7 @@
             "featured": 16
           },
           "refreshed_count": 0,
-          "reactivated_count": 86
+          "reactivated_count": 3
         }
       ],
       "current_listings": [
@@ -14750,7 +14774,8 @@
           "count": 2,
           "change": 1,
           "timestamp": "2026-03-24 06:47:29",
-          "median_price": null
+          "median_price": null,
+          "reactivated_count": 1
         },
         {
           "date": "2026-03-25",
@@ -14858,7 +14883,7 @@
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
           "refreshed_count": 0,
-          "reactivated_count": 1
+          "reactivated_count": 0
         }
       ],
       "current_listings": [
@@ -16331,7 +16356,8 @@
           "count": 7,
           "change": 0,
           "timestamp": "2026-03-20 06:38:20",
-          "median_price": null
+          "median_price": null,
+          "reactivated_count": 1
         },
         {
           "date": "2026-03-21",
@@ -16467,7 +16493,7 @@
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
           "refreshed_count": 0,
-          "reactivated_count": 1
+          "reactivated_count": 0
         }
       ],
       "current_listings": [
@@ -16954,7 +16980,8 @@
           "count": 46,
           "change": -3,
           "timestamp": "2026-03-19 06:41:23",
-          "median_price": 2520
+          "median_price": 2520,
+          "reactivated_count": 1
         },
         {
           "date": "2026-03-20",
@@ -16968,7 +16995,8 @@
           "count": 46,
           "change": -1,
           "timestamp": "2026-03-21 06:27:14",
-          "median_price": 850
+          "median_price": 850,
+          "reactivated_count": 1
         },
         {
           "date": "2026-03-22",
@@ -16989,14 +17017,16 @@
           "count": 47,
           "change": 3,
           "timestamp": "2026-03-24 06:47:29",
-          "median_price": 2870
+          "median_price": 2870,
+          "reactivated_count": 1
         },
         {
           "date": "2026-03-25",
           "count": 46,
           "change": -1,
           "timestamp": "2026-03-25 06:46:08",
-          "median_price": null
+          "median_price": null,
+          "reactivated_count": 1
         },
         {
           "date": "2026-03-26",
@@ -17055,7 +17085,8 @@
           "median_price": null,
           "promoted_count": 0,
           "promoted_percentage": 0.0,
-          "promotion_breakdown": {}
+          "promotion_breakdown": {},
+          "reactivated_count": 1
         },
         {
           "date": "2026-04-03",
@@ -17065,7 +17096,8 @@
           "median_price": 1820,
           "promoted_count": 0,
           "promoted_percentage": 0.0,
-          "promotion_breakdown": {}
+          "promotion_breakdown": {},
+          "reactivated_count": 1
         },
         {
           "date": "2026-04-04",
@@ -17097,7 +17129,7 @@
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
           "refreshed_count": 0,
-          "reactivated_count": 6
+          "reactivated_count": 0
         }
       ],
       "current_listings": [
