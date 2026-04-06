@@ -13,6 +13,30 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-06] - 🔄 Refresh Count Tracking & Workflow Fixes
+
+### Added ✨
+- **Refresh Count Tracking:**
+  - Nowa kolumna "Liczba odświeżeń" w Excel (kolumna 15)
+  - Tracking `refresh_count` w JSON - zlicza ile razy ogłoszenie zostało odświeżone
+  - Automatyczna inkrementacja gdy `refreshed` date się zmienia
+  - Dashboard: nowa kolumna "Licz. odsw." w tabeli ogłoszeń z sortowaniem
+  - Kolor accent dla ogłoszeń z refresh_count > 0
+
+### Fixed 🐛
+- **Workflow Comments:**
+  - scan.yml: zmiana crona z `0 6 * * *` na `0 7 * * *` (zgodnie z preferencją użytkownika)
+  - scan.yml: poprawiony komentarz "7:00 UTC = 8:00 CET (zima) / 9:00 CEST (lato)"
+  - weekly_report.yml: poprawiony komentarz "7:30 UTC = 8:30 CET (zima) / 9:30 CEST (lato)"
+
+### Technical Details 🔧
+- `scraper.py`: dodano logikę porównywania `old_refreshed` vs `new_refreshed` w `generate_dashboard_json()`
+- `scraper.py`: załadowanie istniejącego JSON w `update_excel()` aby pobrać refresh_count dla zapisu
+- `docs/index.html`: nowa kolumna w tabeli + case 'refresh_count' w sortowaniu
+- Excel: szerokość kolumn zaktualizowana (dodano kolumnę 15 o szerokości 12)
+
+---
+
 ## [2026-04-02] - 💰 ROI Calculator & Advanced Analytics
 
 ### Added ✨

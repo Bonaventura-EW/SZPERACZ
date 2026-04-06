@@ -1012,13 +1012,28 @@ def update_excel(scan_results, scan_timestamp):
     wb = load_or_create_workbook()
     today = scan_timestamp.strftime("%Y-%m-%d")
     now_str = scan_timestamp.strftime("%Y-%m-%d %H:%M")
+    
+    # Load existing JSON to get refresh_count for listings
+    refresh_count_map = {}
+    if os.path.exists(JSON_PATH):
+        try:
+            with open(JSON_PATH, "r", encoding="utf-8") as f:
+                existing_data = json.load(f)
+            for profile_data in existing_data.get("profiles", {}).values():
+                for listing in profile_data.get("current_listings", []):
+                    listing_id = listing.get("id")
+                    refresh_count = listing.get("refresh_count", 0)
+                    if listing_id:
+                        refresh_count_map[listing_id] = refresh_count
+        except (json.JSONDecodeError, IOError):
+            pass
 
     profile_headers = [
         "Data scanu", "Godzina", "Liczba ogłoszeń", "Zmiana vs poprzedni",
         "Crosscheck", "Tytuł", "Cena (zł)", 
         "🎯 Prom.", "Dni prom.", "Sesje prom.", "Typ prom.",  # NEW: Promoted columns
         "Zmiana ceny",
-        "Data publikacji", "Data odświeżenia", "URL", "ID ogłoszenia"
+        "Data publikacji", "Data odświeżenia", "Liczba odświeżeń", "URL", "ID ogłoszenia"
     ]
 
     for pk, result in scan_results.items():
@@ -1119,13 +1134,20 @@ def update_excel(scan_results, scan_timestamp):
             # Data publikacji, odświeżenia (shifted to 13-14)
             ws.cell(row=row, column=13, value=pub or "")
             ws.cell(row=row, column=14, value=ref or "")
-            ws.cell(row=row, column=15, value=listing["url"])
-            ws.cell(row=row, column=16, value=listing["listing_id"])
-            for c in range(1, 17):
+            
+            # Liczba odświeżeń (NEW - column 15) - from existing JSON
+            listing_id = listing.get("listing_id")
+            refresh_count = refresh_count_map.get(listing_id, 0)
+            ws.cell(row=row, column=15, value=refresh_count)
+            
+            # URL i ID (shifted to 16-17)
+            ws.cell(row=row, column=16, value=listing["url"])
+            ws.cell(row=row, column=17, value=listing["listing_id"])
+            for c in range(1, 18):
                 style_data_cell(ws.cell(row=row, column=c))
 
-        # Column widths: Data, Godz, Liczba, Zmiana, Cross, Tytuł, Cena, Prom., Dni, Sesje, Typ, ZmCeny, Publ, Odsw, URL, ID
-        for idx, w in enumerate([12, 8, 15, 15, 14, 50, 12, 8, 8, 8, 14, 12, 14, 14, 60, 15], 1):
+        # Column widths: Data, Godz, Liczba, Zmiana, Cross, Tytuł, Cena, Prom., Dni, Sesje, Typ, ZmCeny, Publ, Odsw, Licz.Odsw, URL, ID
+        for idx, w in enumerate([12, 8, 15, 15, 14, 50, 12, 8, 8, 8, 14, 12, 14, 14, 12, 60, 15], 1):
             ws.column_dimensions[get_column_letter(idx)].width = w
 
     # Historia cen
@@ -1335,6 +1357,8 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 # NEW: Promoted fields
                 "is_promoted": listing.get("is_promoted", False),
                 "promotion_type": listing.get("promotion_type"),
+                # NEW: Refresh count
+                "refresh_count": 0,
             }
             new_listings.append(nl)
             current_ids.add(listing["listing_id"])
@@ -1351,6 +1375,16 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 if old.get("reactivated"):
                     nl["reactivated"] = True
                     nl["reactivation_history"] = old.get("reactivation_history", [])
+                
+                # REFRESH COUNT TRACKING
+                # Skopiuj poprzedni licznik
+                nl["refresh_count"] = old.get("refresh_count", 0)
+                # Sprawdź czy data odświeżenia się zmieniła (jest nowsza)
+                old_refreshed = old.get("refreshed")
+                new_refreshed = nl.get("refreshed")
+                if old_refreshed and new_refreshed and new_refreshed > old_refreshed:
+                    nl["refresh_count"] += 1
+                    log.info(f"  [REFRESHED] {lid}: '{nl['title'][:50]}' - odświeżeń: {nl['refresh_count']}")
             elif lid in archived_map:
                 # Ogłoszenie wróciło z archiwum — to REAKTYWACJA
                 old_archived = archived_map[lid]

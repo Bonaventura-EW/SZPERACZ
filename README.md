@@ -33,6 +33,7 @@
 ### 📊 Analityka
 - Śledzenie zmian liczby ogłoszeń w czasie
 - Monitorowanie zmian cen (historia cen dla każdego ogłoszenia)
+- **Tracking odświeżeń** — zlicza ile razy ogłoszenie zostało odświeżone przez sprzedawcę
 - **Mediana cen w daily_counts** (wartość środkowa, odporna na outliers)
 - Wykrywanie nowych i archiwalnych ogłoszeń
 - Statystyki: mediana ceny, nowe ogłoszenia (24h)
@@ -46,7 +47,7 @@
 ### 📁 Eksport danych
 - **Excel** (`data/szperacz_olx.xlsx`):
   - Arkusz dla każdego profilu z historią skanów
-  - Kolumny: Data | Tytuł | Cena | 🎯 Prom. | Dni prom. | Sesje | Typ | Zmiana ceny | Daty
+  - Kolumny: Data | Tytuł | Cena | 🎯 Prom. | Dni prom. | Sesje | Typ | Zmiana ceny | Data publ. | Data odsw. | **Liczba odsw.** | URL | ID
   - Arkusz "historia_cen" ze wszystkimi zmianami cen
   - Arkusz "podsumowanie" z bieżącym statusem
   - Kolorowe formatowanie (zielony ↑ czerwony ↓, emoji badges dla promoted)
@@ -83,6 +84,7 @@
   - 🎯 Emoji badge (⭐ Featured / 🔝 Top Ad / ✨ Highlight)
   - Dni prom. (current session, color-coded)
   - Sesje prom. (total promotion count)
+  - **Liczba odświeżeń** — tracking ile razy ogłoszenie zostało odświeżone
   - Sortowanie wszystkich kolumn (kliknij nagłówek)
   - Highlighted rows dla promoted listings
 - Tryb jasny/ciemny
@@ -96,7 +98,7 @@
 SZPERACZ/
 ├── .github/
 │   └── workflows/
-│       ├── scan.yml              # Dzienny scan (9:00 CET)
+│       ├── scan.yml              # Dzienny scan (7:00 UTC = 8:00 CET / 9:00 CEST)
 │       └── weekly_report.yml     # Email w poniedziałki (9:30 CET)
 ├── data/                         # Dane (tracked in git)
 │   ├── dashboard_data.json       # JSON dla dashboardu
@@ -247,10 +249,10 @@ To zapewnia kompatybilność po deprecacji Node.js 20 (2 czerwca 2026).
 
 Workflow: `.github/workflows/scan.yml`
 
-- Uruchamia się codziennie o 9:00 czasu polskiego
-  - **Zimą (CET):** `cron: '0 8 * * *'` → 8:00 UTC = 9:00 CET
-  - **Latem (CEST):** Zmień na `cron: '0 7 * * *'` → 7:00 UTC = 9:00 CEST
-  - 📅 Zobacz [ZMIANA_CZASU_REMINDER.md](ZMIANA_CZASU_REMINDER.md) dla dat i instrukcji
+- Uruchamia się codziennie o `7:00 UTC`
+  - **Zimą (CET):** 7:00 UTC = **8:00 CET**
+  - **Latem (CEST):** 7:00 UTC = **9:00 CEST**
+  - ⚠️ **Uwaga:** GitHub Actions może mieć opóźnienia dla scheduled workflows
 - Wykonuje `python scraper.py`
 - Commituje zaktualizowane pliki `data/*` do repo
 - Można uruchomić ręcznie: Actions → SZPERACZ OLX - Daily Scan → Run workflow

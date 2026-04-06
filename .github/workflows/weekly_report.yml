@@ -2,7 +2,7 @@ name: SZPERACZ OLX — Weekly Report
 
 on:
   schedule:
-    # Poniedziałek o 9:30 polskiego czasu (7:30 UTC)
+    # Poniedziałek: 7:30 UTC = 8:30 CET (zima) / 9:30 CEST (lato)
     - cron: '30 7 * * 1'
   workflow_dispatch:
     # Ręczne uruchomienie
