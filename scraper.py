@@ -1387,14 +1387,22 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     nl["reactivated"] = True
                     nl["reactivation_history"] = old.get("reactivation_history", [])
                 
-                # REFRESH COUNT TRACKING
-                # Skopiuj poprzedni licznik
+                # REFRESH COUNT & HISTORY TRACKING
+                # Skopiuj poprzedni licznik i historię
                 nl["refresh_count"] = old.get("refresh_count", 0)
+                nl["refresh_history"] = old.get("refresh_history", [])
+                
                 # Sprawdź czy data odświeżenia się zmieniła (jest nowsza)
                 old_refreshed = old.get("refreshed")
                 new_refreshed = nl.get("refreshed")
                 if old_refreshed and new_refreshed and new_refreshed > old_refreshed:
                     nl["refresh_count"] += 1
+                    # Dodaj wpis do historii
+                    nl["refresh_history"].append({
+                        "refreshed_at": new_refreshed,
+                        "detected_at": now_str,
+                        "old_date": old_refreshed
+                    })
                     log.info(f"  [REFRESHED] {lid}: '{nl['title'][:50]}' - odświeżeń: {nl['refresh_count']}")
             elif lid in archived_map:
                 # Ogłoszenie wróciło z archiwum — to REAKTYWACJA
