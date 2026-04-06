@@ -30,6 +30,15 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
     - 🟢 Reaktywacje (reactivated_count per dzień)
   - Tracking w daily_counts: `refreshed_count`, `reactivated_count`
   - Legenda i tooltips dla obu metryk
+  
+- **rebuild_refresh_reactivation_counts.py:**
+  - Skrypt odtwarzający dane historyczne z reactivation_history
+  - Wykorzystany do przeliczenia 36 wpisów w daily_counts
+
+### Fixed 🐛
+- **reactivated_count logic:** Zliczał wszystkie ogłoszenia z flagą `reactivated` (86), zamiast tylko tych reaktywowanych danego dnia (3)
+- Poprawka: sprawdza `reactivation_history[-1].reactivated_at == date`
+- Dane historyczne odtworzone z reactivation_history
 
 ### Fixed 🐛
 - **Workflow Comments:**
