@@ -1694,8 +1694,9 @@ def run_scan():
 
     duration_seconds = int(time.time() - start_time)
     
-    update_excel(results, ts)
+    # Generate JSON first so Excel can load updated refresh_count
     generate_dashboard_json(results, ts)
+    update_excel(results, ts)
     generate_api_json(results, ts, duration_seconds)
 
     log.info(f"{'='*60}")
