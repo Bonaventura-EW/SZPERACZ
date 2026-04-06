@@ -451,7 +451,64 @@
           ],
           "promoted_days_current": 3,
           "promoted_sessions_count": 2,
-          "promotion_started_at": "2026-04-05 06:50:54"
+          "promotion_started_at": "2026-04-05 06:50:54",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-26 10:31:00",
+              "old_date": "2026-02-22"
+            },
+            {
+              "refreshed_at": "2026-02-28",
+              "detected_at": "2026-03-01 07:47:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-02-28"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-13 13:03:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "1a12q1",
@@ -503,7 +560,39 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 1
+          "promoted_sessions_count": 1,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-18"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-21"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-24"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-27"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-31 06:58:00",
+              "old_date": "2026-03-29"
+            }
+          ]
         },
         {
           "id": "16woft",
@@ -540,7 +629,49 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 1
+          "promoted_sessions_count": 1,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-02-21"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-23"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-24"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-28"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 13:23:00",
+              "old_date": "2026-03-29"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-30"
+            }
+          ]
         },
         {
           "id": "19YE6B",
@@ -648,7 +779,29 @@
           "previous_price": 1665,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-26"
+            }
+          ]
         },
         {
           "id": "19VpA8",
@@ -690,7 +843,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-26"
+            }
+          ]
         },
         {
           "id": "16dPdr",
@@ -758,7 +918,19 @@
           ],
           "promoted_days_current": 2,
           "promoted_sessions_count": 2,
-          "promotion_started_at": "2026-04-06 07:14:21"
+          "promotion_started_at": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-05"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-19"
+            }
+          ]
         },
         {
           "id": "1a5MgT",
@@ -888,7 +1060,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-31 06:58:00",
+              "old_date": "2026-03-23"
+            }
+          ]
         },
         {
           "id": "1a5Pm7",
@@ -940,7 +1119,29 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 2
+          "promoted_sessions_count": 2,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "19TPGe",
@@ -983,7 +1184,19 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 3
+          "promoted_sessions_count": 3,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "19ZPlk",
@@ -1057,7 +1270,19 @@
           ],
           "promoted_days_current": 3,
           "promoted_sessions_count": 2,
-          "promotion_started_at": "2026-04-05 06:50:54"
+          "promotion_started_at": "2026-04-05 06:50:54",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "1a1K9E",
@@ -1212,7 +1437,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-22"
+            }
+          ]
         },
         {
           "id": "19Lf95",
@@ -1305,7 +1537,24 @@
           ],
           "promoted_days_current": 1,
           "promoted_sessions_count": 2,
-          "promotion_started_at": "2026-04-06 10:48:31"
+          "promotion_started_at": "2026-04-06 10:48:31",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-23"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-29"
+            }
+          ]
         },
         {
           "id": "19Vwpu",
@@ -1356,7 +1605,29 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-24"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-27"
+            },
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-29"
+            }
+          ]
         },
         {
           "id": "19QZeu",
@@ -1407,7 +1678,29 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 1
+          "promoted_sessions_count": 1,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-26"
+            }
+          ]
         },
         {
           "id": "1a0uij",
@@ -1521,7 +1814,14 @@
           "previous_price": 790,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-13"
+            }
+          ]
         },
         {
           "id": "16SnqA",
@@ -1588,7 +1888,34 @@
           ],
           "promoted_days_current": 2,
           "promoted_sessions_count": 2,
-          "promotion_started_at": "2026-04-06 07:14:21"
+          "promotion_started_at": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-24"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-27"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 06:58:00",
+              "old_date": "2026-03-30"
+            },
+            {
+              "refreshed_at": "2026-04-02",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-31"
+            }
+          ]
         },
         {
           "id": "19POof",
@@ -1618,7 +1945,34 @@
           ],
           "promoted_days_current": 2,
           "promoted_sessions_count": 2,
-          "promotion_started_at": "2026-04-06 07:14:21"
+          "promotion_started_at": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-20"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-23"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-29"
+            },
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-31"
+            }
+          ]
         },
         {
           "id": "16TI3z",
@@ -1647,7 +2001,29 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-11"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-15"
+            }
+          ]
         },
         {
           "id": "1a0cQj",
@@ -1883,7 +2259,64 @@
           ],
           "promoted_days_current": 4,
           "promoted_sessions_count": 2,
-          "promotion_started_at": "2026-04-04 06:43:26"
+          "promotion_started_at": "2026-04-04 06:43:26",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-23",
+              "detected_at": "2026-02-24 08:46:00",
+              "old_date": "2026-02-12"
+            },
+            {
+              "refreshed_at": "2026-02-27",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-23"
+            },
+            {
+              "refreshed_at": "2026-03-01",
+              "detected_at": "2026-03-02 07:59:00",
+              "old_date": "2026-02-27"
+            },
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-03-01"
+            },
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-08 07:44:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-22"
+            }
+          ]
         },
         {
           "id": "17A4vI",
@@ -1912,7 +2345,44 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-26 10:31:00",
+              "old_date": "2026-02-23"
+            },
+            {
+              "refreshed_at": "2026-02-27",
+              "detected_at": "2026-02-28 08:29:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-07 17:58:00",
+              "old_date": "2026-02-27"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-21"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-27"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-29"
+            }
+          ]
         },
         {
           "id": "17jKAL",
@@ -1933,7 +2403,44 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-22"
+            },
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-02-27",
+              "detected_at": "2026-02-28 08:29:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-02-27"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-20"
+            }
+          ]
         },
         {
           "id": "19ukdX",
@@ -2166,7 +2673,39 @@
           ],
           "promoted_days_current": 2,
           "promoted_sessions_count": 3,
-          "promotion_started_at": "2026-04-06 07:14:21"
+          "promotion_started_at": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-14"
+            },
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-17"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-20"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-23"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-29"
+            }
+          ]
         },
         {
           "id": "17Guld",
@@ -2211,7 +2750,29 @@
           "previous_price": 850,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-15"
+            },
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-20"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "16PwlW",
@@ -2376,7 +2937,19 @@
           "previous_price": 1350,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-20"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-22"
+            }
+          ]
         },
         {
           "id": "17NeTz",
@@ -2397,7 +2970,44 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-16"
+            },
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-26"
+            }
+          ]
         },
         {
           "id": "19TblL",
@@ -2590,7 +3200,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-08",
+              "detected_at": "2026-03-08 07:44:00",
+              "old_date": "2026-02-22"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-08"
+            }
+          ]
         },
         {
           "id": "14JnMD",
@@ -2686,7 +3308,59 @@
           ],
           "promoted_days_current": 1,
           "promoted_sessions_count": 2,
-          "promotion_started_at": "2026-04-06 10:48:31"
+          "promotion_started_at": "2026-04-06 10:48:31",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-23",
+              "detected_at": "2026-02-24 08:46:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-02-23"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-21"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "19WCI5",
@@ -2815,7 +3489,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-02-27"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-13"
+            }
+          ]
         },
         {
           "id": "19Yjg6",
@@ -2886,7 +3572,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-13 12:02:00",
+              "old_date": "2026-03-11"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-13"
+            }
+          ]
         },
         {
           "id": "FlHTU",
@@ -3002,7 +3700,29 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 1
+          "promoted_sessions_count": 1,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-17"
+            },
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-10"
+            }
+          ]
         },
         {
           "id": "19JZMk",
@@ -3023,7 +3743,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-15"
+            }
+          ]
         },
         {
           "id": "15yNaF",
@@ -3044,7 +3776,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-12"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-17"
+            }
+          ]
         },
         {
           "id": "18QgOG",
@@ -3095,7 +3844,39 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 1
+          "promoted_sessions_count": 1,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-14",
+              "detected_at": "2026-03-15 06:41:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-14"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-24"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-26"
+            }
+          ]
         },
         {
           "id": "18wwTB",
@@ -3124,7 +3905,29 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-02-05"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-15"
+            },
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-20"
+            }
+          ]
         },
         {
           "id": "19ZAWo",
@@ -3183,7 +3986,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 1
+          "promoted_sessions_count": 1,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-16"
+            }
+          ]
         },
         {
           "id": "173hD1",
@@ -3275,7 +4085,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-28",
+              "detected_at": "2026-03-01 07:47:00",
+              "old_date": "2026-02-14"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-02-28"
+            }
+          ]
         },
         {
           "id": "18Lu6Z",
@@ -3477,7 +4299,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-19"
+            },
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-06 07:54:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-05"
+            }
+          ]
         },
         {
           "id": "19WBp9",
@@ -3498,7 +4337,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 13:23:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "16G3Cy",
@@ -3570,7 +4421,84 @@
           "previous_price": 640,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-25 10:40:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-11"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-17"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-23"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-24"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 13:23:00",
+              "old_date": "2026-03-27"
+            },
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-30"
+            }
+          ]
         },
         {
           "id": "Lly6c",
@@ -3591,7 +4519,49 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-02-21"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-14",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-14"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-17"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 06:58:00",
+              "old_date": "2026-03-24"
+            }
+          ]
         },
         {
           "id": "19Owyf",
@@ -3733,7 +4703,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 16:36:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "19PD8i",
@@ -3813,7 +4795,34 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 1
+          "promoted_sessions_count": 1,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-20"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-24"
+            }
+          ]
         },
         {
           "id": "14X9Rx",
@@ -4147,7 +5156,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 13:23:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "19VT1v",
@@ -4361,7 +5382,39 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-27",
+              "detected_at": "2026-02-28 08:29:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-02-27"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-23"
+            }
+          ]
         },
         {
           "id": "19Jbl4",
@@ -4477,7 +5530,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-02-16"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-13"
+            }
+          ]
         },
         {
           "id": "19OLqe",
@@ -4649,7 +5714,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-01",
+              "detected_at": "2026-03-01 07:47:00",
+              "old_date": "2026-02-27"
+            },
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-03-01"
+            },
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-03-03"
+            }
+          ]
         },
         {
           "id": "19ZgPo",
@@ -4755,7 +5837,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-03-11"
+            }
+          ]
         },
         {
           "id": "15ZeaH",
@@ -4834,7 +5933,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-11"
+            }
+          ]
         },
         {
           "id": "19GF7W",
@@ -4855,7 +5966,39 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-03-11"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-17"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-21"
+            }
+          ]
         },
         {
           "id": "19MYHF",
@@ -4876,7 +6019,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-18",
+              "detected_at": "2026-03-19 06:41:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-18"
+            }
+          ]
         },
         {
           "id": "19OuP0",
@@ -4934,7 +6089,59 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 1
+          "promoted_sessions_count": 1,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-07 15:48:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-13 12:02:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 16:36:00",
+              "old_date": "2026-03-28"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-30"
+            }
+          ]
         },
         {
           "id": "19ND0b",
@@ -5052,7 +6259,34 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-19"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-14",
+              "detected_at": "2026-03-15 06:41:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-14"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-17"
+            }
+          ]
         },
         {
           "id": "Hfgn5",
@@ -5182,7 +6416,24 @@
           "previous_price": 1300,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-19"
+            }
+          ]
         },
         {
           "id": "18TtR4",
@@ -5224,7 +6475,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-16"
+            }
+          ]
         },
         {
           "id": "17bGrP",
@@ -5451,7 +6709,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-11"
+            }
+          ]
         },
         {
           "id": "19S96D",
@@ -5536,7 +6801,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-21"
+            }
+          ]
         },
         {
           "id": "15M5E6",
@@ -5578,7 +6855,49 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-26 10:31:00",
+              "old_date": "2026-02-23"
+            },
+            {
+              "refreshed_at": "2026-02-28",
+              "detected_at": "2026-03-01 07:47:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-02-28"
+            },
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-16"
+            }
+          ]
         },
         {
           "id": "19v2K1",
@@ -5600,7 +6919,14 @@
           "previous_price": 1000,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-23"
+            }
+          ]
         },
         {
           "id": "F8OBJ",
@@ -5621,7 +6947,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-02-18"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-04"
+            }
+          ]
         },
         {
           "id": "19viYO",
@@ -5758,7 +7096,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-26 10:31:00",
+              "old_date": "2026-02-18"
+            },
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-03-04"
+            }
+          ]
         },
         {
           "id": "17yKrS",
@@ -5779,7 +7134,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-13"
+            }
+          ]
         },
         {
           "id": "18gLTB",
@@ -5808,7 +7170,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-17"
+            }
+          ]
         },
         {
           "id": "19vbQW",
@@ -5866,7 +7245,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-02-25"
+            }
+          ]
         },
         {
           "id": "18OXRy",
@@ -6008,7 +7394,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-17"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-23"
+            }
+          ]
         },
         {
           "id": "17ldQp",
@@ -6037,7 +7440,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-23",
+              "detected_at": "2026-02-24 08:46:00",
+              "old_date": "2026-02-15"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-02-23"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-09"
+            }
+          ]
         },
         {
           "id": "19Jyuo",
@@ -6059,7 +7479,24 @@
           "previous_price": 900,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-11"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-15"
+            }
+          ]
         },
         {
           "id": "F56aq",
@@ -6109,7 +7546,34 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-02-13"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-24"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 16:36:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "13h7Zq",
@@ -6151,7 +7615,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-03-11"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-15"
+            }
+          ]
         },
         {
           "id": "16i4P4",
@@ -6172,7 +7653,29 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-27"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 06:58:00",
+              "old_date": "2026-03-29"
+            },
+            {
+              "refreshed_at": "2026-04-02",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-31"
+            }
+          ]
         },
         {
           "id": "19SP0l",
@@ -6222,7 +7725,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-26 10:31:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-02-25"
+            }
+          ]
         },
         {
           "id": "16PWHZ",
@@ -6406,7 +7921,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-02-26"
+            }
+          ]
         },
         {
           "id": "19zAI5",
@@ -6436,7 +7958,14 @@
           "previous_price": 700,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 16:36:00",
+              "old_date": "2026-02-28"
+            }
+          ]
         },
         {
           "id": "180wpd",
@@ -6564,7 +8093,59 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-26 10:31:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-02-28",
+              "detected_at": "2026-03-01 07:47:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-05 10:26:00",
+              "old_date": "2026-02-28"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-05"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-14",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-14"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-21"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 06:58:00",
+              "old_date": "2026-03-23"
+            }
+          ]
         },
         {
           "id": "19Omld",
@@ -6656,7 +8237,54 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-22"
+            },
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-26 10:31:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-06 07:54:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-05"
+            },
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-11"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 13:23:00",
+              "old_date": "2026-03-23"
+            }
+          ]
         },
         {
           "id": "EogW1",
@@ -6677,7 +8305,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-23"
+            }
+          ]
         },
         {
           "id": "17b5Dy",
@@ -6748,7 +8383,29 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-06 07:54:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-05"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 13:23:00",
+              "old_date": "2026-03-19"
+            }
+          ]
         },
         {
           "id": "14dmoV",
@@ -6800,7 +8457,19 @@
           "previous_price": 850,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-23",
+              "detected_at": "2026-02-24 08:46:00",
+              "old_date": "2026-02-09"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-02-23"
+            }
+          ]
         },
         {
           "id": "19IxH8",
@@ -6934,7 +8603,54 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-23"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-11"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-23"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-27"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-29"
+            }
+          ]
         },
         {
           "id": "17lb6Z",
@@ -7019,7 +8735,29 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-17"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-21"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-23"
+            }
+          ]
         },
         {
           "id": "17npB9",
@@ -7069,7 +8807,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-27",
+              "detected_at": "2026-02-28 08:29:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-02-27"
+            }
+          ]
         },
         {
           "id": "17zEfi",
@@ -7326,7 +9076,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-02"
+            }
+          ]
         },
         {
           "id": "16wGa7",
@@ -7397,7 +9154,64 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-23",
+              "detected_at": "2026-02-24 08:46:00",
+              "old_date": "2026-02-22"
+            },
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-23"
+            },
+            {
+              "refreshed_at": "2026-03-01",
+              "detected_at": "2026-03-02 07:59:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-03-01"
+            },
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-08 07:44:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-08",
+              "detected_at": "2026-03-09 08:01:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-24"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-31 06:58:00",
+              "old_date": "2026-03-28"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-30"
+            }
+          ]
         },
         {
           "id": "19GPQZ",
@@ -7642,7 +9456,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-06 07:54:00",
+              "old_date": "2026-02-19"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-05"
+            }
+          ]
         },
         {
           "id": "19eEeH",
@@ -7671,7 +9497,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-02-06"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-13"
+            }
+          ]
         },
         {
           "id": "19WO5o",
@@ -7755,7 +9593,29 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-26 10:31:00",
+              "old_date": "2026-02-12"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-31 06:58:00",
+              "old_date": "2026-03-23"
+            }
+          ]
         },
         {
           "id": "Yxky3",
@@ -7848,7 +9708,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-16"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-02"
+            }
+          ]
         },
         {
           "id": "16T5ph",
@@ -7911,7 +9783,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-25 10:40:00",
+              "old_date": "2026-02-11"
+            }
+          ]
         },
         {
           "id": "19TiO7",
@@ -8088,7 +9967,39 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-23",
+              "detected_at": "2026-02-24 08:46:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-08 07:44:00",
+              "old_date": "2026-02-23"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-14 07:51:00",
+              "old_date": "2026-03-11"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-13"
+            }
+          ]
         },
         {
           "id": "17yVzk",
@@ -8172,7 +10083,19 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-18"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-20"
+            }
+          ]
         },
         {
           "id": "17AWZ1",
@@ -8214,7 +10137,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-27"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-28"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-29"
+            }
+          ]
         },
         {
           "id": "16xIKV",
@@ -8391,7 +10331,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-03"
+            }
+          ]
         },
         {
           "id": "190qf0",
@@ -8491,7 +10438,24 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-22"
+            },
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-18",
+              "detected_at": "2026-03-19 06:41:00",
+              "old_date": "2026-03-04"
+            }
+          ]
         },
         {
           "id": "1a1D3B",
@@ -8675,7 +10639,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-18"
+            }
+          ]
         },
         {
           "id": "121Rlb",
@@ -8930,7 +10901,14 @@
           "last_seen": "2026-03-23 06:54:55",
           "first_price": 850,
           "price_change": 0,
-          "archived_date": "2026-03-24 06:47:29"
+          "archived_date": "2026-03-24 06:47:29",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-07"
+            }
+          ]
         },
         {
           "id": "188Hiq",
@@ -9026,7 +11004,19 @@
           "last_seen": "2026-03-24 06:47:29",
           "first_price": 1300,
           "price_change": 0,
-          "archived_date": "2026-03-25 06:46:08"
+          "archived_date": "2026-03-25 06:46:08",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-21"
+            }
+          ]
         },
         {
           "id": "16YuMU",
@@ -9058,7 +11048,34 @@
           "last_seen": "2026-03-24 06:47:29",
           "first_price": 1560,
           "price_change": 0,
-          "archived_date": "2026-03-25 06:46:08"
+          "archived_date": "2026-03-25 06:46:08",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-28"
+            },
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-08",
+              "detected_at": "2026-03-09 08:01:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-08"
+            }
+          ]
         },
         {
           "id": "19JLD5",
@@ -9366,7 +11383,14 @@
           "first_price": 750,
           "price_change": -50,
           "previous_price": 750,
-          "archived_date": "2026-03-26 06:53:32"
+          "archived_date": "2026-03-26 06:53:32",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-06"
+            }
+          ]
         },
         {
           "id": "19vvn0",
@@ -9383,7 +11407,19 @@
           "first_price": 900,
           "price_change": -50,
           "previous_price": 900,
-          "archived_date": "2026-03-27 06:53:34"
+          "archived_date": "2026-03-27 06:53:34",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-10"
+            }
+          ]
         },
         {
           "id": "198bMI",
@@ -9399,7 +11435,19 @@
           "last_seen": "2026-03-26 06:53:32",
           "first_price": 800,
           "price_change": 0,
-          "archived_date": "2026-03-27 06:53:34"
+          "archived_date": "2026-03-27 06:53:34",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-10"
+            }
+          ]
         },
         {
           "id": "19vStW",
@@ -9527,7 +11575,14 @@
           "last_seen": "2026-03-27 06:53:34",
           "first_price": 850,
           "price_change": 0,
-          "archived_date": "2026-03-28 06:41:43"
+          "archived_date": "2026-03-28 06:41:43",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-10"
+            }
+          ]
         },
         {
           "id": "19TiZ9",
@@ -9673,7 +11728,14 @@
           "first_price": 1100,
           "price_change": -100,
           "previous_price": 1100,
-          "archived_date": "2026-03-28 06:41:43"
+          "archived_date": "2026-03-28 06:41:43",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-02-25"
+            }
+          ]
         },
         {
           "id": "19xFLm",
@@ -9705,7 +11767,24 @@
           "last_seen": "2026-03-27 06:53:34",
           "first_price": 800,
           "price_change": 0,
-          "archived_date": "2026-03-28 06:41:43"
+          "archived_date": "2026-03-28 06:41:43",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-25 10:40:00",
+              "old_date": "2026-02-22"
+            },
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-11"
+            }
+          ]
         },
         {
           "id": "191CKz",
@@ -9770,7 +11849,24 @@
           "first_price": 1200,
           "price_change": -100,
           "previous_price": 1200,
-          "archived_date": "2026-03-29 06:49:28"
+          "archived_date": "2026-03-29 06:49:28",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-08",
+              "detected_at": "2026-03-09 08:01:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-17"
+            }
+          ]
         },
         {
           "id": "16tNRC",
@@ -9786,7 +11882,24 @@
           "last_seen": "2026-03-28 06:41:43",
           "first_price": 1000,
           "price_change": 0,
-          "archived_date": "2026-03-29 06:49:28"
+          "archived_date": "2026-03-29 06:49:28",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-05"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-19"
+            }
+          ]
         },
         {
           "id": "19Rduy",
@@ -9931,7 +12044,29 @@
           "last_seen": "2026-03-29 06:49:28",
           "first_price": 900,
           "price_change": 0,
-          "archived_date": "2026-03-30 07:12:30"
+          "archived_date": "2026-03-30 07:12:30",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-18"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-20"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-24"
+            }
+          ]
         },
         {
           "id": "17X9cm",
@@ -10077,7 +12212,24 @@
           "first_price": 900,
           "price_change": -100,
           "previous_price": 900,
-          "archived_date": "2026-03-30 07:12:30"
+          "archived_date": "2026-03-30 07:12:30",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-01",
+              "detected_at": "2026-03-02 07:59:00",
+              "old_date": "2026-02-27"
+            },
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-03-01"
+            },
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-05 10:26:00",
+              "old_date": "2026-03-03"
+            }
+          ]
         },
         {
           "id": "16Rf34",
@@ -10185,7 +12337,29 @@
           "first_price": 950,
           "price_change": -90,
           "previous_price": 950,
-          "archived_date": "2026-03-30 13:23:56"
+          "archived_date": "2026-03-30 13:23:56",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-02-28"
+            },
+            {
+              "refreshed_at": "2026-03-14",
+              "detected_at": "2026-03-19 06:41:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-14"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-21"
+            }
+          ]
         },
         {
           "id": "19BTtJ",
@@ -10225,7 +12399,54 @@
           ],
           "first_price": 1000,
           "price_change": 0,
-          "archived_date": "2026-03-30 13:23:56"
+          "archived_date": "2026-03-30 13:23:56",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-02-28",
+              "detected_at": "2026-03-01 07:47:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-28"
+            },
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-08",
+              "detected_at": "2026-03-09 08:01:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-26"
+            }
+          ]
         },
         {
           "id": "19KkN8",
@@ -10291,7 +12512,14 @@
           "last_seen": "2026-03-30 16:48:35",
           "first_price": 800,
           "price_change": 0,
-          "archived_date": "2026-03-31 06:58:55"
+          "archived_date": "2026-03-31 06:58:55",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-01",
+              "detected_at": "2026-03-02 07:59:00",
+              "old_date": "2026-02-15"
+            }
+          ]
         },
         {
           "id": "19Q9LU",
@@ -10325,7 +12553,54 @@
           "first_price": 750,
           "price_change": -60,
           "previous_price": 750,
-          "archived_date": "2026-03-31 06:58:55"
+          "archived_date": "2026-03-31 06:58:55",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-03-01"
+            },
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-19 06:41:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-25"
+            }
+          ]
         },
         {
           "id": "18Tgi5",
@@ -10349,7 +12624,14 @@
           ],
           "first_price": 1050,
           "price_change": 0,
-          "archived_date": "2026-03-31 06:58:55"
+          "archived_date": "2026-03-31 06:58:55",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-09 08:01:00",
+              "old_date": "2026-02-23"
+            }
+          ]
         },
         {
           "id": "19AkNt",
@@ -10414,7 +12696,49 @@
           "first_price": 800,
           "price_change": -50,
           "previous_price": 800,
-          "archived_date": "2026-03-31 12:16:09"
+          "archived_date": "2026-03-31 12:16:09",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-28"
+            },
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-15"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-17"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 13:23:00",
+              "old_date": "2026-03-21"
+            }
+          ]
         },
         {
           "id": "19O1BF",
@@ -10446,7 +12770,64 @@
           "last_seen": "2026-03-31 06:58:55",
           "first_price": 700,
           "price_change": 0,
-          "archived_date": "2026-03-31 12:16:09"
+          "archived_date": "2026-03-31 12:16:09",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-03-01"
+            },
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-05 10:26:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-07 15:48:00",
+              "old_date": "2026-03-05"
+            },
+            {
+              "refreshed_at": "2026-03-08",
+              "detected_at": "2026-03-09 08:01:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-15"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-21"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-23"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-27"
+            }
+          ]
         },
         {
           "id": "19ClP1",
@@ -10463,7 +12844,34 @@
           "first_price": 1300,
           "price_change": -310,
           "previous_price": 1300,
-          "archived_date": "2026-04-01 07:06:03"
+          "archived_date": "2026-04-01 07:06:03",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-13 08:14:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-17"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 06:58:00",
+              "old_date": "2026-03-24"
+            }
+          ]
         },
         {
           "id": "16Pr4c",
@@ -10479,7 +12887,39 @@
           "last_seen": "2026-03-31 12:16:09",
           "first_price": 899,
           "price_change": 0,
-          "archived_date": "2026-04-01 07:06:03"
+          "archived_date": "2026-04-01 07:06:03",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-04",
+              "detected_at": "2026-03-05 07:56:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-07 15:48:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-16"
+            }
+          ]
         },
         {
           "id": "198Vsi",
@@ -10496,7 +12936,19 @@
           "first_price": 900,
           "price_change": -50,
           "previous_price": 900,
-          "archived_date": "2026-04-01 07:06:03"
+          "archived_date": "2026-04-01 07:06:03",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-15"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-17"
+            }
+          ]
         },
         {
           "id": "19AYfy",
@@ -10579,7 +13031,54 @@
           "first_price": 1100,
           "price_change": -100,
           "previous_price": 1100,
-          "archived_date": "2026-04-01 07:06:03"
+          "archived_date": "2026-04-01 07:06:03",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-25 10:40:00",
+              "old_date": "2026-02-21"
+            },
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-18",
+              "detected_at": "2026-03-19 06:41:00",
+              "old_date": "2026-03-15"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-18"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-21"
+            }
+          ]
         },
         {
           "id": "17l7NK",
@@ -10595,7 +13094,44 @@
           "last_seen": "2026-03-31 12:16:09",
           "first_price": 850,
           "price_change": 0,
-          "archived_date": "2026-04-01 07:06:03"
+          "archived_date": "2026-04-01 07:06:03",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-03-01"
+            },
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-06 07:54:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-07",
+              "detected_at": "2026-03-07 15:48:00",
+              "old_date": "2026-03-05"
+            },
+            {
+              "refreshed_at": "2026-03-08",
+              "detected_at": "2026-03-09 08:01:00",
+              "old_date": "2026-03-07"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-15"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-22"
+            }
+          ]
         },
         {
           "id": "14t0TP",
@@ -10627,7 +13163,24 @@
           "last_seen": "2026-03-31 12:16:09",
           "first_price": 1200,
           "price_change": 0,
-          "archived_date": "2026-04-01 07:06:03"
+          "archived_date": "2026-04-01 07:06:03",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-12"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-15"
+            }
+          ]
         },
         {
           "id": "177N1B",
@@ -10660,7 +13213,14 @@
           "last_seen": "2026-03-31 12:16:09",
           "first_price": 700,
           "price_change": 0,
-          "archived_date": "2026-04-01 07:06:03"
+          "archived_date": "2026-04-01 07:06:03",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-15"
+            }
+          ]
         },
         {
           "id": "172B9K",
@@ -10756,7 +13316,14 @@
           "last_seen": "2026-03-31 12:16:09",
           "first_price": 850,
           "price_change": 0,
-          "archived_date": "2026-04-01 07:06:03"
+          "archived_date": "2026-04-01 07:06:03",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-23",
+              "detected_at": "2026-02-24 08:46:00",
+              "old_date": "2026-02-09"
+            }
+          ]
         },
         {
           "id": "16NwCl",
@@ -10772,7 +13339,59 @@
           "last_seen": "2026-04-01 07:06:03",
           "first_price": 780,
           "price_change": 0,
-          "archived_date": "2026-04-02 06:59:51"
+          "archived_date": "2026-04-02 06:59:51",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-22"
+            },
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-22",
+              "detected_at": "2026-03-23 06:54:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-22"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-25"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "19QzpT",
@@ -10845,7 +13464,24 @@
           "first_price": 1100,
           "price_change": -100,
           "previous_price": 1100,
-          "archived_date": "2026-04-02 06:59:51"
+          "archived_date": "2026-04-02 06:59:51",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-28",
+              "detected_at": "2026-03-29 06:49:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 13:23:00",
+              "old_date": "2026-03-28"
+            }
+          ]
         },
         {
           "id": "17xg3l",
@@ -10935,7 +13571,14 @@
           "last_seen": "2026-04-01 07:06:03",
           "first_price": 1495,
           "price_change": 0,
-          "archived_date": "2026-04-02 06:59:51"
+          "archived_date": "2026-04-02 06:59:51",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-18"
+            }
+          ]
         },
         {
           "id": "18OXkS",
@@ -10952,7 +13595,14 @@
           "first_price": 850,
           "price_change": -50,
           "previous_price": 850,
-          "archived_date": "2026-04-02 06:59:51"
+          "archived_date": "2026-04-02 06:59:51",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 13:23:00",
+              "old_date": "2026-03-16"
+            }
+          ]
         },
         {
           "id": "19BWfn",
@@ -11048,7 +13698,14 @@
           "last_seen": "2026-04-01 07:06:03",
           "first_price": 800,
           "price_change": 0,
-          "archived_date": "2026-04-02 06:59:51"
+          "archived_date": "2026-04-02 06:59:51",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 16:36:00",
+              "old_date": "2026-03-16"
+            }
+          ]
         },
         {
           "id": "19C9PZ",
@@ -11213,7 +13870,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-03 06:54:06"
+          "archived_date": "2026-04-03 06:54:06",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 12:16:00",
+              "old_date": "2026-03-17"
+            }
+          ]
         },
         {
           "id": "19JOkL",
@@ -11276,7 +13940,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-03 06:54:06"
+          "archived_date": "2026-04-03 06:54:06",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-04-01 07:06:00",
+              "old_date": "2026-03-17"
+            }
+          ]
         },
         {
           "id": "17YxUB",
@@ -11448,7 +14119,39 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-04 06:43:26"
+          "archived_date": "2026-04-04 06:43:26",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-27",
+              "detected_at": "2026-02-27 14:34:00",
+              "old_date": "2026-02-13"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-02-27"
+            },
+            {
+              "refreshed_at": "2026-03-08",
+              "detected_at": "2026-03-09 08:01:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-18",
+              "detected_at": "2026-03-19 06:41:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-18"
+            }
+          ]
         },
         {
           "id": "19R6xR",
@@ -11553,7 +14256,19 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-04 06:43:26"
+          "archived_date": "2026-04-04 06:43:26",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-02-16"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 13:23:00",
+              "old_date": "2026-03-16"
+            }
+          ]
         },
         {
           "id": "175EzG",
@@ -11574,7 +14289,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-04 06:43:26"
+          "archived_date": "2026-04-04 06:43:26",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-23"
+            }
+          ]
         },
         {
           "id": "17QdIq",
@@ -11659,7 +14381,34 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-04 06:43:26"
+          "archived_date": "2026-04-04 06:43:26",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-04"
+            },
+            {
+              "refreshed_at": "2026-03-08",
+              "detected_at": "2026-03-09 08:01:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-18",
+              "detected_at": "2026-03-19 06:41:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-18"
+            }
+          ]
         },
         {
           "id": "12KO02",
@@ -11731,7 +14480,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-04 06:43:26"
+          "archived_date": "2026-04-04 06:43:26",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-18"
+            }
+          ]
         },
         {
           "id": "13Pbrj",
@@ -12070,7 +14826,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-05 06:50:54"
+          "archived_date": "2026-04-05 06:50:54",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-05"
+            }
+          ]
         },
         {
           "id": "19FFgW",
@@ -12107,7 +14870,59 @@
           ],
           "promoted_days_current": 0,
           "promoted_sessions_count": 2,
-          "archived_date": "2026-04-06 07:14:21"
+          "archived_date": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-17",
+              "detected_at": "2026-03-18 06:45:00",
+              "old_date": "2026-03-15"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-17"
+            },
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-20"
+            },
+            {
+              "refreshed_at": "2026-03-26",
+              "detected_at": "2026-03-27 06:53:00",
+              "old_date": "2026-03-21"
+            },
+            {
+              "refreshed_at": "2026-03-29",
+              "detected_at": "2026-03-30 07:12:00",
+              "old_date": "2026-03-26"
+            },
+            {
+              "refreshed_at": "2026-04-01",
+              "detected_at": "2026-04-02 06:59:00",
+              "old_date": "2026-03-29"
+            }
+          ]
         },
         {
           "id": "19O0YE",
@@ -12162,7 +14977,34 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-06 07:14:21"
+          "archived_date": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-21"
+            }
+          ]
         },
         {
           "id": "18VJTN",
@@ -12183,7 +15025,29 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-06 07:14:21"
+          "archived_date": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-08",
+              "detected_at": "2026-03-09 08:01:00",
+              "old_date": "2026-03-06"
+            },
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-12"
+            }
+          ]
         },
         {
           "id": "19FQ2H",
@@ -12240,7 +15104,69 @@
           ],
           "promoted_days_current": 0,
           "promoted_sessions_count": 2,
-          "archived_date": "2026-04-06 07:14:21"
+          "archived_date": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-21"
+            },
+            {
+              "refreshed_at": "2026-02-27",
+              "detected_at": "2026-02-28 08:29:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-27"
+            },
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-09",
+              "detected_at": "2026-03-10 07:58:00",
+              "old_date": "2026-03-03"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-15",
+              "detected_at": "2026-03-16 07:02:00",
+              "old_date": "2026-03-12"
+            },
+            {
+              "refreshed_at": "2026-03-18",
+              "detected_at": "2026-03-19 06:41:00",
+              "old_date": "2026-03-15"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-18"
+            },
+            {
+              "refreshed_at": "2026-03-24",
+              "detected_at": "2026-03-25 06:46:00",
+              "old_date": "2026-03-21"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-24"
+            },
+            {
+              "refreshed_at": "2026-03-30",
+              "detected_at": "2026-03-30 16:36:00",
+              "old_date": "2026-03-27"
+            }
+          ]
         },
         {
           "id": "11WjZQ",
@@ -12282,7 +15208,19 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-06 07:14:21"
+          "archived_date": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-27",
+              "detected_at": "2026-03-28 06:41:00",
+              "old_date": "2026-03-20"
+            }
+          ]
         },
         {
           "id": "19G4KV",
@@ -12304,7 +15242,19 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-06 07:14:21"
+          "archived_date": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-10"
+            }
+          ]
         },
         {
           "id": "17oXYq",
@@ -12354,7 +15304,19 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-06 07:14:21"
+          "archived_date": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-25",
+              "detected_at": "2026-03-26 06:53:00",
+              "old_date": "2026-03-11"
+            }
+          ]
         },
         {
           "id": "Vwpy4",
@@ -12376,7 +15338,44 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-06 07:14:21"
+          "archived_date": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-11",
+              "detected_at": "2026-03-12 07:59:00",
+              "old_date": "2026-03-09"
+            },
+            {
+              "refreshed_at": "2026-03-13",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-11"
+            },
+            {
+              "refreshed_at": "2026-03-16",
+              "detected_at": "2026-03-17 06:46:00",
+              "old_date": "2026-03-13"
+            },
+            {
+              "refreshed_at": "2026-03-19",
+              "detected_at": "2026-03-20 06:38:00",
+              "old_date": "2026-03-16"
+            },
+            {
+              "refreshed_at": "2026-03-21",
+              "detected_at": "2026-03-22 06:34:00",
+              "old_date": "2026-03-19"
+            },
+            {
+              "refreshed_at": "2026-03-23",
+              "detected_at": "2026-03-24 06:47:00",
+              "old_date": "2026-03-21"
+            },
+            {
+              "refreshed_at": "2026-03-31",
+              "detected_at": "2026-03-31 06:58:00",
+              "old_date": "2026-03-23"
+            }
+          ]
         },
         {
           "id": "IiCI8",
@@ -12440,7 +15439,24 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-06 07:14:21"
+          "archived_date": "2026-04-06 07:14:21",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-10",
+              "detected_at": "2026-03-11 07:57:00",
+              "old_date": "2026-03-08"
+            },
+            {
+              "refreshed_at": "2026-03-12",
+              "detected_at": "2026-03-13 07:59:00",
+              "old_date": "2026-03-10"
+            },
+            {
+              "refreshed_at": "2026-03-20",
+              "detected_at": "2026-03-21 06:27:00",
+              "old_date": "2026-03-12"
+            }
+          ]
         },
         {
           "id": "13zWIb",
@@ -14963,7 +17979,29 @@
           "last_seen": "2026-03-07 07:19:32",
           "first_price": 640,
           "price_change": 0,
-          "archived_date": "2026-03-07 15:48:38"
+          "archived_date": "2026-03-07 15:48:38",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-25",
+              "detected_at": "2026-02-25 10:40:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-25"
+            },
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-02"
+            }
+          ]
         },
         {
           "id": "195dLc",
@@ -14979,7 +18017,29 @@
           "last_seen": "2026-03-07 07:19:32",
           "first_price": 640,
           "price_change": 0,
-          "archived_date": "2026-03-07 15:48:38"
+          "archived_date": "2026-03-07 15:48:38",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-27 09:39:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-03",
+              "detected_at": "2026-03-04 07:53:00",
+              "old_date": "2026-03-02"
+            },
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-05 10:26:00",
+              "old_date": "2026-03-03"
+            }
+          ]
         },
         {
           "id": "1050364394",
@@ -15595,7 +18655,24 @@
           "last_seen": "2026-02-27 10:05:07",
           "first_price": 2499,
           "price_change": 0,
-          "archived_date": "2026-02-27 14:34:26"
+          "archived_date": "2026-02-27 14:34:26",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-02"
+            }
+          ]
         },
         {
           "id": "17NeTz",
@@ -15611,7 +18688,24 @@
           "last_seen": "2026-03-07 07:19:32",
           "first_price": 549,
           "price_change": 0,
-          "archived_date": "2026-03-07 15:48:38"
+          "archived_date": "2026-03-07 15:48:38",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-16"
+            },
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-02"
+            }
+          ]
         },
         {
           "id": "18KAEc",
@@ -15627,7 +18721,24 @@
           "last_seen": "2026-03-07 07:19:32",
           "first_price": 2049,
           "price_change": 0,
-          "archived_date": "2026-03-07 15:48:38"
+          "archived_date": "2026-03-07 15:48:38",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-02"
+            }
+          ]
         },
         {
           "id": "19xpwN",
@@ -15643,7 +18754,14 @@
           "last_seen": "2026-03-07 07:19:32",
           "first_price": 2499,
           "price_change": 0,
-          "archived_date": "2026-03-07 15:48:38"
+          "archived_date": "2026-03-07 15:48:38",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-02"
+            }
+          ]
         },
         {
           "id": "19xpQK",
@@ -15660,7 +18778,14 @@
           "first_price": 1665,
           "price_change": -215,
           "previous_price": 1665,
-          "archived_date": "2026-03-07 15:48:38"
+          "archived_date": "2026-03-07 15:48:38",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-02"
+            }
+          ]
         },
         {
           "id": "183ger",
@@ -15677,7 +18802,24 @@
           "first_price": 2499,
           "price_change": -200,
           "previous_price": 2499,
-          "archived_date": "2026-03-07 15:48:38"
+          "archived_date": "2026-03-07 15:48:38",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:56:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-03-02",
+              "detected_at": "2026-03-03 07:57:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-03-06",
+              "detected_at": "2026-03-07 07:19:00",
+              "old_date": "2026-03-02"
+            }
+          ]
         },
         {
           "id": "19DzL4",
@@ -16691,7 +19833,29 @@
           "last_seen": "2026-03-07 07:19:32",
           "first_price": 730,
           "price_change": 0,
-          "archived_date": "2026-03-07 15:48:38"
+          "archived_date": "2026-03-07 15:48:38",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:50:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-26 10:31:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-02-28",
+              "detected_at": "2026-03-01 07:47:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-05 10:26:00",
+              "old_date": "2026-02-28"
+            }
+          ]
         },
         {
           "id": "18ySfv",
@@ -16707,7 +19871,29 @@
           "last_seen": "2026-03-07 07:19:32",
           "first_price": 690,
           "price_change": 0,
-          "archived_date": "2026-03-07 15:48:38"
+          "archived_date": "2026-03-07 15:48:38",
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-02-24",
+              "detected_at": "2026-02-25 08:50:00",
+              "old_date": "2026-02-20"
+            },
+            {
+              "refreshed_at": "2026-02-26",
+              "detected_at": "2026-02-26 10:31:00",
+              "old_date": "2026-02-24"
+            },
+            {
+              "refreshed_at": "2026-02-28",
+              "detected_at": "2026-03-01 07:47:00",
+              "old_date": "2026-02-26"
+            },
+            {
+              "refreshed_at": "2026-03-05",
+              "detected_at": "2026-03-05 10:26:00",
+              "old_date": "2026-02-28"
+            }
+          ]
         },
         {
           "id": "1042655210",
