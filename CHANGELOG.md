@@ -26,8 +26,14 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 - **Refresh History Tracking:**
   - Nowe pole `refresh_history[]` - pełna historia odświeżeń (analogiczne do `reactivation_history`)
   - Każdy wpis zawiera: `refreshed_at`, `detected_at`, `old_date`
-  - Buduje timeline od momentu wdrożenia (dane historyczne sprzed tego są stracone - OLX nie przechowuje historii)
+  - ~~Buduje timeline od momentu wdrożenia (dane historyczne sprzed tego są stracone - OLX nie przechowuje historii)~~ **ODTWORZONE Z EXCEL!**
+  - **Rebuild z Excel:** 153 ogłoszenia z historią, 576 wydarzeń odświeżenia od 2026-02-23
   - Pozwala na dokładną analizę: kiedy było każde odświeżenie, jak często sprzedawca odświeża portfolio
+  
+- **rebuild_refresh_history.py:**
+  - Skrypt odtwarzający `refresh_history[]` z danych Excel
+  - Analizuje wszystkie historyczne scany i wykrywa zmiany daty `refreshed`
+  - Wykorzystany do przeliczenia 576 wpisów historii dla 153 ogłoszeń
   
 - **Wykres "Odświeżenia/Reaktywacje" (nowa metryka w line chart):**
   - Nowy przycisk 🔄 w przełączniku metryk (obok Ogłoszenia, Mediana, % Promowanych)
