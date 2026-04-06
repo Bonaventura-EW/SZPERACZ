@@ -167,6 +167,7 @@ def build_refresh_history(excel_data, data):
             
             if history:
                 listing["refresh_history"] = history
+                listing["refresh_count"] = len(history)  # Zsynchronizuj count z historią
                 total_histories_built += 1
                 total_refresh_events += len(history)
                 print(f"   ✓ {lid[:8]}... '{listing['title'][:40]}' → {len(history)} odświeżeń")
@@ -197,6 +198,7 @@ def build_refresh_history(excel_data, data):
             
             if history:
                 listing["refresh_history"] = history
+                listing["refresh_count"] = len(history)  # Zsynchronizuj count z historią
                 total_histories_built += 1
                 total_refresh_events += len(history)
     

@@ -428,7 +428,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 0,
+          "refresh_count": 11,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -546,7 +546,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 6,
           "first_price": 1370,
           "price_change": 30,
           "previous_price": 1370,
@@ -608,7 +608,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 1,
+          "refresh_count": 8,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -773,7 +773,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "first_price": 1665,
           "price_change": -265,
           "previous_price": 1665,
@@ -838,7 +838,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 1400,
           "price_change": 0,
           "promotion_history": [],
@@ -896,7 +896,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 0,
+          "refresh_count": 2,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -1055,7 +1055,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 1000,
           "price_change": 0,
           "promotion_history": [],
@@ -1099,7 +1099,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 1,
+          "refresh_count": 4,
           "first_price": 550,
           "price_change": 0,
           "promotion_history": [
@@ -1157,7 +1157,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 1000,
           "price_change": 0,
           "promotion_history": [
@@ -1256,7 +1256,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 800,
           "price_change": 0,
           "promotion_history": [
@@ -1432,7 +1432,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 1000,
           "price_change": 0,
           "promotion_history": [],
@@ -1523,7 +1523,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 0,
+          "refresh_count": 3,
           "first_price": 850,
           "price_change": 0,
           "promotion_history": [
@@ -1600,7 +1600,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "first_price": 850,
           "price_change": 0,
           "promotion_history": [],
@@ -1664,7 +1664,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "first_price": 1149,
           "price_change": -150,
           "previous_price": 1149,
@@ -1808,7 +1808,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 790,
           "price_change": -200,
           "previous_price": 790,
@@ -1866,7 +1866,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 0,
+          "refresh_count": 5,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -1931,7 +1931,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 0,
+          "refresh_count": 5,
           "first_price": 1100,
           "price_change": 0,
           "promotion_history": [
@@ -1988,7 +1988,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -2245,7 +2245,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 0,
+          "refresh_count": 11,
           "first_price": 1300,
           "price_change": 0,
           "promotion_history": [
@@ -2332,7 +2332,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 7,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -2398,7 +2398,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 7,
           "first_price": 900,
           "price_change": 0,
           "promotion_history": [],
@@ -2651,7 +2651,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 0,
+          "refresh_count": 6,
           "first_price": 999,
           "price_change": -200,
           "previous_price": 999,
@@ -2744,7 +2744,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "first_price": 850,
           "price_change": -50,
           "previous_price": 850,
@@ -2931,7 +2931,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 1350,
           "price_change": -100,
           "previous_price": 1350,
@@ -2965,7 +2965,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 7,
           "first_price": 549,
           "price_change": 0,
           "promotion_history": [],
@@ -3195,7 +3195,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 750,
           "price_change": 0,
           "promotion_history": [],
@@ -3294,7 +3294,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 0,
+          "refresh_count": 10,
           "first_price": 1100,
           "price_change": 0,
           "promotion_history": [
@@ -3476,7 +3476,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -3567,7 +3567,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 900,
           "price_change": 0,
           "promotion_history": [],
@@ -3679,7 +3679,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -3738,7 +3738,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 1100,
           "price_change": 0,
           "promotion_history": [],
@@ -3771,7 +3771,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "first_price": 1000,
           "price_change": 0,
           "promotion_history": [],
@@ -3830,7 +3830,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 6,
           "first_price": 950,
           "price_change": -60,
           "previous_price": 950,
@@ -3892,7 +3892,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -3964,7 +3964,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -4080,7 +4080,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 1100,
           "price_change": 0,
           "promotion_history": [],
@@ -4286,7 +4286,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -4332,7 +4332,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 900,
           "price_change": 0,
           "promotion_history": [],
@@ -4407,7 +4407,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 15,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -4514,7 +4514,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 8,
           "first_price": 600,
           "price_change": 0,
           "promotion_history": [],
@@ -4698,7 +4698,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 1000,
           "price_change": 0,
           "promotion_history": [],
@@ -4781,7 +4781,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 5,
           "first_price": 620,
           "price_change": -30,
           "previous_price": 620,
@@ -5151,7 +5151,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 880,
           "price_change": 0,
           "promotion_history": [],
@@ -5377,7 +5377,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 6,
           "first_price": 1300,
           "price_change": 0,
           "promotion_history": [],
@@ -5517,7 +5517,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -5701,7 +5701,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -5832,7 +5832,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "first_price": 1350,
           "price_change": 0,
           "promotion_history": [],
@@ -5928,7 +5928,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 850,
           "price_change": 0,
           "promotion_history": [],
@@ -5961,7 +5961,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 6,
           "first_price": 1200,
           "price_change": 0,
           "promotion_history": [],
@@ -6014,7 +6014,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 700,
           "price_change": 0,
           "promotion_history": [],
@@ -6068,7 +6068,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 10,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -6254,7 +6254,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 5,
           "first_price": 650,
           "price_change": 0,
           "promotion_history": [],
@@ -6402,7 +6402,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -6470,7 +6470,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 850,
           "price_change": 0,
           "promotion_history": [],
@@ -6704,7 +6704,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 700,
           "price_change": 0,
           "promotion_history": [],
@@ -6796,7 +6796,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 1100,
           "price_change": 0,
           "promotion_history": [],
@@ -6850,7 +6850,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 8,
           "first_price": 649,
           "price_change": 0,
           "promotion_history": [],
@@ -6913,7 +6913,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 1000,
           "price_change": -230,
           "previous_price": 1000,
@@ -6942,7 +6942,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 800,
           "price_change": 0,
           "promotion_history": [],
@@ -7083,7 +7083,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -7129,7 +7129,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 1000,
           "price_change": 0,
           "promotion_history": [],
@@ -7157,7 +7157,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -7232,7 +7232,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -7389,7 +7389,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "first_price": 900,
           "price_change": 0,
           "promotion_history": [],
@@ -7427,7 +7427,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -7473,7 +7473,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "first_price": 900,
           "price_change": -110,
           "previous_price": 900,
@@ -7541,7 +7541,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 5,
           "first_price": 950,
           "price_change": 0,
           "promotion_history": [],
@@ -7610,7 +7610,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "first_price": 800,
           "price_change": 0,
           "promotion_history": [],
@@ -7648,7 +7648,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "first_price": 900,
           "price_change": 0,
           "promotion_history": [],
@@ -7712,7 +7712,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -7916,7 +7916,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 900,
           "price_change": 0,
           "promotion_history": [],
@@ -7944,7 +7944,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -8080,7 +8080,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 10,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -8232,7 +8232,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 9,
           "first_price": 600,
           "price_change": 0,
           "promotion_history": [],
@@ -8300,7 +8300,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 800,
           "price_change": 0,
           "promotion_history": [],
@@ -8370,7 +8370,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -8451,7 +8451,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 850,
           "price_change": -50,
           "previous_price": 850,
@@ -8598,7 +8598,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 9,
           "first_price": 750,
           "price_change": 0,
           "promotion_history": [],
@@ -8730,7 +8730,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "first_price": 700,
           "price_change": 0,
           "promotion_history": [],
@@ -8802,7 +8802,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 750,
           "price_change": 0,
           "promotion_history": [],
@@ -9063,7 +9063,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -9141,7 +9141,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 11,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -9451,7 +9451,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 750,
           "price_change": 0,
           "promotion_history": [],
@@ -9484,7 +9484,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -9588,7 +9588,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 4,
           "first_price": 850,
           "price_change": 0,
           "promotion_history": [],
@@ -9703,7 +9703,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 950,
           "price_change": 0,
           "promotion_history": [],
@@ -9778,7 +9778,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 1200,
           "price_change": 0,
           "promotion_history": [],
@@ -9962,7 +9962,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 6,
           "first_price": 850,
           "price_change": 0,
           "promotion_history": [],
@@ -10078,7 +10078,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 2,
           "first_price": 950,
           "price_change": 0,
           "promotion_history": [],
@@ -10132,7 +10132,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "first_price": 800,
           "price_change": 0,
           "promotion_history": [],
@@ -10318,7 +10318,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -10425,7 +10425,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 3,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -10634,7 +10634,7 @@
           "last_seen": "2026-04-06 10:48:31",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 0,
+          "refresh_count": 1,
           "first_price": 750,
           "price_change": 0,
           "promotion_history": [],
@@ -10908,7 +10908,8 @@
               "detected_at": "2026-03-22 06:34:00",
               "old_date": "2026-03-07"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "188Hiq",
@@ -11016,7 +11017,8 @@
               "detected_at": "2026-03-24 06:47:00",
               "old_date": "2026-03-21"
             }
-          ]
+          ],
+          "refresh_count": 2
         },
         {
           "id": "16YuMU",
@@ -11075,7 +11077,8 @@
               "detected_at": "2026-03-23 06:54:00",
               "old_date": "2026-03-08"
             }
-          ]
+          ],
+          "refresh_count": 5
         },
         {
           "id": "19JLD5",
@@ -11390,7 +11393,8 @@
               "detected_at": "2026-03-21 06:27:00",
               "old_date": "2026-03-06"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "19vvn0",
@@ -11419,7 +11423,8 @@
               "detected_at": "2026-03-25 06:46:00",
               "old_date": "2026-03-10"
             }
-          ]
+          ],
+          "refresh_count": 2
         },
         {
           "id": "198bMI",
@@ -11447,7 +11452,8 @@
               "detected_at": "2026-03-25 06:46:00",
               "old_date": "2026-03-10"
             }
-          ]
+          ],
+          "refresh_count": 2
         },
         {
           "id": "19vStW",
@@ -11582,7 +11588,8 @@
               "detected_at": "2026-03-16 07:02:00",
               "old_date": "2026-03-10"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "19TiZ9",
@@ -11735,7 +11742,8 @@
               "detected_at": "2026-03-10 07:58:00",
               "old_date": "2026-02-25"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "19xFLm",
@@ -11784,7 +11792,8 @@
               "detected_at": "2026-03-26 06:53:00",
               "old_date": "2026-03-11"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "191CKz",
@@ -11866,7 +11875,8 @@
               "detected_at": "2026-03-20 06:38:00",
               "old_date": "2026-03-17"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "16tNRC",
@@ -11899,7 +11909,8 @@
               "detected_at": "2026-03-27 06:53:00",
               "old_date": "2026-03-19"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "19Rduy",
@@ -12066,7 +12077,8 @@
               "detected_at": "2026-03-29 06:49:00",
               "old_date": "2026-03-24"
             }
-          ]
+          ],
+          "refresh_count": 4
         },
         {
           "id": "17X9cm",
@@ -12229,7 +12241,8 @@
               "detected_at": "2026-03-05 10:26:00",
               "old_date": "2026-03-03"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "16Rf34",
@@ -12359,7 +12372,8 @@
               "detected_at": "2026-03-29 06:49:00",
               "old_date": "2026-03-21"
             }
-          ]
+          ],
+          "refresh_count": 4
         },
         {
           "id": "19BTtJ",
@@ -12446,7 +12460,8 @@
               "detected_at": "2026-03-29 06:49:00",
               "old_date": "2026-03-26"
             }
-          ]
+          ],
+          "refresh_count": 9
         },
         {
           "id": "19KkN8",
@@ -12519,7 +12534,8 @@
               "detected_at": "2026-03-02 07:59:00",
               "old_date": "2026-02-15"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "19Q9LU",
@@ -12600,7 +12616,8 @@
               "detected_at": "2026-03-28 06:41:00",
               "old_date": "2026-03-25"
             }
-          ]
+          ],
+          "refresh_count": 9
         },
         {
           "id": "18Tgi5",
@@ -12631,7 +12648,8 @@
               "detected_at": "2026-03-09 08:01:00",
               "old_date": "2026-02-23"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "19AkNt",
@@ -12738,7 +12756,8 @@
               "detected_at": "2026-03-30 13:23:00",
               "old_date": "2026-03-21"
             }
-          ]
+          ],
+          "refresh_count": 8
         },
         {
           "id": "19O1BF",
@@ -12827,7 +12846,8 @@
               "detected_at": "2026-03-30 07:12:00",
               "old_date": "2026-03-27"
             }
-          ]
+          ],
+          "refresh_count": 11
         },
         {
           "id": "19ClP1",
@@ -12871,7 +12891,8 @@
               "detected_at": "2026-03-31 06:58:00",
               "old_date": "2026-03-24"
             }
-          ]
+          ],
+          "refresh_count": 5
         },
         {
           "id": "16Pr4c",
@@ -12919,7 +12940,8 @@
               "detected_at": "2026-03-24 06:47:00",
               "old_date": "2026-03-16"
             }
-          ]
+          ],
+          "refresh_count": 6
         },
         {
           "id": "198Vsi",
@@ -12948,7 +12970,8 @@
               "detected_at": "2026-03-30 07:12:00",
               "old_date": "2026-03-17"
             }
-          ]
+          ],
+          "refresh_count": 2
         },
         {
           "id": "19AYfy",
@@ -13078,7 +13101,8 @@
               "detected_at": "2026-03-25 06:46:00",
               "old_date": "2026-03-21"
             }
-          ]
+          ],
+          "refresh_count": 9
         },
         {
           "id": "17l7NK",
@@ -13131,7 +13155,8 @@
               "detected_at": "2026-03-30 07:12:00",
               "old_date": "2026-03-22"
             }
-          ]
+          ],
+          "refresh_count": 7
         },
         {
           "id": "14t0TP",
@@ -13180,7 +13205,8 @@
               "detected_at": "2026-03-30 07:12:00",
               "old_date": "2026-03-15"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "177N1B",
@@ -13220,7 +13246,8 @@
               "detected_at": "2026-03-30 07:12:00",
               "old_date": "2026-03-15"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "172B9K",
@@ -13323,7 +13350,8 @@
               "detected_at": "2026-02-24 08:46:00",
               "old_date": "2026-02-09"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "16NwCl",
@@ -13391,7 +13419,8 @@
               "detected_at": "2026-03-31 12:16:00",
               "old_date": "2026-03-28"
             }
-          ]
+          ],
+          "refresh_count": 10
         },
         {
           "id": "19QzpT",
@@ -13481,7 +13510,8 @@
               "detected_at": "2026-03-30 13:23:00",
               "old_date": "2026-03-28"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "17xg3l",
@@ -13578,7 +13608,8 @@
               "detected_at": "2026-03-31 12:16:00",
               "old_date": "2026-03-18"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "18OXkS",
@@ -13602,7 +13633,8 @@
               "detected_at": "2026-03-30 13:23:00",
               "old_date": "2026-03-16"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "19BWfn",
@@ -13705,7 +13737,8 @@
               "detected_at": "2026-03-30 16:36:00",
               "old_date": "2026-03-16"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "19C9PZ",
@@ -13877,7 +13910,8 @@
               "detected_at": "2026-03-31 12:16:00",
               "old_date": "2026-03-17"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "19JOkL",
@@ -13947,7 +13981,8 @@
               "detected_at": "2026-04-01 07:06:00",
               "old_date": "2026-03-17"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "17YxUB",
@@ -14151,7 +14186,8 @@
               "detected_at": "2026-04-02 06:59:00",
               "old_date": "2026-03-18"
             }
-          ]
+          ],
+          "refresh_count": 6
         },
         {
           "id": "19R6xR",
@@ -14268,7 +14304,8 @@
               "detected_at": "2026-03-30 13:23:00",
               "old_date": "2026-03-16"
             }
-          ]
+          ],
+          "refresh_count": 2
         },
         {
           "id": "175EzG",
@@ -14296,7 +14333,8 @@
               "detected_at": "2026-03-03 07:57:00",
               "old_date": "2026-02-23"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "17QdIq",
@@ -14408,7 +14446,8 @@
               "detected_at": "2026-04-02 06:59:00",
               "old_date": "2026-03-18"
             }
-          ]
+          ],
+          "refresh_count": 5
         },
         {
           "id": "12KO02",
@@ -14487,7 +14526,8 @@
               "detected_at": "2026-04-02 06:59:00",
               "old_date": "2026-03-18"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "13Pbrj",
@@ -14833,7 +14873,8 @@
               "detected_at": "2026-03-25 06:46:00",
               "old_date": "2026-03-05"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "19FFgW",
@@ -14922,7 +14963,8 @@
               "detected_at": "2026-04-02 06:59:00",
               "old_date": "2026-03-29"
             }
-          ]
+          ],
+          "refresh_count": 10
         },
         {
           "id": "19O0YE",
@@ -15004,7 +15046,8 @@
               "detected_at": "2026-03-24 06:47:00",
               "old_date": "2026-03-21"
             }
-          ]
+          ],
+          "refresh_count": 5
         },
         {
           "id": "18VJTN",
@@ -15047,7 +15090,8 @@
               "detected_at": "2026-03-21 06:27:00",
               "old_date": "2026-03-12"
             }
-          ]
+          ],
+          "refresh_count": 4
         },
         {
           "id": "19FQ2H",
@@ -15166,7 +15210,8 @@
               "detected_at": "2026-03-30 16:36:00",
               "old_date": "2026-03-27"
             }
-          ]
+          ],
+          "refresh_count": 12
         },
         {
           "id": "11WjZQ",
@@ -15220,7 +15265,8 @@
               "detected_at": "2026-03-28 06:41:00",
               "old_date": "2026-03-20"
             }
-          ]
+          ],
+          "refresh_count": 2
         },
         {
           "id": "19G4KV",
@@ -15254,7 +15300,8 @@
               "detected_at": "2026-03-13 07:59:00",
               "old_date": "2026-03-10"
             }
-          ]
+          ],
+          "refresh_count": 2
         },
         {
           "id": "17oXYq",
@@ -15316,7 +15363,8 @@
               "detected_at": "2026-03-26 06:53:00",
               "old_date": "2026-03-11"
             }
-          ]
+          ],
+          "refresh_count": 2
         },
         {
           "id": "Vwpy4",
@@ -15375,7 +15423,8 @@
               "detected_at": "2026-03-31 06:58:00",
               "old_date": "2026-03-23"
             }
-          ]
+          ],
+          "refresh_count": 7
         },
         {
           "id": "IiCI8",
@@ -15456,7 +15505,8 @@
               "detected_at": "2026-03-21 06:27:00",
               "old_date": "2026-03-12"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "13zWIb",
@@ -18001,7 +18051,8 @@
               "detected_at": "2026-03-07 07:19:00",
               "old_date": "2026-03-02"
             }
-          ]
+          ],
+          "refresh_count": 4
         },
         {
           "id": "195dLc",
@@ -18039,7 +18090,8 @@
               "detected_at": "2026-03-05 10:26:00",
               "old_date": "2026-03-03"
             }
-          ]
+          ],
+          "refresh_count": 4
         },
         {
           "id": "1050364394",
@@ -18672,7 +18724,8 @@
               "detected_at": "2026-03-07 07:19:00",
               "old_date": "2026-03-02"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "17NeTz",
@@ -18705,7 +18758,8 @@
               "detected_at": "2026-03-07 07:19:00",
               "old_date": "2026-03-02"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "18KAEc",
@@ -18738,7 +18792,8 @@
               "detected_at": "2026-03-07 07:19:00",
               "old_date": "2026-03-02"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "19xpwN",
@@ -18761,7 +18816,8 @@
               "detected_at": "2026-03-07 07:19:00",
               "old_date": "2026-03-02"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "19xpQK",
@@ -18785,7 +18841,8 @@
               "detected_at": "2026-03-07 07:19:00",
               "old_date": "2026-03-02"
             }
-          ]
+          ],
+          "refresh_count": 1
         },
         {
           "id": "183ger",
@@ -18819,7 +18876,8 @@
               "detected_at": "2026-03-07 07:19:00",
               "old_date": "2026-03-02"
             }
-          ]
+          ],
+          "refresh_count": 3
         },
         {
           "id": "19DzL4",
@@ -19855,7 +19913,8 @@
               "detected_at": "2026-03-05 10:26:00",
               "old_date": "2026-02-28"
             }
-          ]
+          ],
+          "refresh_count": 4
         },
         {
           "id": "18ySfv",
@@ -19893,7 +19952,8 @@
               "detected_at": "2026-03-05 10:26:00",
               "old_date": "2026-02-28"
             }
-          ]
+          ],
+          "refresh_count": 4
         },
         {
           "id": "1042655210",
