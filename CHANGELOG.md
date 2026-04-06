@@ -22,6 +22,8 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
   - Automatyczna inkrementacja gdy `refreshed` date się zmienia
   - Dashboard: nowa kolumna "Licz. odsw." w tabeli ogłoszeń z sortowaniem
   - Kolor accent dla ogłoszeń z refresh_count > 0
+  - **Daily refresh count** - wykres słupkowy pokazuje ile ogłoszeń zostało odświeżonych danego dnia
+  - Tooltip w wykresie: "X ogłoszeń, Y odświeżonych"
 
 ### Fixed 🐛
 - **Workflow Comments:**

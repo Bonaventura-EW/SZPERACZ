@@ -1302,6 +1302,10 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 today_entry["promoted_percentage"] = promoted_pct
                 today_entry["promotion_breakdown"] = promo_breakdown
                 
+                # NEW: Count refreshed today
+                refreshed_count = sum(1 for l in result["listings"] if l.get("refreshed") == today)
+                today_entry["refreshed_count"] = refreshed_count
+                
                 # Przelicz change względem wczoraj, nie poprzedniej wartości dzisiejszej
                 yesterday_entry = dc[-2] if len(dc) >= 2 else None
                 if yesterday_entry:
@@ -1322,6 +1326,9 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     ptype = l.get("promotion_type", 'unknown')
                     promo_breakdown[ptype] = promo_breakdown.get(ptype, 0) + 1
             
+            # NEW: Count refreshed today
+            refreshed_count = sum(1 for l in result["listings"] if l.get("refreshed") == today)
+            
             dc.append({
                 "date": today,
                 "count": result["count"],
@@ -1331,7 +1338,9 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 # NEW: Promoted metrics
                 "promoted_count": promoted_count,
                 "promoted_percentage": promoted_pct,
-                "promotion_breakdown": promo_breakdown
+                "promotion_breakdown": promo_breakdown,
+                # NEW: Refresh count
+                "refreshed_count": refreshed_count,
             })
 
         if len(dc) > 90:

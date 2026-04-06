@@ -73,7 +73,10 @@
 ### 🌐 Interaktywny dashboard
 - Widok wszystkich profili na jednym ekranie
 - **Stat cards z promoted metrics:** 🎯 Promowane X (Y%) + breakdown
-- **Wykres słupkowy** — ostatnie 7/14/30 dni (przełączalne)
+- **Wykres słupkowy** — ostatnie 7/14/30 dni (przełączalne):
+  - Liczba ogłoszeń per dzień
+  - 🔄 Liczba odświeżeń per dzień (ikona + liczba pod główną wartością)
+  - Tooltip: "X ogłoszeń, Y odświeżonych"
 - **Wykres liniowy z zoom** — pełna historia danych:
   - 🖱️ Zoom kółkiem myszy
   - **2 metryki:** 📊 Ogłoszenia | 💰 Mediana ceny

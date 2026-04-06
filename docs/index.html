@@ -1522,10 +1522,13 @@ function renderChart(key) {
     const dayParts = dayLabel.split('-');
     const shortLabel = `${dayParts[1]}.${dayParts[0]}`;
 
+    const refreshedCount = entry.refreshed_count || 0;
+    const refreshedHtml = refreshedCount > 0 ? `<br><span style="font-size:9px;color:var(--accent);">🔄 ${refreshedCount}</span>` : '';
+
     html += `
       <div class="chart-bar-wrapper" style="max-width: ${barWidth}px;">
-        <div class="chart-bar" style="height: ${Math.max(heightPct, 3)}%">
-          <span class="chart-bar-value">${entry.count}</span>
+        <div class="chart-bar" style="height: ${Math.max(heightPct, 3)}%" title="${entry.count} ogłoszeń${refreshedCount > 0 ? `, ${refreshedCount} odświeżonych` : ''}">
+          <span class="chart-bar-value">${entry.count}${refreshedHtml}</span>
         </div>
         <span class="chart-bar-label">${shortLabel}</span>
       </div>
