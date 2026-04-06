@@ -999,7 +999,14 @@ def load_or_create_workbook():
 
 def get_or_create_sheet(wb, name, headers):
     if name in wb.sheetnames:
-        return wb[name]
+        ws = wb[name]
+        # Update headers if they changed (e.g. new columns added)
+        existing_headers = [ws.cell(row=1, column=ci).value for ci in range(1, len(headers) + 1)]
+        if existing_headers != headers:
+            for ci, h in enumerate(headers, 1):
+                ws.cell(row=1, column=ci, value=h)
+            style_header_row(ws, 1, len(headers))
+        return ws
     ws = wb.create_sheet(name)
     for ci, h in enumerate(headers, 1):
         ws.cell(row=1, column=ci, value=h)
