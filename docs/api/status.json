@@ -2,21 +2,21 @@
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2026-04-06T11:50:51Z",
-    "duration_seconds": 147,
+    "timestamp": "2026-04-07T08:18:18Z",
+    "duration_seconds": 148,
     "profiles_scanned": 7,
-    "total_listings": 421,
+    "total_listings": 424,
     "new_listings": 0,
-    "price_changes": 170
+    "price_changes": 171
   },
   "nextScan": {
-    "scheduled": "2026-04-07T07:00:00Z",
-    "in_seconds": 68948
+    "scheduled": "2026-04-08T07:00:00Z",
+    "in_seconds": 81701
   },
   "profiles": {
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 353,
+      "count": 356,
       "crosscheck": "passed"
     },
     "pokojewlublinie": {
