@@ -13,6 +13,24 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-10] - 🐛 Fix: refreshed_count Calculation
+
+### Fixed 🐛
+- **Naprawa liczenia `refreshed_count` w daily_counts:**
+  - **Problem:** `refreshed_count` było błędnie obliczane jako liczba ogłoszeń z `refreshed == today`, co również liczyło nowe ogłoszenia opublikowane dzisiaj (OLX pokazuje "Dzisiaj o..."), a nie tylko rzeczywiste odświeżenia
+  - **Rozwiązanie:** Teraz `refreshed_count` jest liczone na podstawie `refresh_history[]` - zlicza tylko ogłoszenia, które mają wpis wykryty danego dnia (`detected_at.startswith(today)`)
+  - Analogicznie do sposobu liczenia `reactivated_count`
+  
+### Changed 📊
+- `scraper.py`: Przeniesiono obliczenie `refreshed_count` po przetworzeniu `new_listings`, kiedy `refresh_history` jest już zaktualizowane
+- Usunięto błędną logikę: `sum(1 for l in result["listings"] if l.get("refreshed") == today)`
+
+### Added ✨
+- **rebuild_refreshed_count.py:** Skrypt do przeliczenia historycznych wartości `refreshed_count` na podstawie `refresh_history[]` w `current_listings` i `archived_listings`
+- Naprawiono 107 wpisów w `daily_counts` dla wszystkich profili
+
+---
+
 ## [2026-04-06] - 🔄 Refresh Count Tracking & Workflow Fixes
 
 ### Added ✨

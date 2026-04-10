@@ -17,64 +17,56 @@
           "count": 447,
           "change": 10,
           "timestamp": "2026-02-24 08:46:29",
-          "median_price": null,
-          "refreshed_count": 7
+          "median_price": null
         },
         {
           "date": "2026-02-25",
           "count": 448,
           "change": 1,
           "timestamp": "2026-02-25 10:40:20",
-          "median_price": 850,
-          "refreshed_count": 10
+          "median_price": 850
         },
         {
           "date": "2026-02-26",
           "count": 436,
           "change": -12,
           "timestamp": "2026-02-26 10:31:13",
-          "median_price": 1000,
-          "refreshed_count": 8
+          "median_price": 1000
         },
         {
           "date": "2026-02-27",
           "count": 427,
           "change": -9,
           "timestamp": "2026-02-27 09:39:47",
-          "median_price": 800,
-          "refreshed_count": 11
+          "median_price": 800
         },
         {
           "date": "2026-02-28",
           "count": 424,
           "change": -3,
           "timestamp": "2026-02-28 08:29:29",
-          "median_price": 800,
-          "refreshed_count": 4
+          "median_price": 800
         },
         {
           "date": "2026-03-01",
           "count": 427,
           "change": 3,
           "timestamp": "2026-03-01 07:47:18",
-          "median_price": 800,
-          "refreshed_count": 6
+          "median_price": 800
         },
         {
           "date": "2026-03-02",
           "count": 421,
           "change": -6,
           "timestamp": "2026-03-02 07:59:52",
-          "median_price": 850,
-          "refreshed_count": 4
+          "median_price": 850
         },
         {
           "date": "2026-03-03",
           "count": 430,
           "change": 9,
           "timestamp": "2026-03-03 07:57:01",
-          "median_price": 850,
-          "refreshed_count": 10
+          "median_price": 850
         },
         {
           "date": "2026-03-04",
@@ -82,7 +74,7 @@
           "change": 5,
           "timestamp": "2026-03-04 07:53:36",
           "median_price": 850,
-          "refreshed_count": 7
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-05",
@@ -90,7 +82,7 @@
           "change": -8,
           "timestamp": "2026-03-05 07:56:39",
           "median_price": 900,
-          "refreshed_count": 14
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-06",
@@ -98,23 +90,21 @@
           "change": -7,
           "timestamp": "2026-03-06 07:54:10",
           "median_price": 850,
-          "refreshed_count": 4
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-07",
           "count": 426,
           "change": 6,
           "timestamp": "2026-03-07 07:19:32",
-          "median_price": 800,
-          "refreshed_count": 19
+          "median_price": 800
         },
         {
           "date": "2026-03-08",
           "count": 419,
           "change": -7,
           "timestamp": "2026-03-08 07:44:11",
-          "median_price": 1100,
-          "refreshed_count": 4
+          "median_price": 1100
         },
         {
           "date": "2026-03-09",
@@ -122,23 +112,21 @@
           "change": -10,
           "timestamp": "2026-03-09 08:01:10",
           "median_price": 900,
-          "refreshed_count": 7
+          "refreshed_count": 2
         },
         {
           "date": "2026-03-10",
           "count": 426,
           "change": 17,
           "timestamp": "2026-03-10 07:58:01",
-          "median_price": 800,
-          "refreshed_count": 16
+          "median_price": 800
         },
         {
           "date": "2026-03-11",
           "count": 418,
           "change": -8,
           "timestamp": "2026-03-11 07:57:53",
-          "median_price": 820,
-          "refreshed_count": 10
+          "median_price": 820
         },
         {
           "date": "2026-03-12",
@@ -146,7 +134,7 @@
           "change": -4,
           "timestamp": "2026-03-12 07:59:13",
           "median_price": 916,
-          "refreshed_count": 9
+          "refreshed_count": 2
         },
         {
           "date": "2026-03-13",
@@ -154,8 +142,7 @@
           "change": 0,
           "timestamp": "2026-03-13 07:59:36",
           "median_price": 800,
-          "reactivated_count": 9,
-          "refreshed_count": 17
+          "reactivated_count": 9
         },
         {
           "date": "2026-03-14",
@@ -163,8 +150,7 @@
           "change": -17,
           "timestamp": "2026-03-14 07:51:06",
           "median_price": 1000,
-          "reactivated_count": 2,
-          "refreshed_count": 10
+          "reactivated_count": 2
         },
         {
           "date": "2026-03-15",
@@ -181,8 +167,7 @@
           "change": 10,
           "timestamp": "2026-03-16 07:02:01",
           "median_price": 825,
-          "reactivated_count": 2,
-          "refreshed_count": 13
+          "reactivated_count": 2
         },
         {
           "date": "2026-03-17",
@@ -191,7 +176,7 @@
           "timestamp": "2026-03-17 06:46:30",
           "median_price": 800,
           "reactivated_count": 3,
-          "refreshed_count": 18
+          "refreshed_count": 4
         },
         {
           "date": "2026-03-18",
@@ -199,8 +184,7 @@
           "change": 0,
           "timestamp": "2026-03-18 06:45:47",
           "median_price": 950,
-          "reactivated_count": 3,
-          "refreshed_count": 15
+          "reactivated_count": 3
         },
         {
           "date": "2026-03-19",
@@ -209,7 +193,7 @@
           "timestamp": "2026-03-19 06:41:23",
           "median_price": 825,
           "reactivated_count": 3,
-          "refreshed_count": 6
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-20",
@@ -218,7 +202,7 @@
           "timestamp": "2026-03-20 06:38:20",
           "median_price": 875,
           "reactivated_count": 5,
-          "refreshed_count": 14
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-21",
@@ -227,7 +211,7 @@
           "timestamp": "2026-03-21 06:27:14",
           "median_price": 1000,
           "reactivated_count": 1,
-          "refreshed_count": 10
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-22",
@@ -236,7 +220,7 @@
           "timestamp": "2026-03-22 06:34:59",
           "median_price": 800,
           "reactivated_count": 3,
-          "refreshed_count": 13
+          "refreshed_count": 2
         },
         {
           "date": "2026-03-23",
@@ -245,7 +229,7 @@
           "timestamp": "2026-03-23 06:54:55",
           "median_price": 1000,
           "reactivated_count": 7,
-          "refreshed_count": 14
+          "refreshed_count": 13
         },
         {
           "date": "2026-03-24",
@@ -254,7 +238,7 @@
           "timestamp": "2026-03-24 06:47:29",
           "median_price": 800,
           "reactivated_count": 4,
-          "refreshed_count": 20
+          "refreshed_count": 8
         },
         {
           "date": "2026-03-25",
@@ -263,7 +247,7 @@
           "timestamp": "2026-03-25 06:46:08",
           "median_price": 880,
           "reactivated_count": 5,
-          "refreshed_count": 17
+          "refreshed_count": 5
         },
         {
           "date": "2026-03-26",
@@ -272,7 +256,7 @@
           "timestamp": "2026-03-26 06:53:32",
           "median_price": 900,
           "reactivated_count": 3,
-          "refreshed_count": 12
+          "refreshed_count": 4
         },
         {
           "date": "2026-03-27",
@@ -281,7 +265,7 @@
           "timestamp": "2026-03-27 06:53:34",
           "median_price": 900,
           "reactivated_count": 11,
-          "refreshed_count": 19
+          "refreshed_count": 3
         },
         {
           "date": "2026-03-28",
@@ -290,7 +274,7 @@
           "timestamp": "2026-03-28 06:41:43",
           "median_price": 775,
           "reactivated_count": 2,
-          "refreshed_count": 11
+          "refreshed_count": 6
         },
         {
           "date": "2026-03-29",
@@ -299,7 +283,7 @@
           "timestamp": "2026-03-29 06:49:28",
           "median_price": 900,
           "reactivated_count": 3,
-          "refreshed_count": 21
+          "refreshed_count": 12
         },
         {
           "date": "2026-03-30",
@@ -308,7 +292,7 @@
           "timestamp": "2026-03-30 16:48:35",
           "median_price": 1000,
           "reactivated_count": 6,
-          "refreshed_count": 33
+          "refreshed_count": 15
         },
         {
           "date": "2026-03-31",
@@ -317,7 +301,7 @@
           "timestamp": "2026-03-31 06:58:55",
           "median_price": 1100,
           "reactivated_count": 2,
-          "refreshed_count": 20
+          "refreshed_count": 15
         },
         {
           "date": "2026-04-01",
@@ -326,7 +310,7 @@
           "timestamp": "2026-04-01 07:06:03",
           "median_price": 900,
           "reactivated_count": 4,
-          "refreshed_count": 11
+          "refreshed_count": 6
         },
         {
           "date": "2026-04-02",
@@ -354,7 +338,7 @@
             "featured": 22
           },
           "reactivated_count": 1,
-          "refreshed_count": 0
+          "refreshed_count": 14
         },
         {
           "date": "2026-04-04",
@@ -368,7 +352,7 @@
             "featured": 19
           },
           "reactivated_count": 2,
-          "refreshed_count": 0
+          "refreshed_count": 12
         },
         {
           "date": "2026-04-05",
@@ -382,7 +366,7 @@
             "featured": 14
           },
           "reactivated_count": 3,
-          "refreshed_count": 0
+          "refreshed_count": 14
         },
         {
           "date": "2026-04-06",
@@ -395,7 +379,7 @@
           "promotion_breakdown": {
             "featured": 19
           },
-          "refreshed_count": 4,
+          "refreshed_count": 0,
           "reactivated_count": 3
         },
         {
@@ -409,7 +393,7 @@
           "promotion_breakdown": {
             "featured": 19
           },
-          "refreshed_count": 14,
+          "refreshed_count": 0,
           "reactivated_count": 9
         },
         {
@@ -423,7 +407,7 @@
           "promotion_breakdown": {
             "featured": 17
           },
-          "refreshed_count": 16,
+          "refreshed_count": 0,
           "reactivated_count": 3
         },
         {
@@ -437,7 +421,7 @@
           "promotion_breakdown": {
             "featured": 29
           },
-          "refreshed_count": 15,
+          "refreshed_count": 0,
           "reactivated_count": 13
         },
         {
@@ -451,7 +435,7 @@
           "promotion_breakdown": {
             "featured": 23
           },
-          "refreshed_count": 12,
+          "refreshed_count": 0,
           "reactivated_count": 2
         }
       ],
@@ -19032,8 +19016,7 @@
           "count": 2,
           "change": 0,
           "timestamp": "2026-02-25 11:01:06",
-          "median_price": 640,
-          "refreshed_count": 1
+          "median_price": 640
         },
         {
           "date": "2026-02-26",
@@ -19047,8 +19030,7 @@
           "count": 2,
           "change": 0,
           "timestamp": "2026-02-27 14:48:27",
-          "median_price": null,
-          "refreshed_count": 2
+          "median_price": null
         },
         {
           "date": "2026-02-28",
@@ -19076,16 +19058,14 @@
           "count": 2,
           "change": 0,
           "timestamp": "2026-03-03 07:57:01",
-          "median_price": null,
-          "refreshed_count": 2
+          "median_price": null
         },
         {
           "date": "2026-03-04",
           "count": 2,
           "change": 0,
           "timestamp": "2026-03-04 07:53:36",
-          "median_price": null,
-          "refreshed_count": 1
+          "median_price": null
         },
         {
           "date": "2026-03-05",
@@ -19101,15 +19081,14 @@
           "change": 0,
           "timestamp": "2026-03-06 07:54:10",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-07",
           "count": 2,
           "change": 0,
           "timestamp": "2026-03-07 17:58:55",
-          "median_price": 600,
-          "refreshed_count": 1
+          "median_price": 600
         },
         {
           "date": "2026-03-08",
@@ -19173,7 +19152,7 @@
           "change": 0,
           "timestamp": "2026-03-16 07:02:01",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-17",
@@ -19188,7 +19167,7 @@
           "change": 0,
           "timestamp": "2026-03-18 06:45:47",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-19",
@@ -19298,7 +19277,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-04-03",
@@ -19363,7 +19342,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0
         },
         {
@@ -19375,7 +19354,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0
         },
         {
@@ -19588,15 +19567,14 @@
           "change": 0,
           "timestamp": "2026-02-24 09:38:07",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-02-25",
           "count": 3,
           "change": -1,
           "timestamp": "2026-02-25 11:01:06",
-          "median_price": 2049,
-          "refreshed_count": 4
+          "median_price": 2049
         },
         {
           "date": "2026-02-26",
@@ -19638,8 +19616,7 @@
           "count": 5,
           "change": 0,
           "timestamp": "2026-03-03 07:57:01",
-          "median_price": null,
-          "refreshed_count": 4
+          "median_price": null
         },
         {
           "date": "2026-03-04",
@@ -19661,15 +19638,14 @@
           "change": 0,
           "timestamp": "2026-03-06 07:54:10",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 6
         },
         {
           "date": "2026-03-07",
           "count": 6,
           "change": 0,
           "timestamp": "2026-03-07 17:58:55",
-          "median_price": 1724,
-          "refreshed_count": 6
+          "median_price": 1724
         },
         {
           "date": "2026-03-08",
@@ -19803,7 +19779,7 @@
           "change": 3,
           "timestamp": "2026-03-26 06:53:32",
           "median_price": 1499,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-27",
@@ -19866,7 +19842,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0
+          "refreshed_count": 10
         },
         {
           "date": "2026-04-04",
@@ -19909,7 +19885,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0
         },
         {
@@ -19933,7 +19909,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 6,
+          "refreshed_count": 0,
           "reactivated_count": 0
         },
         {
@@ -20595,7 +20571,7 @@
           "change": 0,
           "timestamp": "2026-03-06 07:54:10",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-07",
@@ -20722,7 +20698,7 @@
           "change": 0,
           "timestamp": "2026-03-24 06:47:29",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-25",
@@ -20772,7 +20748,7 @@
           "change": 0,
           "timestamp": "2026-03-31 12:16:09",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-04-01",
@@ -20854,7 +20830,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0
         },
         {
@@ -21021,16 +20997,14 @@
           "count": 2,
           "change": 0,
           "timestamp": "2026-02-25 11:01:06",
-          "median_price": null,
-          "refreshed_count": 2
+          "median_price": null
         },
         {
           "date": "2026-02-26",
           "count": 2,
           "change": 0,
           "timestamp": "2026-02-26 10:31:13",
-          "median_price": null,
-          "refreshed_count": 2
+          "median_price": null
         },
         {
           "date": "2026-02-27",
@@ -21051,8 +21025,7 @@
           "count": 2,
           "change": 0,
           "timestamp": "2026-03-01 07:47:18",
-          "median_price": null,
-          "refreshed_count": 2
+          "median_price": null
         },
         {
           "date": "2026-03-02",
@@ -21089,7 +21062,7 @@
           "change": 0,
           "timestamp": "2026-03-06 07:54:10",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 3
         },
         {
           "date": "2026-03-07",
@@ -21111,7 +21084,7 @@
           "change": 0,
           "timestamp": "2026-03-09 08:01:10",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-10",
@@ -21147,7 +21120,7 @@
           "change": 0,
           "timestamp": "2026-03-14 07:51:06",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-15",
@@ -21212,7 +21185,7 @@
           "change": 0,
           "timestamp": "2026-03-23 06:54:55",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-24",
@@ -21248,7 +21221,7 @@
           "change": 0,
           "timestamp": "2026-03-28 06:41:43",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-29",
@@ -21270,7 +21243,7 @@
           "change": 0,
           "timestamp": "2026-03-31 12:16:09",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 2
         },
         {
           "date": "2026-04-01",
@@ -21364,7 +21337,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 2,
+          "refreshed_count": 3,
           "reactivated_count": 1
         },
         {
@@ -21794,7 +21767,7 @@
           "change": 0,
           "timestamp": "2026-02-27 14:48:27",
           "median_price": 2250,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-02-28",
@@ -21830,7 +21803,7 @@
           "change": 0,
           "timestamp": "2026-03-04 07:53:36",
           "median_price": 1550,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-05",
@@ -21838,7 +21811,7 @@
           "change": -2,
           "timestamp": "2026-03-05 10:26:35",
           "median_price": 690,
-          "refreshed_count": 0
+          "refreshed_count": 2
         },
         {
           "date": "2026-03-06",
@@ -21846,7 +21819,7 @@
           "change": -46,
           "timestamp": "2026-03-06 07:54:10",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-07",
@@ -21868,7 +21841,7 @@
           "change": -1,
           "timestamp": "2026-03-09 08:01:10",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 5
         },
         {
           "date": "2026-03-10",
@@ -21876,7 +21849,7 @@
           "change": -2,
           "timestamp": "2026-03-10 07:58:01",
           "median_price": 2490,
-          "refreshed_count": 0
+          "refreshed_count": 5
         },
         {
           "date": "2026-03-11",
@@ -21884,7 +21857,7 @@
           "change": 1,
           "timestamp": "2026-03-11 07:57:53",
           "median_price": 1320,
-          "refreshed_count": 0
+          "refreshed_count": 2
         },
         {
           "date": "2026-03-12",
@@ -21892,7 +21865,7 @@
           "change": -4,
           "timestamp": "2026-03-12 07:59:13",
           "median_price": 950,
-          "refreshed_count": 0
+          "refreshed_count": 6
         },
         {
           "date": "2026-03-13",
@@ -21900,7 +21873,7 @@
           "change": 3,
           "timestamp": "2026-03-13 12:02:14",
           "median_price": 2380,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-14",
@@ -21908,7 +21881,7 @@
           "change": -1,
           "timestamp": "2026-03-14 07:51:06",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 2
         },
         {
           "date": "2026-03-15",
@@ -21923,7 +21896,7 @@
           "change": 0,
           "timestamp": "2026-03-16 07:02:01",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 3
         },
         {
           "date": "2026-03-17",
@@ -21931,7 +21904,7 @@
           "change": -1,
           "timestamp": "2026-03-17 06:46:30",
           "median_price": 2100,
-          "refreshed_count": 0
+          "refreshed_count": 5
         },
         {
           "date": "2026-03-18",
@@ -21939,7 +21912,7 @@
           "change": 7,
           "timestamp": "2026-03-18 06:45:47",
           "median_price": 2200,
-          "refreshed_count": 0
+          "refreshed_count": 2
         },
         {
           "date": "2026-03-19",
@@ -21948,7 +21921,7 @@
           "timestamp": "2026-03-19 06:41:23",
           "median_price": 2520,
           "reactivated_count": 1,
-          "refreshed_count": 0
+          "refreshed_count": 3
         },
         {
           "date": "2026-03-20",
@@ -21956,7 +21929,7 @@
           "change": 1,
           "timestamp": "2026-03-20 06:38:20",
           "median_price": 1920,
-          "refreshed_count": 0
+          "refreshed_count": 2
         },
         {
           "date": "2026-03-21",
@@ -21972,7 +21945,7 @@
           "change": 0,
           "timestamp": "2026-03-22 06:34:59",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-03-23",
@@ -21980,7 +21953,7 @@
           "change": -2,
           "timestamp": "2026-03-23 06:54:55",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 7
         },
         {
           "date": "2026-03-24",
@@ -21989,7 +21962,7 @@
           "timestamp": "2026-03-24 06:47:29",
           "median_price": 2870,
           "reactivated_count": 1,
-          "refreshed_count": 0
+          "refreshed_count": 2
         },
         {
           "date": "2026-03-25",
@@ -21998,7 +21971,7 @@
           "timestamp": "2026-03-25 06:46:08",
           "median_price": null,
           "reactivated_count": 1,
-          "refreshed_count": 0
+          "refreshed_count": 3
         },
         {
           "date": "2026-03-26",
@@ -22006,7 +21979,7 @@
           "change": -1,
           "timestamp": "2026-03-26 06:53:32",
           "median_price": 2060,
-          "refreshed_count": 0
+          "refreshed_count": 5
         },
         {
           "date": "2026-03-27",
@@ -22014,7 +21987,7 @@
           "change": -3,
           "timestamp": "2026-03-27 06:53:34",
           "median_price": 2360,
-          "refreshed_count": 0
+          "refreshed_count": 11
         },
         {
           "date": "2026-03-28",
@@ -22022,7 +21995,7 @@
           "change": 10,
           "timestamp": "2026-03-28 06:41:43",
           "median_price": 1800,
-          "refreshed_count": 0
+          "refreshed_count": 3
         },
         {
           "date": "2026-03-29",
@@ -22037,7 +22010,7 @@
           "change": -1,
           "timestamp": "2026-03-30 07:12:30",
           "median_price": 1310,
-          "refreshed_count": 0
+          "refreshed_count": 3
         },
         {
           "date": "2026-03-31",
@@ -22045,7 +22018,7 @@
           "change": 1,
           "timestamp": "2026-03-31 12:16:09",
           "median_price": 2050,
-          "refreshed_count": 0
+          "refreshed_count": 6
         },
         {
           "date": "2026-04-01",
@@ -22053,7 +22026,7 @@
           "change": -3,
           "timestamp": "2026-04-01 07:06:03",
           "median_price": null,
-          "refreshed_count": 0
+          "refreshed_count": 3
         },
         {
           "date": "2026-04-02",
@@ -22065,7 +22038,7 @@
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
           "reactivated_count": 1,
-          "refreshed_count": 0
+          "refreshed_count": 2
         },
         {
           "date": "2026-04-03",
@@ -22077,7 +22050,7 @@
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
           "reactivated_count": 1,
-          "refreshed_count": 0
+          "refreshed_count": 5
         },
         {
           "date": "2026-04-04",
@@ -22088,7 +22061,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0
+          "refreshed_count": 1
         },
         {
           "date": "2026-04-05",
@@ -22145,7 +22118,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 1
         },
         {
