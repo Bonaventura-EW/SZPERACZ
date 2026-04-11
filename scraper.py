@@ -33,31 +33,37 @@ PROFILES = {
         "url": "https://www.olx.pl/oferty/uzytkownik/3cxbz/",
         "label": "pokojewlublinie",
         "is_category": False,
+        "uuid": "23314f02-9f24-4232-afe0-102bda498af4",
     },
     "poqui": {
         "url": "https://www.olx.pl/oferty/uzytkownik/p8eWV/",
         "label": "poqui",
         "is_category": False,
+        "uuid": "06418904-e0dc-4842-9f24-5173b0a2c6a9",
     },
     "artymiuk": {
         "url": "https://www.olx.pl/oferty/uzytkownik/BAm3j/",
         "label": "artymiuk",
         "is_category": False,
+        "uuid": "3365c8c4-7f43-4ca8-be96-26afcf62f8ed",
     },
     "dawny_patron": {
         "url": "https://www.olx.pl/oferty/uzytkownik/uD2d4/",
         "label": "dawny patron",
         "is_category": False,
+        "uuid": "c9941865-a87e-49d9-9d13-920e2a8fead3",
     },
     "mzuri": {
         "url": "https://www.olx.pl/oferty/uzytkownik/4avCO/",
         "label": "mzuri",
         "is_category": False,
+        "uuid": "aef14b8b-6252-4f27-adb1-b2b73bd8dea6",
     },
     "villahome": {
         "url": "https://www.olx.pl/oferty/uzytkownik/1n7fOJ/",
         "label": "villahome",
         "is_category": False,
+        "uuid": "1889499b-05ae-4dc2-b640-0b2ed032422b",
     },
 }
 
@@ -100,6 +106,22 @@ def get_session():
     )
     adapter = HTTPAdapter(max_retries=retry_strategy)
     s.mount("http://", adapter)
+    s.mount("https://", adapter)
+    return s
+
+
+def get_api_session():
+    """Session for OLX JSON API endpoints."""
+    s = requests.Session()
+    s.headers.update({
+        "User-Agent": random.choice(USER_AGENTS),
+        "Accept": "application/json",
+        "Accept-Language": "pl-PL,pl;q=0.9",
+        "Connection": "keep-alive",
+    })
+    from requests.adapters import HTTPAdapter
+    from urllib3.util.retry import Retry
+    adapter = HTTPAdapter(max_retries=Retry(total=3, backoff_factor=2, status_forcelist=[429, 500, 502, 503, 504]))
     s.mount("https://", adapter)
     return s
 
@@ -707,8 +729,83 @@ def scrape_user_profile_json(profile_key, profile_config, session):
     }
 
 
+# ─── OLX API Scraping (user profiles) ────────────────────────────────────────
 
-# ─── Playwright Scraping ─────────────────────────────────────────────────────
+def scrape_user_via_api(profile_key, profile_config):
+    """
+    Scrape a user profile via OLX REST API (api/v1/offers?user_id=UUID).
+    Works reliably from GitHub Actions IPs — no browser needed.
+    Requires 'uuid' key in profile_config.
+    """
+    uuid = profile_config.get("uuid")
+    if not uuid:
+        log.error(f"  [{profile_key}] No UUID configured, cannot use API scraping")
+        return {"listings": [], "count": 0, "header_count": None, "pages_scraped": 0}
+
+    s = get_api_session()
+    all_ads = []
+    offset = 0
+    limit = 10
+    total = None
+    page_num = 1
+    max_pages = 50
+
+    while page_num <= max_pages:
+        url = (
+            f"https://www.olx.pl/api/v1/offers"
+            f"?offset={offset}&limit={limit}&category_id=0"
+            f"&sort_by=created_at%3Adesc&user_id={uuid}"
+        )
+        log.info(f"  [{profile_key}] API page {page_num} (offset={offset})")
+        try:
+            r = s.get(url, timeout=20)
+            r.raise_for_status()
+            data = r.json()
+        except Exception as e:
+            log.error(f"  [{profile_key}] API error on page {page_num}: {e}")
+            break
+
+        ads = data.get("data", [])
+        meta = data.get("metadata", {})
+        links = data.get("links", {})
+
+        if total is None:
+            total = meta.get("total_elements", 0)
+            log.info(f"  [{profile_key}] Total (API): {total}")
+
+        log.info(f"  [{profile_key}] Page {page_num}: {len(ads)} listings")
+        all_ads.extend(ads)
+
+        # Stop if we have everything or no next page
+        next_link = links.get("next")
+        has_next = bool(next_link and isinstance(next_link, dict) and next_link.get("href"))
+        if not has_next or len(all_ads) >= (total or 0):
+            break
+
+        offset += limit
+        page_num += 1
+        time.sleep(random.uniform(0.8, 1.5))
+
+    listings = _parse_ads_json(all_ads)
+
+    # Deduplicate
+    seen_ids = set()
+    unique = []
+    for listing in listings:
+        lid = listing["listing_id"]
+        if lid not in seen_ids:
+            seen_ids.add(lid)
+            unique.append(listing)
+
+    return {
+        "listings": unique,
+        "count": len(unique),
+        "header_count": total,
+        "pages_scraped": page_num,
+    }
+
+
+# ─── Playwright Scraping (kategoria) ─────────────────────────────────────────
 
 def _parse_ads_json(ads):
     """Convert OLX adsOffers data[] items to our listing dict format."""
@@ -919,74 +1016,117 @@ def _scrape_one_profile_playwright(page_obj, profile_key, profile_config):
 
 def scrape_with_playwright_all(profiles):
     """
-    Scrape all profiles in a single Playwright browser instance.
+    Scrape all profiles using the best method per profile type:
+    - User profiles (is_category=False): OLX REST API via requests — works from any IP.
+    - Category pages (is_category=True): Playwright headless Chromium — handles SSR DOM.
     Returns {profile_key: result_dict}.
     """
     results = {}
 
-    try:
-        with sync_playwright() as p:
-            browser = p.chromium.launch(
-                headless=True,
-                args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
-            )
-            context = browser.new_context(
-                user_agent=random.choice(USER_AGENTS),
-                viewport={"width": 1920, "height": 1080},
-                locale="pl-PL",
-                timezone_id="Europe/Warsaw",
-            )
-            page_obj = context.new_page()
+    # Split profiles by type
+    category_profiles = {pk: cfg for pk, cfg in profiles.items() if cfg.get("is_category")}
+    user_profiles = {pk: cfg for pk, cfg in profiles.items() if not cfg.get("is_category")}
 
-            for pk, cfg in profiles.items():
-                log.info(f"[SCAN] Profile: {pk}")
-                try:
-                    result = _scrape_one_profile_playwright(page_obj, pk, cfg)
+    # ── User profiles via API (requests, no browser needed) ───────────────────
+    for pk, cfg in user_profiles.items():
+        log.info(f"[SCAN] Profile: {pk} (API)")
+        try:
+            result = scrape_user_via_api(pk, cfg)
 
-                    scraped = result["count"]
-                    header = result["header_count"]
-                    tolerance = 10 if cfg.get("is_category") else 2
-                    header_match = header is None or abs(scraped - header) <= tolerance
+            scraped = result["count"]
+            header = result["header_count"]
+            tolerance = 2
+            header_match = header is None or abs(scraped - header) <= tolerance
 
-                    if header_match:
-                        result["crosscheck"] = "passed"
-                        result["crosscheck_detail"] = f"scraped={scraped}, header={header}"
-                        log.info(f"[CROSSCHECK] {pk}: PASS (scraped={scraped}, header={header})")
-                    else:
-                        log.info(f"[CROSSCHECK] {pk}: MISMATCH scraped={scraped} vs header={header}, retrying...")
-                        time.sleep(random.uniform(4, 7))
-                        result2 = _scrape_one_profile_playwright(page_obj, pk, cfg)
-                        c2 = result2["count"]
-                        if c2 > scraped:
-                            result2["crosscheck"] = "passed_retry"
-                            result2["crosscheck_detail"] = f"1st={scraped}, 2nd={c2}, header={header}"
-                            result = result2
+            if header_match:
+                result["crosscheck"] = "passed"
+                result["crosscheck_detail"] = f"scraped={scraped}, header={header}"
+                log.info(f"[CROSSCHECK] {pk}: PASS (scraped={scraped}, header={header})")
+            else:
+                log.info(f"[CROSSCHECK] {pk}: MISMATCH scraped={scraped} vs header={header}, retrying...")
+                time.sleep(random.uniform(3, 5))
+                result2 = scrape_user_via_api(pk, cfg)
+                c2 = result2["count"]
+                if c2 > scraped:
+                    result2["crosscheck"] = "passed_retry"
+                    result2["crosscheck_detail"] = f"1st={scraped}, 2nd={c2}, header={header}"
+                    result = result2
+                else:
+                    result["crosscheck"] = "best_of_two"
+                    result["crosscheck_detail"] = f"1st={scraped}, 2nd={c2}, header={header}"
+
+            results[pk] = result
+            log.info(f"[OK] {pk}: {result['count']} listings ({result['crosscheck']})")
+        except Exception as e:
+            log.error(f"[ERROR] {pk}: {e}")
+            results[pk] = {
+                "listings": [], "count": 0, "header_count": None,
+                "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
+            }
+        time.sleep(random.uniform(1, 2))
+
+    # ── Category pages via Playwright ─────────────────────────────────────────
+    if category_profiles:
+        try:
+            with sync_playwright() as p:
+                browser = p.chromium.launch(
+                    headless=True,
+                    args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+                )
+                context = browser.new_context(
+                    user_agent=random.choice(USER_AGENTS),
+                    viewport={"width": 1920, "height": 1080},
+                    locale="pl-PL",
+                    timezone_id="Europe/Warsaw",
+                )
+                page_obj = context.new_page()
+
+                for pk, cfg in category_profiles.items():
+                    log.info(f"[SCAN] Profile: {pk} (Playwright)")
+                    try:
+                        result = _scrape_one_profile_playwright(page_obj, pk, cfg)
+
+                        scraped = result["count"]
+                        header = result["header_count"]
+                        tolerance = 10
+                        header_match = header is None or abs(scraped - header) <= tolerance
+
+                        if header_match:
+                            result["crosscheck"] = "passed"
+                            result["crosscheck_detail"] = f"scraped={scraped}, header={header}"
+                            log.info(f"[CROSSCHECK] {pk}: PASS (scraped={scraped}, header={header})")
                         else:
-                            result["crosscheck"] = "best_of_two"
-                            result["crosscheck_detail"] = f"1st={scraped}, 2nd={c2}, header={header}"
+                            log.info(f"[CROSSCHECK] {pk}: MISMATCH scraped={scraped} vs header={header}, retrying...")
+                            time.sleep(random.uniform(4, 7))
+                            result2 = _scrape_one_profile_playwright(page_obj, pk, cfg)
+                            c2 = result2["count"]
+                            if c2 > scraped:
+                                result2["crosscheck"] = "passed_retry"
+                                result2["crosscheck_detail"] = f"1st={scraped}, 2nd={c2}, header={header}"
+                                result = result2
+                            else:
+                                result["crosscheck"] = "best_of_two"
+                                result["crosscheck_detail"] = f"1st={scraped}, 2nd={c2}, header={header}"
 
-                    results[pk] = result
-                    log.info(f"[OK] {pk}: {result['count']} listings ({result['crosscheck']})")
+                        results[pk] = result
+                        log.info(f"[OK] {pk}: {result['count']} listings ({result['crosscheck']})")
+                    except Exception as e:
+                        log.error(f"[ERROR] {pk}: {e}")
+                        results[pk] = {
+                            "listings": [], "count": 0, "header_count": None,
+                            "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
+                        }
 
-                except Exception as e:
-                    log.error(f"[ERROR] {pk}: {e}")
+                browser.close()
+
+        except Exception as e:
+            log.error(f"[PLAYWRIGHT] Fatal browser error: {e}")
+            for pk in category_profiles:
+                if pk not in results:
                     results[pk] = {
                         "listings": [], "count": 0, "header_count": None,
                         "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
                     }
-
-                time.sleep(random.uniform(4, 8))
-
-            browser.close()
-
-    except Exception as e:
-        log.error(f"[PLAYWRIGHT] Fatal browser error: {e}")
-        for pk in profiles:
-            if pk not in results:
-                results[pk] = {
-                    "listings": [], "count": 0, "header_count": None,
-                    "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
-                }
 
     return results
 
