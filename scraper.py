@@ -805,7 +805,20 @@ def _scrape_one_profile_playwright(page_obj, profile_key, profile_config):
             break
 
         if not is_category:
-            # ── User profile: extract via JS eval ─────────────────────────
+            # ── User profile: wait for __PRERENDERED_STATE__ then extract ──
+            try:
+                # Poll until window.__PRERENDERED_STATE__ is populated by JS
+                page_obj.wait_for_function(
+                    "() => window.__PRERENDERED_STATE__ !== undefined && window.__PRERENDERED_STATE__ !== null",
+                    timeout=20000,
+                )
+            except PlaywrightTimeout:
+                log.warning(f"  [{profile_key}] __PRERENDERED_STATE__ never populated (timeout)")
+                break
+            except Exception as e:
+                log.warning(f"  [{profile_key}] wait_for_function error: {e}")
+                break
+
             try:
                 raw = page_obj.evaluate("() => JSON.stringify(window.__PRERENDERED_STATE__)")
             except Exception as e:
