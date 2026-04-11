@@ -1030,6 +1030,7 @@ def scrape_with_playwright_all(profiles):
     # ── User profiles via API (requests, no browser needed) ───────────────────
     for pk, cfg in user_profiles.items():
         log.info(f"[SCAN] Profile: {pk} (API)")
+        profile_start = time.time()
         try:
             result = scrape_user_via_api(pk, cfg)
 
@@ -1055,13 +1056,15 @@ def scrape_with_playwright_all(profiles):
                     result["crosscheck"] = "best_of_two"
                     result["crosscheck_detail"] = f"1st={scraped}, 2nd={c2}, header={header}"
 
+            result["duration_seconds"] = round(time.time() - profile_start, 1)
             results[pk] = result
-            log.info(f"[OK] {pk}: {result['count']} listings ({result['crosscheck']})")
+            log.info(f"[OK] {pk}: {result['count']} listings ({result['crosscheck']}) [{result['duration_seconds']}s]")
         except Exception as e:
             log.error(f"[ERROR] {pk}: {e}")
             results[pk] = {
                 "listings": [], "count": 0, "header_count": None,
                 "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
+                "duration_seconds": round(time.time() - profile_start, 1),
             }
         time.sleep(random.uniform(1, 2))
 
@@ -1083,6 +1086,7 @@ def scrape_with_playwright_all(profiles):
 
                 for pk, cfg in category_profiles.items():
                     log.info(f"[SCAN] Profile: {pk} (Playwright)")
+                    profile_start = time.time()
                     try:
                         result = _scrape_one_profile_playwright(page_obj, pk, cfg)
 
@@ -1108,13 +1112,15 @@ def scrape_with_playwright_all(profiles):
                                 result["crosscheck"] = "best_of_two"
                                 result["crosscheck_detail"] = f"1st={scraped}, 2nd={c2}, header={header}"
 
+                        result["duration_seconds"] = round(time.time() - profile_start, 1)
                         results[pk] = result
-                        log.info(f"[OK] {pk}: {result['count']} listings ({result['crosscheck']})")
+                        log.info(f"[OK] {pk}: {result['count']} listings ({result['crosscheck']}) [{result['duration_seconds']}s]")
                     except Exception as e:
                         log.error(f"[ERROR] {pk}: {e}")
                         results[pk] = {
                             "listings": [], "count": 0, "header_count": None,
                             "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
+                            "duration_seconds": round(time.time() - profile_start, 1),
                         }
 
                 browser.close()
@@ -1126,6 +1132,7 @@ def scrape_with_playwright_all(profiles):
                     results[pk] = {
                         "listings": [], "count": 0, "header_count": None,
                         "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
+                        "duration_seconds": 0,
                     }
 
     return results
@@ -1820,7 +1827,8 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
             pk: {
                 "label": PROFILES[pk]["label"],
                 "count": r["count"],
-                "crosscheck": r.get("crosscheck", "unknown")
+                "crosscheck": r.get("crosscheck", "unknown"),
+                "duration_seconds": r.get("duration_seconds", None),
             }
             for pk, r in scan_results.items()
         }

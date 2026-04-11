@@ -13,6 +13,18 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-11] - ✨ Feature: Zakładka "Skany" z czasami wykonania
+
+### Added ✨
+- **Przycisk "Skany"** w topbarze dashboardu — otwiera/zamyka panel z historią skanów
+- **Panel skanów** wysuwa się pod topbarem (animacja max-height), zawiera tabelę:
+  - Profil, liczba ogłoszeń, crosscheck (✓/✗/~), czas scanu w sekundach, wizualny pasek proporcjonalny
+  - Wiersz podsumowania z łącznym czasem całego scanu i datą
+- **Pomiar czasu per profil** w `scraper.py` — `duration_seconds` dodany do każdego wyniku profilu
+- `status.json` rozszerzony o pole `profiles[pk].duration_seconds`
+
+---
+
 ## [2026-04-11] - 🐛 Fix: Playwright dla wszystkich profili
 
 ### Fixed 🐛
