@@ -13,6 +13,22 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-11] - ✨ Feature: Osobna strona Historia skanów (scans.html)
+
+### Added ✨
+- **`docs/scans.html`** — dedykowana strona historii skanów, dostępna przez przycisk "Skany" w topbarze:
+  - **Hero** — statystyki ostatniego scanu: czas całkowity, ogłoszeń łącznie, nowych ogłoszeń, liczba profili
+  - **Karty per profil** — czas scanu, pasek proporcjonalny, metoda (API/Playwright), liczba ogłoszeń, crosscheck
+  - **Wykres trendu** — słupkowy chart czasu skanowania dla wszystkich historycznych skanów (do 30), zielony=sukces/czerwony=błąd
+  - **Tabela historii** — wszystkie skany od najnowszego: data, status badge, czas, wizualizacja, liczba ogłoszeń
+  - Spójna stylizacja z dashboardem (dark/light theme, JetBrains Mono, DM Sans, te same CSS variables)
+
+### Changed 📊
+- `docs/index.html`: przycisk "Skany" zmieniony z otwierającego panel na link `href="scans.html"`
+- Usunięty stary CSS panelu skanów i JS funkcje `toggleScansPanel`/`renderScansPanel` z `index.html`
+
+---
+
 ## [2026-04-11] - ✨ Feature: Zakładka "Skany" z czasami wykonania
 
 ### Added ✨

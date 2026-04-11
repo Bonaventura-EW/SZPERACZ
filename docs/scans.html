@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SZPERACZ OLX — Historia skanów</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-display: 'JetBrains Mono', monospace;
+  --font-body: 'DM Sans', sans-serif;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0b0e14;
+  --bg-secondary: #131720;
+  --bg-card: #181d28;
+  --bg-card-hover: #1e2433;
+  --bg-accent: #1a2332;
+  --text-primary: #e8ecf1;
+  --text-secondary: #8b95a5;
+  --text-muted: #5a6475;
+  --border: #232a38;
+  --border-light: #1e2433;
+  --accent: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.15);
+  --green: #10b981;
+  --green-bg: rgba(16, 185, 129, 0.1);
+  --red: #ef4444;
+  --red-bg: rgba(239, 68, 68, 0.1);
+  --orange: #f59e0b;
+  --scrollbar-bg: #131720;
+  --scrollbar-thumb: #2a3344;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f0f2f5;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-accent: #eff6ff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+  --accent: #2563eb;
+  --accent-glow: rgba(37, 99, 235, 0.08);
+  --green: #059669;
+  --green-bg: rgba(5, 150, 105, 0.08);
+  --red: #dc2626;
+  --red-bg: rgba(220, 38, 38, 0.08);
+  --orange: #d97706;
+  --scrollbar-bg: #f0f2f5;
+  --scrollbar-thumb: #d1d5db;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+
+/* ─── Topbar ─── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+}
+.btn-back:hover { border-color: var(--accent); color: var(--accent); }
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+  text-decoration: none;
+}
+.logo span { color: var(--text-muted); font-weight: 400; }
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-muted);
+  padding-left: 16px;
+  border-left: 1px solid var(--border);
+}
+
+.btn-theme {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all var(--transition);
+}
+.btn-theme:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ─── Container ─── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* ─── Last Scan Hero ─── */
+.hero {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #818cf8);
+}
+
+.hero-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 24px;
+}
+
+.hero-stat-value {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hero-stat-value.accent { color: var(--accent); }
+.hero-stat-value.green { color: var(--green); }
+
+.hero-stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ─── Section headers ─── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Profile timing cards ─── */
+.profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.profile-timing-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  transition: border-color var(--transition);
+}
+
+.profile-timing-card:hover { border-color: var(--accent); }
+
+.ptc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.ptc-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ptc-method {
+  font-size: 10px;
+  font-family: var(--font-display);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.method-api { background: var(--green-bg); color: var(--green); }
+.method-playwright { background: var(--accent-glow); color: var(--accent); }
+
+.ptc-duration {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.ptc-duration span {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+.ptc-bar-bg {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.ptc-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--accent);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ptc-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+}
+
+.ptc-crosscheck { }
+.ptc-crosscheck.ok { color: var(--green); }
+.ptc-crosscheck.err { color: var(--red); }
+
+/* ─── History table ─── */
+.history-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history-table th {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-accent);
+}
+
+.history-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 13px;
+  font-family: var(--font-display);
+  vertical-align: middle;
+}
+
+.history-table tr:last-child td { border-bottom: none; }
+.history-table tr:hover td { background: var(--bg-accent); }
+
+.history-table td.ts { color: var(--text-secondary); font-size: 12px; }
+.history-table td.dur { font-weight: 700; color: var(--accent); }
+.history-table td.count { color: var(--text-primary); font-weight: 600; }
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status-success { background: var(--green-bg); color: var(--green); }
+.status-error { background: var(--red-bg); color: var(--red); }
+
+.dur-bar-inline {
+  display: inline-block;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 3px;
+  opacity: 0.5;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+/* ─── Duration chart ─── */
+.chart-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 40px;
+}
+
+.dur-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 120px;
+  padding-top: 24px;
+}
+
+.dur-bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.dur-bar-col {
+  width: 100%;
+  background: var(--accent);
+  border-radius: 4px 4px 0 0;
+  opacity: 0.75;
+  transition: opacity var(--transition);
+  position: relative;
+  min-height: 3px;
+}
+
+.dur-bar-col:hover { opacity: 1; }
+
+.dur-bar-tip {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.dur-bar-date {
+  font-family: var(--font-display);
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* ─── Loading / Empty ─── */
+.loading {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 13px;
+}
+
+.loading-dot {
+  display: inline-block;
+  animation: blink 1.2s infinite;
+}
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink { 0%,80%,100%{opacity:0} 40%{opacity:1} }
+
+/* ─── Footer ─── */
+.footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 12px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+.footer a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 768px) {
+  .topbar { padding: 10px 16px; }
+  .container { padding: 16px; }
+  .profiles-grid { grid-template-columns: 1fr; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .page-title { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <a href="index.html" class="btn-back">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Dashboard
+    </a>
+    <a href="index.html" class="logo">SZPERACZ <span>/ OLX</span></a>
+    <span class="page-title">Historia skanów</span>
+  </div>
+  <div>
+    <button class="btn-theme" id="btnTheme" onclick="toggleTheme()" title="Przełącz motyw">🌙</button>
+  </div>
+</header>
+
+<main class="container">
+  <div id="pageContent">
+    <div class="loading">Ładowanie danych<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></div>
+  </div>
+</main>
+
+<div class="footer">
+  SZPERACZ OLX &copy; 2026 •
+  <a href="https://github.com/Bonaventura-EW/SZPERACZ" target="_blank">GitHub</a>
+</div>
+
+<script>
+const GITHUB_OWNER = 'Bonaventura-EW';
+const GITHUB_REPO  = 'SZPERACZ';
+const STATUS_URL   = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/docs/api/status.json`;
+const HISTORY_URL  = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/docs/api/history.json`;
+
+// ─── Theme ───────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  document.getElementById('btnTheme').textContent = next === 'dark' ? '🌙' : '☀️';
+  localStorage.setItem('szperacz-theme', next);
+}
+
+(function initTheme() {
+  const saved = localStorage.getItem('szperacz-theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    document.getElementById('btnTheme').textContent = saved === 'dark' ? '🌙' : '☀️';
+  }
+})();
+
+// ─── Helpers ─────────────────────────────────────────────
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML;
+}
+
+function fmtTs(isoStr) {
+  if (!isoStr) return '—';
+  const d = new Date(isoStr);
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mi = String(d.getMinutes()).padStart(2,'0');
+  return `${dd}.${mm}.${d.getFullYear()} ${hh}:${mi}`;
+}
+
+function fmtDur(s) {
+  if (s == null) return '—';
+  if (s < 60) return `${s}s`;
+  const m = Math.floor(s / 60);
+  const rem = Math.round(s % 60);
+  return rem > 0 ? `${m}m ${rem}s` : `${m}m`;
+}
+
+// ─── Render ───────────────────────────────────────────────
+async function loadAndRender() {
+  let status, history;
+
+  try {
+    const [r1, r2] = await Promise.all([
+      fetch(STATUS_URL  + `?t=${Date.now()}`),
+      fetch(HISTORY_URL + `?t=${Date.now()}`),
+    ]);
+    status  = await r1.json();
+    history = await r2.json();
+  } catch(e) {
+    document.getElementById('pageContent').innerHTML =
+      `<div class="loading" style="color:var(--red)">Błąd ładowania danych: ${esc(e.message)}</div>`;
+    return;
+  }
+
+  const lastScan = status.lastScan || {};
+  const profiles = status.profiles || {};
+  const scans    = (history.scans || []).slice().reverse(); // newest first
+
+  // Max duration for hero bar scaling
+  const profKeys = Object.keys(profiles);
+  const maxProfileDur = Math.max(...profKeys.map(k => profiles[k].duration_seconds || 0), 1);
+  const maxHistDur    = Math.max(...scans.map(s => s.duration_seconds || 0), 1);
+
+  // ── Hero ──────────────────────────────────────────────
+  let heroHtml = `
+    <div class="hero">
+      <div class="hero-label">Ostatni scan — ${fmtTs(lastScan.timestamp)}</div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-value accent">${fmtDur(lastScan.duration_seconds)}</div>
+          <div class="hero-stat-label">Czas całkowity</div>
+        </div>
+        <div>
+          <div class="hero-stat-value">${lastScan.total_listings ?? '—'}</div>
+          <div class="hero-stat-label">Ogłoszeń łącznie</div>
+        </div>
+        <div>
+          <div class="hero-stat-value green">${lastScan.new_listings ?? '—'}</div>
+          <div class="hero-stat-label">Nowych ogłoszeń</div>
+        </div>
+        <div>
+          <div class="hero-stat-value">${lastScan.profiles_scanned ?? '—'}</div>
+          <div class="hero-stat-label">Profili</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // ── Profile timing cards ───────────────────────────────
+  let cardsHtml = `
+    <div class="section-header">
+      <div class="section-title">Czas per profil — ostatni scan</div>
+    </div>
+    <div class="profiles-grid">
+  `;
+
+  for (const pk of profKeys) {
+    const p   = profiles[pk];
+    const dur = p.duration_seconds;
+    const pct = dur != null ? Math.round((dur / maxProfileDur) * 100) : 0;
+    const isCategory = pk === 'wszystkie_pokoje';
+    const methodLabel = isCategory ? 'Playwright' : 'API';
+    const methodClass = isCategory ? 'method-playwright' : 'method-api';
+    const crossOk  = ['passed','passed_retry','consistent'].includes(p.crosscheck);
+    const crossCls = p.crosscheck === 'error' ? 'err' : crossOk ? 'ok' : '';
+    const crossIcon= p.crosscheck === 'error' ? '✗' : crossOk ? '✓' : '~';
+
+    const durDisplay = dur != null
+      ? `${dur}<span>s</span>`
+      : `<span style="font-size:18px">—</span>`;
+
+    cardsHtml += `
+      <div class="profile-timing-card">
+        <div class="ptc-header">
+          <div class="ptc-name">${esc(p.label || pk)}</div>
+          <span class="ptc-method ${methodClass}">${methodLabel}</span>
+        </div>
+        <div class="ptc-duration">${durDisplay}</div>
+        <div class="ptc-bar-bg">
+          <div class="ptc-bar-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="ptc-meta">
+          <span>${p.count} ogłoszeń</span>
+          <span class="ptc-crosscheck ${crossCls}">${crossIcon} ${p.crosscheck || '—'}</span>
+        </div>
+      </div>
+    `;
+  }
+  cardsHtml += `</div>`;
+
+  // ── Duration trend chart ───────────────────────────────
+  const chartScans = scans.slice(0, 30).reverse(); // chronological, max 30
+  let chartHtml = `
+    <div class="chart-section">
+      <div class="section-header" style="margin-bottom:8px">
+        <div class="section-title">Trend czasu skanowania (ostatnie ${chartScans.length} skanów)</div>
+      </div>
+      <div class="dur-chart">
+  `;
+
+  for (const scan of chartScans) {
+    const dur = scan.duration_seconds || 0;
+    const pct = Math.max(Math.round((dur / maxHistDur) * 100), 2);
+    const date = scan.date ? scan.date.slice(5).replace('-', '.') : '?';
+    const statusOk = scan.status === 'success';
+    const color = statusOk ? 'var(--accent)' : 'var(--red)';
+
+    chartHtml += `
+      <div class="dur-bar-wrap" title="${fmtTs(scan.timestamp)} — ${fmtDur(dur)}">
+        <div class="dur-bar-col" style="height:${pct}%;background:${color}">
+          <span class="dur-bar-tip">${dur}s</span>
+        </div>
+        <div class="dur-bar-date">${date}</div>
+      </div>
+    `;
+  }
+
+  chartHtml += `</div></div>`;
+
+  // ── History table ──────────────────────────────────────
+  let tableHtml = `
+    <div class="section-header">
+      <div class="section-title">Historia skanów (${scans.length})</div>
+    </div>
+    <div class="history-card">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Data i godzina</th>
+            <th>Status</th>
+            <th>Czas całkowity</th>
+            <th>Wizualizacja</th>
+            <th>Ogłoszeń</th>
+            <th>Profili</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  scans.forEach((scan, i) => {
+    const dur    = scan.duration_seconds || 0;
+    const barW   = Math.round((dur / maxHistDur) * 120);
+    const isOk   = scan.status === 'success';
+    const badgeCls = isOk ? 'status-success' : 'status-error';
+    const badgeTxt = isOk ? '✓ sukces' : '✗ błąd';
+    const num    = scans.length - i;
+
+    tableHtml += `
+      <tr>
+        <td style="color:var(--text-muted);font-size:11px">${num}</td>
+        <td class="ts">${fmtTs(scan.timestamp)}</td>
+        <td><span class="status-badge ${badgeCls}">${badgeTxt}</span></td>
+        <td class="dur">${fmtDur(dur)}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="height:6px;width:${barW}px;background:${isOk ? 'var(--accent)' : 'var(--red)'};border-radius:3px;opacity:0.6;min-width:2px"></div>
+            <span style="font-size:11px;color:var(--text-muted)">${dur}s</span>
+          </div>
+        </td>
+        <td class="count">${scan.total_listings ?? '—'}</td>
+        <td style="color:var(--text-secondary)">${scan.profiles_scanned ?? '—'}</td>
+      </tr>
+    `;
+  });
+
+  tableHtml += `</tbody></table></div>`;
+
+  document.getElementById('pageContent').innerHTML =
+    heroHtml + cardsHtml + chartHtml + tableHtml;
+}
+
+loadAndRender();
+</script>
+</body>
+</html>

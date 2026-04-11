@@ -224,7 +224,8 @@ body {
 
 .btn-theme:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ─── Skany Button ─── */
+
+/* ─── Skany Button (link) ─── */
 .btn-scans {
   display: flex;
   align-items: center;
@@ -239,99 +240,10 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition);
+  text-decoration: none;
 }
 
 .btn-scans:hover { border-color: var(--accent); color: var(--accent); }
-.btn-scans.active { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
-
-/* ─── Scans Panel ─── */
-.scans-panel {
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border);
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.scans-panel.visible { max-height: 600px; }
-
-.scans-panel-inner {
-  padding: 20px 24px 24px;
-  overflow-x: auto;
-}
-
-.scans-panel-title {
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 16px;
-}
-
-.scans-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-  font-family: var(--font-display);
-  min-width: 700px;
-}
-
-.scans-table th {
-  text-align: left;
-  padding: 8px 12px;
-  color: var(--text-muted);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  border-bottom: 1px solid var(--border);
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.scans-table td {
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--border-light);
-  color: var(--text-primary);
-  vertical-align: middle;
-  white-space: nowrap;
-}
-
-.scans-table tr:last-child td { border-bottom: none; }
-.scans-table tr:hover td { background: var(--bg-accent); }
-
-.scans-table td.duration-total {
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.scans-table td.duration-profile {
-  color: var(--text-secondary);
-}
-
-.duration-bar-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.duration-bar {
-  height: 6px;
-  background: var(--accent);
-  border-radius: 3px;
-  opacity: 0.7;
-  min-width: 2px;
-  transition: width 0.3s ease;
-}
-
-.scans-empty {
-  text-align: center;
-  padding: 32px;
-  color: var(--text-muted);
-  font-size: 13px;
-}
-
 
 .scan-info {
   display: flex;
@@ -1164,10 +1076,10 @@ body {
     </div>
   </div>
   <div class="topbar-right">
-    <button class="btn-scans" id="btnScans" onclick="toggleScansPanel()">
+    <a href="scans.html" class="btn-scans">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>
       Skany
-    </button>
+    </a>
     <button class="btn-scan" id="btnScan" onclick="openScanModal()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
       Scan teraz
@@ -1190,14 +1102,6 @@ body {
   <div class="scan-info-item">
     <span class="label">Do następnego:</span>
     <span class="value" id="timeToNext">—</span>
-  </div>
-</div>
-
-<!-- ═══ Scans Panel ═══ -->
-<div class="scans-panel" id="scansPanel">
-  <div class="scans-panel-inner">
-    <div class="scans-panel-title">Historia skanów — czasy wykonania</div>
-    <div id="scansPanelContent"><div class="scans-empty">Ładowanie...</div></div>
   </div>
 </div>
 
@@ -2305,118 +2209,6 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-// ─── Scans Panel ────────────────────────────────────────
-
-const STATUS_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/docs/api/status.json`;
-
-let scansPanelOpen = false;
-let statusData = null;
-
-async function toggleScansPanel() {
-  const panel = document.getElementById('scansPanel');
-  const btn = document.getElementById('btnScans');
-  scansPanelOpen = !scansPanelOpen;
-
-  if (scansPanelOpen) {
-    panel.classList.add('visible');
-    btn.classList.add('active');
-    await renderScansPanel();
-  } else {
-    panel.classList.remove('visible');
-    btn.classList.remove('active');
-  }
-}
-
-async function renderScansPanel() {
-  const container = document.getElementById('scansPanelContent');
-
-  try {
-    const r = await fetch(STATUS_URL + `?t=${Date.now()}`);
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    statusData = await r.json();
-  } catch (e) {
-    container.innerHTML = `<div class="scans-empty">Nie udało się pobrać danych skanów.</div>`;
-    return;
-  }
-
-  const profiles = statusData.profiles || {};
-  const lastScan = statusData.lastScan || {};
-  const profileKeys = Object.keys(profiles);
-
-  if (!profileKeys.length) {
-    container.innerHTML = `<div class="scans-empty">Brak danych o skanach.</div>`;
-    return;
-  }
-
-  // Find max duration for bar scaling
-  const durations = profileKeys.map(pk => profiles[pk].duration_seconds || 0);
-  const maxDur = Math.max(...durations, 1);
-  const totalDur = lastScan.duration_seconds || 0;
-
-  // Format timestamp
-  let scanTime = '—';
-  if (lastScan.timestamp) {
-    const d = new Date(lastScan.timestamp);
-    scanTime = `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-  }
-
-  let html = `
-    <table class="scans-table">
-      <thead>
-        <tr>
-          <th>Profil</th>
-          <th>Ogłoszenia</th>
-          <th>Crosscheck</th>
-          <th>Czas scanu</th>
-          <th style="width:180px">Wykres czasu</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-
-  for (const pk of profileKeys) {
-    const p = profiles[pk];
-    const dur = p.duration_seconds != null ? p.duration_seconds : null;
-    const durStr = dur != null ? `${dur}s` : '—';
-    const barWidth = dur != null ? Math.round((dur / maxDur) * 160) : 0;
-
-    const crossOk = ['passed', 'passed_retry', 'consistent'].includes(p.crosscheck);
-    const crossColor = p.crosscheck === 'error' ? 'var(--red)' : crossOk ? 'var(--green)' : 'var(--orange)';
-    const crossIcon = p.crosscheck === 'error' ? '✗' : crossOk ? '✓' : '~';
-
-    html += `
-      <tr>
-        <td style="font-weight:600">${escapeHtml(p.label || pk)}</td>
-        <td>${p.count}</td>
-        <td style="color:${crossColor}">${crossIcon} ${p.crosscheck || '—'}</td>
-        <td class="duration-profile">${durStr}</td>
-        <td>
-          <div class="duration-bar-wrap">
-            <div class="duration-bar" style="width:${barWidth}px"></div>
-            <span style="color:var(--text-muted);font-size:11px">${durStr}</span>
-          </div>
-        </td>
-      </tr>
-    `;
-  }
-
-  html += `
-      <tr style="border-top: 2px solid var(--border)">
-        <td colspan="3" style="font-weight:700;color:var(--text-secondary)">ŁĄCZNIE — scan z ${scanTime}</td>
-        <td class="duration-total">${totalDur}s</td>
-        <td>
-          <div class="duration-bar-wrap">
-            <div class="duration-bar" style="width:160px;opacity:0.4"></div>
-            <span style="color:var(--accent);font-size:11px;font-weight:700">${totalDur}s</span>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-    </table>
-  `;
-
-  container.innerHTML = html;
-}
 
 // ─── Init ───────────────────────────────────────────────
 
