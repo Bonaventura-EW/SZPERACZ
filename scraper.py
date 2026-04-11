@@ -707,253 +707,281 @@ def scrape_user_profile_json(profile_key, profile_config, session):
     }
 
 
-# ─── Playwright Scraping (DEPRECATED - kept as fallback) ────────────────────
 
-def scrape_profile_playwright(profile_key, profile_config):
+# ─── Playwright Scraping ─────────────────────────────────────────────────────
+
+def _parse_ads_json(ads):
+    """Convert OLX adsOffers data[] items to our listing dict format."""
+    listings = []
+    for ad in ads:
+        price = None
+        price_text = ""
+        for param in ad.get("params", []):
+            if param.get("key") == "price":
+                val = param.get("value", {})
+                if isinstance(val, dict):
+                    price_text = val.get("label", "")
+                    pv = val.get("value")
+                    if pv is not None:
+                        try:
+                            price = int(pv)
+                        except (ValueError, TypeError):
+                            price = parse_price(price_text)
+                    else:
+                        price = parse_price(price_text)
+                break
+
+        created_time = ad.get("created_time", "")
+        last_refresh = ad.get("last_refresh_time", "")
+        published = None
+        refreshed = None
+        if created_time:
+            try:
+                published = datetime.fromisoformat(created_time.replace("Z", "+00:00")).strftime("%Y-%m-%d")
+            except Exception:
+                pass
+        if last_refresh:
+            try:
+                refreshed = datetime.fromisoformat(last_refresh.replace("Z", "+00:00")).strftime("%Y-%m-%d")
+            except Exception:
+                pass
+
+        date_text = f"Odświeżono {refreshed}" if refreshed else (published or "")
+
+        photos = ad.get("photos", [])
+        image_url = photos[0].get("link", "") if photos else ""
+
+        location = ad.get("location", {})
+        location_text = location.get("city", {}).get("name", "")
+
+        url = ad.get("url", "")
+        if not url.startswith("http"):
+            url = f"https://www.olx.pl{url}"
+
+        if ad.get("title"):
+            listings.append({
+                "title": ad["title"],
+                "price": price,
+                "price_text": price_text,
+                "url": url,
+                "listing_id": str(ad.get("id", extract_listing_id(url))),
+                "date_text": date_text,
+                "published": published,
+                "refreshed": refreshed,
+                "location": location_text,
+                "image_url": image_url,
+                "promotion": ad.get("promotion", {}),
+            })
+    return listings
+
+
+def _scrape_one_profile_playwright(page_obj, profile_key, profile_config):
     """
-    Scrape user profile using Playwright (headless browser) because OLX 
-    user profile pages now require JavaScript rendering.
+    Scrape a single profile using an already-open Playwright page object.
+
+    - User profiles: load page → extract __PRERENDERED_STATE__ via JS evaluate
+      (JS engine already parsed/executed it — no regex needed).
+      Pagination by incrementing ?page=N in URL while next link exists.
+    - Category pages: wait for [data-cy="l-card"] → parse DOM → follow
+      pagination-forward link.
     """
     url = profile_config["url"]
+    is_category = profile_config.get("is_category", False)
     all_listings = []
     header_count = None
-    page = 1
+    page_num = 1
     max_pages = 50
-    
+
+    while url and page_num <= max_pages:
+        log.info(f"  [{profile_key}] Page {page_num}: {url}")
+        try:
+            page_obj.goto(url, wait_until="domcontentloaded", timeout=45000)
+            time.sleep(random.uniform(2.0, 3.5))
+        except PlaywrightTimeout:
+            log.warning(f"  [{profile_key}] Timeout on page {page_num}, stopping")
+            break
+        except Exception as e:
+            log.error(f"  [{profile_key}] Navigation error page {page_num}: {e}")
+            break
+
+        if not is_category:
+            # ── User profile: extract via JS eval ─────────────────────────
+            try:
+                raw = page_obj.evaluate("() => JSON.stringify(window.__PRERENDERED_STATE__)")
+            except Exception as e:
+                log.warning(f"  [{profile_key}] JS eval error: {e}")
+                break
+
+            if not raw or raw in ("null", "undefined", "None"):
+                log.warning(f"  [{profile_key}] __PRERENDERED_STATE__ is empty")
+                break
+
+            try:
+                data = json.loads(raw)
+                if isinstance(data, str):
+                    data = json.loads(data)
+            except json.JSONDecodeError as e:
+                log.warning(f"  [{profile_key}] JSON decode error: {e}")
+                break
+
+            ads_offers = data.get("userListing", {}).get("adsOffers", {})
+            ads = ads_offers.get("data", [])
+            metadata = ads_offers.get("metadata", {})
+            links = ads_offers.get("links", {})
+
+            if page_num == 1:
+                header_count = metadata.get("total_elements") or metadata.get("visible_total_count")
+                log.info(f"  [{profile_key}] Total (header): {header_count}")
+
+            page_listings = _parse_ads_json(ads)
+            log.info(f"  [{profile_key}] Page {page_num}: {len(page_listings)} listings")
+            all_listings.extend(page_listings)
+
+            next_link = links.get("next")
+            has_next = bool(next_link and (isinstance(next_link, dict) and next_link.get("href") or isinstance(next_link, str)))
+
+            if has_next:
+                # Build next HTML page URL by incrementing page= param
+                current_page_match = re.search(r"[?&]page=(\d+)", url)
+                current_page_n = int(current_page_match.group(1)) if current_page_match else 1
+                next_page_n = current_page_n + 1
+                if "page=" in url:
+                    next_url = re.sub(r"page=\d+", f"page={next_page_n}", url)
+                elif "?" in url:
+                    next_url = url + f"&page={next_page_n}"
+                else:
+                    next_url = url + f"?page={next_page_n}"
+                url = next_url
+                page_num += 1
+                time.sleep(random.uniform(1.5, 3.0))
+            else:
+                break
+
+        else:
+            # ── Category page: parse DOM ──────────────────────────────────
+            try:
+                page_obj.wait_for_selector("[data-cy='l-card']", timeout=15000)
+            except PlaywrightTimeout:
+                log.warning(f"  [{profile_key}] No cards found on page {page_num}")
+                break
+
+            html = page_obj.content()
+            soup = BeautifulSoup(html, "lxml")
+
+            if page_num == 1:
+                header_count = get_total_count_from_header(soup)
+                log.info(f"  [{profile_key}] Header count: {header_count}")
+
+            page_listings = parse_listings_from_soup(soup)
+            log.info(f"  [{profile_key}] Page {page_num}: {len(page_listings)} listings")
+
+            if not page_listings:
+                break
+
+            all_listings.extend(page_listings)
+
+            next_url = get_next_page_url(soup, url)
+            if next_url:
+                url = next_url
+                page_num += 1
+                time.sleep(random.uniform(2.0, 4.0))
+            else:
+                break
+
+    seen_ids = set()
+    unique = []
+    for listing in all_listings:
+        lid = listing["listing_id"]
+        if lid not in seen_ids:
+            seen_ids.add(lid)
+            unique.append(listing)
+
+    return {
+        "listings": unique,
+        "count": len(unique),
+        "header_count": header_count,
+        "pages_scraped": page_num,
+    }
+
+
+def scrape_with_playwright_all(profiles):
+    """
+    Scrape all profiles in a single Playwright browser instance.
+    Returns {profile_key: result_dict}.
+    """
+    results = {}
+
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(
+                headless=True,
+                args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+            )
             context = browser.new_context(
                 user_agent=random.choice(USER_AGENTS),
-                viewport={"width": 1920, "height": 1080}
+                viewport={"width": 1920, "height": 1080},
+                locale="pl-PL",
+                timezone_id="Europe/Warsaw",
             )
             page_obj = context.new_page()
-            
-            while url and page <= max_pages:
-                log.info(f"  [{profile_key}] Page {page}: {url}")
-                
+
+            for pk, cfg in profiles.items():
+                log.info(f"[SCAN] Profile: {pk}")
                 try:
-                    # Navigate and wait for listings to load
-                    page_obj.goto(url, wait_until="networkidle", timeout=30000)
-                    
-                    # Wait for listing cards to appear
-                    page_obj.wait_for_selector('[data-cy="l-card"], div.css-19pezs8', timeout=10000)
-                    time.sleep(2)  # Extra wait for dynamic content
-                    
-                    # Get page content
-                    html = page_obj.content()
-                    soup = BeautifulSoup(html, "lxml")
-                    
-                    if page == 1:
-                        header_count = get_total_count_from_header(soup)
-                        log.info(f"  [{profile_key}] Header count: {header_count}")
-                    
-                    page_listings = parse_listings_from_soup(soup)
-                    log.info(f"  [{profile_key}] Page {page}: {len(page_listings)} listings")
-                    
-                    if not page_listings:
-                        break
-                    
-                    all_listings.extend(page_listings)
-                    
-                    # Find next page
-                    url = get_next_page_url(soup, url)
-                    page += 1
-                    time.sleep(random.uniform(2.0, 4.0))
-                    
-                except PlaywrightTimeout:
-                    log.warning(f"  [{profile_key}] Timeout on page {page}")
-                    break
+                    result = _scrape_one_profile_playwright(page_obj, pk, cfg)
+
+                    scraped = result["count"]
+                    header = result["header_count"]
+                    tolerance = 10 if cfg.get("is_category") else 2
+                    header_match = header is None or abs(scraped - header) <= tolerance
+
+                    if header_match:
+                        result["crosscheck"] = "passed"
+                        result["crosscheck_detail"] = f"scraped={scraped}, header={header}"
+                        log.info(f"[CROSSCHECK] {pk}: PASS (scraped={scraped}, header={header})")
+                    else:
+                        log.info(f"[CROSSCHECK] {pk}: MISMATCH scraped={scraped} vs header={header}, retrying...")
+                        time.sleep(random.uniform(4, 7))
+                        result2 = _scrape_one_profile_playwright(page_obj, pk, cfg)
+                        c2 = result2["count"]
+                        if c2 > scraped:
+                            result2["crosscheck"] = "passed_retry"
+                            result2["crosscheck_detail"] = f"1st={scraped}, 2nd={c2}, header={header}"
+                            result = result2
+                        else:
+                            result["crosscheck"] = "best_of_two"
+                            result["crosscheck_detail"] = f"1st={scraped}, 2nd={c2}, header={header}"
+
+                    results[pk] = result
+                    log.info(f"[OK] {pk}: {result['count']} listings ({result['crosscheck']})")
+
                 except Exception as e:
-                    log.error(f"  [{profile_key}] Error on page {page}: {e}")
-                    break
-            
+                    log.error(f"[ERROR] {pk}: {e}")
+                    results[pk] = {
+                        "listings": [], "count": 0, "header_count": None,
+                        "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
+                    }
+
+                time.sleep(random.uniform(4, 8))
+
             browser.close()
-    
+
     except Exception as e:
-        log.error(f"  [{profile_key}] Playwright error: {e}")
-        return {
-            "listings": [],
-            "count": 0,
-            "header_count": None,
-            "pages_scraped": 0,
-        }
-    
-    # Deduplicate
-    seen_ids = set()
-    unique = []
-    for listing in all_listings:
-        lid = listing["listing_id"]
-        if lid not in seen_ids:
-            seen_ids.add(lid)
-            unique.append(listing)
-    
-    return {
-        "listings": unique,
-        "count": len(unique),
-        "header_count": header_count,
-        "pages_scraped": page - 1,
-    }
+        log.error(f"[PLAYWRIGHT] Fatal browser error: {e}")
+        for pk in profiles:
+            if pk not in results:
+                results[pk] = {
+                    "listings": [], "count": 0, "header_count": None,
+                    "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
+                }
 
-
-# ─── Scraping with Crosscheck ───────────────────────────────────────────────
-
-def scrape_profile(profile_key, profile_config, session):
-    url = profile_config["url"]
-    all_listings = []
-    header_count = None
-    page = 1
-    max_pages = 50
-
-    # Random initial delay (2-5s) - imituj użytkownika
-    time.sleep(random.uniform(2.0, 5.0))
-
-    while url and page <= max_pages:
-        log.info(f"  [{profile_key}] Page {page}: {url}")
-        try:
-            resp = session.get(url, timeout=30)
-            resp.raise_for_status()
-        except requests.RequestException as e:
-            log.error(f"  [{profile_key}] HTTP error page {page}: {e}")
-            break
-
-        soup = BeautifulSoup(resp.text, "lxml")
-
-        if page == 1:
-            header_count = get_total_count_from_header(soup)
-            log.info(f"  [{profile_key}] Header count: {header_count}")
-
-        page_listings = parse_listings_from_soup(soup)
-        log.info(f"  [{profile_key}] Page {page}: {len(page_listings)} listings")
-
-        if not page_listings:
-            break
-
-        all_listings.extend(page_listings)
-        url = get_next_page_url(soup, url)
-        page += 1
-        # Longer delay - imituj użytkownika czytającego stronę
-        time.sleep(random.uniform(3.0, 6.0))
-
-    seen_ids = set()
-    unique = []
-    for listing in all_listings:
-        lid = listing["listing_id"]
-        if lid not in seen_ids:
-            seen_ids.add(lid)
-            unique.append(listing)
-
-    return {
-        "listings": unique,
-        "count": len(unique),
-        "header_count": header_count,
-        "pages_scraped": page - 1,
-    }
+    return results
 
 
 def scrape_with_crosscheck(profile_key, profile_config):
-    log.info(f"[SCAN] Crosscheck: {profile_key}")
-    
-    # Use Playwright for user profiles (is_category=False)
-    # Use regular requests for category pages (is_category=True)
-    is_category = profile_config.get("is_category", False)
-    
-    if not is_category:
-        # User profile - use JSON parsing from __PRERENDERED_STATE__
-        # This is faster and more reliable than Playwright
-        log.info(f"  [{profile_key}] Using JSON parsing (user profile)")
-        
-        session1 = get_session()
-        result1 = scrape_user_profile_json(profile_key, profile_config, session1)
-        
-        scraped = result1["count"]
-        header = result1["header_count"]
-        
-        # Allow small tolerance (API pagination might have slight delays)
-        tolerance = 2
-        header_match = header is None or abs(scraped - header) <= tolerance
-        
-        if header_match:
-            log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
-            result1["crosscheck"] = "passed"
-            result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
-            return result1
-        
-        # If mismatch, retry once
-        log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
-        time.sleep(random.uniform(3, 5))
-        
-        session2 = get_session()
-        result2 = scrape_user_profile_json(profile_key, profile_config, session2)
-        c1, c2 = result1["count"], result2["count"]
-        
-        if header is not None:
-            d1 = abs(c1 - header)
-            d2 = abs(c2 - header)
-            if d2 < d1:
-                result2["crosscheck"] = "passed_retry"
-                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-                return result2
-            if c1 == c2:
-                result1["crosscheck"] = "consistent"
-                result1["crosscheck_detail"] = f"both={c1}, header={header}"
-                return result1
-        else:
-            if c2 > c1:
-                result2["crosscheck"] = "no_header_retry"
-                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
-                return result2
-        
-        result1["crosscheck"] = "best_of_two"
-        result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-        return result1
-    
-    else:
-        # Category page - use regular requests (works without JavaScript)
-        log.info(f"  [{profile_key}] Using requests (category page)")
-
-        session1 = get_session()
-        result1 = scrape_profile(profile_key, profile_config, session1)
-
-        scraped = result1["count"]
-        header = result1["header_count"]
-
-        tolerance = 10 if profile_config.get("is_category") else 0
-        header_match = header is None or abs(scraped - header) <= tolerance
-
-        if header_match:
-            log.info(f"[CROSSCHECK] {profile_key}: PASS (scraped={scraped}, header={header})")
-            result1["crosscheck"] = "passed"
-            result1["crosscheck_detail"] = f"scraped={scraped}, header={header}"
-            return result1
-
-        log.info(f"[CROSSCHECK] {profile_key}: MISMATCH scraped={scraped} vs header={header}, retrying...")
-        time.sleep(random.uniform(3, 5))
-
-        session2 = get_session()
-        result2 = scrape_profile(profile_key, profile_config, session2)
-        c1, c2 = result1["count"], result2["count"]
-
-        if header is not None:
-            d1 = abs(c1 - header)
-            d2 = abs(c2 - header)
-            if d2 < d1:
-                result2["crosscheck"] = "passed_retry"
-                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-                return result2
-            if c1 == c2:
-                result1["crosscheck"] = "consistent"
-                result1["crosscheck_detail"] = f"both={c1}, header={header}"
-                return result1
-        else:
-            if c2 > c1:
-                result2["crosscheck"] = "no_header_retry"
-                result2["crosscheck_detail"] = f"1st={c1}, 2nd={c2}"
-                return result2
-
-        result1["crosscheck"] = "best_of_two"
-        result1["crosscheck_detail"] = f"1st={c1}, 2nd={c2}, header={header}"
-        return result1
+    """Single-profile shim for backward compatibility."""
+    results = scrape_with_playwright_all({profile_key: profile_config})
+    return results[profile_key]
 
 
 # ─── Excel Operations ────────────────────────────────────────────────────────
@@ -1694,20 +1722,8 @@ def run_scan():
     log.info(f"SZPERACZ OLX — Scan started {ts.strftime('%Y-%m-%d %H:%M:%S')}")
     log.info(f"{'='*60}")
 
-    results = {}
-    for pk, cfg in PROFILES.items():
-        try:
-            result = scrape_with_crosscheck(pk, cfg)
-            results[pk] = result
-            log.info(f"[OK] {pk}: {result['count']} listings ({result['crosscheck']})")
-        except Exception as e:
-            log.error(f"[ERROR] {pk}: {e}")
-            results[pk] = {
-                "listings": [], "count": 0, "header_count": None,
-                "crosscheck": "error", "crosscheck_detail": str(e), "pages_scraped": 0,
-            }
-        # Long delay between profiles - bardziej naturalny pattern
-        time.sleep(random.uniform(5, 10))
+    # All profiles scraped in one Playwright browser session
+    results = scrape_with_playwright_all(PROFILES)
 
     duration_seconds = int(time.time() - start_time)
     

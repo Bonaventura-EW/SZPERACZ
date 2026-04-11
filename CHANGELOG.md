@@ -13,6 +13,23 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-11] - 🐛 Fix: Playwright dla wszystkich profili
+
+### Fixed 🐛
+- **GitHub Actions IP blokowane przez OLX:** scraper `requests` zwracał pustą stronę 200 OK dla każdego profilu — OLX filtruje ruch z IP data center Microsoft/Azure
+- Wszystkie profile (kategoria + user profiles) przerzucone na **Playwright** (headless Chromium), który omija blokadę przez zachowanie się jak prawdziwy użytkownik
+
+### Changed 📊
+- `scraper.py`: usunięte stare `scrape_profile_playwright` (DEPRECATED) i `scrape_with_crosscheck` z logiką requests
+- Nowa `scrape_with_playwright_all(profiles)` — jeden browser context dla wszystkich profili naraz
+- Nowa `_scrape_one_profile_playwright(page_obj, profile_key, cfg)` — obsługuje jeden profil:
+  - User profiles: `page.evaluate("JSON.stringify(window.__PRERENDERED_STATE__)")` — JSON parsowany przez silnik JS, bez kruchego regex
+  - Kategoria: wait for `[data-cy="l-card"]` → BeautifulSoup → paginacja DOM
+- Nowa `_parse_ads_json(ads)` — wspólny parser dla `adsOffers.data[]`
+- `run_scan()` wywołuje teraz `scrape_with_playwright_all(PROFILES)` zamiast pętli per-profil
+
+---
+
 ## [2026-04-10] - 🐛 Fix: refreshed_count Calculation
 
 ### Fixed 🐛
