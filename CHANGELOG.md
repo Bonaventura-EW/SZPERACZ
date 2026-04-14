@@ -13,6 +13,17 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-14] - 📊 Feature: Rozszerzony tooltip dla wykresu promowanych
+
+### Changed 📊
+- **Wykres % Promowanych** — tooltip teraz pokazuje trzy linie informacji:
+  - Data (np. `11.04`)
+  - `Promowane: 12` — liczba promowanych ogłoszeń
+  - `Udział: 6%` — procentowy udział promowanych
+- Dodano `promotedCountData` do danych wykresu liniowego
+
+---
+
 ## [2026-04-11] - ✨ Feature: Osobna strona Historia skanów (scans.html)
 
 ### Added ✨
