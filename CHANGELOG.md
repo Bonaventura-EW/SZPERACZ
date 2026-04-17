@@ -13,6 +13,42 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-17] - 📊 Archiwum: liczniki odświeżeń i reaktywacji + nowa kolumna w dashboardzie
+
+### Fixed 🐛
+- **`scraper.py` — archiwizacja zachowuje pełną strukturę liczników**:
+  Gdy ogłoszenie trafia do archiwum, teraz zawsze przenoszone są: `refresh_count`, `refresh_history`, `reactivation_count`, `reactivation_history` (z domyślnymi wartościami dla pól które nie istniały). Dodatkowo bieżący otwarty okres aktywności w `reactivation_history[-1]` dostaje pole `active_to_current` (= `archived_date`), żeby zamknąć pełny timeline ogłoszenia.
+- **`scraper.py` — zliczanie dziennych eventów odśw./reakt. obejmuje świeżo zarchiwizowane**:
+  Dotychczas `daily_counts[*].refreshed_count` / `reactivated_count` były liczone tylko dla ogłoszeń obecnych w `new_listings` po scanie. Problem: jeśli ogłoszenie zostało w tym samym scanie odświeżone a potem zniknęło (user zamknął/archiwizował ogłoszenie po odświeżeniu), event nie liczył się w wykresie. Teraz zliczanie obejmuje `new_listings + newly_archived`.
+- **`scraper.py` — kopiowanie refresh_count/history po reaktywacji**:
+  Gdy ogłoszenie wraca z archiwum, teraz poprawnie kopiuje `refresh_count` i `refresh_history` z archiwalnego wpisu. Dotychczas traciło historię.
+
+### Added ✨
+- **`rebuild_archive_counters.py`** — nowy skrypt rekonstruujący historię z Excela:
+  - Dla każdego archiwalnego i aktywnego ogłoszenia odbudowuje `refresh_history`, `refresh_count`, `reactivation_history`, `reactivation_count` na podstawie wpisów z Excela per-ID.
+  - Reaktywacja wykrywana jako luka ≥ 2 scanów, w których ID nie występowało, po czym wróciło.
+  - Następnie rebuilduje `daily_counts[*].refreshed_count` / `reactivated_count` z rzeczywistych zdarzeń ze wszystkich ogłoszeń (aktywnych + archiwum).
+  - Idempotentny — można uruchamiać wielokrotnie.
+
+### Data fix 🔧
+Rebuild uruchomiony na żywych danych, efekt:
+- Przetworzono **819 ogłoszeń** (aktywne + archiwum, 7 profili).
+- Dodano **205 zdarzeń odświeżeń** i **20 zdarzeń reaktywacji** do historii.
+- **33 archiwalnych ogłoszeń** zyskało populowany `refresh_count`, **2 archiwalnych** zyskało `reactivation_count`.
+- Daily_counts zaktualizowane: `wszystkie_pokoje` (+35 dni z reaktywacjami), `mzuri` (+9), `dawny_patron` (+3), `pokojewlublinie` (+1).
+
+### 📊 Dashboard UI
+- **Nowa kolumna „Licz. reakt."** w tabeli ogłoszeń (aktywne i archiwum), obok „Licz. odsw.":
+  - Sortowalna.
+  - Kolor zielony gdy > 0, szary gdy 0.
+  - Tooltip pokazuje datę ostatniej reaktywacji.
+- Tabele w obu zakładkach (Aktualne, Archiwum) mają teraz spójne 11 kolumn (12 w archiwum z „Zniknęło").
+
+### Uwaga 📝
+Dla profili użytkowników (`poqui`, `mzuri`, `artymiuk`, `dawny_patron`, `pokojewlublinie`) scraper pobiera dane z `__PRERENDERED_STATE__` JSON, który nie zawiera daty odświeżenia — kolumna `Data odświeżenia` w Excelu dla tych profili jest pusta. Z tego powodu rebuild zdarzeń odświeżeń działa tylko dla kategorii `wszystkie_pokoje`. To specyfika źródła danych, nie bug.
+
+---
+
 ## [2026-04-17] - 🐛 Fix: Poprawna definicja "odświeżenia" + cleanup fake entries
 
 ### Fixed 🐛

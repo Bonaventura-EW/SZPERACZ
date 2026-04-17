@@ -1936,6 +1936,11 @@ function renderListings(key, tab) {
         valB = b.refresh_count || 0;
         break;
       
+      case 'reactivation_count':
+        valA = a.reactivation_count || (a.reactivation_history ? a.reactivation_history.length : 0);
+        valB = b.reactivation_count || (b.reactivation_history ? b.reactivation_history.length : 0);
+        break;
+      
       case 'archived':
         valA = a.archived_date || '';
         valB = b.archived_date || '';
@@ -1978,6 +1983,7 @@ function renderListings(key, tab) {
           <th class="sortable ${sortColumn === 'published' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('published')">Data publikacji</th>
           <th class="sortable ${sortColumn === 'refreshed' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('refreshed')">Odświeżone</th>
           <th class="sortable ${sortColumn === 'refresh_count' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('refresh_count')" title="Ile razy ogłoszenie zostało odświeżone">Licz. odsw.</th>
+          <th class="sortable ${sortColumn === 'reactivation_count' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('reactivation_count')" title="Ile razy ogłoszenie zostało reaktywowane (wróciło po archiwizacji)">Licz. reakt.</th>
           <th class="sortable ${sortColumn === 'days_active' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('days_active')" title="Dni od pierwszego zeskanowania">Dni aktywne</th>
           ${tab === 'archived' ? `<th class="sortable ${sortColumn === 'archived' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('archived')">Zniknęło</th>` : ''}
         </tr>
@@ -2098,6 +2104,9 @@ function renderListings(key, tab) {
         <td class="date-cell">${refreshed}</td>
         <td style="text-align:center;font-family:var(--font-display);font-weight:600;color:${l.refresh_count > 0 ? 'var(--accent)' : 'var(--text-muted)'};">
           ${l.refresh_count || 0}
+        </td>
+        <td style="text-align:center;font-family:var(--font-display);font-weight:600;color:${(l.reactivation_count || (l.reactivation_history ? l.reactivation_history.length : 0)) > 0 ? 'var(--green)' : 'var(--text-muted)'};" title="${l.reactivation_history && l.reactivation_history.length > 0 ? 'Ostatnia reaktywacja: ' + (l.reactivation_history[l.reactivation_history.length-1].reactivated_at || '').split(' ')[0] : ''}">
+          ${l.reactivation_count || (l.reactivation_history ? l.reactivation_history.length : 0)}
         </td>
         <td class="date-cell" style="font-family:var(--font-display);font-weight:700;color:${daysColor};text-align:center;">${daysActive}${daysActive !== '—' ? '<span style="font-weight:400;font-size:10px;color:var(--text-muted)"> dni</span>' : ''}</td>
         ${tab === 'archived' ? `<td class="date-cell">${archived}</td>` : ''}

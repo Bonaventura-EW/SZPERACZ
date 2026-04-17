@@ -1602,6 +1602,7 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 if old.get("reactivated"):
                     nl["reactivated"] = True
                     nl["reactivation_history"] = old.get("reactivation_history", [])
+                    nl["reactivation_count"] = len(nl["reactivation_history"])
                 
                 # REFRESH COUNT & HISTORY TRACKING
                 # Skopiuj poprzedni licznik i historię
@@ -1642,6 +1643,10 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     "reactivated_at": now_str,
                 })
                 nl["reactivation_history"] = history
+                nl["reactivation_count"] = len(history)
+                # Zachowaj refresh_count i refresh_history z archiwum
+                nl["refresh_count"] = old_archived.get("refresh_count", 0)
+                nl["refresh_history"] = old_archived.get("refresh_history", [])
                 # Usuń z archiwum
                 pd_["archived_listings"] = [a for a in pd_["archived_listings"] if a["id"] != lid]
                 log.info(f"  [REACTIVATED] {lid}: '{nl['title'][:50]}'")
@@ -1765,21 +1770,44 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         # CRITICAL: Chroń przed archiwizacją gdy scraper ma błąd (OLX blocking, network, itp.).
         # Gdy profil prawdziwie jest pusty (crosscheck=passed, header=0), archiwizuj normalnie
         # — użytkownik mógł usunąć wszystkie swoje ogłoszenia.
+        newly_archived = []  # Ogłoszenia zarchiwizowane w tym scanie (do zliczenia zdarzeń z dzisiaj)
         if not is_scraper_error:
             for old_l in pd_.get("current_listings", []):
                 if old_l["id"] not in current_ids:
                     old_l["archived_date"] = now_str
+
+                    # Zamknij otwarty okres reaktywacji (jeśli istnieje, czyli ogłoszenie było reaktywowane)
+                    # Ostatni wpis w reactivation_history ma reactivated_at ale może nie mieć active_to_closed.
+                    # Dodajemy pole active_to_current = archived_date, żeby zachować pełny okres aktywności.
+                    r_hist = old_l.get("reactivation_history", [])
+                    if r_hist:
+                        last = r_hist[-1]
+                        # Jeśli ostatni wpis nie ma zamkniętego bieżącego okresu — zamknij go.
+                        if "active_to_current" not in last:
+                            last["active_to_current"] = now_str
+
+                    # Zachowaj reactivation_count (liczba reaktywacji = długość historii)
+                    old_l["reactivation_count"] = len(r_hist)
+
+                    # Upewnij się że refresh_count i refresh_history istnieją
+                    if "refresh_history" not in old_l:
+                        old_l["refresh_history"] = []
+                    if "refresh_count" not in old_l:
+                        old_l["refresh_count"] = len(old_l["refresh_history"])
+
                     pd_["archived_listings"].append(old_l)
+                    newly_archived.append(old_l)
 
             if len(pd_["archived_listings"]) > 200:
                 pd_["archived_listings"] = pd_["archived_listings"][-200:]
             
             # Count reactivations and refreshes detected TODAY
-            # Zlicz tylko te które zostały reaktywowane/odświeżone DZISIAJ (sprawdź historię)
+            # Zlicza zdarzenia z DZISIAJ dla WSZYSTKICH ogłoszeń (aktywnych + świeżo zarchiwizowanych),
+            # bo ogłoszenie mogło zostać odświeżone dzisiaj, a potem w tym samym scanie zniknąć do archiwum.
             reactivated_count = 0
             refreshed_count = 0
             
-            for l in new_listings:
+            for l in list(new_listings) + newly_archived:
                 # Count reactivations
                 reactivation_history = l.get("reactivation_history", [])
                 if reactivation_history:
