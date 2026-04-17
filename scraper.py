@@ -1608,25 +1608,26 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 nl["refresh_count"] = old.get("refresh_count", 0)
                 nl["refresh_history"] = old.get("refresh_history", [])
                 
-                # Sprawdź czy pojawiła się nowa data odświeżenia
-                # Logika: liczymy każdą UNIKALNĄ datę refreshu jako osobne wydarzenie
-                # - pierwsze wykrycie refreshu (old_refreshed=None → new_refreshed=data) → +1
-                # - zmiana daty refreshu (old_date < new_date) → +1
-                # - ponowne wykrycie tej samej daty (scraper re-scan) → bez zmian (idempotentne)
+                # Event odświeżenia = ZMIANA daty refreshed z wartości X na Y (Y>X).
+                # Pierwsze wykrycie refreshu (old_refreshed=None → new_refreshed=data)
+                # NIE jest eventem odświeżenia — to tylko historyczna informacja o dacie
+                # refreshed w momencie rozpoczęcia śledzenia. Event liczymy dopiero gdy
+                # user FAKTYCZNIE odświeży ogłoszenie (nowa data > poprzedniej).
+                # (Bug fix: poprzednia logika sztucznie zawyżała refreshed_count dla
+                #  nowych ogłoszeń z już-ustawioną datą refreshed.)
                 old_refreshed = old.get("refreshed")
                 new_refreshed = nl.get("refreshed")
-                if new_refreshed:
+                if new_refreshed and old_refreshed and new_refreshed > old_refreshed:
                     already_counted = any(
                         h.get("refreshed_at") == new_refreshed
                         for h in nl["refresh_history"]
                     )
-                    is_new_refresh = old_refreshed is None or new_refreshed > old_refreshed
-                    if is_new_refresh and not already_counted:
+                    if not already_counted:
                         nl["refresh_count"] += 1
                         nl["refresh_history"].append({
                             "refreshed_at": new_refreshed,
                             "detected_at": now_str,
-                            "old_date": old_refreshed,  # None dla pierwszego refreshu
+                            "old_date": old_refreshed,
                         })
                         log.info(f"  [REFRESHED] {lid}: '{nl['title'][:50]}' - odświeżeń: {nl['refresh_count']}")
             elif lid in archived_map:

@@ -13,6 +13,30 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-17] - 🐛 Fix: Poprawna definicja "odświeżenia" + cleanup fake entries
+
+### Fixed 🐛
+- **`scraper.py` — pierwsze wykrycie daty refresh NIE jest eventem odświeżenia**:
+  Poprzednia logika `is_new_refresh = old_refreshed is None or new_refreshed > old_refreshed` liczyła każde pierwsze wykrycie pola `refreshed` jako event. Problem: OLX **zawsze** podaje datę refreshu dla każdego ogłoszenia (nawet gdy user nigdy go nie odświeżył — to pokazuje datę publikacji), więc każde nowe ogłoszenie dodawane do tracking'u dostawało `+1` do `refresh_count`. Nowa definicja: event odświeżenia = **ZMIANA** pola refreshed z X na Y (Y>X). Pierwsza wartość pola refreshed to tylko historyczna informacja, nie event.
+- **`rebuild_refresh_history.py` — restrictive fallback**:
+  Fallback dodawał syntetyczny wpis dla każdego ogłoszenia z `refreshed != None` bez dopasowania w Excelu. Teraz dodaje tylko gdy `json_refreshed` jest **nowsze** niż najnowsza data widziana w Excelu (rzeczywista nowa zmiana). + ten sam fix co w scraper.py: historia liczy tylko zmiany refreshed, nie pierwsze wykrycia.
+
+### Data fix 🔧
+- Wyczyszczono **323 fake entries** (`old_date=None`) z `refresh_history` wszystkich ogłoszeń:
+  - wszystkie_pokoje: 214
+  - mzuri: 86 (agencja, nigdy nie odświeża manualnie)
+  - poqui: 10
+  - dawny_patron: 7
+  - pokojewlublinie: 4
+  - artymiuk: 2
+- Przeliczono `daily_counts[*].refreshed_count` dla wszystkich dni na podstawie pozostałych **213 prawdziwych eventów** (zmiana refreshed na nowszą datę).
+- Najbardziej spektakularne korekty: `wszystkie_pokoje[2026-03-30]: 33 → 0`, `mzuri[2026-04-11]: 8 → 0`, `poqui[2026-03-07]: 6 → 0`.
+
+### Semantic change 📝
+- Interpretacja metryki "odświeżenia" w dashboard'zie zmienia się: teraz pokazuje tylko RZECZYWISTE odświeżenia (user kliknął "Odśwież ogłoszenie"), nie pierwsze wykrycie. Liczby będą znacznie niższe niż dotychczas, ale za to prawdziwe.
+
+---
+
 ## [2026-04-17] - 🐛 Data fix: Usunięcie fake "synthetic" refresh entries z rebuildu
 
 ### Fixed 🐛

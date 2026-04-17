@@ -168,14 +168,17 @@ def build_refresh_history(excel_data, data):
             # Zbierz skany z Excel (jeśli są)
             scans = list(excel_profile.get(lid, []))
             
-            # FALLBACK: jeśli JSON ma 'refreshed' dla tego ogłoszenia i ostatni scan w Excel
-            # tego nie pokazuje (rozbieżność Excel vs JSON), dodaj syntetyczny wpis z last_scan
+            # FALLBACK (restrictive): dodaj syntetyczny wpis TYLKO gdy json_refreshed
+            # jest *nowszy* niż najnowsza data odświeżenia widziana w Excelu.
+            # Inaczej (np. Excel w ogóle nie ma danych, albo json_refreshed == ostatnia
+            # z Excela) — nie dodajemy nic, żeby nie stworzyć fake "pierwszego refreshu".
+            # Fake entries psują refreshed_count w daily_counts (commit c37d77f).
             json_refreshed = listing.get("refreshed")
             if json_refreshed and last_scan_date:
-                excel_has_current = any(
-                    s.get("refreshed") == json_refreshed for s in scans
-                )
-                if not excel_has_current:
+                excel_refresheds = [s.get("refreshed") for s in scans if s.get("refreshed")]
+                latest_excel_refreshed = max(excel_refresheds) if excel_refresheds else None
+                # Warunek: JSON pokazuje NOWSZĄ datę niż ostatnia w Excelu
+                if latest_excel_refreshed is None or json_refreshed > latest_excel_refreshed:
                     scans.append({
                         "scan_date": last_scan_date,
                         "scan_time": last_scan_time,
@@ -190,20 +193,23 @@ def build_refresh_history(excel_data, data):
             scans.sort(key=lambda x: (x["scan_date"], x["scan_time"]))
             
             # Znajdź zmiany refreshed date
-            # Logika: każda UNIKALNA data refreshu liczona jest osobno
-            # Pierwsze pojawienie się daty (prev_refreshed=None → curr_refreshed=data) też się liczy
+            # Logika: event odświeżenia to ZMIANA daty refreshed z wartości X na Y (Y>X).
+            # Pierwsza wykryta data (gdy prev_refreshed=None → curr_refreshed=X) NIE jest
+            # eventem odświeżenia — to tylko historyczna informacja jaka była data refreshed
+            # w momencie gdy zaczęliśmy śledzić ogłoszenie. Event liczymy dopiero gdy
+            # użytkownik rzeczywiście odświeży (nowa data > poprzedniej).
             history = []
             prev_refreshed = None
             
             for scan in scans:
                 curr_refreshed = scan["refreshed"]
                 
-                if curr_refreshed and curr_refreshed != prev_refreshed:
-                    # Nowa data refreshu (pierwsza lub zmieniona) - dodaj do historii
+                if curr_refreshed and prev_refreshed and curr_refreshed > prev_refreshed:
+                    # Rzeczywiste odświeżenie — data się zmieniła na nowszą
                     history.append({
                         "refreshed_at": curr_refreshed,
                         "detected_at": f"{scan['scan_date']} {scan['scan_time']}:00",
-                        "old_date": prev_refreshed  # None dla pierwszego refreshu
+                        "old_date": prev_refreshed
                     })
                 
                 if curr_refreshed:
@@ -224,16 +230,15 @@ def build_refresh_history(excel_data, data):
             
             scans = list(excel_profile.get(lid, []))
             
-            # Fallback: jeśli JSON ma 'refreshed' a Excel tego nie pokazuje
+            # Fallback (restrictive, jak dla current_listings)
             json_refreshed = listing.get("refreshed")
             archived_at = listing.get("archived_date", "")
             if json_refreshed and archived_at:
                 archived_date = archived_at.split(" ")[0]
                 archived_time = archived_at.split(" ")[1][:5] if " " in archived_at else "00:00"
-                excel_has_current = any(
-                    s.get("refreshed") == json_refreshed for s in scans
-                )
-                if not excel_has_current:
+                excel_refresheds = [s.get("refreshed") for s in scans if s.get("refreshed")]
+                latest_excel_refreshed = max(excel_refresheds) if excel_refresheds else None
+                if latest_excel_refreshed is None or json_refreshed > latest_excel_refreshed:
                     scans.append({
                         "scan_date": archived_date,
                         "scan_time": archived_time,
@@ -248,11 +253,11 @@ def build_refresh_history(excel_data, data):
             history = []
             prev_refreshed = None
             
+            # Ten sam fix co dla current: liczymy tylko ZMIANY refreshed
             for scan in scans:
                 curr_refreshed = scan["refreshed"]
                 
-                if curr_refreshed and curr_refreshed != prev_refreshed:
-                    # Nowa data refreshu (pierwsza lub zmieniona)
+                if curr_refreshed and prev_refreshed and curr_refreshed > prev_refreshed:
                     history.append({
                         "refreshed_at": curr_refreshed,
                         "detected_at": f"{scan['scan_date']} {scan['scan_time']}:00",
