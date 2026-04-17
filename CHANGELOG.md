@@ -13,7 +13,30 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
-## [2026-04-14] - 📊 Feature: Rozszerzony tooltip dla wykresu promowanych
+## [2026-04-17] - 🐛 Fix: Licznik odświeżeń dla pierwszego wykrytego refreshu
+
+### Fixed 🐛
+- **`scraper.py`** (linia 1591): warunek `if old_refreshed and new_refreshed and new_refreshed > old_refreshed` wymagał by poprzedni `refreshed` był truthy, przez co **pierwsze pojawienie się znacznika odświeżenia nigdy nie było liczone**. Nowa logika jest idempotentna:
+  - Pierwsze wykrycie refreshu (`old_refreshed=None` → data) = +1
+  - Zmiana daty refreshu (stara → nowa) = +1
+  - Ponowne wykrycie tej samej daty = 0 (sprawdzamy czy `refreshed_at` już jest w `refresh_history`)
+- **`rebuild_refresh_history.py`**:
+  - Ten sam bug w logice rekonstrukcji historii (pierwszy refresh gubiony)
+  - **Zła mapa kolumn Excel**: czytał `ID ogłoszenia` z kolumny 12 i `Data odświeżenia` z kolumny 10, a w aktualnym layoucie są w kolumnach 17 i 14 (po dodaniu "Liczba odświeżeń"). Dodano autodetekcję kolumn z nagłówka arkusza.
+  - **Rozbieżność Excel vs JSON**: gdy JSON miał `refreshed` którego Excel nie pokazuje dla ostatniego scanu, rebuild to pomijał. Dodano fallback: jeśli aktualny `refreshed` z JSON nie jest obecny w scanach z Excela, dokleja go jako syntetyczny wpis z timestampem `last_scan` (dla current) lub `archived_date` (dla archived).
+  - Zawsze nadpisuje `refresh_history` i `refresh_count` (wcześniej zostawiał stare, buggy wartości gdy nie znalazł nowych).
+
+### Changed 🔧
+- Rebuild historyczny: refresh_count i refresh_history przeliczone od zera dla wszystkich profili na podstawie pełnych danych Excel + fallback z JSON. Łącznie 389 ogłoszeń z historią odświeżeń, 567 wydarzeń. Invariant `refresh_count == len(refresh_history)` spełniony dla wszystkich ogłoszeń.
+
+### Example 📸
+Przed fixem — ogłoszenia które po raz pierwszy dostały datę odświeżenia miały ikonkę 🔄 w UI, ale `refresh_count=0`:
+- `Jasny pokoj... ul. Grabskiego` — refreshed=2026-04-15, **count=0** ❌
+- `Pokój z balkonem do wynajęcia od zaraz!` — refreshed=2026-04-15, **count=0** ❌
+
+Po fixie: `count=1` dla obu, z wpisem `{refreshed_at: "2026-04-15", old_date: null}` w historii.
+
+
 
 ### Changed 📊
 - **Wykres % Promowanych** — tooltip teraz pokazuje trzy linie informacji:
