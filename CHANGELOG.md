@@ -13,6 +13,22 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-17] - 🐛 Data fix: Usunięcie fake "synthetic" refresh entries z rebuildu
+
+### Fixed 🐛
+- **Data fix refresh_history**: Commit `4343f5f` uruchomił `rebuild_refresh_history.py`, który dla każdego ogłoszenia z `refreshed != None` w JSON ale bez matchu w Excelu dodał **syntetyczny wpis z `detected_at=last_scan_date + last_scan_time`**. Efekt: 70 ogłoszeń (w tym 50 w mzuri) dostało `refresh_count=1` z tym samym timestampem `2026-04-17 08:50:00`. Następnie `rebuild_refreshed_count.py` zliczył je wszystkie jako zdarzenia z tego dnia — stąd `daily_counts[2026-04-17].refreshed_count=45` dla mzuri (mimo że mzuri to agencja i NIGDY nie odświeża ogłoszeń ręcznie, co potwierdza Excel: 71 ogłoszeń, 0 z historią zmian `refreshed`).
+- **Cleanup**: usunięto 70 synthetic entries (detected_at=`2026-04-17 08:50:00` + old_date=None) i przeliczono `refreshed_count` w daily_counts:
+  - wszystkie_pokoje: 34 → 29
+  - pokojewlublinie: 1 → 0
+  - poqui: 7 → 4
+  - dawny_patron: 4 → 0
+  - mzuri: **45 → 0** (główny case)
+
+### Open issue ⚠️
+- Logika fallback w `rebuild_refresh_history.py` (linie 173-184) dalej generuje synthetic entries. Powinna być albo usunięta, albo ograniczona do sytuacji gdzie `refreshed_at > last scan date` (czyli rzeczywiście nowa data odświeżenia), inaczej będzie kłamać przy każdym kolejnym uruchomieniu.
+
+---
+
 ## [2026-04-17] - 🐛 Fix: Guard rozróżnia legit-empty vs scraper-error
 
 ### Fixed 🐛
