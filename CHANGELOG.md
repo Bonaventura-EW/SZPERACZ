@@ -13,6 +13,27 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-17] - 🐛 Fix: Audyt kodu + ochrona daily_counts przed błędami scrapera
+
+### Fixed 🐛
+- **`scraper.py` — ochrona daily_counts przed błędami scrapera** (`generate_dashboard_json()`):
+  Gdy scan zwracał 0 wyników (OLX blocking, network error), archiwizacja i `current_listings` były chronione, ale **`daily_counts` były nadpisywane wartością 0**. Efekt: dashboard dla artymiuka od 5 dni pokazywał `count=0`, mimo że `current_listings` miał 1 ogłoszenie. Dodano guard: jeśli `result["count"]==0` ALE `current_listings` ma >0 elementów → pomijamy całą aktualizację daily_counts.
+- **`scraper.py` — promocje dla nowych ogłoszeń**: cały blok `# ═══ PROMOTION TRACKING ═══` był wewnątrz `if lid in old_map:`, więc dla nowo wykrytych ogłoszeń (lub reaktywowanych z archiwum) które od razu były promowane, **pierwszy dzień promocji nie był liczony**. Dodano `else` branch: nowe promowane → `promoted_days_current=1, promoted_sessions_count=1`; reaktywacje promowane → licznik sesji z archiwum + 1; zachowuje `promotion_history` z archived_listings.
+- **`email_report.py`** (linia 551): `trend_diff` leak'owało między iteracjami pętli po profilach. Dodano `trend_diff = None` inicjalizację i poprawiono warunek na `trend_diff is not None and trend_diff > 15`.
+- **`scraper.py` — shadowing zmiennej**: `new_listings` używane w dwóch różnych znaczeniach w tej samej funkcji. Pierwsza (lista nowych względem `old_map` — do mediany) zmieniona na `newly_detected_listings`.
+
+### Changed 🔧
+- **Porządki pyflakes**: usunięte nieużywane importy (`sys`, `json` w diagnose.py; `datetime` w backfill_prices.py, rebuild_refresh_reactivation_counts.py, rebuild_refreshed_count.py; `timedelta` w rebuild_historical_medians.py). Poprawione f-stringi bez placeholderów w 7 plikach.
+- **`backfill_prices.py`**: dodane ostrzeżenie DEPRECATED w docstring — skrypt stosuje aktualną medianę do wszystkich historycznych dni, co psuje dane. Zalecany `rebuild_historical_medians.py`.
+
+### Tested ✅
+- Dry-run: symulacja scan error dla artymiuka — guard działa, `current_listings` zachowane, brak nowego wpisu `count=0` w daily_counts.
+- Normalna operacja: wszystkie profile dostają poprawne daily_counts update.
+- Profile prawdziwie puste (villahome, current=0, scan=0) dostają normalny wpis count=0 — guard nie blokuje.
+- `py_compile` + `pyflakes` = wszystkie 10 plików czyste.
+
+---
+
 ## [2026-04-17] - 🐛 Fix: Licznik odświeżeń dla pierwszego wykrytego refreshu
 
 ### Fixed 🐛

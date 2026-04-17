@@ -1460,11 +1460,13 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         dc = pd_["daily_counts"]
 
         # Identyfikuj NOWE ogłoszenia (których nie było w poprzednim skanie)
+        # UWAGA: nazwa `newly_detected_listings` celowo inna niż `new_listings` niżej —
+        # tamta to lista wszystkich przeprocesowanych (stare nazewnictwo, legacy).
         old_ids = set(l["id"] for l in pd_.get("current_listings", []))
-        new_listings = [l for l in result["listings"] if l["listing_id"] not in old_ids]
-        
-        # Kalkuluj medianę cen TYLKO z nowych ogłoszeń
-        new_prices = [l["price"] for l in new_listings if l.get("price") is not None and l["price"] > 0]
+        newly_detected_listings = [l for l in result["listings"] if l["listing_id"] not in old_ids]
+
+        # Kalkuluj medianę cen TYLKO z nowych ogłoszeń (first_seen == dziś)
+        new_prices = [l["price"] for l in newly_detected_listings if l.get("price") is not None and l["price"] > 0]
         if new_prices:
             sorted_prices = sorted(new_prices)
             n = len(sorted_prices)
@@ -1475,68 +1477,79 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         else:
             median_price = None
 
-        today_entry = next((d for d in dc if d["date"] == today), None)
-        if today_entry:
-            if result["count"] >= today_entry["count"]:
-                today_entry["count"] = result["count"]
-                today_entry["timestamp"] = now_str
-                today_entry["median_price"] = median_price
-                
-                # NEW: Update promoted stats
+        # ═══ DATA PROTECTION ═══
+        # Nie aktualizuj daily_counts gdy scan zwrócił 0 wyników ALE profil ma
+        # znane ogłoszenia w current_listings — to oznacza błąd scrapera (OLX
+        # blocking, network, itp.), a nie prawdziwe zero.
+        # Archiwizacja jest chroniona osobno niżej (linia z `if result["count"] > 0:`).
+        current_listings_count = len(pd_.get("current_listings", []))
+        skip_daily_update = result["count"] == 0 and current_listings_count > 0
+
+        if skip_daily_update:
+            log.warning(f"[{pk}] Skipping daily_counts update - scan found 0 listings but current_listings has {current_listings_count} (likely scraper error)")
+        else:
+            today_entry = next((d for d in dc if d["date"] == today), None)
+            if today_entry:
+                if result["count"] >= today_entry["count"]:
+                    today_entry["count"] = result["count"]
+                    today_entry["timestamp"] = now_str
+                    today_entry["median_price"] = median_price
+
+                    # NEW: Update promoted stats
+                    total = result["count"]
+                    promoted_count = sum(1 for l in result["listings"] if l.get("is_promoted"))
+                    promoted_pct = round(promoted_count / total * 100, 1) if total > 0 else 0
+
+                    promo_breakdown = {}
+                    for l in result["listings"]:
+                        if l.get("is_promoted"):
+                            ptype = l.get("promotion_type", 'unknown')
+                            promo_breakdown[ptype] = promo_breakdown.get(ptype, 0) + 1
+
+                    today_entry["promoted_count"] = promoted_count
+                    today_entry["promoted_percentage"] = promoted_pct
+                    today_entry["promotion_breakdown"] = promo_breakdown
+
+                    # refreshed_count and reactivated_count will be updated later after new_listings processing
+                    # (need to check refresh_history to count actual refreshes, not just listings with refreshed==today)
+
+                    # Przelicz change względem wczoraj, nie poprzedniej wartości dzisiejszej
+                    yesterday_entry = dc[-2] if len(dc) >= 2 else None
+                    if yesterday_entry:
+                        today_entry["change"] = result["count"] - yesterday_entry["count"]
+            else:
+                prev_c = dc[-1]["count"] if dc else None
+                ch = result["count"] - prev_c if prev_c is not None else 0
+
+                # NEW: Calculate promoted stats
                 total = result["count"]
                 promoted_count = sum(1 for l in result["listings"] if l.get("is_promoted"))
                 promoted_pct = round(promoted_count / total * 100, 1) if total > 0 else 0
-                
+
+                # Count by promotion type
                 promo_breakdown = {}
                 for l in result["listings"]:
                     if l.get("is_promoted"):
                         ptype = l.get("promotion_type", 'unknown')
                         promo_breakdown[ptype] = promo_breakdown.get(ptype, 0) + 1
-                
-                today_entry["promoted_count"] = promoted_count
-                today_entry["promoted_percentage"] = promoted_pct
-                today_entry["promotion_breakdown"] = promo_breakdown
-                
-                # refreshed_count and reactivated_count will be updated later after new_listings processing
-                # (need to check refresh_history to count actual refreshes, not just listings with refreshed==today)
-                
-                # Przelicz change względem wczoraj, nie poprzedniej wartości dzisiejszej
-                yesterday_entry = dc[-2] if len(dc) >= 2 else None
-                if yesterday_entry:
-                    today_entry["change"] = result["count"] - yesterday_entry["count"]
-        else:
-            prev_c = dc[-1]["count"] if dc else None
-            ch = result["count"] - prev_c if prev_c is not None else 0
-            
-            # NEW: Calculate promoted stats
-            total = result["count"]
-            promoted_count = sum(1 for l in result["listings"] if l.get("is_promoted"))
-            promoted_pct = round(promoted_count / total * 100, 1) if total > 0 else 0
-            
-            # Count by promotion type
-            promo_breakdown = {}
-            for l in result["listings"]:
-                if l.get("is_promoted"):
-                    ptype = l.get("promotion_type", 'unknown')
-                    promo_breakdown[ptype] = promo_breakdown.get(ptype, 0) + 1
-            
-            # refreshed_count will be calculated later after new_listings processing
-            # (need to check refresh_history to count actual refreshes)
-            
-            dc.append({
-                "date": today,
-                "count": result["count"],
-                "change": ch,
-                "timestamp": now_str,
-                "median_price": median_price,
-                # NEW: Promoted metrics
-                "promoted_count": promoted_count,
-                "promoted_percentage": promoted_pct,
-                "promotion_breakdown": promo_breakdown,
-                # Refresh and reactivation counts - will be updated after new_listings processing
-                "refreshed_count": 0,
-                "reactivated_count": 0,
-            })
+
+                # refreshed_count will be calculated later after new_listings processing
+                # (need to check refresh_history to count actual refreshes)
+
+                dc.append({
+                    "date": today,
+                    "count": result["count"],
+                    "change": ch,
+                    "timestamp": now_str,
+                    "median_price": median_price,
+                    # NEW: Promoted metrics
+                    "promoted_count": promoted_count,
+                    "promoted_percentage": promoted_pct,
+                    "promotion_breakdown": promo_breakdown,
+                    # Refresh and reactivation counts - will be updated after new_listings processing
+                    "refreshed_count": 0,
+                    "reactivated_count": 0,
+                })
 
         if len(dc) > 90:
             pd_["daily_counts"] = dc[-90:]
@@ -1717,6 +1730,27 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     
                     log.info(f"  [PROMO END] {lid}: Lasted {days} days, session #{nl['promotion_history'][-1]['session_number']}")
 
+            else:
+                # ═══ PROMOTION TRACKING DLA NOWYCH / REAKTYWOWANYCH ═══
+                # Gdy ogłoszenie pojawia się po raz pierwszy (lub wraca z archiwum)
+                # i JEST PROMOWANE — licz dzień 1 zamiast pomijać
+                if nl.get("is_promoted"):
+                    nl["promotion_started_at"] = now_str
+                    nl["promoted_days_current"] = 1
+                    archived_sessions = archived_map.get(lid, {}).get("promoted_sessions_count", 0) if lid in archived_map else 0
+                    nl["promoted_sessions_count"] = archived_sessions + 1
+                    nl["promotion_history"] = archived_map.get(lid, {}).get("promotion_history", []) if lid in archived_map else []
+                    log.info(f"  [PROMO START NEW] {lid}: Session #{nl['promoted_sessions_count']}")
+                else:
+                    if lid in archived_map:
+                        nl["promoted_days_current"] = 0
+                        nl["promoted_sessions_count"] = archived_map[lid].get("promoted_sessions_count", 0)
+                        nl["promotion_history"] = archived_map[lid].get("promotion_history", [])
+                    else:
+                        nl["promoted_days_current"] = 0
+                        nl["promoted_sessions_count"] = 0
+                        nl["promotion_history"] = []
+
         # CRITICAL: Nie archiwizuj ogłoszeń jeśli scan znalazł 0 (prawdopodobnie błąd scrapera)
         # Zapobiega fałszywej archiwizacji przy OLX blocking / scraper errors
         if result["count"] > 0:
@@ -1807,7 +1841,7 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
         message = f"Skan {profiles_scanned} profili zakończony pomyślnie"
     else:
         status = "success"
-        message = f"Skan zakończony z drobnymi niezgodnościami"
+        message = "Skan zakończony z drobnymi niezgodnościami"
     
     # Calculate next scan time (7:00 UTC next day)
     next_scan = scan_timestamp.replace(hour=7, minute=0, second=0, microsecond=0)

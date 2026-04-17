@@ -77,7 +77,7 @@ def run_scan_workflow(log):
         
         # Log statistics
         total_listings = sum(r['count'] for r in results.values())
-        log.info(f"Scan completed successfully:")
+        log.info("Scan completed successfully:")
         log.info(f"  - Profiles scanned: {len(results)}")
         log.info(f"  - Total listings: {total_listings}")
         
@@ -156,7 +156,7 @@ def show_status(log):
                 for p in data.get('profiles', {}).values()
             )
             
-            log.info(f"Dashboard Data:")
+            log.info("Dashboard Data:")
             log.info(f"  - Last scan: {last_scan}")
             log.info(f"  - Profiles tracked: {profile_count}")
             log.info(f"  - Current listings: {total_listings}")
@@ -167,14 +167,14 @@ def show_status(log):
     
     if os.path.exists(excel_path):
         size_mb = os.path.getsize(excel_path) / (1024 * 1024)
-        log.info(f"Excel Report:")
+        log.info("Excel Report:")
         log.info(f"  - Size: {size_mb:.2f} MB")
         log.info(f"  - Path: {excel_path}")
     else:
         log.warning(f"  - Excel file not found: {excel_path}")
     
     # Check environment
-    log.info(f"Environment:")
+    log.info("Environment:")
     log.info(f"  - Python: {sys.version.split()[0]}")
     log.info(f"  - EMAIL_PASSWORD set: {'Yes' if os.environ.get('EMAIL_PASSWORD') else 'No'}")
     

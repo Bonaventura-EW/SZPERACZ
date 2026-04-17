@@ -3,8 +3,6 @@
 SZPERACZ Diagnostics - sprawdź status workflow i zidentyfikuj problemy
 """
 
-import sys
-import json
 from datetime import datetime, timedelta
 
 def check_workflow_status():

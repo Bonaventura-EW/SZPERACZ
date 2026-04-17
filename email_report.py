@@ -509,6 +509,7 @@ def build_report_html():
         
         # Calculate trend
         trend_html = '—'
+        trend_diff = None  # Ensure defined for the insight block below
         if len(week) >= 2:
             first_pct = week[0].get("promoted_percentage", 0)
             trend_diff = pct - first_pct
@@ -548,7 +549,7 @@ def build_report_html():
         elif avg_pct < 10 and total > 5:
             promo_insights.append(f"<strong>{label}</strong> nie inwestuje w promocje (tylko {avg_pct:.0f}%)")
         
-        if len(week) >= 2 and trend_diff > 15:
+        if trend_diff is not None and trend_diff > 15:
             promo_insights.append(f"<strong>{label}</strong> znacząco zwiększył inwestycję w promocje (+{trend_diff:.0f}pp w tydzień)")
     
     html += '</table>'
@@ -686,7 +687,7 @@ def build_report_html():
         if not stats:
             continue
         
-        html += f'<div class="profile-section">'
+        html += '<div class="profile-section">'
         html += f'<h2>📌 {label}</h2>'
         
         # Stats Grid

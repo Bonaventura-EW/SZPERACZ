@@ -6,7 +6,7 @@ Używa informacji o first_seen i archived_date aby określić które ogłoszenia
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 
 DATA_DIR = "data"
 JSON_PATH = os.path.join(DATA_DIR, "dashboard_data.json")
@@ -54,7 +54,7 @@ def rebuild_medians():
         all_listings = current_listings + archived_listings
         
         if not all_listings:
-            print(f"  Brak ogłoszeń - pomijam\n")
+            print("  Brak ogłoszeń - pomijam\n")
             continue
         
         # Dla każdego dnia w daily_counts

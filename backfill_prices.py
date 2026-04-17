@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 """
 Backfill script - dodaje brakujące statystyki cenowe do daily_counts.
-Dla wpisów z None w median_price używa aktualnych cen jako przybliżenia.
+
+⚠️  UWAGA: TEN SKRYPT JEST DESTRUKTYWNY - używa AKTUALNEJ mediany (z current_listings)
+    jako przybliżenia dla dni, które mają median_price=None. Oznacza to, że
+    nadpisuje prawidłowe brak-danych artefaktami.
+
+    Użyj `rebuild_historical_medians.py` zamiast tego - tam mediana liczona jest
+    z listingów, których first_seen odpowiada danemu dniowi (zgodnie z zasadą
+    w scraper.py).
+
+    Zachowany dla kompatybilności i jednorazowej migracji danych.
 """
 
 import json
 import os
-from datetime import datetime
 
 DATA_DIR = "data"
 JSON_PATH = os.path.join(DATA_DIR, "dashboard_data.json")

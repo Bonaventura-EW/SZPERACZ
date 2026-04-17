@@ -152,7 +152,7 @@ def build_refresh_history(excel_data, data):
         print(f"\n📋 [{profile_key}]")
         
         if profile_key not in excel_data:
-            print(f"   ⚠️  Brak danych Excel, pomijam")
+            print("   ⚠️  Brak danych Excel, pomijam")
             continue
         
         excel_profile = excel_data[profile_key]

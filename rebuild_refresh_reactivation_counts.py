@@ -9,7 +9,6 @@ Rebuild refresh_count i reactivated_count w daily_counts na podstawie danych his
 
 import json
 import os
-from datetime import datetime
 from collections import defaultdict
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
@@ -76,7 +75,7 @@ with open(JSON_PATH, "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=2)
 
 print("\n" + "=" * 70)
-print(f"✅ REBUILD ZAKOŃCZONY")
+print("✅ REBUILD ZAKOŃCZONY")
 print(f"📊 Total zaktualizowanych wpisów: {total_fixed}")
 print(f"💾 Zapisano: {JSON_PATH}")
 print("=" * 70)

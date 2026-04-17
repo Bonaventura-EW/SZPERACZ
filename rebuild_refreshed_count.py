@@ -13,7 +13,6 @@ refresh_history entries in current_listings and archived_listings.
 import json
 import os
 from collections import defaultdict
-from datetime import datetime
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 JSON_PATH = os.path.join(DATA_DIR, "dashboard_data.json")
@@ -72,7 +71,7 @@ def rebuild_refreshed_counts():
             for date, count in sorted_dates[-10:]:  # Last 10 dates
                 print(f"    {date}: {count} refreshes")
         else:
-            print(f"  No refresh_history entries found")
+            print("  No refresh_history entries found")
         
         # Update daily_counts
         daily_counts = profile_data.get("daily_counts", [])
@@ -92,7 +91,7 @@ def rebuild_refreshed_counts():
             print(f"  Fixed {fixes_in_profile} entries")
             total_fixes += fixes_in_profile
         else:
-            print(f"  No fixes needed")
+            print("  No fixes needed")
     
     # Save updated data
     with open(JSON_PATH, "w", encoding="utf-8") as f:
