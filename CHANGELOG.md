@@ -13,6 +13,24 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-17] - 🐛 Fix: Guard rozróżnia legit-empty vs scraper-error
+
+### Fixed 🐛
+- **`scraper.py` — rozróżnienie "prawdziwie pusty profil" od "błędu scrapera"**:
+  Poprzedni guard `if result["count"] > 0` był za prosty — traktował WSZYSTKIE przypadki count=0 jako błąd scrapera. Efekt: gdy użytkownik (np. artymiuk) realnie usunął swoje ogłoszenia i OLX API zwraca `total_elements=0`, ogłoszenia zostawały martwe w `current_listings` na zawsze. Wprowadzono funkcję `is_scraper_error`:
+  - `crosscheck == "error"` → na pewno błąd, chroń dane
+  - `count == 0 and header_count is None` → nie można zweryfikować, chroń
+  - `crosscheck == "passed" and header_count == 0` → **PRAWDZIWIE pusty profil**, archiwizuj normalnie
+  Zarówno archiwizacja, jak i guard na daily_counts używają teraz tego samego sygnału.
+
+### Data fix 🔧
+- Ręcznie przeniesiono "Pokój jednoosobowy Wyżynna" (artymiuk) z current_listings do archived_listings — ogłoszenie było nieaktywne na OLX od 2026-04-10, ale poprzedni guard trzymał je w current przez 7 dni.
+
+### Tested ✅
+- Dry-run: 3 scenariusze testowe (legit empty, scraper error, normal scan) → wszystkie działają zgodnie z oczekiwaniem.
+
+---
+
 ## [2026-04-17] - 🐛 Fix: Audyt kodu + ochrona daily_counts przed błędami scrapera
 
 ### Fixed 🐛

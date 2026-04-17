@@ -1478,15 +1478,25 @@ def generate_dashboard_json(scan_results, scan_timestamp):
             median_price = None
 
         # ═══ DATA PROTECTION ═══
-        # Nie aktualizuj daily_counts gdy scan zwrócił 0 wyników ALE profil ma
-        # znane ogłoszenia w current_listings — to oznacza błąd scrapera (OLX
-        # blocking, network, itp.), a nie prawdziwe zero.
-        # Archiwizacja jest chroniona osobno niżej (linia z `if result["count"] > 0:`).
+        # Chronimy daily_counts i current_listings tylko gdy scan zawiódł.
+        # Scenariusze:
+        #   1. Scan error (crosscheck=error) → prawdopodobny błąd OLX/network, chroń dane
+        #   2. Scan OK ale header_count=None i count=0 → nie można zweryfikować, chroń
+        #   3. Scan OK, header=0, count=0 → profil PRAWDZIWIE pusty, archiwizuj normalnie
+        #   4. Scan OK, header=N, count=N → normalna sytuacja
+        crosscheck = result.get("crosscheck", "")
+        header_count = result.get("header_count")
+        is_scraper_error = (
+            crosscheck == "error"
+            or (result["count"] == 0 and header_count is None)
+        )
         current_listings_count = len(pd_.get("current_listings", []))
-        skip_daily_update = result["count"] == 0 and current_listings_count > 0
+
+        # Guard na daily_counts: pomijamy tylko gdy mamy znane dane a scan zawiódł
+        skip_daily_update = is_scraper_error and current_listings_count > 0
 
         if skip_daily_update:
-            log.warning(f"[{pk}] Skipping daily_counts update - scan found 0 listings but current_listings has {current_listings_count} (likely scraper error)")
+            log.warning(f"[{pk}] Skipping daily_counts update - scraper error detected (crosscheck={crosscheck}, header={header_count}, current_listings={current_listings_count})")
         else:
             today_entry = next((d for d in dc if d["date"] == today), None)
             if today_entry:
@@ -1751,9 +1761,10 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                         nl["promoted_sessions_count"] = 0
                         nl["promotion_history"] = []
 
-        # CRITICAL: Nie archiwizuj ogłoszeń jeśli scan znalazł 0 (prawdopodobnie błąd scrapera)
-        # Zapobiega fałszywej archiwizacji przy OLX blocking / scraper errors
-        if result["count"] > 0:
+        # CRITICAL: Chroń przed archiwizacją gdy scraper ma błąd (OLX blocking, network, itp.).
+        # Gdy profil prawdziwie jest pusty (crosscheck=passed, header=0), archiwizuj normalnie
+        # — użytkownik mógł usunąć wszystkie swoje ogłoszenia.
+        if not is_scraper_error:
             for old_l in pd_.get("current_listings", []):
                 if old_l["id"] not in current_ids:
                     old_l["archived_date"] = now_str
@@ -1792,7 +1803,7 @@ def generate_dashboard_json(scan_results, scan_timestamp):
             # Aktualizuj current_listings TYLKO gdy scan był poprawny (count > 0)
             pd_["current_listings"] = new_listings
         else:
-            log.warning(f"[{pk}] Skipping archiving AND current_listings update - scan found 0 listings (likely scraper error)")
+            log.warning(f"[{pk}] Skipping archiving AND current_listings update - scraper error detected (crosscheck={crosscheck}, header={header_count})")
             # Zachowaj stare current_listings - nie nadpisuj pustą listą!
         scan_entry["profiles"][pk] = {"count": result["count"], "crosscheck": result.get("crosscheck", "")}
 

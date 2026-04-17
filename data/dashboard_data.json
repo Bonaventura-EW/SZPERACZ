@@ -24154,37 +24154,7 @@
           "reactivated_count": 0
         }
       ],
-      "current_listings": [
-        {
-          "id": "1059827925",
-          "title": "Pokój jednoosobowy Wyżynna",
-          "price": 590,
-          "price_text": "590 zł",
-          "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-wyzynna-CID3-ID19IWEN.html",
-          "published": "2026-03-10",
-          "refreshed": "2026-04-07",
-          "date_text": "Odświeżono 2026-04-07",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/zb9d4zxhnz662-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-11 07:57:53",
-          "last_seen": "2026-04-09 08:24:14",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 1,
-          "refresh_history": [
-            {
-              "refreshed_at": "2026-04-07",
-              "detected_at": "2026-04-17 08:50:00",
-              "old_date": null
-            }
-          ],
-          "first_price": 790,
-          "price_change": -200,
-          "previous_price": 790,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0
-        }
-      ],
+      "current_listings": [],
       "archived_listings": [
         {
           "id": "19ClP1",
@@ -24235,6 +24205,36 @@
             }
           ],
           "refresh_count": 1
+        },
+        {
+          "id": "1059827925",
+          "title": "Pokój jednoosobowy Wyżynna",
+          "price": 590,
+          "price_text": "590 zł",
+          "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-wyzynna-CID3-ID19IWEN.html",
+          "published": "2026-03-10",
+          "refreshed": "2026-04-07",
+          "date_text": "Odświeżono 2026-04-07",
+          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/zb9d4zxhnz662-PL/image;s={width}x{height}",
+          "first_seen": "2026-03-11 07:57:53",
+          "last_seen": "2026-04-09 08:24:14",
+          "is_promoted": false,
+          "promotion_type": null,
+          "refresh_count": 1,
+          "refresh_history": [
+            {
+              "refreshed_at": "2026-04-07",
+              "detected_at": "2026-04-17 08:50:00",
+              "old_date": null
+            }
+          ],
+          "first_price": 790,
+          "price_change": -200,
+          "previous_price": 790,
+          "promotion_history": [],
+          "promoted_days_current": 0,
+          "promoted_sessions_count": 0,
+          "archived_date": "2026-04-09 08:24:14"
         }
       ],
       "price_history": {
