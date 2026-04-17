@@ -569,6 +569,7 @@ def parse_prerendered_state(html):
             "date_text": date_text,
             "published": published,
             "refreshed": refreshed,
+            "last_refresh_timestamp": last_refresh or None,  # pełny ISO timestamp z OLX, do detekcji zmian w ciągu dnia
             "location": location_text,
             "image_url": image_url,
         }
@@ -699,6 +700,7 @@ def scrape_user_profile_json(profile_key, profile_config, session):
                 "date_text": date_text,
                 "published": published,
                 "refreshed": refreshed,
+                "last_refresh_timestamp": last_refresh or None,
                 "location": location_text,
                 "image_url": image_url,
             }
@@ -865,6 +867,7 @@ def _parse_ads_json(ads):
                 "date_text": date_text,
                 "published": published,
                 "refreshed": refreshed,
+                "last_refresh_timestamp": last_refresh or None,
                 "location": location_text,
                 "image_url": image_url,
                 "promotion": ad.get("promotion", {}),
@@ -1578,6 +1581,7 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 "id": listing["listing_id"], "title": listing["title"],
                 "price": listing["price"], "price_text": listing.get("price_text", ""),
                 "url": listing["url"], "published": pub, "refreshed": ref,
+                "last_refresh_timestamp": listing.get("last_refresh_timestamp"),
                 "date_text": listing.get("date_text", ""),
                 "image_url": listing.get("image_url", ""),
                 "first_seen": now_str, "last_seen": now_str,
@@ -1609,26 +1613,37 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 nl["refresh_count"] = old.get("refresh_count", 0)
                 nl["refresh_history"] = old.get("refresh_history", [])
                 
-                # Event odświeżenia = ZMIANA daty refreshed z wartości X na Y (Y>X).
-                # Pierwsze wykrycie refreshu (old_refreshed=None → new_refreshed=data)
-                # NIE jest eventem odświeżenia — to tylko historyczna informacja o dacie
-                # refreshed w momencie rozpoczęcia śledzenia. Event liczymy dopiero gdy
-                # user FAKTYCZNIE odświeży ogłoszenie (nowa data > poprzedniej).
-                # (Bug fix: poprzednia logika sztucznie zawyżała refreshed_count dla
-                #  nowych ogłoszeń z już-ustawioną datą refreshed.)
+                # Event odświeżenia = ZMIANA timestampa last_refresh_time z X na Y (Y>X).
+                # Używamy pełnego timestampa (z dokładnością do sekund), bo OLX może odświeżyć
+                # ogłoszenie kilka razy w ciągu dnia — porównanie samych dat by to przegapiło.
+                # Fallback na porównanie dat dla starszych wpisów bez timestampa.
+                old_ts = old.get("last_refresh_timestamp")
+                new_ts = nl.get("last_refresh_timestamp")
                 old_refreshed = old.get("refreshed")
                 new_refreshed = nl.get("refreshed")
-                if new_refreshed and old_refreshed and new_refreshed > old_refreshed:
+
+                is_new_refresh = False
+                detected_refresh_key = None  # Klucz do deduplikacji w historii
+
+                if new_ts and old_ts and new_ts > old_ts:
+                    is_new_refresh = True
+                    detected_refresh_key = new_ts
+                elif new_refreshed and old_refreshed and new_refreshed > old_refreshed:
+                    # Fallback: gdy brak timestampów, porównaj daty (jak dotychczas)
+                    is_new_refresh = True
+                    detected_refresh_key = new_refreshed
+
+                if is_new_refresh and detected_refresh_key:
                     already_counted = any(
-                        h.get("refreshed_at") == new_refreshed
+                        h.get("refreshed_at") == detected_refresh_key
                         for h in nl["refresh_history"]
                     )
                     if not already_counted:
                         nl["refresh_count"] += 1
                         nl["refresh_history"].append({
-                            "refreshed_at": new_refreshed,
+                            "refreshed_at": detected_refresh_key,
                             "detected_at": now_str,
-                            "old_date": old_refreshed,
+                            "old_date": old_ts or old_refreshed,
                         })
                         log.info(f"  [REFRESHED] {lid}: '{nl['title'][:50]}' - odświeżeń: {nl['refresh_count']}")
             elif lid in archived_map:

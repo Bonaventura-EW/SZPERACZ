@@ -13,6 +13,26 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-17] - ⏱️ Live detekcja odświeżeń w ciągu dnia (timestamp zamiast daty)
+
+### Fixed 🐛
+- **`scraper.py` — detekcja odświeżenia używa pełnego ISO timestampu zamiast samej daty**:
+  Dotychczas scraper porównywał `new_refreshed > old_refreshed` na stringach `YYYY-MM-DD`. Problem: gdy OLX zwrócił `last_refresh_time: 2026-04-17T12:03:33+02:00` po wcześniejszym `2026-04-17T08:15:22+02:00` tego samego dnia, porównanie dat dawało `"2026-04-17" > "2026-04-17"` = false. **Wszystkie odświeżenia tego samego dnia były niewidoczne.**
+  
+  Nowa logika: każde ogłoszenie ma teraz pole `last_refresh_timestamp` z pełnym ISO timestampem z `last_refresh_time` w JSONie OLX (dokładność do sekund + strefa czasowa). Porównanie `new_ts > old_ts` łapie wielokrotne odświeżenia w ciągu tego samego dnia. Fallback na porównanie dat zachowany dla starych wpisów bez timestampa.
+
+### Added ✨
+- **Pole `last_refresh_timestamp`** w `current_listings[*]` — pełny ISO timestamp (np. `2026-04-17T12:03:33+02:00`) zachowywany dla wszystkich typów scrapingu (kategoria + profile user).
+- Logowanie `[REFRESHED]` zawiera teraz precyzyjny moment odświeżenia.
+
+### Kontekst odkrycia 🔍
+Podczas analizy danych zauważyłem, że **17.04.2026 ~12:00** użytkownik `poqui` odświeżył 4 ogłoszenia naraz, ale scraper tego nie wychwycił — w Excelu kolumna "Liczba odświeżeń" skoczyła z 0 do 1, ale JSON dashboardu nadal pokazywał `refresh_count=0`, bo porównanie stringów dat nic nie wykryło. Ta zmiana eliminuje problem.
+
+### Uwaga
+- Pierwszy scan po wdrożeniu tylko **zapisze baseline** timestampów — nie liczy żadnych eventów. Od drugiego scanu scraper będzie wykrywał zmiany w czasie rzeczywistym.
+
+---
+
 ## [2026-04-17] - 📊 Rebuild v2: pełna rekonstrukcja refresh_history z kolumny „Liczba odświeżeń"
 
 ### Changed 🔧
