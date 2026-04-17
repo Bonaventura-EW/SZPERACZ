@@ -1,22 +1,30 @@
 #!/usr/bin/env python3
 """
-SZPERACZ OLX — Rebuild liczników odświeżeń i reaktywacji dla ARCHIWUM oraz wykresu.
+SZPERACZ OLX — Rebuild liczników odświeżeń i reaktywacji dla ARCHIWUM + wykresu.
 
-Co robi ten skrypt:
-1. Dla KAŻDEGO archiwalnego ogłoszenia rekonstruuje z danych Excel:
-   - refresh_history[] + refresh_count (zmiany daty 'refreshed')
-   - reactivation_history[] + reactivation_count (luki w obecności ID między scanami)
-2. Dodaje brakujące pola reactivation_count do aktywnych ogłoszeń (spójność).
-3. Rebuilds daily_counts[*].refreshed_count oraz reactivated_count
-   na podstawie WSZYSTKICH zrekonstruowanych zdarzeń (aktywne + archiwum).
+STRATEGIA (v2):
+1. refresh_history odtwarzamy z DWÓCH sygnałów (bierzemy "unię"):
+   (a) Kolumna "Liczba odświeżeń" w Excelu — każdy WZROST wartości w czasie per ID
+       = N eventów odświeżenia (gdzie N = różnica). Reset/spadek = IGNORUJEMY
+       (to był bug w scraperze w pewnym momencie albo OLX zwraca 0).
+       Działa dla WSZYSTKICH profili (user + category).
+   (b) Kolumna "Data odświeżenia" — każda ZMIANA daty na nowszą = event.
+       Działa tylko dla category ('wszystkie_pokoje').
 
-Idempotentny: uruchomienie wielokrotne daje ten sam rezultat (rekonstruuje od zera z Excela).
+   Łączymy eventy z (a) i (b), deduplikujemy w obrębie tego samego dnia scanu.
+
+2. reactivation_history — luka >=REACTIVATION_GAP_DAYS scanów bez obecności ID,
+   potem powrót.
+
+3. Rebuild daily_counts[*].refreshed_count / reactivated_count z rzeczywistych zdarzeń.
+
+Idempotentny — uruchomienie wielokrotne daje ten sam rezultat.
 """
 
 import json
 import os
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime
 from openpyxl import load_workbook
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
@@ -33,8 +41,6 @@ PROFILES = [
     "villahome",
 ]
 
-# Jeśli luka między kolejnymi pojawieniami ID w Excel (na podstawie Data scanu) jest >= tej liczby dni,
-# traktujemy to jako archiwizację + reaktywację.
 REACTIVATION_GAP_DAYS = 2
 
 
@@ -50,14 +56,13 @@ def save_dashboard_json(data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-# ─── Excel parsing ──────────────────────────────────────────────────────────
-
 def _normalize_date(val):
     if val is None:
         return None
     if hasattr(val, "strftime"):
         return val.strftime("%Y-%m-%d")
-    return str(val)
+    s = str(val).strip()
+    return s if s else None
 
 
 def _normalize_time(val):
@@ -65,24 +70,34 @@ def _normalize_time(val):
         return "00:00"
     if hasattr(val, "strftime"):
         return val.strftime("%H:%M")
-    return str(val)
+    return str(val).strip() or "00:00"
 
+
+def _int_or_none(val):
+    if val is None:
+        return None
+    try:
+        return int(val)
+    except (ValueError, TypeError):
+        return None
+
+
+# ─── Excel parsing ──────────────────────────────────────────────────────────
 
 def parse_excel_per_listing():
     """
-    Zwraca:
+    Returns per-profile, per-listing chronological timeline:
       {
         "profile_key": {
           "listing_id": [
-             {"scan_date": "YYYY-MM-DD", "scan_time": "HH:MM", "refreshed": "YYYY-MM-DD"|None},
-             ...  (posortowane po scan_date+scan_time)
+             {"scan_date", "scan_time", "refreshed_date", "refresh_count_col"},
+             ...
           ]
         }
       }
-    Wiersze są już per-ogłoszenie (pomijamy summary rows bez ID).
     """
     print("=" * 70)
-    print("🔍 PARSOWANIE EXCEL — per listing history")
+    print("🔍 PARSOWANIE EXCEL — per-listing timeline")
     print("=" * 70)
 
     if not os.path.exists(EXCEL_PATH):
@@ -95,29 +110,34 @@ def parse_excel_per_listing():
     for profile_key in PROFILES:
         sheet_name = profile_key[:31]
         if sheet_name not in wb.sheetnames:
-            print(f"   ⚠️  [{profile_key}] brak arkusza '{sheet_name}' — pomijam")
+            print(f"   ⚠️  [{profile_key}] brak arkusza — pomijam")
             continue
 
         ws = wb[sheet_name]
         data = defaultdict(list)
 
-        # Autodetekcja kolumn z nagłówka
         header_row = next(ws.iter_rows(min_row=1, max_row=1))
         header = {cell.value: idx for idx, cell in enumerate(header_row)}
 
-        required = ["Data scanu", "Godzina", "Tytuł", "Data odświeżenia", "ID ogłoszenia"]
+        required = ["Data scanu", "Godzina", "Tytuł", "ID ogłoszenia"]
         missing = [c for c in required if c not in header]
         if missing:
-            print(f"   ⚠️  [{profile_key}] brak kolumn {missing} — pomijam")
+            print(f"   ⚠️  [{profile_key}] brak kluczowych kolumn {missing} — pomijam")
             continue
 
         col_scan_date = header["Data scanu"]
         col_scan_time = header["Godzina"]
         col_title = header["Tytuł"]
-        col_refreshed = header["Data odświeżenia"]
         col_listing_id = header["ID ogłoszenia"]
+        col_refreshed = header.get("Data odświeżenia")
+        col_refresh_count = header.get("Liczba odświeżeń")
 
-        max_col_needed = max(col_scan_date, col_scan_time, col_title, col_refreshed, col_listing_id)
+        indices = [col_scan_date, col_scan_time, col_title, col_listing_id]
+        if col_refreshed is not None:
+            indices.append(col_refreshed)
+        if col_refresh_count is not None:
+            indices.append(col_refresh_count)
+        max_col_needed = max(indices)
 
         for row in ws.iter_rows(min_row=2):
             row_values = [cell.value for cell in row]
@@ -127,23 +147,23 @@ def parse_excel_per_listing():
             scan_date = _normalize_date(row_values[col_scan_date])
             scan_time = _normalize_time(row_values[col_scan_time])
             title = row_values[col_title]
-            refreshed = _normalize_date(row_values[col_refreshed])
             listing_id = row_values[col_listing_id]
 
-            # Pomiń summary rows (bez ID lub bez tytułu)
             if not listing_id or not title:
                 continue
 
-            data[listing_id].append({
+            refreshed_date = _normalize_date(row_values[col_refreshed]) if col_refreshed is not None else None
+            refresh_count_col = _int_or_none(row_values[col_refresh_count]) if col_refresh_count is not None else None
+
+            data[str(listing_id)].append({
                 "scan_date": scan_date,
                 "scan_time": scan_time,
-                "refreshed": refreshed,
-                "title": str(title)[:80],
+                "refreshed_date": refreshed_date,
+                "refresh_count_col": refresh_count_col,
             })
 
-        # Sortuj rosnąco po scan_date + scan_time
         for lid in data:
-            data[lid].sort(key=lambda e: (e.get("scan_date") or "", e.get("scan_time") or ""))
+            data[lid].sort(key=lambda e: (e["scan_date"] or "", e["scan_time"] or ""))
 
         result[profile_key] = dict(data)
         print(f"   ✓ [{profile_key}] {len(data)} unikalnych ID")
@@ -152,88 +172,136 @@ def parse_excel_per_listing():
     return result
 
 
-# ─── History reconstruction ─────────────────────────────────────────────────
+# ─── Refresh history reconstruction ─────────────────────────────────────────
 
-def build_refresh_history(entries):
+def build_refresh_events(entries):
     """
-    Zbuduj refresh_history[] ze zmian pola 'refreshed' w kolejnych wpisach scanu.
-    Event = zmiana z old_refreshed na new_refreshed gdzie new > old.
+    Buduje refresh_history[] na podstawie dwóch sygnałów:
 
-    Returns: (history, count)
+    (a) Wzrosty 'Liczba odświeżeń' — każdy wzrost z X → Y (Y>X) = (Y-X) eventów.
+        Resety/spadki ignorujemy, ale high-water mark aktualizujemy tylko w górę.
+
+    (b) Zmiany 'Data odświeżenia' na nowszą datę.
+
+    Dedup po scan_date: w obrębie tego samego dnia scanu liczymy event RAZ
+    (bo nie wiemy czy wzrost count i zmiana daty to ten sam event, czy dwa).
+
+    Returns: (history_list, count)
     """
-    history = []
-    prev_refreshed = None
+    events = []
 
+    # ── (a) Increments of 'Liczba odświeżeń' (high-water mark logic) ──
+    hwm = None  # high-water mark
     for e in entries:
-        cur = e.get("refreshed")
-        if cur and prev_refreshed and cur > prev_refreshed:
-            already_logged = any(h.get("refreshed_at") == cur for h in history)
-            if not already_logged:
-                history.append({
-                    "refreshed_at": cur,
+        cur = e["refresh_count_col"]
+        if cur is None:
+            continue
+        if hwm is None:
+            hwm = cur
+            continue
+        if cur > hwm:
+            delta = cur - hwm
+            for _ in range(delta):
+                events.append({
                     "detected_at": f"{e['scan_date']} {e['scan_time']}",
-                    "old_date": prev_refreshed,
+                    "scan_date": e["scan_date"],
+                    "refreshed_at": e["scan_date"],  # placeholder — dokładna data unknown
+                    "source": "count_increment",
                 })
+            hwm = cur
+        # cur <= hwm: ignoruj (reset lub brak zmiany)
+
+    # ── (b) Zmiany 'Data odświeżenia' ──
+    prev_refreshed = None
+    date_change_events = []
+    for e in entries:
+        cur = e["refreshed_date"]
+        if cur and prev_refreshed and cur > prev_refreshed:
+            date_change_events.append({
+                "detected_at": f"{e['scan_date']} {e['scan_time']}",
+                "scan_date": e["scan_date"],
+                "refreshed_at": cur,
+                "old_date": prev_refreshed,
+                "source": "date_change",
+            })
         if cur:
             prev_refreshed = cur
 
-    return history, len(history)
+    # ── Merge z dedup po scan_date ──
+    # Zasada: jeśli w ten sam scan_date mamy wzrost count I zmianę daty,
+    # licz jako 1 event (preferując dokładniejsze info z date_change).
+    events_by_date = defaultdict(list)
+    for ev in events + date_change_events:
+        events_by_date[ev["scan_date"]].append(ev)
+
+    merged = []
+    for scan_date, group in events_by_date.items():
+        count_events = [e for e in group if e["source"] == "count_increment"]
+        date_events = [e for e in group if e["source"] == "date_change"]
+
+        if count_events and date_events:
+            # Ta sama data: weź MAX(count_events, date_events) — bo to pewnie ten sam event
+            # (jeśli count wzrósł o 2, ale mamy tylko 1 date_change w tym dniu, liczymy 2)
+            total = max(len(count_events), len(date_events))
+            # Dla pierwszych N użyj date_change (ma dokładniejsze info)
+            for i in range(total):
+                if i < len(date_events):
+                    merged.append(date_events[i])
+                else:
+                    merged.append(count_events[i - len(date_events)])
+        else:
+            merged.extend(group)
+
+    merged.sort(key=lambda x: x["detected_at"])
+
+    # Usuń internal 'source' i 'scan_date'
+    for h in merged:
+        h.pop("source", None)
+        h.pop("scan_date", None)
+
+    return merged, len(merged)
 
 
-def build_reactivation_history(entries, all_scan_dates, gap_days=REACTIVATION_GAP_DAYS):
+def build_reactivation_events(entries, all_scan_dates, gap_days=REACTIVATION_GAP_DAYS):
     """
-    Reaktywacja = ID znika z Excela na >= gap_days dni (w kontekście dni w których scan w ogóle się odbył),
-    a potem wraca. Zlicza tylko POTWIERDZONE reaktywacje (ID faktycznie wróciło do scanu).
-
-    all_scan_dates: posortowany set dat, kiedy dany profil był skanowany (do wykrywania prawdziwej luki).
-
-    Returns: (history, count, periods_of_activity)
+    Reaktywacja = ID nieobecne na >=gap_days kolejnych scanach, potem wraca.
     """
-    # Zbierz dni obecności ID (unikalne, posortowane)
-    presence_days = sorted(set(e["scan_date"] for e in entries if e.get("scan_date")))
+    presence_days = sorted(set(e["scan_date"] for e in entries if e["scan_date"]))
     if not presence_days:
         return [], 0, []
 
-    # Podziel na "okresy aktywności" (ciągłe bloki obecności)
-    # Okres zamyka się, gdy w scan_dates między present_day a next_present_day
-    # jest >= gap_days dni scanów bez obecności.
-    periods = []  # list of (start_day, end_day)
-    current_start = presence_days[0]
-    current_end = presence_days[0]
-
     scan_dates_list = sorted(all_scan_dates)
     scan_date_to_idx = {d: i for i, d in enumerate(scan_dates_list)}
+
+    periods = []
+    current_start = presence_days[0]
+    current_end = presence_days[0]
 
     for i in range(1, len(presence_days)):
         prev = presence_days[i - 1]
         cur = presence_days[i]
 
-        # Policz ile dni scanów było między prev a cur (exclusive)
         idx_prev = scan_date_to_idx.get(prev)
         idx_cur = scan_date_to_idx.get(cur)
 
         if idx_prev is not None and idx_cur is not None:
-            gap_scans = idx_cur - idx_prev - 1  # liczba scanów bez obecności
+            gap_scans = idx_cur - idx_prev - 1
         else:
-            # Fallback: licz dni kalendarzowe
             d_prev = datetime.strptime(prev, "%Y-%m-%d")
             d_cur = datetime.strptime(cur, "%Y-%m-%d")
             gap_scans = (d_cur - d_prev).days - 1
 
         if gap_scans >= gap_days:
-            # Zamknij poprzedni okres, otwórz nowy
             periods.append((current_start, current_end))
             current_start = cur
         current_end = cur
 
-    # Zamknij ostatni okres
     periods.append((current_start, current_end))
 
-    # Historia reaktywacji = wszystko poza pierwszym okresem (każdy kolejny okres to reaktywacja)
     history = []
     for i in range(1, len(periods)):
         prev_start, prev_end = periods[i - 1]
-        cur_start, cur_end = periods[i]
+        cur_start, _ = periods[i]
         history.append({
             "active_from": f"{prev_start} 00:00:00",
             "active_to": f"{prev_end} 23:59:59",
@@ -243,13 +311,12 @@ def build_reactivation_history(entries, all_scan_dates, gap_days=REACTIVATION_GA
     return history, len(history), periods
 
 
-# ─── Main rebuild logic ────────────────────────────────────────────────────
+# ─── Main rebuild ───────────────────────────────────────────────────────────
 
 def rebuild_all():
     data = load_dashboard_json()
     excel_data = parse_excel_per_listing()
 
-    # Zbierz set wszystkich dat scanów per profil (do wykrywania prawdziwych luk)
     scan_dates_by_profile = defaultdict(set)
     for pk, pd_ in data.get("profiles", {}).items():
         for dc in pd_.get("daily_counts", []):
@@ -258,20 +325,21 @@ def rebuild_all():
 
     print()
     print("=" * 70)
-    print("🔨 REKONSTRUKCJA HISTORII dla CURRENT + ARCHIVED")
+    print("🔨 REKONSTRUKCJA HISTORII z Excela")
     print("=" * 70)
 
     stats = {
         "listings_processed": 0,
-        "refresh_events_added": 0,
-        "reactivation_events_added": 0,
+        "refresh_events_total": 0,
+        "reactivation_events_total": 0,
         "archived_with_refresh": 0,
         "archived_with_reactivation": 0,
+        "active_with_refresh": 0,
+        "active_with_reactivation": 0,
     }
 
-    # Zbieranie globalnych zdarzeń per dzień (do rebuild daily_counts)
-    refresh_events_per_day = defaultdict(lambda: defaultdict(int))  # profile -> date -> count
-    reactivation_events_per_day = defaultdict(lambda: defaultdict(int))  # profile -> date -> count
+    refresh_per_day = defaultdict(lambda: defaultdict(int))
+    reactivation_per_day = defaultdict(lambda: defaultdict(int))
 
     for pk in PROFILES:
         if pk not in data.get("profiles", {}):
@@ -280,44 +348,37 @@ def rebuild_all():
         per_listing = excel_data.get(pk, {})
         scan_dates = scan_dates_by_profile.get(pk, set())
 
-        # Przetwarzaj zarówno current_listings jak i archived_listings
-        current_listings = pd_.get("current_listings", [])
-        archived_listings = pd_.get("archived_listings", [])
+        current = pd_.get("current_listings", [])
+        archived = pd_.get("archived_listings", [])
 
-        print(f"\n📊 [{pk}] current={len(current_listings)} archived={len(archived_listings)} excel_ids={len(per_listing)}")
+        profile_stats = {"r_events": 0, "a_events": 0, "listings_with_r": 0, "listings_with_a": 0}
 
-        for listings, is_archived in [(current_listings, False), (archived_listings, True)]:
+        for listings, is_archived in [(current, False), (archived, True)]:
             for listing in listings:
-                lid = listing.get("id")
+                lid = str(listing.get("id") or "")
                 if not lid:
                     continue
-
                 stats["listings_processed"] += 1
                 entries = per_listing.get(lid, [])
 
                 if not entries:
-                    # Brak danych w Excel — ustaw puste struktury (jeśli nie istnieją)
-                    if "refresh_history" not in listing:
-                        listing["refresh_history"] = []
-                    if "refresh_count" not in listing:
-                        listing["refresh_count"] = 0
-                    if "reactivation_history" not in listing:
-                        listing["reactivation_history"] = []
-                    listing["reactivation_count"] = len(listing.get("reactivation_history", []))
+                    listing.setdefault("refresh_history", [])
+                    listing.setdefault("refresh_count", 0)
+                    listing.setdefault("reactivation_history", [])
+                    listing["reactivation_count"] = len(listing["reactivation_history"])
                     continue
 
-                # Zbuduj refresh_history
-                refresh_hist, refresh_cnt = build_refresh_history(entries)
+                # Refresh history
+                refresh_hist, refresh_cnt = build_refresh_events(entries)
                 listing["refresh_history"] = refresh_hist
                 listing["refresh_count"] = refresh_cnt
 
-                # Zarejestruj zdarzenia refresh do per-day stats (liczymy w dniu detekcji = scan_date)
                 for ev in refresh_hist:
                     det_date = ev["detected_at"].split(" ")[0]
-                    refresh_events_per_day[pk][det_date] += 1
+                    refresh_per_day[pk][det_date] += 1
 
-                # Zbuduj reactivation_history
-                reactivation_hist, reactivation_cnt, _ = build_reactivation_history(
+                # Reactivations
+                reactivation_hist, reactivation_cnt, _ = build_reactivation_events(
                     entries, scan_dates, gap_days=REACTIVATION_GAP_DAYS
                 )
                 listing["reactivation_history"] = reactivation_hist
@@ -326,12 +387,10 @@ def rebuild_all():
                 if reactivation_cnt > 0:
                     listing["reactivated"] = True
 
-                # Zarejestruj zdarzenia reactivation per day (liczymy w dniu reaktywacji)
                 for ev in reactivation_hist:
                     ra_date = ev["reactivated_at"].split(" ")[0]
-                    reactivation_events_per_day[pk][ra_date] += 1
+                    reactivation_per_day[pk][ra_date] += 1
 
-                # Zamknij otwarty bieżący okres reaktywacji w archived_listings
                 if is_archived and reactivation_hist:
                     last = reactivation_hist[-1]
                     if "active_to_current" not in last:
@@ -339,17 +398,31 @@ def rebuild_all():
                         if archived_date:
                             last["active_to_current"] = archived_date
 
-                # Statystyki archiwum
                 if is_archived:
                     if refresh_cnt > 0:
                         stats["archived_with_refresh"] += 1
                     if reactivation_cnt > 0:
                         stats["archived_with_reactivation"] += 1
+                else:
+                    if refresh_cnt > 0:
+                        stats["active_with_refresh"] += 1
+                    if reactivation_cnt > 0:
+                        stats["active_with_reactivation"] += 1
 
-                stats["refresh_events_added"] += refresh_cnt
-                stats["reactivation_events_added"] += reactivation_cnt
+                stats["refresh_events_total"] += refresh_cnt
+                stats["reactivation_events_total"] += reactivation_cnt
+                profile_stats["r_events"] += refresh_cnt
+                profile_stats["a_events"] += reactivation_cnt
+                if refresh_cnt > 0:
+                    profile_stats["listings_with_r"] += 1
+                if reactivation_cnt > 0:
+                    profile_stats["listings_with_a"] += 1
 
-    # ─── Rebuild daily_counts[*].refreshed_count / reactivated_count ───
+        print(f"📊 [{pk}] current={len(current)} archived={len(archived)} "
+              f"| listings z refresh: {profile_stats['listings_with_r']}, "
+              f"z reakt: {profile_stats['listings_with_a']} "
+              f"| eventy: refresh={profile_stats['r_events']}, reakt={profile_stats['a_events']}")
+
     print()
     print("=" * 70)
     print("🔨 REBUILD daily_counts.refreshed_count / reactivated_count")
@@ -361,37 +434,37 @@ def rebuild_all():
         pd_ = data["profiles"][pk]
         dc = pd_.get("daily_counts", [])
 
-        updated_refresh = 0
-        updated_reactivation = 0
+        updated = 0
         for entry in dc:
             date = entry.get("date")
             if not date:
                 continue
-            r = refresh_events_per_day[pk].get(date, 0)
-            a = reactivation_events_per_day[pk].get(date, 0)
+            r = refresh_per_day[pk].get(date, 0)
+            a = reactivation_per_day[pk].get(date, 0)
             old_r = entry.get("refreshed_count", 0)
             old_a = entry.get("reactivated_count", 0)
             entry["refreshed_count"] = r
             entry["reactivated_count"] = a
-            if r != old_r:
-                updated_refresh += 1
-            if a != old_a:
-                updated_reactivation += 1
+            if r != old_r or a != old_a:
+                updated += 1
 
-        print(f"   [{pk}] daily_counts updated: refreshed={updated_refresh} reactivated={updated_reactivation}")
+        total_r = sum(refresh_per_day[pk].values())
+        total_a = sum(reactivation_per_day[pk].values())
+        print(f"   [{pk}] updated {updated} dni | suma refresh={total_r}, reakt={total_a}")
 
-    # ─── Save ───
     save_dashboard_json(data)
 
     print()
     print("=" * 70)
     print("✅ PODSUMOWANIE")
     print("=" * 70)
-    print(f"   Przetworzono ogłoszeń:            {stats['listings_processed']}")
-    print(f"   Dodano zdarzeń odświeżeń:         {stats['refresh_events_added']}")
-    print(f"   Dodano zdarzeń reaktywacji:       {stats['reactivation_events_added']}")
-    print(f"   Archiwum z odświeżeniami:         {stats['archived_with_refresh']}")
-    print(f"   Archiwum z reaktywacjami:         {stats['archived_with_reactivation']}")
+    print(f"   Ogłoszeń przetworzonych:      {stats['listings_processed']}")
+    print(f"   Eventów odświeżeń:            {stats['refresh_events_total']}")
+    print(f"   Eventów reaktywacji:          {stats['reactivation_events_total']}")
+    print(f"   Aktywnych z refresh_count>0:  {stats['active_with_refresh']}")
+    print(f"   Aktywnych z reakt_count>0:    {stats['active_with_reactivation']}")
+    print(f"   Archiwum z refresh_count>0:   {stats['archived_with_refresh']}")
+    print(f"   Archiwum z reakt_count>0:     {stats['archived_with_reactivation']}")
     print()
     print(f"   Zapisano: {JSON_PATH}")
 

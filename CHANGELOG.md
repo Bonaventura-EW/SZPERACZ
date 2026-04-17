@@ -13,6 +13,34 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-17] - 📊 Rebuild v2: pełna rekonstrukcja refresh_history z kolumny „Liczba odświeżeń"
+
+### Changed 🔧
+- **`rebuild_archive_counters.py` v2** — przepisana logika rekonstrukcji refresh_history:
+  - Poprzednia wersja odtwarzała historię tylko ze zmian kolumny `Data odświeżenia`, która jest pusta dla profili user (`poqui`, `mzuri`, `artymiuk`, `dawny_patron`, `pokojewlublinie`).
+  - Nowa wersja używa DWÓCH sygnałów, łączonych z deduplikacją per scan_date:
+    - (a) **Wzrosty kolumny „Liczba odświeżeń"** — każdy wzrost wartości X → Y (Y>X) w czasie per ID = (Y-X) eventów. Działa dla wszystkich profili. Resety/spadki (np. gdy OLX zwróci 0 po wcześniejszym 3) są IGNOROWANE — high-water mark aktualizowany tylko w górę.
+    - (b) **Zmiany „Data odświeżenia"** — dodatkowa precyzja dla `wszystkie_pokoje`.
+  - W obrębie tego samego dnia scanu event liczony jest RAZ (preferując dokładniejsze info z `date_change`).
+
+### Data fix 🔧
+Rebuild v2 uruchomiony:
+- **753 eventów odświeżeń** zrekonstruowanych (vs 205 w v1, +267%).
+- **273 ogłoszeń** z odtworzoną historią odświeżeń (vs 104 w v1, +163%).
+- Per-profile breakdown:
+  - `wszystkie_pokoje`: 676 eventów, 210 ogłoszeń
+  - `mzuri`: **48 eventów, 47 ogłoszeń** (poprzednio: 0 — bo tylko `Data odświeżenia`)
+  - `poqui`: **16 eventów, 10 ogłoszeń** (poprzednio: 0)
+  - `dawny_patron`: **7 eventów, 4 ogłoszenia** (poprzednio: 0)
+  - `pokojewlublinie`: **5 eventów, 1 ogłoszenie** (poprzednio: 0)
+  - `artymiuk`: **1 event, 1 ogłoszenie** (poprzednio: 0)
+- Wykres „Odśw./Reakt." w dashboardzie pokazuje teraz dane dla wszystkich profili użytkowników, nie tylko kategorii.
+
+### Uwaga 📝
+Dla ogłoszeń z bardzo starych scanów używających "slug" ID (np. `183ger`, `17NeTz` w poqui), których nie ma w Excelu, rebuild ustawia `refresh_count=0`. To oczekiwane — dla tych ID nie ma danych historycznych do rekonstrukcji.
+
+---
+
 ## [2026-04-17] - 📊 Archiwum: liczniki odświeżeń i reaktywacji + nowa kolumna w dashboardzie
 
 ### Fixed 🐛
