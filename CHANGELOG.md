@@ -13,6 +13,23 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-21] - 🧹 Czyszczenie danych: anomalia refreshed_count dla 06.04.2026
+
+### Fixed 🐛
+- **`data/dashboard_data.json` — `wszystkie_pokoje.daily_counts` z `2026-04-06`**: wartość `refreshed_count: 363 → 0`.
+  
+  **Dlaczego to była anomalia**: `refreshed_count=363` przy `count=353` jest fizycznie niemożliwe — nie można odświeżyć więcej ogłoszeń niż jest aktywnych w kategorii. Kontekst otaczających dni potwierdza artefakt: 01.04–05.04 wszystkie miały `refreshed_count=0`, a od 07.04 wartości wróciły do normalnych 14–18 dziennie.
+  
+  **Root cause**: dzień 06.04.2026 był dniem wdrożenia systemu trackowania odświeżeń (patrz CHANGELOG `[2026-04-06] - 🔄 Refresh Count Tracking & Workflow Fixes`). Tego dnia uruchomiono `rebuild_refresh_history.py`, który odtworzył 576 eventów odświeżenia z historycznych danych Excel sięgających 23.02.2026. Skrypt najprawdopodobniej naliczył pierwszą obserwowaną wartość pola `refreshed` dla każdego ogłoszenia jako "świeże odświeżenie" (transition from `None` to date) — dając ~353 false-positive dla aktywnych ogłoszeń + ~10 prawdziwych = 363.
+  
+  **Ślad audytowy**: wpis zachowuje pole `_note` z opisem korekty i datą, żeby była pełna przejrzystość rekonstrukcji historycznej.
+
+### Zweryfikowane ✅
+- Anomalia dotyczy wyłącznie profilu `wszystkie_pokoje`. Pozostałe profile (`pokojewlublinie`, `poqui`, `artymiuk`, `dawny_patron`, `mzuri`, `villahome`) miały dla 06.04 wartość `refreshed_count=0` (również nietypowe, ale osobny wątek — nie dotknięte w tej edycji).
+- Walidacja JSON: plik poprawny, 7 profili, struktura niezmieniona poza dwoma polami wpisu.
+
+---
+
 ## [2026-04-21] - 📐 Wykres 30 dni — czytelne etykiety dat (bez nachodzenia)
 
 ### Changed 🔧

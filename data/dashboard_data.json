@@ -414,8 +414,9 @@
           "promotion_breakdown": {
             "featured": 19
           },
-          "refreshed_count": 363,
-          "reactivated_count": 0
+          "refreshed_count": 0,
+          "reactivated_count": 0,
+          "_note": "refreshed_count wyzerowany 2026-04-21: poprzednia wartość 363 była artefaktem rebuild_refresh_history.py (wdrożenie systemu trackowania odświeżeń 06.04.2026). Szczegóły: CHANGELOG 2026-04-21."
         },
         {
           "date": "2026-04-07",
