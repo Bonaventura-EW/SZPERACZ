@@ -2,29 +2,29 @@
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2026-04-20T09:13:53Z",
-    "duration_seconds": 98,
+    "timestamp": "2026-04-21T08:58:34Z",
+    "duration_seconds": 99,
     "profiles_scanned": 7,
-    "total_listings": 456,
+    "total_listings": 464,
     "new_listings": 0,
-    "price_changes": 201
+    "price_changes": 203
   },
   "nextScan": {
-    "scheduled": "2026-04-21T07:00:00Z",
-    "in_seconds": 78366
+    "scheduled": "2026-04-22T07:00:00Z",
+    "in_seconds": 79285
   },
   "profiles": {
     "pokojewlublinie": {
       "label": "pokojewlublinie",
-      "count": 1,
+      "count": 3,
       "crosscheck": "passed",
-      "duration_seconds": 0.6
+      "duration_seconds": 0.4
     },
     "poqui": {
       "label": "poqui",
       "count": 7,
       "crosscheck": "passed",
-      "duration_seconds": 0.4
+      "duration_seconds": 0.2
     },
     "artymiuk": {
       "label": "artymiuk",
@@ -36,13 +36,13 @@
       "label": "dawny patron",
       "count": 4,
       "crosscheck": "passed",
-      "duration_seconds": 0.3
+      "duration_seconds": 0.4
     },
     "mzuri": {
       "label": "mzuri",
-      "count": 45,
+      "count": 46,
       "crosscheck": "passed",
-      "duration_seconds": 5.5
+      "duration_seconds": 5.8
     },
     "villahome": {
       "label": "villahome",
@@ -52,9 +52,9 @@
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 399,
+      "count": 404,
       "crosscheck": "passed",
-      "duration_seconds": 80.0
+      "duration_seconds": 81.9
     }
   }
 }
