@@ -13,6 +13,25 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-21] - 📐 Wykres 30 dni — pełna szerokość ekranu + czytelne etykiety dat
+
+### Changed 🔧
+- **`docs/index.html` — `detail-panel` zajmuje teraz pełną szerokość viewportu** (full-bleed technique: `margin-left/right: calc(50% - 50vw)` + `width: 100vw`). Reszta dashboardu (profile cards, footer) nadal respektuje `max-width: 1400px` containera. Usunięto `border-radius` i boczne `border` panelu, bo na pełnej szerokości nie mają sensu wizualnego.
+- **Etykiety dat na wykresie słupkowym**: `font-size` zmniejszony z 10px → 9px + `white-space: nowrap`, żeby daty w formacie `DD.MM` nigdy się nie łamały ani nie nachodziły na siebie.
+- **Adaptacyjne rozmiary słupków** (`renderChart` w JS) — zwiększone dla wszystkich zakresów dzięki dodatkowej przestrzeni:
+  - 7 dni: `barWidth 40→56px`, `gap 8→14px`
+  - 14 dni: `barWidth 28→40px`, `gap 6→10px`
+  - 30 dni: `barWidth 18→28px`, `gap 4→8px` ← rozwiązanie problemu nachodzących etykiet
+- **`chart-container` padding boczny**: `4px → 24px` — słupki nie dotykają już krawędzi panelu.
+
+### Fixed 🐛
+- **Nachodzące etykiety dat na wykresie 30 dni** (zgłoszone w zrzucie ekranu): przy 30 słupkach w ciasnym containerze daty `23.10`, `24.10`, `25.10`... tworzyły nieczytelną zlepkę. Po rozszerzeniu panelu do 100vw + mniejszej czcionce + większych odstępach etykiety są teraz wyraźnie rozdzielone.
+
+### Added ✨
+- **`body { overflow-x: hidden }`** — zabezpieczenie przed ewentualnym poziomym scrollem wynikającym z różnicy między `100vw` a faktyczną szerokością ekranu (uwzględnienie scrollbara).
+
+---
+
 ## [2026-04-17] - ⏱️ Live detekcja odświeżeń w ciągu dnia (timestamp zamiast daty)
 
 ### Fixed 🐛

@@ -85,6 +85,7 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
+  overflow-x: hidden;
   transition: background var(--transition), color var(--transition);
 }
 
@@ -376,12 +377,16 @@ body {
 /* ─── Detail Panel ─── */
 .detail-panel {
   background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   margin-bottom: 32px;
   overflow: hidden;
   display: none;
   animation: slideDown 0.3s ease;
+  /* Full-bleed: rozszerz panel do 100% szerokości viewportu, poza container */
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  width: 100vw;
 }
 
 .detail-panel.visible { display: block; }
@@ -538,7 +543,7 @@ body {
   align-items: flex-end;
   justify-content: center;
   height: 160px;
-  padding: 0 4px;
+  padding: 0 24px;
   margin-top: 24px;
 }
 
@@ -577,10 +582,11 @@ body {
 
 .chart-bar-label {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-muted);
   margin-top: 6px;
   text-align: center;
+  white-space: nowrap;
 }
 
 /* ─── Line Chart ─── */
@@ -1523,16 +1529,17 @@ function renderChart(key) {
   const yRange = yMax - yMin;
   
   // Adaptive bar width and gap based on chartDays
+  // Teraz gdy detail-panel zajmuje pełną szerokość ekranu, słupki mogą być szersze i mieć większe odstępy
   let barWidth, gap;
   if (chartDays <= 7) {
-    barWidth = 40;
-    gap = 8;
+    barWidth = 56;
+    gap = 14;
   } else if (chartDays <= 14) {
-    barWidth = 28;
-    gap = 6;
+    barWidth = 40;
+    gap = 10;
   } else {
-    barWidth = 18;
-    gap = 4;
+    barWidth = 28;
+    gap = 8;
   }
 
   // Update container gap
