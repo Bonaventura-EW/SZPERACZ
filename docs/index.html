@@ -377,16 +377,12 @@ body {
 /* ─── Detail Panel ─── */
 .detail-panel {
   background: var(--bg-card);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   margin-bottom: 32px;
   overflow: hidden;
   display: none;
   animation: slideDown 0.3s ease;
-  /* Full-bleed: rozszerz panel do 100% szerokości viewportu, poza container */
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  width: 100vw;
 }
 
 .detail-panel.visible { display: block; }
