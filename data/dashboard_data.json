@@ -569,8 +569,9 @@
           "promotion_breakdown": {
             "featured": 22
           },
-          "refreshed_count": 115,
-          "reactivated_count": 4
+          "refreshed_count": 0,
+          "reactivated_count": 4,
+          "_note": "refreshed_count wyzerowany 2026-04-21: poprzednia wartość była artefaktem wdrożenia live detekcji odświeżeń (ISO timestamp) 17.04.2026. Pierwszy scan po deployu naliczył baseline last_refresh_timestamp jako event. Szczegóły: CHANGELOG 2026-04-21."
         },
         {
           "date": "2026-04-18",
@@ -25709,8 +25710,9 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
-          "reactivated_count": 0
+          "refreshed_count": 0,
+          "reactivated_count": 0,
+          "_note": "refreshed_count wyzerowany 2026-04-21: poprzednia wartość była artefaktem wdrożenia live detekcji odświeżeń (ISO timestamp) 17.04.2026. Pierwszy scan po deployu naliczył baseline last_refresh_timestamp jako event. Szczegóły: CHANGELOG 2026-04-21."
         },
         {
           "date": "2026-04-18",
@@ -28375,8 +28377,9 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 3,
-          "reactivated_count": 0
+          "refreshed_count": 0,
+          "reactivated_count": 0,
+          "_note": "refreshed_count wyzerowany 2026-04-21: poprzednia wartość była artefaktem wdrożenia live detekcji odświeżeń (ISO timestamp) 17.04.2026. Pierwszy scan po deployu naliczył baseline last_refresh_timestamp jako event. Szczegóły: CHANGELOG 2026-04-21."
         },
         {
           "date": "2026-04-18",
@@ -29374,8 +29377,9 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 38,
-          "reactivated_count": 0
+          "refreshed_count": 0,
+          "reactivated_count": 0,
+          "_note": "refreshed_count wyzerowany 2026-04-21: poprzednia wartość była artefaktem wdrożenia live detekcji odświeżeń (ISO timestamp) 17.04.2026. Pierwszy scan po deployu naliczył baseline last_refresh_timestamp jako event. Szczegóły: CHANGELOG 2026-04-21."
         },
         {
           "date": "2026-04-18",

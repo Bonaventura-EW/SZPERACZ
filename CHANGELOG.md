@@ -13,6 +13,31 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-21] - 🧹 Czyszczenie danych: anomalia refreshed_count dla 17.04.2026
+
+### Fixed 🐛
+- **`data/dashboard_data.json` — wpisy z `2026-04-17` w 4 profilach**:
+  - `wszystkie_pokoje.refreshed_count`: 115 → 0 (było 30% z count=386)
+  - `pokojewlublinie.refreshed_count`: 1 → 0 (było 100% z count=1)
+  - `dawny_patron.refreshed_count`: 3 → 0 (było 75% z count=4)
+  - `mzuri.refreshed_count`: 38 → 0 (było 83% z count=46)
+  - Pominięte: `poqui` (3, tylko 38% z count — w granicach normy), `artymiuk`/`villahome` (0).
+  
+  **Dlaczego to była anomalia**: jednoczesna szpilka refreshed_count na wielu niezależnych profilach (różni sprzedawcy, różne kategorie) tego samego dnia to wzorzec typowy dla globalnej zmiany kodu, nie dla rzeczywistego eventu rynkowego. Dla profili z małą liczbą ogłoszeń stosunek refreshed/count przekraczał 75-100% co jest nierealistyczne w jeden dzień.
+  
+  **Root cause**: CHANGELOG `[2026-04-17] - ⏱️ Live detekcja odświeżeń w ciągu dnia (timestamp zamiast daty)` dokumentuje wdrożenie tego dnia (o 21:08:51 — wieczorny manual scan) zmiany, w której pole `last_refresh_timestamp` (ISO timestamp) zastąpiło porównanie stringów dat `YYYY-MM-DD`. Pierwszy scan po deployu wykrył `last_refresh_timestamp` dla wielu ogłoszeń jako "nowe" (transition from `None` to value) i błędnie naliczył to jako eventy odświeżenia — ten sam mechanizm co anomalia z 06.04 (vide wpis powyżej), tylko inny trigger.
+  
+  **Dowód w danych:** Scan 17.04 jest o 21:08 (reszta scanów: 08:00-09:00 poranek). Scan 18.04 miał `refreshed_count=2` (nienaturalnie nisko vs norma 14-25), co potwierdza że 17.04 "zjadł" eventy, które naturalnie powinny rozłożyć się na kilka kolejnych dni.
+  
+  **Ślad audytowy**: każdy zmieniony wpis ma pole `_note` z opisem korekty i odniesieniem do CHANGELOG.
+
+### Zweryfikowane ✅
+- Profile `poqui` (38%) celowo pominięte jako granicznie mieszczące się w zmienności dziennej.
+- Profil `artymiuk` miał `count=0` tego dnia (brak aktywnych ogłoszeń) — wartość `0` niewinna.
+- Poprzednia korekta z `2026-04-06` (anomalia 363→0) nienaruszona.
+
+---
+
 ## [2026-04-21] - 🧹 Czyszczenie danych: anomalia refreshed_count dla 06.04.2026
 
 ### Fixed 🐛
