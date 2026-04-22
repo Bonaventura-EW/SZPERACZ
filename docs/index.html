@@ -1141,6 +1141,7 @@ body {
           <button class="metric-tab" data-metric="median_price" onclick="switchMetric('median_price', this)">💰 Mediana ceny</button>
           <button class="metric-tab" data-metric="promoted_pct" onclick="switchMetric('promoted_pct', this)">🎯 % Promowanych</button>
           <button class="metric-tab" data-metric="refresh_reactivation" onclick="switchMetric('refresh_reactivation', this)">🔄 Odśw./Reakt.</button>
+          <button class="metric-tab" data-metric="added_removed" onclick="switchMetric('added_removed', this)">📈 Przybyło/Zniknęło</button>
         </div>
       </div>
       <div class="line-chart-canvas-wrapper">
@@ -1590,6 +1591,9 @@ function renderLineChart(key) {
   const promotedCountData = counts.map(d => d.promoted_count || 0);
   const refreshedData = counts.map(d => d.refreshed_count || 0);
   const reactivatedData = counts.map(d => d.reactivated_count || 0);
+  // Added/Removed: null-safe — wartości null oznaczają dni niekompletne (pominięte w rebuild)
+  const addedData = counts.map(d => (d.added !== null && d.added !== undefined) ? d.added : null);
+  const removedData = counts.map(d => (d.removed !== null && d.removed !== undefined) ? d.removed : null);
 
   // Mapowanie metryk
   const metricConfig = {
@@ -1629,6 +1633,24 @@ function renderLineChart(key) {
           label: 'Reaktywacje',
           color: '#10b981',
           suffix: ' reakt.'
+        }
+      ]
+    },
+    added_removed: {
+      // Dwie linie: przybyło (zielona) i zniknęło (czerwona)
+      multiLine: true,
+      datasets: [
+        {
+          data: addedData,
+          label: 'Przybyło',
+          color: '#10b981',
+          suffix: ''
+        },
+        {
+          data: removedData,
+          label: 'Zniknęło',
+          color: '#ef4444',
+          suffix: ''
         }
       ]
     }

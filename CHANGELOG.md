@@ -13,6 +13,22 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-04-22] - 📈 Nowe metryki: Przybyło/Zniknęło (flow dziennie)
+
+### Added ✨
+- **Dashboard**: nowy przycisk `📈 Przybyło/Zniknęło` w toolbarze "Trend w czasie" (obok `Ogłoszenia`, `Mediana ceny`, `% Promowanych`, `Odśw./Reakt.`). Wyświetla dwie linie na wspólnym wykresie:
+  - **Przybyło** (zielona) — liczba nowych ogłoszeń pojawiających się danego dnia (ID nieobecne w ostatnim scanie dnia poprzedniego)
+  - **Zniknęło** (czerwona) — liczba ogłoszeń znikających danego dnia (ID obecne wczoraj, nieobecne dziś)
+- **`scraper.py` — `generate_dashboard_json`**: każdy nowy wpis `daily_counts[]` zawiera pola `added` i `removed`. Dla pierwszego scanu profilu (brak historii) wartości są `None`. Przy wielokrotnych scanach tego samego dnia wartości są akumulowane (każdy scan dodaje swoje delty względem poprzedniego scanu dnia).
+- **`rebuild_daily_flows.py`** — skrypt jednorazowy odtwarzający historyczne `added`/`removed` dla 59 dni historii (od 23.02.2026) z arkuszy Excela. Obsługuje dwa formaty kolumn (stary col 12, nowy col 17). Dni z niekompletnymi danymi w Excelu (3-5.04 — bug scrapera) są oznaczane jako `None` (carry-forward do pierwszego kompletnego dnia), nie fałszują flow.
+
+### Technical notes
+- Walidacja spójności: dla 4 z 7 profili `added - removed == delta count`. Dla `wszystkie_pokoje` (kategoria, 400+ listingów) są drobne rozbieżności ±kilka wartości/dzień — to efekt tolerancji crosscheck (tol=10), nie bug algorytmu.
+- Dni `None` w `daily_counts[]` są poprawnie pomijane przez Chart.js (linia się przerywa, nie łączy przez nulle).
+- `beginAtZero: true` dla tej metryki (ustawione dla wszystkich poza `count`).
+
+---
+
 ## [2026-04-21] - 🧹 Czyszczenie danych: anomalia refreshed_count dla 17.04.2026
 
 ### Fixed 🐛

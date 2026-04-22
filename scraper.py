@@ -1466,7 +1466,17 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         # UWAGA: nazwa `newly_detected_listings` celowo inna niż `new_listings` niżej —
         # tamta to lista wszystkich przeprocesowanych (stare nazewnictwo, legacy).
         old_ids = set(l["id"] for l in pd_.get("current_listings", []))
+        current_ids_new = set(l["listing_id"] for l in result["listings"])
         newly_detected_listings = [l for l in result["listings"] if l["listing_id"] not in old_ids]
+
+        # NEW: Flow per dzień — added = nowo pojawione, removed = znikłe vs poprzedni scan
+        # Jeśli to pierwszy scan profilu (brak old_ids) — flow jest None (brak bazy porównania)
+        if len(old_ids) == 0 and len(pd_.get("daily_counts", [])) == 0:
+            flow_added = None
+            flow_removed = None
+        else:
+            flow_added = len(current_ids_new - old_ids)
+            flow_removed = len(old_ids - current_ids_new)
 
         # Kalkuluj medianę cen TYLKO z nowych ogłoszeń (first_seen == dziś)
         new_prices = [l["price"] for l in newly_detected_listings if l.get("price") is not None and l["price"] > 0]
@@ -1523,6 +1533,18 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     today_entry["promoted_percentage"] = promoted_pct
                     today_entry["promotion_breakdown"] = promo_breakdown
 
+                    # NEW: Flow (przybyło/zniknęło) — update przy kolejnym scanie dnia
+                    # Akumulujemy: added z obecnego scanu + dotychczasowa suma added dnia
+                    # Analogicznie removed. Ostatecznie i tak zapisujemy kumulację wszystkich ruchów w ciągu dnia.
+                    if flow_added is not None:
+                        prev_added = today_entry.get("added") or 0
+                        prev_removed = today_entry.get("removed") or 0
+                        today_entry["added"] = prev_added + flow_added
+                        today_entry["removed"] = prev_removed + flow_removed
+                    else:
+                        today_entry.setdefault("added", None)
+                        today_entry.setdefault("removed", None)
+
                     # refreshed_count and reactivated_count will be updated later after new_listings processing
                     # (need to check refresh_history to count actual refreshes, not just listings with refreshed==today)
 
@@ -1562,6 +1584,9 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     # Refresh and reactivation counts - will be updated after new_listings processing
                     "refreshed_count": 0,
                     "reactivated_count": 0,
+                    # NEW: Flow (przybyło/zniknęło)
+                    "added": flow_added,
+                    "removed": flow_removed,
                 })
 
         if len(dc) > 90:
