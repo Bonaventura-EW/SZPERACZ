@@ -1,123 +1,134 @@
-# SZPERACZ OLX API
+# SZPERACZ OLX — API dla aplikacji mobilnej
 
-REST API dla aplikacji mobilnej monitorującej status skanów OLX.
+**Base URL:** `https://bonaventura-ew.github.io/SZPERACZ/api`
 
-## Base URL
+Statyczne JSON serwowane przez GitHub Pages. Brak autentykacji. Dane aktualizowane codziennie ~09:00 CET.
 
-```
-https://bonaventura-ew.github.io/SZPERACZ/api
-```
+---
 
-## Endpoints
+## Endpointy
 
-### GET /status.json
+| Endpoint | Opis |
+|---|---|
+| `GET /status.json` | Aktualny status ostatniego skanu |
+| `GET /history.json` | Historia 30 skanów + pole `recent` (3 najnowsze) |
 
-Aktualny status ostatniego skanu.
+> ⚠️ Dodaj cache-bust do URL: `?t={timestamp_ms}`
 
-**Response:**
+---
+
+## status.json
+
 ```json
 {
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2025-03-07T08:00:00Z",
-    "duration_seconds": 145,
+    "timestamp":        "2026-04-30T09:23:08Z",
+    "duration_seconds": 94,
     "profiles_scanned": 7,
-    "total_listings": 847,
-    "new_listings": 12,
-    "price_changes": 3
+    "total_listings":   449,
+    "new_listings":     12,
+    "price_changes":    3,
+    "errors":           []
   },
   "nextScan": {
-    "scheduled": "2025-03-08T07:00:00Z",
-    "in_seconds": 82800
+    "scheduled":  "2026-05-01T07:00:00Z",
+    "in_seconds": 77811
   },
   "profiles": {
     "wszystkie_pokoje": {
-      "label": "Wszystkie pokoje w Lublinie",
-      "count": 523,
-      "crosscheck": "passed"
+      "label":             "Wszystkie pokoje w Lublinie",
+      "count":             380,
+      "new_listings":      11,
+      "price_changes":     0,
+      "crosscheck":        "passed",
+      "crosscheck_detail": "scraped=380, header=380",
+      "duration_seconds":  74,
+      "ok":                true,
+      "error":             null
     }
   }
 }
 ```
 
-### GET /history.json
+### Wartości `status`
 
-Historia skanów z ostatnich 30 dni.
+| Wartość | Znaczenie |
+|---|---|
+| `success` | Wszystkie profile OK |
+| `partial_failure` | Część profili z błędem |
+| `failure` | Błąd krytyczny — zero danych |
 
-**Response:**
+### Wartości `crosscheck` (per profil)
+
+| Wartość | Znaczenie |
+|---|---|
+| `passed` | Wynik zgodny z nagłówkiem OLX ✓ |
+| `passed_retry` | OK po drugiej próbie ✓ |
+| `consistent` | Dwie próby dały ten sam wynik ✓ |
+| `best_of_two` | Wybrano lepszy z dwóch (rozbieżność) |
+| `error` | Wyjątek podczas scrapowania ✗ |
+
+---
+
+## history.json
+
 ```json
 {
-  "last_updated": "2025-03-07T08:00:00Z",
-  "scans": [
+  "last_updated": "2026-04-30T09:23:08Z",
+
+  "recent": [
     {
-      "timestamp": "2025-03-07T08:00:00Z",
-      "date": "2025-03-07",
-      "status": "success",
-      "total_listings": 847,
+      "timestamp":        "2026-04-30T09:23:08Z",
+      "date":             "2026-04-30",
+      "status":           "success",
+      "message":          "Skan 7 profili zakończony pomyślnie",
+      "duration_seconds": 94,
+      "total_listings":   449,
+      "new_listings":     12,
+      "price_changes":    3,
       "profiles_scanned": 7,
-      "duration_seconds": 145
+      "errors":           [],
+      "profiles": {
+        "wszystkie_pokoje": {
+          "label":        "Wszystkie pokoje w Lublinie",
+          "count":        380,
+          "new_listings": 11,
+          "price_changes": 0,
+          "crosscheck":   "passed",
+          "ok":           true,
+          "error":        null
+        }
+      }
     }
-  ]
+  ],
+
+  "scans": [ /* pełna historia do 30 wpisów, od najstarszego */ ]
 }
 ```
 
-## Status Values
+`recent` — tablica 3 najnowszych skanów (od najnowszego). Używaj tego w UI.
 
-| Status | Opis |
-|--------|------|
-| `success` | Wszystkie profile zeskanowane poprawnie |
-| `partial_failure` | Niektóre profile miały błędy |
-| `failure` | Skan całkowicie nie powiódł się |
+---
 
-## Crosscheck Values
+## Monitorowane profile
 
-| Crosscheck | Opis |
-|------------|------|
-| `passed` | Dane zweryfikowane poprawnie |
-| `passed_retry` | Poprawne po ponownej próbie |
-| `consistent` | Spójne wyniki między próbami |
-| `best_of_two` | Wybrano lepszy z dwóch wyników |
-| `error` | Błąd podczas skanowania |
+| Klucz JSON | Label |
+|---|---|
+| `wszystkie_pokoje` | Wszystkie pokoje w Lublinie |
+| `pokojewlublinie` | pokojewlublinie |
+| `poqui` | poqui |
+| `artymiuk` | artymiuk |
+| `dawny_patron` | dawny patron |
+| `mzuri` | mzuri |
+| `villahome` | villahome |
 
-## OpenAPI Specification
+---
 
-Pełna specyfikacja OpenAPI 3.0 dostępna pod:
-```
-https://bonaventura-ew.github.io/SZPERACZ/api/openapi.yaml
-```
+## Polling
 
-## Flutter/Dart Example
-
-```dart
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
-class SzperaczApi {
-  static const baseUrl = 'https://bonaventura-ew.github.io/SZPERACZ/api';
-
-  Future<Map<String, dynamic>> getStatus() async {
-    final response = await http.get(Uri.parse('$baseUrl/status.json'));
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    }
-    throw Exception('Failed to load status');
-  }
-
-  Future<Map<String, dynamic>> getHistory() async {
-    final response = await http.get(Uri.parse('$baseUrl/history.json'));
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    }
-    throw Exception('Failed to load history');
-  }
-}
-```
-
-## Update Schedule
-
-Dane aktualizowane są codziennie około **9:00 CET** (7:00 UTC + opóźnienia GitHub Actions).
-
-## CORS
-
-API jest serwowane przez GitHub Pages, które wspiera CORS dla wszystkich domen.
+- **Co 15 minut** gdy app aktywna
+- **onResume** — przy powrocie z tła
+- Scan dzienny: **09:00 CET** (07:00 UTC), trwa ~60–180s
+- GitHub Pages cache propagacja: ~30–60s po skanie
