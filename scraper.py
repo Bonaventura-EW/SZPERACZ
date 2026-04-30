@@ -1918,49 +1918,96 @@ def generate_dashboard_json(scan_results, scan_timestamp):
 # ─── API JSON Generation ────────────────────────────────────────────────────
 
 def generate_api_json(scan_results, scan_timestamp, duration_seconds):
-    """Generate API status and history JSON files for mobile app."""
+    """Generate API status and history JSON files for mobile app (Android)."""
     os.makedirs(API_DIR, exist_ok=True)
-    
+
     now_iso = scan_timestamp.strftime("%Y-%m-%dT%H:%M:%SZ")
-    
-    # Calculate totals
+    today_str = scan_timestamp.strftime("%Y-%m-%d")
+
     total_listings = sum(r["count"] for r in scan_results.values())
     profiles_scanned = len(scan_results)
-    
-    # Count new listings (compare with previous data)
-    new_listings = 0
-    price_changes = 0
-    
+
+    # ── Nowe ogłoszenia i zmiany cen per profil ──────────────────────────────
     existing_data = load_existing_json()
+
+    profiles_status = {}
+    total_new = 0
+    total_price_changes = 0
+    error_profiles = []
+
     for pk, result in scan_results.items():
+        crosscheck = result.get("crosscheck", "unknown")
+        count = result.get("count", 0)
+
+        # Błąd = jawny "error" lub 0 ogłoszeń z niepasującym crosscheck
+        is_error = (
+            crosscheck == "error"
+            or (count == 0 and crosscheck not in (
+                "passed", "passed_retry", "consistent", "best_of_two"
+            ))
+        )
+
+        # Nowe ogłoszenia: ID których nie było w poprzednim scanie
+        new_today = 0
         if pk in existing_data.get("profiles", {}):
-            old_ids = {l["id"] for l in existing_data["profiles"][pk].get("current_listings", [])}
+            old_ids = {
+                l["id"]
+                for l in existing_data["profiles"][pk].get("current_listings", [])
+            }
             for listing in result["listings"]:
                 if listing["listing_id"] not in old_ids:
-                    new_listings += 1
-            # Count price changes from price_history
-            price_changes += len(existing_data["profiles"][pk].get("price_history", {}))
-    
-    # Determine overall status
-    error_profiles = [pk for pk, r in scan_results.items() if r.get("crosscheck") == "error"]
-    if error_profiles:
-        status = "partial_failure"
-        message = f"Błędy w profilach: {', '.join(error_profiles)}"
-    elif all(r.get("crosscheck") in ["passed", "passed_retry", "consistent"] for r in scan_results.values()):
+                    new_today += 1
+
+        # Zmiany cen: wpisy w price_history z dzisiaj
+        price_changes_today = 0
+        for ph_entries in existing_data.get("profiles", {}).get(pk, {}).get("price_history", {}).values():
+            for entry in ph_entries:
+                if entry.get("date", "").startswith(today_str):
+                    price_changes_today += 1
+
+        total_new += new_today
+        total_price_changes += price_changes_today
+
+        profile_entry = {
+            "label": PROFILES[pk]["label"],
+            "count": count,
+            "new_listings": new_today,
+            "price_changes": price_changes_today,
+            "crosscheck": crosscheck,
+            "crosscheck_detail": result.get("crosscheck_detail", ""),
+            "duration_seconds": result.get("duration_seconds"),
+            "ok": not is_error,
+        }
+
+        if is_error:
+            detail = result.get("crosscheck_detail", "Nieznany błąd podczas skanowania")
+            profile_entry["error"] = detail
+            error_profiles.append(pk)
+        else:
+            profile_entry["error"] = None
+
+        profiles_status[pk] = profile_entry
+
+    # ── Globalny status ───────────────────────────────────────────────────────
+    error_count = len(error_profiles)
+    if error_count == 0:
         status = "success"
         message = f"Skan {profiles_scanned} profili zakończony pomyślnie"
+    elif error_count < profiles_scanned:
+        status = "partial_failure"
+        message = f"Skan częściowy — błędy w: {', '.join(error_profiles)}"
     else:
-        status = "success"
-        message = "Skan zakończony z drobnymi niezgodnościami"
-    
-    # Calculate next scan time (7:00 UTC next day)
+        status = "failure"
+        message = "Skan nieudany — wszystkie profile zwróciły błędy"
+
+    # ── Następny scan: 07:00 UTC ──────────────────────────────────────────────
     next_scan = scan_timestamp.replace(hour=7, minute=0, second=0, microsecond=0)
     if scan_timestamp.hour >= 7:
         next_scan += timedelta(days=1)
     next_scan_iso = next_scan.strftime("%Y-%m-%dT%H:%M:%SZ")
-    seconds_to_next = int((next_scan - scan_timestamp).total_seconds())
-    
-    # Build status.json
+    seconds_to_next = max(0, int((next_scan - scan_timestamp).total_seconds()))
+
+    # ── status.json ───────────────────────────────────────────────────────────
     status_data = {
         "status": status,
         "message": message,
@@ -1969,29 +2016,22 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
             "duration_seconds": duration_seconds,
             "profiles_scanned": profiles_scanned,
             "total_listings": total_listings,
-            "new_listings": new_listings,
-            "price_changes": price_changes
+            "new_listings": total_new,
+            "price_changes": total_price_changes,
+            "errors": error_profiles,
         },
         "nextScan": {
             "scheduled": next_scan_iso,
-            "in_seconds": max(0, seconds_to_next)
+            "in_seconds": seconds_to_next,
         },
-        "profiles": {
-            pk: {
-                "label": PROFILES[pk]["label"],
-                "count": r["count"],
-                "crosscheck": r.get("crosscheck", "unknown"),
-                "duration_seconds": r.get("duration_seconds", None),
-            }
-            for pk, r in scan_results.items()
-        }
+        "profiles": profiles_status,
     }
-    
+
     with open(API_STATUS_PATH, "w", encoding="utf-8") as f:
         json.dump(status_data, f, ensure_ascii=False, indent=2)
     log.info(f"API status.json saved: {API_STATUS_PATH}")
-    
-    # Build/update history.json
+
+    # ── history.json ──────────────────────────────────────────────────────────
     history_data = {"scans": []}
     if os.path.exists(API_HISTORY_PATH):
         try:
@@ -1999,25 +2039,43 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
                 history_data = json.load(f)
         except (json.JSONDecodeError, IOError):
             pass
-    
-    # Add current scan to history
+
     history_entry = {
         "timestamp": now_iso,
-        "date": scan_timestamp.strftime("%Y-%m-%d"),
+        "date": today_str,
         "status": status,
+        "message": message,
+        "duration_seconds": duration_seconds,
         "total_listings": total_listings,
+        "new_listings": total_new,
+        "price_changes": total_price_changes,
         "profiles_scanned": profiles_scanned,
-        "duration_seconds": duration_seconds
+        "errors": error_profiles,
+        "profiles": {
+            pk: {
+                "label": v["label"],
+                "count": v["count"],
+                "new_listings": v["new_listings"],
+                "price_changes": v["price_changes"],
+                "crosscheck": v["crosscheck"],
+                "ok": v["ok"],
+                "error": v.get("error"),
+            }
+            for pk, v in profiles_status.items()
+        },
     }
-    
-    history_data["scans"].append(history_entry)
-    
-    # Keep only last 30 days
-    if len(history_data["scans"]) > 30:
-        history_data["scans"] = history_data["scans"][-30:]
-    
-    history_data["last_updated"] = now_iso
-    
+
+    scans = history_data.get("scans", [])
+    scans.append(history_entry)
+    scans = scans[-30:]  # Max 30 wpisów
+
+    history_data = {
+        "last_updated": now_iso,
+        "scans": scans,
+        # Shortcut dla aplikacji: 3 najnowsze od razu (od najnowszego)
+        "recent": list(reversed(scans[-3:])),
+    }
+
     with open(API_HISTORY_PATH, "w", encoding="utf-8") as f:
         json.dump(history_data, f, ensure_ascii=False, indent=2)
     log.info(f"API history.json saved: {API_HISTORY_PATH}")
