@@ -585,6 +585,54 @@ body {
   white-space: nowrap;
 }
 
+/* ─── Price Histogram ─── */
+.price-hist-section { padding: 24px; border-bottom: 1px solid var(--border); }
+.price-hist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+.price-hist-title { font-family: var(--font-display); font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.7px; }
+.price-hist-day-label { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--accent); }
+
+input[type=range].day-slider {
+  width: 100%; height: 4px;
+  -webkit-appearance: none; appearance: none;
+  background: var(--border); border-radius: 2px; outline: none; cursor: pointer;
+}
+input[type=range].day-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--accent); border: 3px solid var(--bg-card);
+  box-shadow: 0 0 0 2px var(--accent); cursor: pointer;
+  transition: transform 0.2s;
+}
+input[type=range].day-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+input[type=range].day-slider::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent); border: 3px solid var(--bg-card); cursor: pointer;
+}
+.slider-ticks { display: flex; justify-content: space-between; margin-top: 6px; padding: 0 4px; }
+.slider-tick { font-family: var(--font-display); font-size: 9px; color: var(--text-muted); text-align: center; flex: 1; white-space: nowrap; }
+.slider-tick.active { color: var(--accent); font-weight: 700; }
+
+.price-hist-bars { display: flex; align-items: flex-end; gap: 3px; height: 170px; padding: 28px 4px 0; }
+.price-hist-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; min-width: 0; cursor: pointer; }
+.price-hist-bar-wrap:hover .price-hist-bar { filter: brightness(1.2); }
+.price-hist-bar { width: 100%; background: var(--accent); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.4,0,0.2,1); position: relative; min-height: 0; opacity: 0.85; }
+.price-hist-bar.median-bar { background: var(--green); }
+.price-hist-bar.q1-bar, .price-hist-bar.q3-bar { background: var(--chart-bar); opacity: 0.6; }
+.price-hist-count { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--text-primary); white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
+.price-hist-bar-wrap:hover .price-hist-count { opacity: 1; }
+.price-hist-label { font-family: var(--font-display); font-size: 9px; color: var(--text-muted); margin-top: 5px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+
+.price-hist-tooltip { position: fixed; background: var(--bg-card); border: 1px solid var(--accent); border-radius: var(--radius-sm); padding: 8px 12px; font-family: var(--font-display); font-size: 11px; color: var(--text-primary); pointer-events: none; z-index: 500; display: none; box-shadow: var(--shadow); white-space: nowrap; }
+
+.price-hist-legend { display: flex; gap: 14px; margin-top: 12px; font-family: var(--font-display); font-size: 11px; color: var(--text-muted); flex-wrap: wrap; }
+.price-hist-legend span { display: flex; align-items: center; gap: 5px; }
+.ph-legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+.price-hist-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 1px; background: var(--border); margin-top: 14px; border-radius: var(--radius-sm); overflow: hidden; }
+.price-hist-stat { background: var(--bg-card); padding: 10px 12px; text-align: center; transition: background var(--transition); }
+.price-hist-stat:hover { background: var(--bg-accent); }
+.price-hist-stat-val { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--accent); }
+.price-hist-stat-lbl { font-size: 9px; color: var(--text-muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.4px; }
+
 /* ─── Line Chart ─── */
 .line-chart-section {
   padding: 24px;
@@ -1120,6 +1168,25 @@ body {
       <button class="detail-close" onclick="closeDetail()">✕</button>
     </div>
     <div class="detail-stats" id="detailStats"></div>
+    <!-- Price Histogram -->
+    <div class="price-hist-section">
+      <div class="price-hist-header">
+        <div class="price-hist-title">💰 ROZKŁAD CEN</div>
+        <div class="price-hist-day-label" id="priceHistDayLabel">—</div>
+      </div>
+      <div style="padding:0 4px;margin-bottom:4px;">
+        <input type="range" class="day-slider" id="daySlider" min="0" max="0" value="0" oninput="onDaySlider(this.value)">
+        <div class="slider-ticks" id="sliderTicks"></div>
+      </div>
+      <div class="price-hist-bars" id="priceHistBars"></div>
+      <div class="price-hist-legend">
+        <span><span class="ph-legend-dot" style="background:var(--accent)"></span>Przedział cenowy</span>
+        <span><span class="ph-legend-dot" style="background:var(--green)"></span>Mediana</span>
+        <span><span class="ph-legend-dot" style="background:var(--chart-bar);opacity:0.6"></span>Q1 / Q3</span>
+      </div>
+      <div class="price-hist-stats" id="priceHistStats"></div>
+    </div>
+    <div class="price-hist-tooltip" id="priceHistTooltip"></div>
     <div class="chart-section">
       <div class="chart-header">
         <div class="chart-title" id="chartTitle">Ogłoszenia — ostatnie 14 dni</div>
@@ -1473,6 +1540,9 @@ function renderDetail(key) {
     t.classList.toggle('active', idx === 0); // First button (Ogłoszenia) is active
   });
   renderLineChart(key);
+
+  // Price Histogram
+  renderPriceHistogram(key);
 
   // Listings
   currentTab = 'current';
@@ -2279,6 +2349,121 @@ window.addEventListener('resize', () => {
     }
   }, 250);
 });
+
+// ─── Price Histogram with day slider ──────────────────────
+let histKey      = null;
+let histDayIndex = 0;
+
+function renderPriceHistogram(key) {
+  histKey = key;
+  const counts = dashData.profiles[key]?.daily_counts || [];
+  const slider = document.getElementById('daySlider');
+  slider.min   = 0;
+  slider.max   = Math.max(0, counts.length - 1);
+  histDayIndex = counts.length - 1;
+  slider.value = histDayIndex;
+  buildSliderTicks(counts);
+  drawHistogram(key, histDayIndex);
+}
+
+function buildSliderTicks(counts) {
+  const el = document.getElementById('sliderTicks');
+  if (counts.length <= 1) { el.innerHTML = ''; return; }
+  const maxShow = 10;
+  const step    = Math.max(1, Math.ceil(counts.length / maxShow));
+  el.innerHTML  = counts.map((d, i) => {
+    if (i !== 0 && i !== counts.length - 1 && i % step !== 0) return '';
+    const [, mm, dd] = d.date.split('-');
+    return `<span class="slider-tick${i === histDayIndex ? ' active' : ''}">${dd}.${mm}</span>`;
+  }).join('');
+}
+
+function onDaySlider(val) {
+  histDayIndex = parseInt(val);
+  buildSliderTicks(dashData.profiles[histKey]?.daily_counts || []);
+  drawHistogram(histKey, histDayIndex);
+}
+
+function drawHistogram(key, idx) {
+  const counts  = dashData.profiles[key]?.daily_counts || [];
+  const entry   = counts[idx];
+  const barsEl  = document.getElementById('priceHistBars');
+  const statsEl = document.getElementById('priceHistStats');
+  const dayLbl  = document.getElementById('priceHistDayLabel');
+
+  if (!entry) {
+    barsEl.innerHTML = '<div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych</div>';
+    statsEl.innerHTML = ''; dayLbl.textContent = '—'; return;
+  }
+
+  const [y, m, d] = entry.date.split('-');
+  const dist = entry.price_distribution || [];
+  const totalWithPrice = dist.reduce((s, b) => s + b.count, 0);
+
+  dayLbl.textContent = `${d}.${m}.${y}  ·  ${totalWithPrice} ogłoszeń z ceną`;
+
+  if (!dist.length || totalWithPrice === 0) {
+    barsEl.innerHTML = '<div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych cen dla tego dnia</div>';
+    statsEl.innerHTML = ''; return;
+  }
+
+  const maxCount  = Math.max(...dist.map(b => b.count), 1);
+  const allPrices = dist.flatMap(b => Array(b.count).fill(Math.round((b.from + b.to) / 2)));
+  allPrices.sort((a, b) => a - b);
+  const n    = allPrices.length;
+  const minP = dist[0].from;
+  const maxP = dist[dist.length - 1].to - 1;
+  const medP = n % 2 !== 0 ? allPrices[Math.floor(n/2)] : Math.round((allPrices[n/2-1] + allPrices[n/2]) / 2);
+  const avgP = Math.round(allPrices.reduce((a, b) => a + b, 0) / n);
+  const p25  = allPrices[Math.floor(n * 0.25)];
+  const p75  = allPrices[Math.floor(n * 0.75)];
+
+  const medBucket = dist.findIndex(b => medP >= b.from && medP < b.to);
+  const q1Bucket  = dist.findIndex(b => p25  >= b.from && p25  < b.to);
+  const q3Bucket  = dist.findIndex(b => p75  >= b.from && p75  < b.to);
+
+  const fmtP = p => p >= 1000 ? `${(p / 1000).toFixed(p % 1000 === 0 ? 0 : 1)}k` : String(p);
+
+  barsEl.innerHTML = dist.map((b, i) => {
+    const h   = Math.max(b.count > 0 ? (b.count / maxCount) * 85 : 0, b.count > 0 ? 3 : 0);
+    const cls = i === medBucket ? 'median-bar' : (i === q1Bucket || i === q3Bucket) ? 'q1-bar' : '';
+    const r   = `${b.from.toLocaleString('pl-PL')}–${b.to.toLocaleString('pl-PL')} zł`;
+    const c   = `${b.count} ogłoszeń`;
+    return `<div class="price-hist-bar-wrap"
+        onmouseenter="showHistTip(event,'${r}','${c}')" onmouseleave="hideHistTip()" onmousemove="moveHistTip(event)">
+      <div class="price-hist-bar ${cls}" style="height:${h}%">
+        <span class="price-hist-count">${b.count || ''}</span>
+      </div>
+      <span class="price-hist-label">${fmtP(b.from)}</span>
+    </div>`;
+  }).join('');
+
+  statsEl.innerHTML = `
+    <div class="price-hist-stat"><div class="price-hist-stat-val">${minP.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Min</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:#3b82f6">${p25.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Q1 25%</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:var(--green)">${medP.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Mediana</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val">${avgP.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Średnia</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:#3b82f6">${p75.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Q3 75%</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val">${maxP.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Max</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val">${totalWithPrice}</div><div class="price-hist-stat-lbl">Z ceną</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:var(--text-muted)">${(entry.count || 0) - totalWithPrice}</div><div class="price-hist-stat-lbl">Bez ceny</div></div>
+  `;
+}
+
+function showHistTip(e, range, count) {
+  const tip = document.getElementById('priceHistTooltip');
+  tip.innerHTML = `<strong>${range}</strong><br>${count}`;
+  tip.style.display = 'block';
+  moveHistTip(e);
+}
+function moveHistTip(e) {
+  const tip = document.getElementById('priceHistTooltip');
+  tip.style.left = (e.clientX + 14) + 'px';
+  tip.style.top  = (e.clientY - 44) + 'px';
+}
+function hideHistTip() {
+  document.getElementById('priceHistTooltip').style.display = 'none';
+}
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>

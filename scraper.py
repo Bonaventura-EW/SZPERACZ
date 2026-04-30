@@ -1511,6 +1511,33 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         if skip_daily_update:
             log.warning(f"[{pk}] Skipping daily_counts update - scraper error detected (crosscheck={crosscheck}, header={header_count}, current_listings={current_listings_count})")
         else:
+            # Build price distribution snapshot for this scan
+            def build_price_distribution(listings):
+                prices = sorted([l["price"] for l in listings if l.get("price") and l["price"] > 0])
+                if not prices:
+                    return []
+                mn, mx = prices[0], prices[-1]
+                if mn == mx:
+                    return [{"from": mn, "to": mx + 1, "count": len(prices)}]
+                raw = (mx - mn) / 14
+                mag = 10 ** max(0, int(len(str(int(max(raw, 1)))) - 1))
+                step = next((f * mag for f in [1, 2, 2.5, 5, 10] if f * mag >= raw), 10 * mag)
+                start = (mn // step) * step
+                buckets = []
+                s = start
+                while s <= mx:
+                    cnt = sum(1 for p in prices if s <= p < s + step)
+                    buckets.append({"from": int(s), "to": int(s + step), "count": cnt})
+                    s += step
+                if prices[-1] >= s - step:
+                    extra = sum(1 for p in prices if p >= s)
+                    if extra: buckets[-1]["count"] += extra
+                while len(buckets) > 1 and buckets[-1]["count"] == 0: buckets.pop()
+                while len(buckets) > 1 and buckets[0]["count"] == 0:  buckets.pop(0)
+                return buckets
+
+            price_dist = build_price_distribution(result["listings"])
+
             today_entry = next((d for d in dc if d["date"] == today), None)
             if today_entry:
                 if result["count"] >= today_entry["count"]:
@@ -1532,6 +1559,7 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     today_entry["promoted_count"] = promoted_count
                     today_entry["promoted_percentage"] = promoted_pct
                     today_entry["promotion_breakdown"] = promo_breakdown
+                    today_entry["price_distribution"] = price_dist
 
                     # NEW: Flow (przybyło/zniknęło) — update przy kolejnym scanie dnia
                     # Akumulujemy: added z obecnego scanu + dotychczasowa suma added dnia
@@ -1581,6 +1609,8 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     "promoted_count": promoted_count,
                     "promoted_percentage": promoted_pct,
                     "promotion_breakdown": promo_breakdown,
+                    # Price distribution snapshot
+                    "price_distribution": price_dist,
                     # Refresh and reactivation counts - will be updated after new_listings processing
                     "refreshed_count": 0,
                     "reactivated_count": 0,
