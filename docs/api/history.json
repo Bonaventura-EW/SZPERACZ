@@ -1,14 +1,6 @@
 {
-  "last_updated": "2026-04-30T19:40:47Z",
+  "last_updated": "2026-04-30T19:47:02Z",
   "scans": [
-    {
-      "timestamp": "2026-04-11T14:24:19Z",
-      "date": "2026-04-11",
-      "status": "success",
-      "total_listings": 358,
-      "profiles_scanned": 7,
-      "duration_seconds": 139
-    },
     {
       "timestamp": "2026-04-11T14:28:42Z",
       "date": "2026-04-11",
@@ -240,6 +232,178 @@
       "total_listings": 452,
       "profiles_scanned": 7,
       "duration_seconds": 94
+    },
+    {
+      "timestamp": "2026-04-30T19:47:02Z",
+      "date": "2026-04-30",
+      "status": "success",
+      "message": "Skan 7 profili zakończony pomyślnie",
+      "duration_seconds": 87,
+      "total_listings": 455,
+      "new_listings": 0,
+      "price_changes": 6,
+      "profiles_scanned": 7,
+      "errors": [],
+      "profiles": {
+        "pokojewlublinie": {
+          "label": "pokojewlublinie",
+          "count": 4,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "poqui": {
+          "label": "poqui",
+          "count": 6,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "artymiuk": {
+          "label": "artymiuk",
+          "count": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "dawny_patron": {
+          "label": "dawny patron",
+          "count": 4,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "mzuri": {
+          "label": "mzuri",
+          "count": 60,
+          "new_listings": 0,
+          "price_changes": 2,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "villahome": {
+          "label": "villahome",
+          "count": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "wszystkie_pokoje": {
+          "label": "Wszystkie pokoje w Lublinie",
+          "count": 381,
+          "new_listings": 0,
+          "price_changes": 4,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        }
+      }
+    }
+  ],
+  "recent": [
+    {
+      "timestamp": "2026-04-30T19:47:02Z",
+      "date": "2026-04-30",
+      "status": "success",
+      "message": "Skan 7 profili zakończony pomyślnie",
+      "duration_seconds": 87,
+      "total_listings": 455,
+      "new_listings": 0,
+      "price_changes": 6,
+      "profiles_scanned": 7,
+      "errors": [],
+      "profiles": {
+        "pokojewlublinie": {
+          "label": "pokojewlublinie",
+          "count": 4,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "poqui": {
+          "label": "poqui",
+          "count": 6,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "artymiuk": {
+          "label": "artymiuk",
+          "count": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "dawny_patron": {
+          "label": "dawny patron",
+          "count": 4,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "mzuri": {
+          "label": "mzuri",
+          "count": 60,
+          "new_listings": 0,
+          "price_changes": 2,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "villahome": {
+          "label": "villahome",
+          "count": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "wszystkie_pokoje": {
+          "label": "Wszystkie pokoje w Lublinie",
+          "count": 381,
+          "new_listings": 0,
+          "price_changes": 4,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        }
+      }
+    },
+    {
+      "timestamp": "2026-04-30T19:40:47Z",
+      "date": "2026-04-30",
+      "status": "success",
+      "total_listings": 452,
+      "profiles_scanned": 7,
+      "duration_seconds": 94
+    },
+    {
+      "timestamp": "2026-04-30T19:36:11Z",
+      "date": "2026-04-30",
+      "status": "success",
+      "total_listings": 453,
+      "profiles_scanned": 7,
+      "duration_seconds": 95
     }
   ]
 }
