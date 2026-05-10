@@ -1904,7 +1904,12 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         else:
             log.warning(f"[{pk}] Skipping archiving AND current_listings update - scraper error detected (crosscheck={crosscheck}, header={header_count})")
             # Zachowaj stare current_listings - nie nadpisuj pustą listą!
-        scan_entry["profiles"][pk] = {"count": result["count"], "crosscheck": result.get("crosscheck", "")}
+        scan_entry["profiles"][pk] = {
+            "count": result["count"],
+            "crosscheck": result.get("crosscheck", ""),
+            "added": flow_added,
+            "removed": flow_removed,
+        }
 
     data["scan_history"].append(scan_entry)
     if len(data["scan_history"]) > 90:

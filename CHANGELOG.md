@@ -13,6 +13,17 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-05-10] - 📊 Per-profile added/removed w scan_history
+
+### Added ✨
+- **`scraper.py` — `generate_dashboard_json`**: każdy wpis `scan_history[].profiles[pk]` zawiera teraz dodatkowo pola `added` i `removed` (oprócz dotychczasowych `count` i `crosscheck`). Wartości pochodzą z tej samej kalkulacji `flow_added`/`flow_removed` co `daily_counts`, więc są spójne z istniejącą logiką flow. Dla pierwszego scanu profilu (brak historii) — `None`.
+
+### Technical notes
+- Zmiana czysto API/JSON, bez modyfikacji `docs/index.html` ani `email_report.py`.
+- Konsumenci `scan_history` mogą teraz odczytać granularne flow per scan per profil, zamiast wyłącznie `count` snapshot.
+
+---
+
 ## [2026-04-22] - 📈 Nowe metryki: Przybyło/Zniknęło (flow dziennie)
 
 ### Added ✨
