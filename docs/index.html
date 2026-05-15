@@ -2046,8 +2046,8 @@ function renderListings(key, tab) {
         break;
 
       case 'days_active':
-        valA = (() => { const s = a.first_seen ? a.first_seen.split(' ')[0] : null; return s ? Math.floor((Date.now() - new Date(s)) / 86400000) : 0; })();
-        valB = (() => { const s = b.first_seen ? b.first_seen.split(' ')[0] : null; return s ? Math.floor((Date.now() - new Date(s)) / 86400000) : 0; })();
+        valA = (() => { const s = a.published || (a.first_seen ? a.first_seen.split(' ')[0] : null); return s ? Math.floor((Date.now() - new Date(s)) / 86400000) : 0; })();
+        valB = (() => { const s = b.published || (b.first_seen ? b.first_seen.split(' ')[0] : null); return s ? Math.floor((Date.now() - new Date(s)) / 86400000) : 0; })();
         break;
       
       case 'date': // Default: first_seen lub archived_date
@@ -2113,7 +2113,7 @@ function renderListings(key, tab) {
           <th class="sortable ${sortColumn === 'refreshed' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('refreshed')">Odświeżone</th>
           <th class="sortable ${sortColumn === 'refresh_count' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('refresh_count')" title="Ile razy ogłoszenie zostało odświeżone">Licz. odsw.</th>
           <th class="sortable ${sortColumn === 'reactivation_count' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('reactivation_count')" title="Ile razy ogłoszenie zostało reaktywowane (wróciło po archiwizacji)">Licz. reakt.</th>
-          <th class="sortable ${sortColumn === 'days_active' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('days_active')" title="Dni od pierwszego zeskanowania przez SZPERACZ">Dni aktywne</th>
+          <th class="sortable ${sortColumn === 'days_active' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('days_active')" title="Dni od daty publikacji ogłoszenia na OLX">Dni aktywne</th>
           ${tab === 'archived' ? `<th class="sortable ${sortColumn === 'archived' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('archived')">Zniknęło</th>` : ''}
         </tr>
       </thead>
@@ -2146,9 +2146,9 @@ function renderListings(key, tab) {
     const refreshed = l.refreshed || '—';
     const archived = l.archived_date ? l.archived_date.split(' ')[0] : '—';
 
-    // Dni aktywne: od pierwszego zeskanowania przez SZPERACZ (first_seen)
+    // Dni aktywne: od daty publikacji na OLX (published), fallback na first_seen
     let daysActive = '—';
-    const startDateStr = l.first_seen ? l.first_seen.split(' ')[0] : null;
+    const startDateStr = l.published || (l.first_seen ? l.first_seen.split(' ')[0] : null);
     if (startDateStr) {
       const start = new Date(startDateStr.replace(' ', 'T'));
       const end = l.archived_date ? new Date(l.archived_date.replace(' ', 'T')) : new Date();
