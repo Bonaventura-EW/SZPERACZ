@@ -241,81 +241,79 @@ DATE_KEYWORDS = [
 
 def detect_promoted_status(card):
     """
-    Detect if listing is promoted/featured.
-    
-    Primary strategy: OLX adds ?search_reason=search%7Cpromoted to promoted URLs
-    Fallback strategies: badges, CSS classes, text markers
-    
+    Detect if listing is promoted/featured (HTML scraper — kategoria).
+
+    Canonical promotion_type values (zgodne z promotion_dict_to_fields):
+        'top_ad'    — wyróżnione na górze listy (płatne)
+        'highlight' — podświetlone tło (płatne)
+        'urgent'    — pilne (płatne)
+        'premium'   — strona premium (płatne)
+        'unknown'   — sygnał promocji bez rozpoznanego typu
+
+    Primary strategy: OLX adds ?search_reason=search%7Cpromoted to promoted URLs.
+    Fallback strategies: badges, CSS classes, text markers, data attributes.
+
     Returns: {
         'is_promoted': bool,
-        'promotion_type': str,  # 'featured', 'top_ad', 'highlight', 'unknown'
-        'confidence': float      # 0.0 - 1.0
+        'promotion_type': str | None,
+        'confidence': float   # 0.0 – 1.0
     }
     """
     signals = []
-    
-    # STRATEGIA 0: URL parameter (STRONGEST for OLX)
-    all_links = card.select('a[href*="/d/oferta/"]')
-    for link in all_links:
+
+    # STRATEGIA 0: URL parameter — najsilniejszy sygnał dla OLX
+    for link in card.select('a[href*="/d/oferta/"]'):
         href = link.get('href', '')
-        if 'search_reason=search%7Cpromoted' in href or ('promoted' in href.lower() and '/d/oferta/' in href):
-            signals.append(('url_parameter', 1.0))
+        if 'search_reason=search%7Cpromoted' in href:
+            signals.append(('url_promoted', 1.0))
             break
-    
-    # STRATEGIA 1: data-testid attributes
+
+    # STRATEGIA 1: data-testid
     if card.select_one('[data-testid="adCard-featured"]'):
-        signals.append(('featured_badge', 1.0))
-    
+        signals.append(('testid_featured', 1.0))
     if card.select_one('[data-testid="listing-ad-badge"]'):
-        signals.append(('ad_badge', 0.9))
-    
+        signals.append(('testid_ad_badge', 0.9))
+
     # STRATEGIA 2: CSS classes
-    promoted_classes = ['featured', 'promoted', 'highlighted', 'top-ad', 'premium', 'vip', 'wyroznie']
     element_classes = ' '.join(card.get('class', [])).lower()
-    if any(kw in element_classes for kw in promoted_classes):
-        signals.append(('css_class', 0.8))
-    
+    if any(kw in element_classes for kw in ['featured', 'promoted', 'top-ad', 'premium', 'vip']):
+        signals.append(('css_top_ad', 0.8))
+    if 'highlight' in element_classes or 'wyroznie' in element_classes:
+        signals.append(('css_highlight', 0.8))
+
     # STRATEGIA 3: Text badges
     text_content = card.get_text()
-    badges = ['Wyróżnione', 'Promowane', 'Premium', 'TOP', 'Pilne']
-    if any(badge in text_content for badge in badges):
-        signals.append(('text_badge', 0.85))
-    
-    # STRATEGIA 4: Icon markers
-    if card.select('svg[data-icon*="star"]') or card.select('svg[data-icon*="fire"]'):
-        signals.append(('icon_marker', 0.75))
-    
-    # STRATEGIA 5: data attributes
+    if any(b in text_content for b in ['Wyróżnione', 'Promowane', 'TOP']):
+        signals.append(('text_top_ad', 0.85))
+    if 'Pilne' in text_content:
+        signals.append(('text_urgent', 0.85))
+    if 'Premium' in text_content:
+        signals.append(('text_premium', 0.85))
+
+    # STRATEGIA 4: data attributes
     if card.get('data-promoted') or card.get('data-featured'):
         signals.append(('data_attribute', 1.0))
-    
-    # No signals = organic listing
+
     if not signals:
-        return {
-            'is_promoted': False,
-            'promotion_type': None,
-            'confidence': 1.0
-        }
-    
-    # Promoted listing detected
+        return {'is_promoted': False, 'promotion_type': None, 'confidence': 1.0}
+
     max_confidence = max(s[1] for s in signals)
     signal_types = [s[0] for s in signals]
-    
-    # Determine promotion type
-    if 'url_parameter' in signal_types or 'featured_badge' in signal_types or 'data_attribute' in signal_types:
-        promo_type = 'featured'
-    elif 'ad_badge' in signal_types:
+
+    # Mapowanie sygnałów → canonical type (zgodny z promotion_dict_to_fields)
+    if any(s in signal_types for s in ('url_promoted', 'testid_featured', 'testid_ad_badge',
+                                        'css_top_ad', 'text_top_ad', 'data_attribute')):
         promo_type = 'top_ad'
-    elif 'text_badge' in signal_types or 'css_class' in signal_types:
+    elif 'text_urgent' in signal_types:
+        promo_type = 'urgent'
+    elif 'text_premium' in signal_types:
+        promo_type = 'premium'
+    elif 'css_highlight' in signal_types:
         promo_type = 'highlight'
     else:
         promo_type = 'unknown'
-    
-    return {
-        'is_promoted': True,
-        'promotion_type': promo_type,
-        'confidence': max_confidence
-    }
+
+    return {'is_promoted': True, 'promotion_type': promo_type, 'confidence': max_confidence}
 
 
 def parse_card(card):
@@ -1732,6 +1730,11 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     # Fallback: gdy brak timestampów, porównaj daty (jak dotychczas)
                     is_new_refresh = True
                     detected_refresh_key = new_refreshed
+
+                # Jeśli ogłoszenie jest aktualnie promowane, OLX może aktualizować
+                # last_refreshed automatycznie — nie liczymy tego jako odświeżenie (pushup).
+                if nl.get("is_promoted"):
+                    is_new_refresh = False
 
                 if is_new_refresh and detected_refresh_key:
                     already_counted = any(
