@@ -1228,6 +1228,7 @@ input[type=range].day-slider::-moz-range-thumb {
         <button class="listing-tab active" onclick="switchTab('current', this)">Aktualne</button>
         <button class="listing-tab" onclick="switchTab('archived', this)">Archiwum</button>
       </div>
+      <div id="archivePagination"></div>
       <div id="listingsContent"></div>
     </div>
   </div>
@@ -2075,8 +2076,8 @@ function renderListings(key, tab) {
 
   const totalPages = (tab === 'archived') ? Math.ceil(sorted.length / ARCHIVE_PAGE_SIZE) : 0;
 
-  const paginationBar = (tab === 'archived' && totalPages > 1) ? `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px;border-bottom:1px solid var(--border);margin-bottom:0;">
+  const paginationBarHtml = (tab === 'archived' && totalPages > 1) ? `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px;border-bottom:1px solid var(--border);">
       <button
         onclick="changeArchivePage(${archivePage - 1})"
         ${archivePage === 0 ? 'disabled' : ''}
@@ -2096,7 +2097,9 @@ function renderListings(key, tab) {
     </div>
   ` : '';
 
-  let html = `${paginationBar}
+  document.getElementById('archivePagination').innerHTML = paginationBarHtml;
+
+  let html = `
     <table class="listings-table">
       <thead>
         <tr>
