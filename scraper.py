@@ -187,39 +187,50 @@ def promotion_dict_to_fields(promotion: dict) -> dict:
     Convert OLX API 'promotion' dict to is_promoted / promotion_type fields.
 
     OLX API returns e.g.:
-        {"highlighted": false, "top_ad": true, "options": ["promoted_ad_30"],
-         "premium_ad_page": false, "urgent": false, "b2c_ad_page": false}
+        {"highlighted": false, "top_ad": true, "options": ["promoted_ad_30"], ...}
+        {"top_ad": false, "options": ["pushup"], ...}
+
+    Canonical promotion_type values (zgodne z detect_promoted_status):
+        'top_ad'    — wyróżnione na górze listy (stała płatna pozycja)
+        'highlight' — podświetlone tło
+        'urgent'    — pilne
+        'premium'   — strona premium
+        'pushup'    — jednorazowe podbicie na górę listy (nie stała promocja)
+        'unknown'   — inne opcje płatne
+
+    Uwaga: pushup zmienia last_refreshed — to JEST odświeżenie, ale płatne.
+    Dlatego is_promoted=True dla pushup, żeby refresh_count go nie zliczał podwójnie.
 
     Returns:
-        {"is_promoted": bool, "promotion_type": str|None}
+        {"is_promoted": bool, "promotion_type": str | None}
     """
     if not promotion:
         return {"is_promoted": False, "promotion_type": None}
 
-    is_promoted = bool(
-        promotion.get("top_ad")
-        or promotion.get("highlighted")
-        or promotion.get("urgent")
-        or promotion.get("premium_ad_page")
-        or promotion.get("options")  # non-empty list = some paid promotion
-    )
+    opts = promotion.get("options", [])
 
-    if not is_promoted:
-        return {"is_promoted": False, "promotion_type": None}
-
+    # Flagi bezpośrednie mają pierwszeństwo
     if promotion.get("top_ad"):
-        promo_type = "top_ad"
-    elif promotion.get("highlighted"):
-        promo_type = "highlight"
-    elif promotion.get("urgent"):
-        promo_type = "urgent"
-    elif promotion.get("premium_ad_page"):
-        promo_type = "premium"
-    else:
-        opts = promotion.get("options", [])
-        promo_type = opts[0] if opts else "unknown"
+        return {"is_promoted": True, "promotion_type": "top_ad"}
+    if promotion.get("highlighted"):
+        return {"is_promoted": True, "promotion_type": "highlight"}
+    if promotion.get("urgent"):
+        return {"is_promoted": True, "promotion_type": "urgent"}
+    if promotion.get("premium_ad_page"):
+        return {"is_promoted": True, "promotion_type": "premium"}
 
-    return {"is_promoted": True, "promotion_type": promo_type}
+    # Opcje z listy options
+    if opts:
+        opt = opts[0].lower()
+        if opt == "pushup":
+            return {"is_promoted": True, "promotion_type": "pushup"}
+        if opt.startswith("promoted_ad"):
+            # promoted_ad_30, promoted_ad_7 itp. → top_ad
+            return {"is_promoted": True, "promotion_type": "top_ad"}
+        # Inne opcje — zaraportuj jak są
+        return {"is_promoted": True, "promotion_type": opt}
+
+    return {"is_promoted": False, "promotion_type": None}
 
 
 def extract_listing_id(url):
@@ -1815,53 +1826,61 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 # Track promotion periods: start date, end date, type, consecutive days
                 if "promotion_history" not in pd_:
                     pd_["promotion_history"] = {}
-                
+
                 if lid not in pd_["promotion_history"]:
                     pd_["promotion_history"][lid] = []
-                
+
                 old_is_promoted = old.get("is_promoted", False)
                 new_is_promoted = nl.get("is_promoted", False)
-                
+
                 # Preserve old promotion data
                 nl["promotion_history"] = old.get("promotion_history", [])
                 nl["promoted_days_current"] = old.get("promoted_days_current", 0)
                 nl["promoted_sessions_count"] = old.get("promoted_sessions_count", 0)
-                
+
                 if new_is_promoted and not old_is_promoted:
                     # STARTED promotion today
-                    nl["promotion_started_at"] = now_str
+                    nl["promotion_started_at"] = today
                     nl["promoted_days_current"] = 1
                     nl["promoted_sessions_count"] = old.get("promoted_sessions_count", 0) + 1
+                    nl["_promotion_last_day"] = today
                     log.info(f"  [PROMO START] {lid}: Session #{nl['promoted_sessions_count']}")
-                
+
                 elif new_is_promoted and old_is_promoted:
-                    # CONTINUING promotion
-                    nl["promotion_started_at"] = old.get("promotion_started_at", now_str)
-                    nl["promoted_days_current"] = old.get("promoted_days_current", 0) + 1
+                    # CONTINUING promotion — inkrementuj tylko raz na dzień
+                    nl["promotion_started_at"] = old.get("promotion_started_at", today)
+                    last_day = old.get("_promotion_last_day", "")
+                    if last_day != today:
+                        nl["promoted_days_current"] = old.get("promoted_days_current", 0) + 1
+                        nl["_promotion_last_day"] = today
+                    else:
+                        nl["promoted_days_current"] = old.get("promoted_days_current", 0)
+                        nl["_promotion_last_day"] = last_day
                     nl["promoted_sessions_count"] = old.get("promoted_sessions_count", 0)
-                
+
                 elif not new_is_promoted and old_is_promoted:
                     # ENDED promotion today
-                    promo_start = old.get("promotion_started_at", now_str)
+                    promo_start = old.get("promotion_started_at", today)
                     days = old.get("promoted_days_current", 1)
-                    
+
                     # Save to history
                     nl["promotion_history"].append({
                         "start_date": promo_start,
-                        "end_date": now_str,
+                        "end_date": today,
                         "days": days,
                         "promotion_type": old.get("promotion_type", "unknown"),
                         "session_number": old.get("promoted_sessions_count", 0)
                     })
-                    
+
                     # Reset current counters
                     nl["promoted_days_current"] = 0
                     nl["promoted_sessions_count"] = old.get("promoted_sessions_count", 0)
                     nl.pop("promotion_started_at", None)
-                    
+                    nl.pop("_promotion_last_day", None)
+
                     # Save to profile-level history
                     pd_["promotion_history"][lid] = nl["promotion_history"]
-                    
+
                     log.info(f"  [PROMO END] {lid}: Lasted {days} days, session #{nl['promotion_history'][-1]['session_number']}")
 
             else:
@@ -1869,8 +1888,9 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 # Gdy ogłoszenie pojawia się po raz pierwszy (lub wraca z archiwum)
                 # i JEST PROMOWANE — licz dzień 1 zamiast pomijać
                 if nl.get("is_promoted"):
-                    nl["promotion_started_at"] = now_str
+                    nl["promotion_started_at"] = today
                     nl["promoted_days_current"] = 1
+                    nl["_promotion_last_day"] = today
                     archived_sessions = archived_map.get(lid, {}).get("promoted_sessions_count", 0) if lid in archived_map else 0
                     nl["promoted_sessions_count"] = archived_sessions + 1
                     nl["promotion_history"] = archived_map.get(lid, {}).get("promotion_history", []) if lid in archived_map else []
