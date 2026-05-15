@@ -2073,7 +2073,30 @@ function renderListings(key, tab) {
     ? sorted.slice(archivePage * ARCHIVE_PAGE_SIZE, (archivePage + 1) * ARCHIVE_PAGE_SIZE)
     : sorted;
 
-  let html = `
+  const totalPages = (tab === 'archived') ? Math.ceil(sorted.length / ARCHIVE_PAGE_SIZE) : 0;
+
+  const paginationBar = (tab === 'archived' && totalPages > 1) ? `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px;border-bottom:1px solid var(--border);margin-bottom:0;">
+      <button
+        onclick="changeArchivePage(${archivePage - 1})"
+        ${archivePage === 0 ? 'disabled' : ''}
+        style="padding:7px 18px;border-radius:var(--radius-sm);border:1px solid var(--border);background:${archivePage === 0 ? 'var(--bg-primary)' : 'var(--bg-card)'};color:${archivePage === 0 ? 'var(--text-muted)' : 'var(--text-primary)'};font-family:var(--font-display);font-size:12px;font-weight:600;cursor:${archivePage === 0 ? 'default' : 'pointer'};">
+        ← Nowsze
+      </button>
+      <span style="font-family:var(--font-display);font-size:12px;color:var(--text-secondary);">
+        Strona <strong style="color:var(--text-primary);">${archivePage + 1}</strong> z <strong style="color:var(--text-primary);">${totalPages}</strong>
+        <span style="color:var(--text-muted);margin-left:8px;">(${sorted.length} ogłoszeń łącznie)</span>
+      </span>
+      <button
+        onclick="changeArchivePage(${archivePage + 1})"
+        ${archivePage >= totalPages - 1 ? 'disabled' : ''}
+        style="padding:7px 18px;border-radius:var(--radius-sm);border:1px solid var(--border);background:${archivePage >= totalPages - 1 ? 'var(--bg-primary)' : 'var(--bg-card)'};color:${archivePage >= totalPages - 1 ? 'var(--text-muted)' : 'var(--text-primary)'};font-family:var(--font-display);font-size:12px;font-weight:600;cursor:${archivePage >= totalPages - 1 ? 'default' : 'pointer'};">
+        Starsze →
+      </button>
+    </div>
+  ` : '';
+
+  let html = `${paginationBar}
     <table class="listings-table">
       <thead>
         <tr>
