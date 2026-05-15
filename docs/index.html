@@ -1282,8 +1282,9 @@ let sortColumn = 'date'; // Default: sortuj po dacie (newest first)
 let sortDirection = 'desc'; // desc = malejąco, asc = rosnąco
 let lineChart = null; // Instancja wykresu liniowego
 let currentMetric = 'count'; // Aktywna metryka: count, avg_price, min_price, max_price
-const ARCHIVE_PAGE_SIZE = 200;
-let archivePage = 0; // 0-indexed
+let pageSize = 100;       // domyślnie 100 ogłoszeń na stronę
+let currentPage = 0;      // 0-indexed, wspólny dla obu zakładek
+let archivePage = 0;      // zachowane dla kompatybilności (alias → currentPage)
 
 // ─── Data Loading ───────────────────────────────────────
 
@@ -1549,7 +1550,7 @@ function renderDetail(key) {
 
   // Listings
   currentTab = 'current';
-  archivePage = 0;
+  currentPage = 0; archivePage = 0;
   document.querySelectorAll('.listing-tab').forEach(t => t.classList.remove('active'));
   document.querySelector('.listing-tab').classList.add('active');
   renderListings(key, 'current');
@@ -1945,7 +1946,7 @@ function switchTab(tab, btn) {
     sortColumn = 'date';
     sortDirection = 'desc'; // Najnowsze dodane pierwsze
   }
-  archivePage = 0;
+  currentPage = 0; archivePage = 0;
   if (activeProfile) renderListings(activeProfile, tab);
 }
 
@@ -1966,7 +1967,71 @@ function setSortColumn(column) {
   }
   
   // Re-render z nowym sortowaniem
+  currentPage = 0; archivePage = 0;
   if (activeProfile) renderListings(activeProfile, currentTab);
+}
+
+function setPageSize(val) {
+  pageSize = val === 'all' ? Infinity : parseInt(val);
+  currentPage = 0; archivePage = 0;
+  if (activeProfile) renderListings(activeProfile, currentTab);
+}
+
+function renderPaginationBar(total, page, totalPages, position) {
+  if (total === 0) return '';
+  const showingFrom = pageSize === Infinity ? 1 : page * pageSize + 1;
+  const showingTo   = pageSize === Infinity ? total : Math.min((page + 1) * pageSize, total);
+  const prevDisabled = page === 0;
+  const nextDisabled = page >= totalPages - 1 || totalPages <= 1;
+
+  const btnStyle = (disabled) =>
+    `padding:7px 18px;border-radius:var(--radius-sm);border:1px solid var(--border);`
+    + `background:${disabled ? 'var(--bg-primary)' : 'var(--bg-card)'};`
+    + `color:${disabled ? 'var(--text-muted)' : 'var(--text-primary)'};`
+    + `font-family:var(--font-display);font-size:12px;font-weight:600;`
+    + `cursor:${disabled ? 'default' : 'pointer'};transition:all var(--transition);`;
+
+  const pageSizeSelected = (v) => (pageSize === v || (v === 'all' && pageSize === Infinity)) ? 'selected' : '';
+
+  return `
+    <div class="pagination-bar" style="display:flex;align-items:center;justify-content:space-between;
+      padding:10px 4px;border-${position === 'top' ? 'bottom' : 'top'}:1px solid var(--border);
+      ${position === 'top' ? 'margin-bottom:0;' : 'margin-top:4px;'}">
+      <button onclick="changePage(currentPage - 1)" ${prevDisabled ? 'disabled' : ''}
+        style="${btnStyle(prevDisabled)}">← Nowsze</button>
+      <span style="font-family:var(--font-display);font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:12px;">
+        ${totalPages > 1
+          ? `Strona <strong style="color:var(--text-primary);margin:0 3px;">${page + 1}</strong>
+             z <strong style="color:var(--text-primary);margin:0 3px;">${totalPages}</strong>
+             · <span style="color:var(--text-muted);">${total} ogłoszeń łącznie</span>`
+          : `<span style="color:var(--text-muted);">${total} ogłoszeń</span>`}
+        <select onchange="setPageSize(this.value)"
+          style="margin-left:8px;padding:4px 8px;background:var(--bg-card);border:1px solid var(--border);
+            border-radius:var(--radius-sm);color:var(--text-primary);font-family:var(--font-display);
+            font-size:12px;cursor:pointer;outline:none;">
+          <option value="50"  ${pageSizeSelected(50)}>50 / str.</option>
+          <option value="100" ${pageSizeSelected(100)}>100 / str.</option>
+          <option value="200" ${pageSizeSelected(200)}>200 / str.</option>
+          <option value="all" ${pageSizeSelected('all')}>Wszystkie</option>
+        </select>
+      </span>
+      <button onclick="changePage(currentPage + 1)" ${nextDisabled ? 'disabled' : ''}
+        style="${btnStyle(nextDisabled)}">Starsze →</button>
+    </div>
+  `;
+}
+
+function changePage(page) {
+  if (!activeProfile) return;
+  const data = dashData.profiles[activeProfile];
+  if (!data) return;
+  const list = currentTab === 'current' ? (data.current_listings || []) : (data.archived_listings || []);
+  const totalPages = pageSize === Infinity ? 1 : Math.ceil(list.length / pageSize);
+  if (page < 0 || page >= totalPages) return;
+  currentPage = page; archivePage = page;
+  renderListings(activeProfile, currentTab);
+  // Scroll do góry tabeli
+  document.getElementById('listingsContent').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function renderListings(key, tab) {
@@ -1976,6 +2041,7 @@ function renderListings(key, tab) {
   const listings = tab === 'current' ? (data.current_listings || []) : (data.archived_listings || []);
 
   if (listings.length === 0) {
+    document.getElementById('archivePagination').innerHTML = '';
     document.getElementById('listingsContent').innerHTML = `
       <div style="text-align:center;padding:40px;color:var(--text-muted);font-size:13px;">
         ${tab === 'current' ? 'Brak aktualnych ogłoszeń' : 'Brak archiwalnych ogłoszeń'}
@@ -2069,35 +2135,16 @@ function renderListings(key, tab) {
     return sortDirection === 'asc' ? comparison : -comparison;
   });
 
-  // Paginacja archiwum: wytnij właściwą stronę
-  const displayListings = (tab === 'archived')
-    ? sorted.slice(archivePage * ARCHIVE_PAGE_SIZE, (archivePage + 1) * ARCHIVE_PAGE_SIZE)
-    : sorted;
+  // Paginacja: wytnij właściwą stronę
+  const total = sorted.length;
+  const totalPages = pageSize === Infinity ? 1 : Math.ceil(total / pageSize);
+  const displayListings = pageSize === Infinity
+    ? sorted
+    : sorted.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
-  const totalPages = (tab === 'archived') ? Math.ceil(sorted.length / ARCHIVE_PAGE_SIZE) : 0;
-
-  const paginationBarHtml = (tab === 'archived' && totalPages > 1) ? `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px;border-bottom:1px solid var(--border);">
-      <button
-        onclick="changeArchivePage(${archivePage - 1})"
-        ${archivePage === 0 ? 'disabled' : ''}
-        style="padding:7px 18px;border-radius:var(--radius-sm);border:1px solid var(--border);background:${archivePage === 0 ? 'var(--bg-primary)' : 'var(--bg-card)'};color:${archivePage === 0 ? 'var(--text-muted)' : 'var(--text-primary)'};font-family:var(--font-display);font-size:12px;font-weight:600;cursor:${archivePage === 0 ? 'default' : 'pointer'};">
-        ← Nowsze
-      </button>
-      <span style="font-family:var(--font-display);font-size:12px;color:var(--text-secondary);">
-        Strona <strong style="color:var(--text-primary);">${archivePage + 1}</strong> z <strong style="color:var(--text-primary);">${totalPages}</strong>
-        <span style="color:var(--text-muted);margin-left:8px;">(${sorted.length} ogłoszeń łącznie)</span>
-      </span>
-      <button
-        onclick="changeArchivePage(${archivePage + 1})"
-        ${archivePage >= totalPages - 1 ? 'disabled' : ''}
-        style="padding:7px 18px;border-radius:var(--radius-sm);border:1px solid var(--border);background:${archivePage >= totalPages - 1 ? 'var(--bg-primary)' : 'var(--bg-card)'};color:${archivePage >= totalPages - 1 ? 'var(--text-muted)' : 'var(--text-primary)'};font-family:var(--font-display);font-size:12px;font-weight:600;cursor:${archivePage >= totalPages - 1 ? 'default' : 'pointer'};">
-        Starsze →
-      </button>
-    </div>
-  ` : '';
-
-  document.getElementById('archivePagination').innerHTML = paginationBarHtml;
+  // Górny pasek paginacji
+  document.getElementById('archivePagination').innerHTML =
+    renderPaginationBar(total, currentPage, totalPages, 'top');
 
   let html = `
     <table class="listings-table">
@@ -2249,48 +2296,17 @@ function renderListings(key, tab) {
 
   html += '</tbody></table>';
 
-  // Paginacja tylko dla archiwum
-  if (tab === 'archived') {
-    const totalPages = Math.ceil(sorted.length / ARCHIVE_PAGE_SIZE);
-    if (totalPages > 1) {
-      html += `
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 4px;border-top:1px solid var(--border);margin-top:4px;">
-          <button
-            onclick="changeArchivePage(${archivePage - 1})"
-            ${archivePage === 0 ? 'disabled' : ''}
-            style="padding:7px 18px;border-radius:var(--radius-sm);border:1px solid var(--border);background:${archivePage === 0 ? 'var(--bg-primary)' : 'var(--bg-card)'};color:${archivePage === 0 ? 'var(--text-muted)' : 'var(--text-primary)'};font-family:var(--font-display);font-size:12px;font-weight:600;cursor:${archivePage === 0 ? 'default' : 'pointer'};transition:all var(--transition);">
-            ← Nowsze
-          </button>
-          <span style="font-family:var(--font-display);font-size:12px;color:var(--text-secondary);">
-            Strona <strong style="color:var(--text-primary);">${archivePage + 1}</strong> z <strong style="color:var(--text-primary);">${totalPages}</strong>
-            <span style="color:var(--text-muted);margin-left:8px;">(${sorted.length} ogłoszeń łącznie)</span>
-          </span>
-          <button
-            onclick="changeArchivePage(${archivePage + 1})"
-            ${archivePage >= totalPages - 1 ? 'disabled' : ''}
-            style="padding:7px 18px;border-radius:var(--radius-sm);border:1px solid var(--border);background:${archivePage >= totalPages - 1 ? 'var(--bg-primary)' : 'var(--bg-card)'};color:${archivePage >= totalPages - 1 ? 'var(--text-muted)' : 'var(--text-primary)'};font-family:var(--font-display);font-size:12px;font-weight:600;cursor:${archivePage >= totalPages - 1 ? 'default' : 'pointer'};transition:all var(--transition);">
-            Starsze →
-          </button>
-        </div>
-      `;
-    }
+  // Dolny pasek paginacji
+  if (totalPages > 1) {
+    html += renderPaginationBar(total, currentPage, totalPages, 'bottom');
   }
 
   document.getElementById('listingsContent').innerHTML = html;
 }
 
-// ─── Archive Pagination ──────────────────────────────────
+// ─── Archive Pagination (alias) ──────────────────────────
 
-function changeArchivePage(page) {
-  if (!activeProfile) return;
-  const data = dashData.profiles[activeProfile];
-  if (!data) return;
-  const total = (data.archived_listings || []).length;
-  const totalPages = Math.ceil(total / ARCHIVE_PAGE_SIZE);
-  if (page < 0 || page >= totalPages) return;
-  archivePage = page;
-  renderListings(activeProfile, 'archived');
-}
+function changeArchivePage(page) { changePage(page); }
 
 // ─── Theme Toggle ───────────────────────────────────────
 
