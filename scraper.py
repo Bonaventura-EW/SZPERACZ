@@ -182,6 +182,46 @@ def _extract_date(text):
     return None
 
 
+def promotion_dict_to_fields(promotion: dict) -> dict:
+    """
+    Convert OLX API 'promotion' dict to is_promoted / promotion_type fields.
+
+    OLX API returns e.g.:
+        {"highlighted": false, "top_ad": true, "options": ["promoted_ad_30"],
+         "premium_ad_page": false, "urgent": false, "b2c_ad_page": false}
+
+    Returns:
+        {"is_promoted": bool, "promotion_type": str|None}
+    """
+    if not promotion:
+        return {"is_promoted": False, "promotion_type": None}
+
+    is_promoted = bool(
+        promotion.get("top_ad")
+        or promotion.get("highlighted")
+        or promotion.get("urgent")
+        or promotion.get("premium_ad_page")
+        or promotion.get("options")  # non-empty list = some paid promotion
+    )
+
+    if not is_promoted:
+        return {"is_promoted": False, "promotion_type": None}
+
+    if promotion.get("top_ad"):
+        promo_type = "top_ad"
+    elif promotion.get("highlighted"):
+        promo_type = "highlight"
+    elif promotion.get("urgent"):
+        promo_type = "urgent"
+    elif promotion.get("premium_ad_page"):
+        promo_type = "premium"
+    else:
+        opts = promotion.get("options", [])
+        promo_type = opts[0] if opts else "unknown"
+
+    return {"is_promoted": True, "promotion_type": promo_type}
+
+
 def extract_listing_id(url):
     match = re.search(r"ID([a-zA-Z0-9]+)\.html", url)
     if match:
@@ -560,18 +600,22 @@ def parse_prerendered_state(html):
         if not url.startswith('http'):
             url = f"https://www.olx.pl{url}"
         
+        # Ujednolicenie ID: zawsze używaj alfanumerycznego ID z URL (np. 19Qbyj),
+        # żeby był zgodny z ID wyciąganym przez HTML/Playwright scraper kategorii.
+        url_id = extract_listing_id(url)
         listing = {
             "title": ad.get('title', ''),
             "price": price,
             "price_text": price_text,
             "url": url,
-            "listing_id": str(ad.get('id', extract_listing_id(url))),
+            "listing_id": url_id,
             "date_text": date_text,
             "published": published,
             "refreshed": refreshed,
             "last_refresh_timestamp": last_refresh or None,  # pełny ISO timestamp z OLX, do detekcji zmian w ciągu dnia
             "location": location_text,
             "image_url": image_url,
+            **promotion_dict_to_fields(ad.get("promotion", {})),
         }
         
         if listing["title"]:  # Only add if has title
@@ -696,13 +740,14 @@ def scrape_user_profile_json(profile_key, profile_config, session):
                 "price": price,
                 "price_text": price_text,
                 "url": url,
-                "listing_id": str(ad.get('id', extract_listing_id(url))),
+                "listing_id": extract_listing_id(url),
                 "date_text": date_text,
                 "published": published,
                 "refreshed": refreshed,
                 "last_refresh_timestamp": last_refresh or None,
                 "location": location_text,
                 "image_url": image_url,
+                **promotion_dict_to_fields(ad.get("promotion", {})),
             }
             
             if listing["title"]:
@@ -863,14 +908,14 @@ def _parse_ads_json(ads):
                 "price": price,
                 "price_text": price_text,
                 "url": url,
-                "listing_id": str(ad.get("id", extract_listing_id(url))),
+                "listing_id": extract_listing_id(url),
                 "date_text": date_text,
                 "published": published,
                 "refreshed": refreshed,
                 "last_refresh_timestamp": last_refresh or None,
                 "location": location_text,
                 "image_url": image_url,
-                "promotion": ad.get("promotion", {}),
+                **promotion_dict_to_fields(ad.get("promotion", {})),
             })
     return listings
 
