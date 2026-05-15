@@ -2105,7 +2105,7 @@ function renderListings(key, tab) {
         <tr>
           <th class="sortable ${sortColumn === 'title' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('title')">Ogłoszenie</th>
           <th class="sortable ${sortColumn === 'price' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('price')">Cena</th>
-          <th class="sortable ${sortColumn === 'is_promoted' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('is_promoted')" title="Czy ogłoszenie jest promowane">🎯</th>
+          <th class="sortable ${sortColumn === 'is_promoted' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('is_promoted')" title="Promocja: 🔝 Top Ad · ⬆️ Pushup · ✨ Highlight · 🔥 Pilne · 💎 Premium">🎯 Prom.</th>
           <th class="sortable ${sortColumn === 'promoted_days' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('promoted_days')" title="Dni w bieżącej sesji promocji">Dni prom.</th>
           <th class="sortable ${sortColumn === 'promoted_sessions' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('promoted_sessions')" title="Ile razy było promowane">Sesje</th>
           <th class="sortable ${sortColumn === 'price_change' ? 'active ' + sortDirection : ''}" onclick="setSortColumn('price_change')">Zmiana ceny</th>
@@ -2202,10 +2202,19 @@ function renderListings(key, tab) {
         <!-- NEW: Promoted badge -->
         <td style="text-align:center;">
           ${l.is_promoted ? `
-            <span style="font-size:16px;" title="${l.promotion_type || 'promoted'}">
-              ${l.promotion_type === 'featured' ? '⭐' : 
-                l.promotion_type === 'top_ad' ? '🔝' : 
-                l.promotion_type === 'highlight' ? '✨' : '🎯'}
+            <span style="font-size:16px;cursor:default;" title="${
+              l.promotion_type === 'top_ad' ? 'Wyróżnione (Top Ad)' :
+              l.promotion_type === 'pushup' ? 'Podbite (Pushup)' :
+              l.promotion_type === 'highlight' ? 'Podświetlone' :
+              l.promotion_type === 'urgent' ? 'Pilne' :
+              l.promotion_type === 'premium' ? 'Premium' :
+              l.promotion_type || 'Promowane'
+            }${l.promoted_days_current ? ' · ' + l.promoted_days_current + ' dni' : ''}${l.promoted_sessions_count > 1 ? ' · sesja #' + l.promoted_sessions_count : ''}">
+              ${l.promotion_type === 'top_ad' ? '🔝' :
+                l.promotion_type === 'pushup' ? '⬆️' :
+                l.promotion_type === 'highlight' ? '✨' :
+                l.promotion_type === 'urgent' ? '🔥' :
+                l.promotion_type === 'premium' ? '💎' : '🎯'}
             </span>
           ` : '<span style="color:var(--text-muted);font-size:12px;">—</span>'}
         </td>
