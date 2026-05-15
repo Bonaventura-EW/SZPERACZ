@@ -1868,8 +1868,7 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     pd_["archived_listings"].append(old_l)
                     newly_archived.append(old_l)
 
-            if len(pd_["archived_listings"]) > 200:
-                pd_["archived_listings"] = pd_["archived_listings"][-200:]
+            # Archiwum nieograniczone — paginacja po stronie dashboardu
             
             # Count reactivations and refreshes detected TODAY
             # Zlicza zdarzenia z DZISIAJ dla WSZYSTKICH ogłoszeń (aktywnych + świeżo zarchiwizowanych),
