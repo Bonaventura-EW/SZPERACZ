@@ -2136,21 +2136,7 @@ function renderListings(key, tab) {
 
     // Data publikacji z fallbackiem:
     // Data pierwszej rejestracji przez SZPERACZ (first_seen)
-    const firstSeenDate = l.first_seen ? l.first_seen.split(' ')[0] : null;
-    const olxPublished = l.published || null;
-
-    // Rozbieżność: OLX podaje wcześniejszą datę niż SZPERACZ pierwszy raz widział
-    const hasDateDiscrepancy = firstSeenDate && olxPublished && olxPublished < firstSeenDate;
-
-    // Komórka "Data publikacji" — pokazuje first_seen, z tooltipem gdy jest rozbieżność
-    let publishedCellStyle = '';
-    let publishedTooltip = firstSeenDate ? `Pierwszy skan SZPERACZ: ${firstSeenDate}` : '';
-    if (hasDateDiscrepancy) {
-      publishedCellStyle = 'color:var(--orange);font-weight:700;';
-      publishedTooltip = `Pierwszy skan SZPERACZ: ${firstSeenDate} | OLX podaje wcześniejszą datę publikacji: ${olxPublished}`;
-    }
-    const publishedDisplay = firstSeenDate || '—';
-
+    const firstSeenDate = l.first_seen ? l.first_seen.split(' ')[0] : '—';
     const refreshed = l.refreshed || '—';
     const archived = l.archived_date ? l.archived_date.split(' ')[0] : '—';
 
@@ -2247,7 +2233,7 @@ function renderListings(key, tab) {
         </td>
         
         <td>${priceChangeHtml}</td>
-        <td class="date-cell" style="${publishedCellStyle}" title="${publishedTooltip}">${publishedDisplay}</td>
+        <td class="date-cell">${firstSeenDate}</td>
         <td class="date-cell">${refreshed}</td>
         <td style="text-align:center;font-family:var(--font-display);font-weight:600;color:${l.refresh_count > 0 ? 'var(--accent)' : 'var(--text-muted)'};">
           ${l.refresh_count || 0}
