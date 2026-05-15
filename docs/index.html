@@ -2046,8 +2046,8 @@ function renderListings(key, tab) {
         break;
 
       case 'days_active':
-        valA = (() => { const s = a.published || (a.first_seen ? a.first_seen.split(' ')[0] : null); return s ? Math.floor((Date.now() - new Date(s)) / 86400000) : 0; })();
-        valB = (() => { const s = b.published || (b.first_seen ? b.first_seen.split(' ')[0] : null); return s ? Math.floor((Date.now() - new Date(s)) / 86400000) : 0; })();
+        valA = (() => { const s = a.first_seen ? a.first_seen.split(' ')[0] : null; return s ? Math.floor((Date.now() - new Date(s)) / 86400000) : 0; })();
+        valB = (() => { const s = b.first_seen ? b.first_seen.split(' ')[0] : null; return s ? Math.floor((Date.now() - new Date(s)) / 86400000) : 0; })();
         break;
       
       case 'date': // Default: first_seen lub archived_date
@@ -2135,20 +2135,28 @@ function renderListings(key, tab) {
     }
 
     // Data publikacji z fallbackiem:
-    // 1. published (z OLX) - najpierw próbuj użyć tej
-    // 2. first_seen - jeśli published nie ma, użyj daty pierwszego zeskanowania
-    let published = l.published || '—';
-    if (published === '—' && l.first_seen) {
-      // Użyj first_seen jako fallback, pokaż tylko datę (bez czasu)
-      published = l.first_seen.split(' ')[0];
+    // Data pierwszej rejestracji przez SZPERACZ (first_seen)
+    const firstSeenDate = l.first_seen ? l.first_seen.split(' ')[0] : null;
+    const olxPublished = l.published || null;
+
+    // Rozbieżność: OLX podaje wcześniejszą datę niż SZPERACZ pierwszy raz widział
+    const hasDateDiscrepancy = firstSeenDate && olxPublished && olxPublished < firstSeenDate;
+
+    // Komórka "Data publikacji" — pokazuje first_seen, z tooltipem gdy jest rozbieżność
+    let publishedCellStyle = '';
+    let publishedTooltip = firstSeenDate ? `Pierwszy skan SZPERACZ: ${firstSeenDate}` : '';
+    if (hasDateDiscrepancy) {
+      publishedCellStyle = 'color:var(--orange);font-weight:700;';
+      publishedTooltip = `Pierwszy skan SZPERACZ: ${firstSeenDate} | OLX podaje wcześniejszą datę publikacji: ${olxPublished}`;
     }
-    
+    const publishedDisplay = firstSeenDate || '—';
+
     const refreshed = l.refreshed || '—';
     const archived = l.archived_date ? l.archived_date.split(' ')[0] : '—';
 
-    // Dni aktywne: od daty publikacji na OLX (published), fallback na first_seen
+    // Dni aktywne: od pierwszego zeskanowania przez SZPERACZ (first_seen)
     let daysActive = '—';
-    const startDateStr = l.published || (l.first_seen ? l.first_seen.split(' ')[0] : null);
+    const startDateStr = l.first_seen ? l.first_seen.split(' ')[0] : null;
     if (startDateStr) {
       const start = new Date(startDateStr.replace(' ', 'T'));
       const end = l.archived_date ? new Date(l.archived_date.replace(' ', 'T')) : new Date();
@@ -2239,7 +2247,7 @@ function renderListings(key, tab) {
         </td>
         
         <td>${priceChangeHtml}</td>
-        <td class="date-cell">${published}</td>
+        <td class="date-cell" style="${publishedCellStyle}" title="${publishedTooltip}">${publishedDisplay}</td>
         <td class="date-cell">${refreshed}</td>
         <td style="text-align:center;font-family:var(--font-display);font-weight:600;color:${l.refresh_count > 0 ? 'var(--accent)' : 'var(--text-muted)'};">
           ${l.refresh_count || 0}
