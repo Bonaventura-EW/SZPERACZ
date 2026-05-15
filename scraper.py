@@ -1849,8 +1849,12 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 elif new_is_promoted and old_is_promoted:
                     # CONTINUING promotion — inkrementuj tylko raz na dzień
                     nl["promotion_started_at"] = old.get("promotion_started_at", today)
-                    last_day = old.get("_promotion_last_day", "")
-                    if last_day != today:
+                    last_day = old.get("_promotion_last_day")  # None = pole jeszcze nie istniało
+                    if last_day is None:
+                        # Pierwsze zetknięcie z guardem — nie inkrementuj, tylko zainicjuj
+                        nl["promoted_days_current"] = old.get("promoted_days_current", 1)
+                        nl["_promotion_last_day"] = today
+                    elif last_day != today:
                         nl["promoted_days_current"] = old.get("promoted_days_current", 0) + 1
                         nl["_promotion_last_day"] = today
                     else:
