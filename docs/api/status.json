@@ -2,8 +2,8 @@
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2026-05-15T12:05:15Z",
-    "duration_seconds": 88,
+    "timestamp": "2026-05-15T12:10:41Z",
+    "duration_seconds": 97,
     "profiles_scanned": 7,
     "total_listings": 444,
     "new_listings": 0,
@@ -12,7 +12,7 @@
   },
   "nextScan": {
     "scheduled": "2026-05-16T07:00:00Z",
-    "in_seconds": 68084
+    "in_seconds": 67758
   },
   "profiles": {
     "pokojewlublinie": {
@@ -33,7 +33,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=6, header=6",
-      "duration_seconds": 0.4,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
@@ -44,7 +44,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.3,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
@@ -66,7 +66,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=37, header=37",
-      "duration_seconds": 4.0,
+      "duration_seconds": 4.5,
       "ok": true,
       "error": null
     },
@@ -88,7 +88,7 @@
       "price_changes": 3,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=393, header=400",
-      "duration_seconds": 73.4,
+      "duration_seconds": 80.6,
       "ok": true,
       "error": null
     }
