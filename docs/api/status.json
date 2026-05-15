@@ -2,17 +2,17 @@
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2026-05-14T09:39:24Z",
-    "duration_seconds": 97,
+    "timestamp": "2026-05-15T06:03:31Z",
+    "duration_seconds": 90,
     "profiles_scanned": 7,
-    "total_listings": 445,
+    "total_listings": 441,
     "new_listings": 0,
-    "price_changes": 5,
+    "price_changes": 3,
     "errors": []
   },
   "nextScan": {
     "scheduled": "2026-05-15T07:00:00Z",
-    "in_seconds": 76835
+    "in_seconds": 3388
   },
   "profiles": {
     "pokojewlublinie": {
@@ -44,7 +44,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.3,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
@@ -55,17 +55,17 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=4, header=4",
-      "duration_seconds": 0.2,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
     "mzuri": {
       "label": "mzuri",
-      "count": 34,
+      "count": 36,
       "new_listings": 0,
-      "price_changes": 1,
+      "price_changes": 0,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=34, header=34",
+      "crosscheck_detail": "scraped=36, header=36",
       "duration_seconds": 3.8,
       "ok": true,
       "error": null
@@ -83,12 +83,12 @@
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 397,
+      "count": 391,
       "new_listings": 0,
-      "price_changes": 4,
+      "price_changes": 3,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=397, header=405",
-      "duration_seconds": 82.0,
+      "crosscheck_detail": "scraped=391, header=400",
+      "duration_seconds": 75.6,
       "ok": true,
       "error": null
     }
