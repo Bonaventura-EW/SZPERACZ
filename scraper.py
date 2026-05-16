@@ -1754,43 +1754,38 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 # Skopiuj poprzedni licznik i historię
                 nl["refresh_count"] = old.get("refresh_count", 0)
                 nl["refresh_history"] = old.get("refresh_history", [])
-                
-                # Event odświeżenia = ZMIANA timestampa last_refresh_time z X na Y (Y>X).
-                # Używamy pełnego timestampa (z dokładnością do sekund), bo OLX może odświeżyć
-                # ogłoszenie kilka razy w ciągu dnia — porównanie samych dat by to przegapiło.
-                # Fallback na porównanie dat dla starszych wpisów bez timestampa.
-                old_ts = old.get("last_refresh_timestamp")
-                new_ts = nl.get("last_refresh_timestamp")
+
+                # Event odświeżenia = ZMIANA DATY `refreshed` (YYYY-MM-DD) na nowszą.
+                # OLX pokazuje na stronie tylko datę ("Odświeżono dnia 12 maja 2026"),
+                # więc to jest źródło prawdy. Max 1 event/dzień per ogłoszenie.
+                # NIE używamy last_refresh_timestamp jako triggera — w danych category
+                # zdarzało się, że ten sam dzień miał różne timestampy (np. przez
+                # zmianę strefy lub retry) i generowało to fałszywe duplikaty.
+                # Wymóg: porównanie YYYY-MM-DD, deduplikacja po `refreshed_at` (dacie).
+                #
+                # Liczymy każdą zmianę daty (też dla ogłoszeń promowanych) —
+                # jeśli OLX pokazuje nowszą datę odświeżenia, to jest realne odświeżenie.
                 old_refreshed = old.get("refreshed")
                 new_refreshed = nl.get("refreshed")
 
-                is_new_refresh = False
-                detected_refresh_key = None  # Klucz do deduplikacji w historii
+                is_new_refresh = (
+                    new_refreshed
+                    and old_refreshed
+                    and new_refreshed > old_refreshed
+                )
 
-                if new_ts and old_ts and new_ts > old_ts:
-                    is_new_refresh = True
-                    detected_refresh_key = new_ts
-                elif new_refreshed and old_refreshed and new_refreshed > old_refreshed:
-                    # Fallback: gdy brak timestampów, porównaj daty (jak dotychczas)
-                    is_new_refresh = True
-                    detected_refresh_key = new_refreshed
-
-                # Jeśli ogłoszenie jest aktualnie promowane, OLX może aktualizować
-                # last_refreshed automatycznie — nie liczymy tego jako odświeżenie (pushup).
-                if nl.get("is_promoted"):
-                    is_new_refresh = False
-
-                if is_new_refresh and detected_refresh_key:
+                if is_new_refresh:
+                    # Deduplikacja per dzień: max 1 wpis w historii dla danej daty.
                     already_counted = any(
-                        h.get("refreshed_at") == detected_refresh_key
+                        h.get("refreshed_at") == new_refreshed
                         for h in nl["refresh_history"]
                     )
                     if not already_counted:
                         nl["refresh_count"] += 1
                         nl["refresh_history"].append({
-                            "refreshed_at": detected_refresh_key,
+                            "refreshed_at": new_refreshed,
                             "detected_at": now_str,
-                            "old_date": old_ts or old_refreshed,
+                            "old_date": old_refreshed,
                         })
                         log.info(f"  [REFRESHED] {lid}: '{nl['title'][:50]}' - odświeżeń: {nl['refresh_count']}")
             elif lid in archived_map:
@@ -1809,6 +1804,31 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 # Zachowaj refresh_count i refresh_history z archiwum
                 nl["refresh_count"] = old_archived.get("refresh_count", 0)
                 nl["refresh_history"] = old_archived.get("refresh_history", [])
+
+                # REFRESH DETECTION przy reaktywacji:
+                # Jeśli wraca z nowszą datą `refreshed` niż miało w archiwum,
+                # to OLX odświeżył je w trakcie nieaktywności — liczymy event.
+                old_archived_refreshed = old_archived.get("refreshed")
+                new_refreshed_reactivated = nl.get("refreshed")
+                if (
+                    new_refreshed_reactivated
+                    and old_archived_refreshed
+                    and new_refreshed_reactivated > old_archived_refreshed
+                ):
+                    already_counted = any(
+                        h.get("refreshed_at") == new_refreshed_reactivated
+                        for h in nl["refresh_history"]
+                    )
+                    if not already_counted:
+                        nl["refresh_count"] += 1
+                        nl["refresh_history"].append({
+                            "refreshed_at": new_refreshed_reactivated,
+                            "detected_at": now_str,
+                            "old_date": old_archived_refreshed,
+                            "during_reactivation": True,
+                        })
+                        log.info(f"  [REFRESHED-REACT] {lid}: refresh wykryty przy reaktywacji")
+
                 # Usuń z archiwum
                 pd_["archived_listings"] = [a for a in pd_["archived_listings"] if a["id"] != lid]
                 log.info(f"  [REACTIVATED] {lid}: '{nl['title'][:50]}'")
@@ -2006,13 +2026,17 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     if reactivated_at.startswith(today):
                         reactivated_count += 1
                 
-                # Count refreshes - check if refresh_history has entry detected today
+                # Count refreshes - check if refresh_history has entry for today
+                # (refreshed_at == today). Z reguły "max 1 event/dzień" wystarczy
+                # zsumować po wszystkich ogłoszeniach, gdzie historia zawiera
+                # wpis z `refreshed_at` == today.
                 refresh_history = l.get("refresh_history", [])
-                if refresh_history:
-                    last_refresh = refresh_history[-1]
-                    detected_at = last_refresh.get("detected_at", "")
-                    if detected_at.startswith(today):
-                        refreshed_count += 1
+                has_refresh_today = any(
+                    h.get("refreshed_at", "").startswith(today)
+                    for h in refresh_history
+                )
+                if has_refresh_today:
+                    refreshed_count += 1
             
             today_entry = next((d for d in dc if d["date"] == today), None)
             if today_entry:

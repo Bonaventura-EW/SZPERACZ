@@ -13,6 +13,28 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-05-16] - 🔧 Refresh detection oparta o datę (max 1/dzień)
+
+### Fixed 🐛
+- **`scraper.py`** — detekcja eventu odświeżenia ogłoszenia: wcześniej trigger oparty był o `last_refresh_timestamp` (pełny ISO timestamp do sekund), co w danych profilu category (`wszystkie_pokoje`) generowało fałszywe duplikaty — ten sam dzień miał różne timestampy i każda zmiana traktowana była jako nowy event. Nowa logika: **event refresh = zmiana wartości `refreshed` (data YYYY-MM-DD) na nowszą**, z deduplikacją per dzień. To zgodne z UI OLX, który pokazuje na stronie ogłoszenia tylko datę ("Odświeżono dnia 12 maja 2026"), nie godzinę. **Max 1 odświeżenie na ogłoszenie na dzień.**
+- **`scraper.py`** — usunięto filtr `is_promoted`, który blokował liczenie refresh dla ogłoszeń promowanych. Każda zmiana daty `refreshed` jest teraz liczona, niezależnie od statusu promocji — zapewnia to porównywalność metryki między profilami.
+- **`scraper.py`** — gałąź reaktywacji (powrót ogłoszenia z archiwum) teraz wykrywa nowy event refresh: jeśli ogłoszenie wraca z nowszą datą `refreshed` niż miało w archiwum, event jest dopisywany do historii z flagą `during_reactivation: true`. Wcześniej takie "ciche odświeżenia" w trakcie nieaktywności były ignorowane.
+- **`scraper.py`** — agregacja `daily_counts[*].refreshed_count`: wcześniej liczyła tylko ogłoszenia, których ostatni wpis `refresh_history[-1].detected_at` zaczynał się od dziś. Teraz zlicza ogłoszenia, których historia zawiera dowolny wpis z `refreshed_at == today` — bardziej odporne, łapie również eventy z reaktywacji oraz przypadki, w których event z dnia X został wykryty w scanie z dnia X+1.
+
+### Changed 🔄
+- **`data/dashboard_data.json`** — rebuild historii: usunięto **157 nadmiarowych eventów** w **44 ogłoszeniach** profilu `wszystkie_pokoje`. Wszystkie usunięte wpisy były duplikatami tej samej daty `refreshed` z różnymi timestampami. Wpisy z najwcześniejszym `detected_at` zostały zachowane. Dotknięte ogłoszenia mają teraz pole `_dedup_note` z auditem (`removed_total`, `last_rebuild_at`, `original_count_at_last_rebuild`, `final_count_at_last_rebuild`).
+- **`data/dashboard_data.json`** — przeliczone `daily_counts[*].refreshed_count` dla wszystkich profili na podstawie wyczyszczonej historii.
+
+### Added ✨
+- **`rebuild_refresh_dedupe.py`** — idempotentny skrypt rebuild deduplikujący `refresh_history` per dzień i synchronizujący `refresh_count` oraz `daily_counts[*].refreshed_count`. Może być uruchamiany wielokrotnie — drugi run nie zmienia nic.
+
+### Technical notes
+- Walidacja end-to-end po rebuildzie: 933 ogłoszeń, **0 z >1 refresh/dzień**, **0 mismatchów** `refresh_count == len(refresh_history)`, brak `refreshed_count > count` w żadnym dniu/profilu.
+- `last_refresh_timestamp` nadal zapisywany w JSON dla kompletności danych, ale nie jest już używany jako trigger detekcji eventu.
+- Rekordzista po rebuild: ogłoszenie `1a6An5` (Czechów) — 22 realne odświeżenia.
+
+---
+
 ## [2026-05-10] - 📊 Per-profile added/removed w scan_history
 
 ### Added ✨

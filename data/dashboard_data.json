@@ -2960,7 +2960,7 @@
           "promotion_breakdown": {
             "featured": 19
           },
-          "refreshed_count": 0,
+          "refreshed_count": 48,
           "reactivated_count": 0,
           "_note": "refreshed_count wyzerowany 2026-04-21: poprzednia wartość 363 była artefaktem rebuild_refresh_history.py (wdrożenie systemu trackowania odświeżeń 06.04.2026). Szczegóły: CHANGELOG 2026-04-21.",
           "added": 28,
@@ -3044,7 +3044,7 @@
           "promotion_breakdown": {
             "featured": 19
           },
-          "refreshed_count": 15,
+          "refreshed_count": 8,
           "reactivated_count": 0,
           "added": 14,
           "removed": 11,
@@ -3127,7 +3127,7 @@
           "promotion_breakdown": {
             "featured": 17
           },
-          "refreshed_count": 16,
+          "refreshed_count": 9,
           "reactivated_count": 0,
           "added": 12,
           "removed": 11,
@@ -3210,7 +3210,7 @@
           "promotion_breakdown": {
             "featured": 29
           },
-          "refreshed_count": 16,
+          "refreshed_count": 8,
           "reactivated_count": 1,
           "added": 28,
           "removed": 27,
@@ -3293,7 +3293,7 @@
           "promotion_breakdown": {
             "featured": 25
           },
-          "refreshed_count": 14,
+          "refreshed_count": 8,
           "reactivated_count": 0,
           "added": 18,
           "removed": 16,
@@ -3376,7 +3376,7 @@
           "promotion_breakdown": {
             "featured": 22
           },
-          "refreshed_count": 18,
+          "refreshed_count": 10,
           "reactivated_count": 2,
           "added": 18,
           "removed": 22,
@@ -3459,7 +3459,7 @@
           "promotion_breakdown": {
             "featured": 23
           },
-          "refreshed_count": 9,
+          "refreshed_count": 15,
           "reactivated_count": 0,
           "added": 3,
           "removed": 7,
@@ -3542,7 +3542,7 @@
           "promotion_breakdown": {
             "featured": 20
           },
-          "refreshed_count": 25,
+          "refreshed_count": 22,
           "reactivated_count": 7,
           "added": 21,
           "removed": 20,
@@ -3625,7 +3625,7 @@
           "promotion_breakdown": {
             "featured": 26
           },
-          "refreshed_count": 23,
+          "refreshed_count": 13,
           "reactivated_count": 4,
           "added": 29,
           "removed": 9,
@@ -3708,7 +3708,7 @@
           "promotion_breakdown": {
             "featured": 23
           },
-          "refreshed_count": 17,
+          "refreshed_count": 13,
           "reactivated_count": 0,
           "added": 14,
           "removed": 14,
@@ -3791,7 +3791,7 @@
           "promotion_breakdown": {
             "featured": 25
           },
-          "refreshed_count": 20,
+          "refreshed_count": 14,
           "reactivated_count": 2,
           "added": 18,
           "removed": 11,
@@ -3874,7 +3874,7 @@
           "promotion_breakdown": {
             "featured": 22
           },
-          "refreshed_count": 0,
+          "refreshed_count": 96,
           "reactivated_count": 4,
           "_note": "refreshed_count wyzerowany 2026-04-21: poprzednia wartość była artefaktem wdrożenia live detekcji odświeżeń (ISO timestamp) 17.04.2026. Pierwszy scan po deployu naliczył baseline last_refresh_timestamp jako event. Szczegóły: CHANGELOG 2026-04-21.",
           "added": 25,
@@ -3958,7 +3958,7 @@
           "promotion_breakdown": {
             "featured": 23
           },
-          "refreshed_count": 2,
+          "refreshed_count": 15,
           "reactivated_count": 1,
           "added": 3,
           "removed": 1,
@@ -4041,7 +4041,7 @@
           "promotion_breakdown": {
             "featured": 26
           },
-          "refreshed_count": 18,
+          "refreshed_count": 13,
           "reactivated_count": 2,
           "added": 16,
           "removed": 14,
@@ -4124,7 +4124,7 @@
           "promotion_breakdown": {
             "featured": 18
           },
-          "refreshed_count": 20,
+          "refreshed_count": 13,
           "reactivated_count": 10,
           "added": 25,
           "removed": 16,
@@ -4207,7 +4207,7 @@
           "promotion_breakdown": {
             "featured": 20
           },
-          "refreshed_count": 12,
+          "refreshed_count": 15,
           "reactivated_count": 4,
           "added": 17,
           "removed": 12,
@@ -4290,7 +4290,7 @@
           "promotion_breakdown": {
             "featured": 19
           },
-          "refreshed_count": 22,
+          "refreshed_count": 18,
           "reactivated_count": 10,
           "added": 21,
           "removed": 21,
@@ -4373,7 +4373,7 @@
           "promotion_breakdown": {
             "featured": 20
           },
-          "refreshed_count": 17,
+          "refreshed_count": 20,
           "reactivated_count": 3,
           "added": 6,
           "removed": 12,
@@ -4622,7 +4622,7 @@
           "promotion_breakdown": {
             "featured": 16
           },
-          "refreshed_count": 15,
+          "refreshed_count": 10,
           "reactivated_count": 3,
           "added": 11,
           "removed": 18,
@@ -4705,7 +4705,7 @@
           "promotion_breakdown": {
             "featured": 17
           },
-          "refreshed_count": 17,
+          "refreshed_count": 19,
           "reactivated_count": 12,
           "added": 19,
           "removed": 12,
@@ -4788,7 +4788,7 @@
           "promotion_breakdown": {
             "featured": 16
           },
-          "refreshed_count": 16,
+          "refreshed_count": 18,
           "reactivated_count": 4,
           "added": 15,
           "removed": 18,
@@ -4871,7 +4871,7 @@
           "promotion_breakdown": {
             "featured": 17
           },
-          "refreshed_count": 18,
+          "refreshed_count": 11,
           "reactivated_count": 9,
           "added": 19,
           "removed": 13,
@@ -5021,7 +5021,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 16,
+          "refreshed_count": 13,
           "reactivated_count": 8,
           "added": 16,
           "removed": 19
@@ -5104,7 +5104,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 5,
+          "refreshed_count": 11,
           "reactivated_count": 0,
           "added": 4,
           "removed": 2
@@ -5270,7 +5270,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 12,
+          "refreshed_count": 15,
           "reactivated_count": 4,
           "added": 10,
           "removed": 10
@@ -5353,7 +5353,7 @@
               "count": 3
             }
           ],
-          "refreshed_count": 14,
+          "refreshed_count": 18,
           "reactivated_count": 2,
           "added": 13,
           "removed": 11
@@ -5436,7 +5436,7 @@
               "count": 3
             }
           ],
-          "refreshed_count": 22,
+          "refreshed_count": 20,
           "reactivated_count": 5,
           "added": 20,
           "removed": 8
@@ -5519,7 +5519,7 @@
               "count": 3
             }
           ],
-          "refreshed_count": 17,
+          "refreshed_count": 12,
           "reactivated_count": 10,
           "added": 25,
           "removed": 10
@@ -5602,7 +5602,7 @@
               "count": 3
             }
           ],
-          "refreshed_count": 11,
+          "refreshed_count": 17,
           "reactivated_count": 6,
           "added": 19,
           "removed": 17
@@ -5685,7 +5685,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 14,
+          "refreshed_count": 13,
           "reactivated_count": 4,
           "added": 12,
           "removed": 11
@@ -5768,7 +5768,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 16,
+          "refreshed_count": 17,
           "reactivated_count": 2,
           "added": 12,
           "removed": 25
@@ -5851,7 +5851,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 27,
+          "refreshed_count": 18,
           "reactivated_count": 5,
           "added": 10,
           "removed": 6
@@ -5935,7 +5935,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 6,
+          "refreshed_count": 15,
           "reactivated_count": 2,
           "added": 8,
           "removed": 5
@@ -6019,7 +6019,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 21,
+          "refreshed_count": 19,
           "reactivated_count": 10,
           "added": 20,
           "removed": 19
@@ -6103,7 +6103,7 @@
               "count": 3
             }
           ],
-          "refreshed_count": 13,
+          "refreshed_count": 10,
           "reactivated_count": 5,
           "added": 21,
           "removed": 21
@@ -6270,7 +6270,7 @@
               "count": 3
             }
           ],
-          "refreshed_count": 20,
+          "refreshed_count": 17,
           "reactivated_count": 10,
           "added": 19,
           "removed": 23
@@ -6353,7 +6353,7 @@
               "count": 3
             }
           ],
-          "refreshed_count": 5,
+          "refreshed_count": 2,
           "reactivated_count": 5,
           "added": 7,
           "removed": 12
@@ -6375,7 +6375,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": true,
           "promotion_type": "top_ad",
-          "refresh_count": 12,
+          "refresh_count": 6,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -6386,30 +6386,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -6462,7 +6438,14 @@
           "promoted_days_current": 2,
           "promoted_sessions_count": 3,
           "promotion_started_at": "2026-05-15",
-          "_promotion_last_day": "2026-05-16"
+          "_promotion_last_day": "2026-05-16",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 6,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 12,
+            "final_count_at_last_rebuild": 6
+          }
         },
         {
           "id": "1aCOHF",
@@ -6737,7 +6720,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 23,
+          "refresh_count": 22,
           "refresh_history": [
             {
               "detected_at": "2026-04-11 14:24",
@@ -6763,10 +6746,6 @@
               "detected_at": "2026-04-17 12:31",
               "refreshed_at": "2026-04-17",
               "old_date": "2026-04-16"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
             },
             {
               "refreshed_at": "2026-04-19",
@@ -6888,7 +6867,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 4
+          "promoted_sessions_count": 4,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 1,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 23,
+            "final_count_at_last_rebuild": 22
+          }
         },
         {
           "id": "16xIKV",
@@ -7030,7 +7016,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 15,
+          "refresh_count": 13,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -7053,15 +7039,6 @@
             },
             {
               "detected_at": "2026-04-17 08:50",
-              "refreshed_at": "2026-04-17"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17",
-              "old_date": "2026-04-16"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
               "refreshed_at": "2026-04-17"
             },
             {
@@ -7176,7 +7153,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 9
+          "promoted_sessions_count": 9,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 15,
+            "final_count_at_last_rebuild": 13
+          }
         },
         {
           "id": "13P5Ev",
@@ -7565,7 +7549,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": true,
           "promotion_type": "top_ad",
-          "refresh_count": 19,
+          "refresh_count": 9,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -7580,46 +7564,6 @@
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06",
               "old_date": "2026-03-31"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
             },
             {
               "detected_at": "2026-04-10 08:25",
@@ -7761,7 +7705,14 @@
           "promoted_days_current": 2,
           "promoted_sessions_count": 15,
           "promotion_started_at": "2026-05-15",
-          "_promotion_last_day": "2026-05-16"
+          "_promotion_last_day": "2026-05-16",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 10,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 19,
+            "final_count_at_last_rebuild": 9
+          }
         },
         {
           "id": "Wqn9o",
@@ -8453,7 +8404,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": true,
           "promotion_type": "top_ad",
-          "refresh_count": 21,
+          "refresh_count": 10,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -8468,50 +8419,6 @@
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06",
               "old_date": "2026-04-03"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
             },
             {
               "detected_at": "2026-04-10 08:25",
@@ -8665,7 +8572,14 @@
           "promoted_days_current": 1,
           "promoted_sessions_count": 16,
           "promotion_started_at": "2026-05-16",
-          "_promotion_last_day": "2026-05-16"
+          "_promotion_last_day": "2026-05-16",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 11,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 21,
+            "final_count_at_last_rebuild": 10
+          }
         },
         {
           "id": "1a0uij",
@@ -9283,7 +9197,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": true,
           "promotion_type": "top_ad",
-          "refresh_count": 16,
+          "refresh_count": 11,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -9294,26 +9208,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -9482,7 +9376,14 @@
           "promoted_days_current": 1,
           "promoted_sessions_count": 17,
           "promotion_started_at": "2026-05-16",
-          "_promotion_last_day": "2026-05-16"
+          "_promotion_last_day": "2026-05-16",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 5,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 16,
+            "final_count_at_last_rebuild": 11
+          }
         },
         {
           "id": "16qIbW",
@@ -9724,7 +9625,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 4,
+          "refresh_count": 2,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -9752,15 +9653,6 @@
               "refreshed_at": "2026-04-06"
             },
             {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-07 08:18",
-              "refreshed_at": "2026-04-06",
-              "old_date": "2026-03-23"
-            },
-            {
               "refreshed_at": "2026-05-06",
               "detected_at": "2026-05-07 09:42:49",
               "old_date": "2026-04-22"
@@ -9771,7 +9663,14 @@
           "previous_price": 1100,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 4,
+            "final_count_at_last_rebuild": 2
+          }
         },
         {
           "id": "1aDF28",
@@ -10014,19 +9913,11 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 3,
+          "refresh_count": 1,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -10036,7 +9927,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 3,
+            "final_count_at_last_rebuild": 1
+          }
         },
         {
           "id": "1aAsKx",
@@ -10076,7 +9974,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 8,
+          "refresh_count": 5,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -10099,18 +9997,6 @@
           ],
           "reactivation_count": 3,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -10226,7 +10112,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 13
+          "promoted_sessions_count": 13,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 3,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 8,
+            "final_count_at_last_rebuild": 5
+          }
         },
         {
           "id": "1aAt73",
@@ -10549,7 +10442,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": true,
           "promotion_type": "top_ad",
-          "refresh_count": 8,
+          "refresh_count": 6,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -10560,14 +10453,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -10633,7 +10518,14 @@
           "promoted_days_current": 2,
           "promoted_sessions_count": 5,
           "promotion_started_at": "2026-05-15",
-          "_promotion_last_day": "2026-05-16"
+          "_promotion_last_day": "2026-05-16",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 8,
+            "final_count_at_last_rebuild": 6
+          }
         },
         {
           "id": "1awKDp",
@@ -11785,7 +11677,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": true,
           "promotion_type": "top_ad",
-          "refresh_count": 7,
+          "refresh_count": 6,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
@@ -11799,10 +11691,6 @@
               "detected_at": "2026-04-17 12:31",
               "refreshed_at": "2026-04-17",
               "old_date": "2026-04-13"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
             },
             {
               "refreshed_at": "2026-04-22",
@@ -11874,7 +11762,14 @@
           "promoted_days_current": 1,
           "promoted_sessions_count": 7,
           "promotion_started_at": "2026-05-16",
-          "_promotion_last_day": "2026-05-16"
+          "_promotion_last_day": "2026-05-16",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 1,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 7,
+            "final_count_at_last_rebuild": 6
+          }
         },
         {
           "id": "1awKBJ",
@@ -14920,47 +14815,11 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 20,
+          "refresh_count": 11,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -15021,7 +14880,14 @@
           "previous_price": 730,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 9,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 20,
+            "final_count_at_last_rebuild": 11
+          }
         },
         {
           "id": "16ZeYm",
@@ -15038,67 +14904,11 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 22,
+          "refresh_count": 8,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -15159,7 +14969,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 2
+          "promoted_sessions_count": 2,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 14,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 22,
+            "final_count_at_last_rebuild": 8
+          }
         },
         {
           "id": "16c5xM",
@@ -15590,7 +15407,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 6,
+          "refresh_count": 3,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -15601,18 +15418,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -15632,7 +15437,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 3,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 6,
+            "final_count_at_last_rebuild": 3
+          }
         },
         {
           "id": "17IzSE",
@@ -15820,20 +15632,8 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 9,
+          "refresh_count": 6,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -15869,7 +15669,14 @@
           "previous_price": 850,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 3,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 9,
+            "final_count_at_last_rebuild": 6
+          }
         },
         {
           "id": "1azSIP",
@@ -16007,7 +15814,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 8,
+          "refresh_count": 5,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -16027,19 +15834,6 @@
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-07 08:18",
-              "refreshed_at": "2026-04-06",
-              "old_date": "2026-03-23"
             },
             {
               "refreshed_at": "2026-04-28",
@@ -16088,7 +15882,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 4
+          "promoted_sessions_count": 4,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 3,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 8,
+            "final_count_at_last_rebuild": 5
+          }
         },
         {
           "id": "1artde",
@@ -16670,7 +16471,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 17,
+          "refresh_count": 13,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -16681,22 +16482,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -16816,7 +16601,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 7
+          "promoted_sessions_count": 7,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 4,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 17,
+            "final_count_at_last_rebuild": 13
+          }
         },
         {
           "id": "15PjXo",
@@ -16856,7 +16648,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 5,
+          "refresh_count": 3,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
@@ -16864,15 +16656,6 @@
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-07 08:18",
-              "refreshed_at": "2026-04-06",
-              "old_date": "2026-04-04"
             },
             {
               "detected_at": "2026-04-15 08:50",
@@ -16904,7 +16687,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 2
+          "promoted_sessions_count": 2,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 5,
+            "final_count_at_last_rebuild": 3
+          }
         },
         {
           "id": "Q1Xcm",
@@ -17093,7 +16883,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 3,
+          "refresh_count": 1,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -17107,21 +16897,20 @@
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
             }
           ],
           "first_price": 900,
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 3,
+            "final_count_at_last_rebuild": 1
+          }
         },
         {
           "id": "16qGjk",
@@ -17250,32 +17039,8 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 9,
+          "refresh_count": 3,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -17296,7 +17061,14 @@
           "previous_price": 900,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 6,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 9,
+            "final_count_at_last_rebuild": 3
+          }
         },
         {
           "id": "KWQhI",
@@ -18080,7 +17852,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 5,
+          "refresh_count": 3,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -18091,14 +17863,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -18118,7 +17882,14 @@
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 5,
+            "final_count_at_last_rebuild": 3
+          }
         },
         {
           "id": "1ahuRZ",
@@ -18455,7 +18226,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 7,
+          "refresh_count": 2,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -18466,26 +18237,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -18508,7 +18259,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 1
+          "promoted_sessions_count": 1,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 5,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 7,
+            "final_count_at_last_rebuild": 2
+          }
         },
         {
           "id": "11FA9k",
@@ -19071,7 +18829,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 8,
+          "refresh_count": 7,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
@@ -19080,10 +18838,6 @@
               "detected_at": "2026-04-17 08:50",
               "refreshed_at": "2026-04-17",
               "old_date": "2026-04-09"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
             },
             {
               "refreshed_at": "2026-04-23",
@@ -19121,7 +18875,14 @@
           "previous_price": 770,
           "promotion_history": [],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 0
+          "promoted_sessions_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 1,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 8,
+            "final_count_at_last_rebuild": 7
+          }
         },
         {
           "id": "1a683P",
@@ -20508,7 +20269,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 7,
+          "refresh_count": 6,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
@@ -20517,10 +20278,6 @@
               "detected_at": "2026-04-14 08:49",
               "refreshed_at": "2026-04-14",
               "old_date": "2026-04-07"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
             },
             {
               "detected_at": "2026-04-17 12:31",
@@ -20573,7 +20330,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 3
+          "promoted_sessions_count": 3,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 1,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 7,
+            "final_count_at_last_rebuild": 6
+          }
         },
         {
           "id": "19wGhx",
@@ -20824,7 +20588,7 @@
           "last_seen": "2026-05-16 08:54:34",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 7,
+          "refresh_count": 4,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -20835,18 +20599,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -20879,7 +20631,14 @@
             }
           ],
           "promoted_days_current": 0,
-          "promoted_sessions_count": 1
+          "promoted_sessions_count": 1,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 3,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 7,
+            "final_count_at_last_rebuild": 4
+          }
         },
         {
           "id": "14Yuod",
@@ -21449,20 +21208,8 @@
           "last_seen": "2026-04-26 08:20:45",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 7,
+          "refresh_count": 4,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -21490,7 +21237,14 @@
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
           "archived_date": "2026-04-27 09:27:35",
-          "reactivation_count": 0
+          "reactivation_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 3,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 7,
+            "final_count_at_last_rebuild": 4
+          }
         },
         {
           "id": "16kICU",
@@ -21668,16 +21422,12 @@
           "last_seen": "2026-04-26 08:20:45",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 3,
+          "refresh_count": 2,
           "refresh_history": [
             {
               "detected_at": "2026-04-17 12:31",
               "refreshed_at": "2026-04-17",
               "old_date": "2026-04-15"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
             },
             {
               "refreshed_at": "2026-04-19",
@@ -21713,7 +21463,14 @@
           "promoted_days_current": 0,
           "promoted_sessions_count": 3,
           "archived_date": "2026-04-27 09:27:35",
-          "reactivation_count": 0
+          "reactivation_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 1,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 3,
+            "final_count_at_last_rebuild": 2
+          }
         },
         {
           "id": "1am736",
@@ -22319,7 +22076,7 @@
           "last_seen": "2026-04-29 09:20:35",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 15,
+          "refresh_count": 9,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
@@ -22327,31 +22084,6 @@
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-07 08:18",
-              "refreshed_at": "2026-04-06",
-              "old_date": "2026-04-03"
             },
             {
               "detected_at": "2026-04-10 13:32",
@@ -22451,7 +22183,14 @@
           "promoted_days_current": 1,
           "promoted_sessions_count": 8,
           "promotion_started_at": "2026-04-29 09:20:35",
-          "archived_date": "2026-04-30 09:23:08"
+          "archived_date": "2026-04-30 09:23:08",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 6,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 15,
+            "final_count_at_last_rebuild": 9
+          }
         },
         {
           "id": "1abmJE",
@@ -22751,23 +22490,11 @@
           "last_seen": "2026-04-29 09:20:35",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 4,
+          "refresh_count": 1,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -22778,7 +22505,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-04-30 09:23:08"
+          "archived_date": "2026-04-30 09:23:08",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 3,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 4,
+            "final_count_at_last_rebuild": 1
+          }
         },
         {
           "id": "1a1hWa",
@@ -22820,19 +22554,11 @@
           "last_seen": "2026-04-29 09:20:35",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 8,
+          "refresh_count": 6,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -22891,7 +22617,14 @@
           ],
           "promoted_days_current": 0,
           "promoted_sessions_count": 3,
-          "archived_date": "2026-04-30 09:23:08"
+          "archived_date": "2026-04-30 09:23:08",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 8,
+            "final_count_at_last_rebuild": 6
+          }
         },
         {
           "id": "1a0L8t",
@@ -23106,15 +22839,11 @@
           "last_seen": "2026-05-01 09:06:09",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 5,
+          "refresh_count": 4,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -23140,7 +22869,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-05-02 08:26:39"
+          "archived_date": "2026-05-02 08:26:39",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 1,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 5,
+            "final_count_at_last_rebuild": 4
+          }
         },
         {
           "id": "18Au0I",
@@ -23157,19 +22893,11 @@
           "last_seen": "2026-05-01 09:06:09",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 3,
+          "refresh_count": 1,
           "reactivated": true,
           "reactivation_history": [],
           "reactivation_count": 0,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -23181,7 +22909,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-05-02 08:26:39"
+          "archived_date": "2026-05-02 08:26:39",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 3,
+            "final_count_at_last_rebuild": 1
+          }
         },
         {
           "id": "1a2CQf",
@@ -24419,7 +24154,7 @@
           "last_seen": "2026-05-06 09:33:24",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 5,
+          "refresh_count": 3,
           "refresh_history": [
             {
               "detected_at": "2026-04-14 08:49",
@@ -24435,14 +24170,6 @@
               "detected_at": "2026-04-17 12:31",
               "refreshed_at": "2026-04-17",
               "old_date": "2026-04-15"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
             }
           ],
           "first_price": 850,
@@ -24487,7 +24214,14 @@
           "promoted_days_current": 0,
           "promoted_sessions_count": 5,
           "archived_date": "2026-05-07 09:42:49",
-          "reactivation_count": 0
+          "reactivation_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 5,
+            "final_count_at_last_rebuild": 3
+          }
         },
         {
           "id": "16cDbB",
@@ -25188,7 +24922,7 @@
           "last_seen": "2026-05-08 08:26:52",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 3,
+          "refresh_count": 2,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -25205,10 +24939,6 @@
               "refreshed_at": "2026-04-06"
             },
             {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
               "detected_at": "2026-04-15 08:50",
               "refreshed_at": "2026-04-14",
               "old_date": "2026-03-31"
@@ -25219,7 +24949,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-05-09 08:47:15"
+          "archived_date": "2026-05-09 08:47:15",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 1,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 3,
+            "final_count_at_last_rebuild": 2
+          }
         },
         {
           "id": "YZij3",
@@ -25396,16 +25133,12 @@
           "last_seen": "2026-05-08 08:26:52",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 6,
+          "refresh_count": 5,
           "refresh_history": [
             {
               "detected_at": "2026-04-16 08:51",
               "refreshed_at": "2026-04-16",
               "old_date": "2026-04-09"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
             },
             {
               "detected_at": "2026-04-17 12:31",
@@ -25433,7 +25166,14 @@
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
           "archived_date": "2026-05-09 08:47:15",
-          "reactivation_count": 0
+          "reactivation_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 1,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 6,
+            "final_count_at_last_rebuild": 5
+          }
         },
         {
           "id": "1a7569",
@@ -25652,7 +25392,7 @@
           "last_seen": "2026-05-08 08:26:52",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 10,
+          "refresh_count": 5,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -25664,26 +25404,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -25730,7 +25450,14 @@
           ],
           "promoted_days_current": 0,
           "promoted_sessions_count": 2,
-          "archived_date": "2026-05-09 08:47:15"
+          "archived_date": "2026-05-09 08:47:15",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 5,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 10,
+            "final_count_at_last_rebuild": 5
+          }
         },
         {
           "id": "1aftrV",
@@ -26487,7 +26214,7 @@
           "last_seen": "2026-05-11 10:41:57",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 5,
+          "refresh_count": 4,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -26514,10 +26241,6 @@
               "refreshed_at": "2026-04-17"
             },
             {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
-            },
-            {
               "refreshed_at": "2026-05-09",
               "detected_at": "2026-05-10 09:00:25",
               "old_date": "2026-04-25"
@@ -26528,7 +26251,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-05-12 09:47:49"
+          "archived_date": "2026-05-12 09:47:49",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 1,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 5,
+            "final_count_at_last_rebuild": 4
+          }
         },
         {
           "id": "1aj55R",
@@ -26811,7 +26541,7 @@
           "last_seen": "2026-05-11 10:41:57",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 5,
+          "refresh_count": 3,
           "refresh_history": [
             {
               "detected_at": "2026-04-14 08:49",
@@ -26827,14 +26557,6 @@
               "detected_at": "2026-04-17 12:31",
               "refreshed_at": "2026-04-17",
               "old_date": "2026-04-15"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
             }
           ],
           "first_price": 900,
@@ -26872,7 +26594,14 @@
           "promoted_days_current": 0,
           "promoted_sessions_count": 4,
           "archived_date": "2026-05-12 09:47:49",
-          "reactivation_count": 0
+          "reactivation_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 5,
+            "final_count_at_last_rebuild": 3
+          }
         },
         {
           "id": "18OXkS",
@@ -27142,7 +26871,7 @@
           "last_seen": "2026-05-12 09:47:49",
           "is_promoted": true,
           "promotion_type": "featured",
-          "refresh_count": 16,
+          "refresh_count": 12,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -27154,22 +26883,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -27301,7 +27014,14 @@
           "promoted_days_current": 1,
           "promoted_sessions_count": 11,
           "promotion_started_at": "2026-05-12 09:47:49",
-          "archived_date": "2026-05-13 09:52:40"
+          "archived_date": "2026-05-13 09:52:40",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 4,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 16,
+            "final_count_at_last_rebuild": 12
+          }
         },
         {
           "id": "1aygV3",
@@ -27351,7 +27071,7 @@
           "last_seen": "2026-05-12 09:47:49",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 6,
+          "refresh_count": 5,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -27372,10 +27092,6 @@
               "detected_at": "2026-04-14 08:49",
               "refreshed_at": "2026-04-13",
               "old_date": "2026-04-09"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
             },
             {
               "detected_at": "2026-04-17 12:31",
@@ -27405,7 +27121,14 @@
           ],
           "promoted_days_current": 0,
           "promoted_sessions_count": 1,
-          "archived_date": "2026-05-13 09:52:40"
+          "archived_date": "2026-05-13 09:52:40",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 1,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 6,
+            "final_count_at_last_rebuild": 5
+          }
         },
         {
           "id": "14YnAx",
@@ -27621,7 +27344,7 @@
           "last_seen": "2026-05-12 09:47:49",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 19,
+          "refresh_count": 10,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -27637,42 +27360,6 @@
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06",
               "old_date": "2026-03-30"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
             },
             {
               "detected_at": "2026-04-15 08:50",
@@ -27761,7 +27448,14 @@
           ],
           "promoted_days_current": 0,
           "promoted_sessions_count": 5,
-          "archived_date": "2026-05-13 09:52:40"
+          "archived_date": "2026-05-13 09:52:40",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 9,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 19,
+            "final_count_at_last_rebuild": 10
+          }
         },
         {
           "id": "19McW6",
@@ -28359,7 +28053,7 @@
           "last_seen": "2026-05-13 09:52:40",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 12,
+          "refresh_count": 9,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -28371,18 +28065,6 @@
           ],
           "reactivation_count": 1,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -28463,7 +28145,14 @@
           ],
           "promoted_days_current": 0,
           "promoted_sessions_count": 4,
-          "archived_date": "2026-05-14 09:39:24"
+          "archived_date": "2026-05-14 09:39:24",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 3,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 12,
+            "final_count_at_last_rebuild": 9
+          }
         },
         {
           "id": "1addnn",
@@ -28736,7 +28425,7 @@
           "last_seen": "2026-05-13 09:52:40",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 3,
+          "refresh_count": 1,
           "reactivated": true,
           "reactivation_history": [
             {
@@ -28751,14 +28440,6 @@
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
             }
           ],
           "first_price": 900,
@@ -28766,7 +28447,14 @@
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
-          "archived_date": "2026-05-14 09:39:24"
+          "archived_date": "2026-05-14 09:39:24",
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 2,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 3,
+            "final_count_at_last_rebuild": 1
+          }
         },
         {
           "id": "1ad2a8",
@@ -28968,28 +28656,8 @@
           "last_seen": "2026-05-14 09:39:24",
           "is_promoted": false,
           "promotion_type": null,
-          "refresh_count": 19,
+          "refresh_count": 14,
           "refresh_history": [
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
-            {
-              "detected_at": "2026-04-06 11:38",
-              "refreshed_at": "2026-04-06"
-            },
             {
               "detected_at": "2026-04-06 11:38",
               "refreshed_at": "2026-04-06"
@@ -29152,7 +28820,14 @@
           "promoted_days_current": 0,
           "promoted_sessions_count": 12,
           "archived_date": "2026-05-15 06:03:31",
-          "reactivation_count": 0
+          "reactivation_count": 0,
+          "_dedup_note": {
+            "rule": "max 1 refresh/day per listing (OLX shows date only)",
+            "removed_total": 5,
+            "last_rebuild_at": "2026-05-16 20:59:48",
+            "original_count_at_last_rebuild": 19,
+            "final_count_at_last_rebuild": 14
+          }
         },
         {
           "id": "19XX1t",
@@ -39784,7 +39459,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0,
+          "refreshed_count": 1,
           "reactivated_count": 0,
           "_note": "refreshed_count wyzerowany 2026-04-21: poprzednia wartość była artefaktem wdrożenia live detekcji odświeżeń (ISO timestamp) 17.04.2026. Pierwszy scan po deployu naliczył baseline last_refresh_timestamp jako event. Szczegóły: CHANGELOG 2026-04-21.",
           "added": 0,
@@ -39848,7 +39523,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0,
+          "refreshed_count": 1,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -39869,7 +39544,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 2,
           "removed": 0,
@@ -40011,7 +39686,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0,
+          "refreshed_count": 2,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -40082,7 +39757,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 2,
+          "refreshed_count": 1,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -40153,7 +39828,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -40295,7 +39970,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 2,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -40366,7 +40041,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -40849,7 +40524,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 0,
+          "refreshed_count": 1,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0
@@ -40920,7 +40595,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 2,
+          "refreshed_count": 1,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0
@@ -41632,7 +41307,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 0,
+          "refreshed_count": 1,
           "reactivated_count": 1,
           "added": 4,
           "removed": 4
@@ -46119,7 +45794,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 3,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -46190,7 +45865,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 2,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 0,
           "removed": 1,
@@ -46856,7 +46531,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 0,
+          "refreshed_count": 5,
           "reactivated_count": 0,
           "added": 0,
           "removed": 1
@@ -46922,7 +46597,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 5,
+          "refreshed_count": 0,
           "reactivated_count": 1,
           "added": 1,
           "removed": 0
@@ -47120,7 +46795,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 0,
+          "refreshed_count": 5,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0
@@ -47186,7 +46861,7 @@
               "count": 2
             }
           ],
-          "refreshed_count": 5,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0
@@ -54385,7 +54060,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0,
+          "refreshed_count": 3,
           "reactivated_count": 0,
           "_note": "refreshed_count wyzerowany 2026-04-21: poprzednia wartość była artefaktem wdrożenia live detekcji odświeżeń (ISO timestamp) 17.04.2026. Pierwszy scan po deployu naliczył baseline last_refresh_timestamp jako event. Szczegóły: CHANGELOG 2026-04-21.",
           "added": 0,
@@ -54477,7 +54152,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0,
+          "refreshed_count": 2,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -54568,7 +54243,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 2,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -55114,7 +54789,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0,
+          "refreshed_count": 1,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -55205,7 +54880,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -55387,7 +55062,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0,
+          "refreshed_count": 2,
           "reactivated_count": 0,
           "added": 0,
           "removed": 1,
@@ -55478,7 +55153,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 2,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -56103,7 +55778,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 0,
+          "refreshed_count": 2,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0
@@ -56169,7 +55844,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 2,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0
@@ -56733,7 +56408,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 0,
+          "refreshed_count": 1,
           "reactivated_count": 3,
           "added": 4,
           "removed": 4
@@ -61095,7 +60770,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0,
+          "refreshed_count": 38,
           "reactivated_count": 0,
           "_note": "refreshed_count wyzerowany 2026-04-21: poprzednia wartość była artefaktem wdrożenia live detekcji odświeżeń (ISO timestamp) 17.04.2026. Pierwszy scan po deployu naliczył baseline last_refresh_timestamp jako event. Szczegóły: CHANGELOG 2026-04-21.",
           "added": 6,
@@ -61187,7 +60862,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0,
+          "refreshed_count": 1,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -61278,7 +60953,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0,
@@ -61733,7 +61408,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 0,
+          "refreshed_count": 1,
           "reactivated_count": 1,
           "added": 6,
           "removed": 2,
@@ -61824,7 +61499,7 @@
           "promoted_count": 0,
           "promoted_percentage": 0.0,
           "promotion_breakdown": {},
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 6,
           "removed": 1,
@@ -62397,7 +62072,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 0,
+          "refreshed_count": 1,
           "reactivated_count": 0,
           "added": 0,
           "removed": 0
@@ -62559,7 +62234,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 1,
+          "refreshed_count": 2,
           "reactivated_count": 0,
           "added": 0,
           "removed": 1
@@ -62640,7 +62315,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 2,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 0,
           "removed": 9
@@ -62888,7 +62563,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 1,
+          "refreshed_count": 2,
           "reactivated_count": 1,
           "added": 3,
           "removed": 0
@@ -62974,7 +62649,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 3,
           "removed": 2
@@ -63399,7 +63074,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 0,
+          "refreshed_count": 1,
           "reactivated_count": 2,
           "added": 5,
           "removed": 1
@@ -63480,7 +63155,7 @@
               "count": 1
             }
           ],
-          "refreshed_count": 1,
+          "refreshed_count": 0,
           "reactivated_count": 0,
           "added": 1,
           "removed": 5
