@@ -110,6 +110,39 @@ def get_session():
     return s
 
 
+def verify_listing_active(url: str, timeout: int = 10) -> bool:
+    """
+    Sprawdza czy ogłoszenie OLX jest nadal aktywne przez bezpośredni GET na jego URL.
+    Zwraca True jeśli ogłoszenie istnieje i jest aktywne, False jeśli zostało usunięte/wygasło.
+    W razie błędu sieciowego zwraca True (fail-safe: nie archiwizuj przy wątpliwości).
+    """
+    INACTIVE_PHRASES = [
+        "To ogłoszenie jest już nieaktualne",
+        "Ogłoszenie nieaktywne",
+        "oferta wygasła",
+        "oferta została usunięta",
+        "Nie znaleźliśmy tej strony",
+        "404",
+    ]
+    try:
+        session = get_session()
+        resp = session.get(url.split("?")[0], timeout=timeout, allow_redirects=True)
+        if resp.status_code == 404:
+            return False
+        if resp.status_code != 200:
+            log.warning(f"[verify] {url[:60]} → HTTP {resp.status_code}, zakładam aktywne")
+            return True
+        text = resp.text
+        for phrase in INACTIVE_PHRASES:
+            if phrase.lower() in text.lower():
+                log.info(f"[verify] Nieaktywne ('{phrase}'): {url[:60]}")
+                return False
+        return True
+    except Exception as e:
+        log.warning(f"[verify] Błąd weryfikacji {url[:60]}: {e} — zakładam aktywne")
+        return True
+
+
 def get_api_session():
     """Session for OLX JSON API endpoints."""
     s = requests.Session()
@@ -1916,6 +1949,22 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         if not is_scraper_error:
             for old_l in pd_.get("current_listings", []):
                 if old_l["id"] not in current_ids:
+                    # WERYFIKACJA: zanim zarchiwizujemy, sprawdź czy ogłoszenie naprawdę zniknęło z OLX.
+                    # OLX może nie zwrócić ogłoszenia w danej sesji (rotacja wyników, throttling, paginacja),
+                    # co nie oznacza że zostało usunięte.
+                    listing_url = old_l.get("url", "")
+                    if listing_url:
+                        still_active = verify_listing_active(listing_url)
+                        if still_active:
+                            log.info(f"[{pk}] Pominięto archiwizację (ogłoszenie nadal aktywne na OLX): {old_l['id']}")
+                            # Ogłoszenie pozostaje w current_listings bez zmian
+                            current_ids.add(old_l["id"])
+                            continue
+                        else:
+                            log.info(f"[{pk}] Potwierdzono nieaktywność — archiwizuję: {old_l['id']}")
+                    else:
+                        log.warning(f"[{pk}] Brak URL dla ogłoszenia {old_l['id']} — archiwizuję bez weryfikacji")
+
                     old_l["archived_date"] = now_str
 
                     # Zamknij otwarty okres reaktywacji (jeśli istnieje, czyli ogłoszenie było reaktywowane)
