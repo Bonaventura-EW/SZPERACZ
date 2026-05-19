@@ -48077,7 +48077,7 @@
           "last_refresh_timestamp": "2026-05-18T09:45:07+02:00",
           "date_text": "Odświeżono 2026-05-18",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/8yahh71cmiuc1-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-03-26 06:53:32",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "top_ad",
@@ -48108,7 +48108,7 @@
           "last_refresh_timestamp": "2026-05-18T09:44:53+02:00",
           "date_text": "Odświeżono 2026-05-18",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/jw670j6ixejg-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-03-19 06:41:23",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "top_ad",
@@ -48179,7 +48179,7 @@
           "last_refresh_timestamp": "2026-05-18T09:41:16+02:00",
           "date_text": "Odświeżono 2026-05-18",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/7tnw5ckinqmg1-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-03-30 16:36:45",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "top_ad",
@@ -48210,7 +48210,7 @@
           "last_refresh_timestamp": "2026-05-04T14:58:28+02:00",
           "date_text": "Odświeżono 2026-05-04",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/wend8of221dl-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-03-26 06:53:32",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "top_ad",
@@ -48481,367 +48481,6 @@
           "promoted_sessions_count": 0,
           "archived_date": "2026-04-27 09:27:35",
           "reactivation_count": 0
-        },
-        {
-          "id": "1058552106",
-          "title": "Klimatyzowany pokój  w mieszkaniu 3-pokojowym blisko UMCS, KUL, UP - al. Kraśnicka",
-          "price": 1100,
-          "price_text": "1 100 zł",
-          "url": "https://www.olx.pl/d/oferta/klimatyzowany-pokoj-w-mieszkaniu-3-pokojowym-blisko-umcs-kul-up-al-krasnicka-CID3-ID19DzL4.html",
-          "published": "2026-03-04",
-          "refreshed": "2026-05-12",
-          "last_refresh_timestamp": "2026-05-12T10:32:58+02:00",
-          "date_text": "Odświeżono 2026-05-12",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/f8h2gv05ocvu3-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-07 15:48:38",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 6,
-          "reactivated": true,
-          "reactivation_history": [
-            {
-              "active_from": "2026-03-07 15:48:38",
-              "active_to": "2026-04-16 08:51:01",
-              "reactivated_at": "2026-04-22 08:53:55",
-              "active_to_current": "2026-05-04 09:29:33"
-            },
-            {
-              "active_from": "2026-03-07 15:48:38",
-              "active_to": "2026-05-04 09:29:33",
-              "reactivated_at": "2026-05-05 09:13:38",
-              "active_to_current": "2026-05-15 12:05:15"
-            }
-          ],
-          "reactivation_count": 2,
-          "refresh_history": [
-            {
-              "detected_at": "2026-04-10 13:32",
-              "refreshed_at": "2026-04-10"
-            },
-            {
-              "refreshed_at": "2026-04-24T10:33:11+02:00",
-              "detected_at": "2026-04-24 09:06:34",
-              "old_date": "2026-04-17T10:33:11+02:00"
-            },
-            {
-              "refreshed_at": "2026-04-27T09:48:13+02:00",
-              "detected_at": "2026-04-27 09:27:35",
-              "old_date": "2026-04-24T10:33:11+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-01T10:33:10+02:00",
-              "detected_at": "2026-05-01 09:06:09",
-              "old_date": "2026-04-27T09:48:13+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-08T10:30:40+02:00",
-              "detected_at": "2026-05-09 08:47:15",
-              "old_date": "2026-05-04T14:58:11+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-12T10:32:58+02:00",
-              "detected_at": "2026-05-12 09:47:49",
-              "old_date": "2026-05-08T10:30:40+02:00"
-            }
-          ],
-          "first_price": 1149,
-          "price_change": -49,
-          "previous_price": 1149,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15"
-        },
-        {
-          "id": "1057082751",
-          "title": "Nowoczesne, przestronne mieszkanie blisko centrum -ul.Pogodna",
-          "price": 2299,
-          "price_text": "2 299 zł",
-          "url": "https://www.olx.pl/d/oferta/nowoczesne-przestronne-mieszkanie-blisko-centrum-ul-pogodna-CID3-ID19xpwN.html",
-          "published": "2026-02-25",
-          "refreshed": "2026-05-12",
-          "last_refresh_timestamp": "2026-05-12T10:31:44+02:00",
-          "date_text": "Odświeżono 2026-05-12",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/4h0amcfga23b1-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-07 15:48:38",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 5,
-          "refresh_history": [
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
-            },
-            {
-              "refreshed_at": "2026-04-27T09:24:08+02:00",
-              "detected_at": "2026-04-27 09:27:35",
-              "old_date": "2026-04-03T10:31:03+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-04T14:58:24+02:00",
-              "detected_at": "2026-05-05 09:13:38",
-              "old_date": "2026-04-27T09:24:08+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-08T10:30:56+02:00",
-              "detected_at": "2026-05-09 08:47:15",
-              "old_date": "2026-05-04T14:58:24+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-12T10:31:44+02:00",
-              "detected_at": "2026-05-12 09:47:49",
-              "old_date": "2026-05-08T10:30:56+02:00"
-            }
-          ],
-          "first_price": 2499,
-          "price_change": -200,
-          "previous_price": 2499,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1062992150",
-          "title": "Przytulny pokój w spokojnej okolicy, blisko Politechniki - ul. Przytulna",
-          "price": 550,
-          "price_text": "550 zł",
-          "url": "https://www.olx.pl/d/oferta/przytulny-pokoj-w-spokojnej-okolicy-blisko-politechniki-ul-przytulna-CID3-ID19VcOG.html",
-          "published": "2026-03-25",
-          "refreshed": "2026-05-12",
-          "last_refresh_timestamp": "2026-05-12T10:31:34+02:00",
-          "date_text": "Odświeżono 2026-05-12",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/8yahh71cmiuc1-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-26 06:53:32",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 8,
-          "refresh_history": [
-            {
-              "detected_at": "2026-04-14 08:49",
-              "refreshed_at": "2026-04-14"
-            },
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
-            },
-            {
-              "refreshed_at": "2026-04-22T14:02:33+02:00",
-              "detected_at": "2026-04-22 12:33:25",
-              "old_date": "2026-04-17T12:03:33+02:00"
-            },
-            {
-              "refreshed_at": "2026-04-24T12:27:24+02:00",
-              "detected_at": "2026-04-25 08:09:56",
-              "old_date": "2026-04-22T14:02:33+02:00"
-            },
-            {
-              "refreshed_at": "2026-04-27T09:47:49+02:00",
-              "detected_at": "2026-04-27 09:27:35",
-              "old_date": "2026-04-24T12:27:24+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-04T14:58:35+02:00",
-              "detected_at": "2026-05-05 09:13:38",
-              "old_date": "2026-04-27T09:47:49+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-08T10:31:00+02:00",
-              "detected_at": "2026-05-09 08:47:15",
-              "old_date": "2026-05-04T14:58:35+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-12T10:31:34+02:00",
-              "detected_at": "2026-05-12 09:47:49",
-              "old_date": "2026-05-08T10:31:00+02:00"
-            }
-          ],
-          "first_price": 1499,
-          "price_change": -949,
-          "previous_price": 1499,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1061557323",
-          "title": "Pokój w 2-pokojowym mieszkaniu - 300 m. od UMCS, UP, KUL,",
-          "price": 1299,
-          "price_text": "1 299 zł",
-          "url": "https://www.olx.pl/d/oferta/pokoj-w-2-pokojowym-mieszkaniu-300-m-od-umcs-up-kul-CID3-ID19Qbyj.html",
-          "published": "2026-03-18",
-          "refreshed": "2026-05-08",
-          "last_refresh_timestamp": "2026-05-08T10:31:08+02:00",
-          "date_text": "Odświeżono 2026-05-08",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/jw670j6ixejg-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-19 06:41:23",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 6,
-          "reactivated": true,
-          "reactivation_history": [
-            {
-              "active_from": "2026-03-19 06:41:23",
-              "active_to": "2026-04-17 12:31:19",
-              "reactivated_at": "2026-04-20 09:13:53",
-              "active_to_current": "2026-05-15 12:05:15"
-            }
-          ],
-          "reactivation_count": 1,
-          "refresh_history": [
-            {
-              "detected_at": "2026-04-09 08:24",
-              "refreshed_at": "2026-04-09"
-            },
-            {
-              "detected_at": "2026-04-14 08:49",
-              "refreshed_at": "2026-04-14"
-            },
-            {
-              "refreshed_at": "2026-04-22T14:02:40+02:00",
-              "detected_at": "2026-04-22 12:33:25",
-              "old_date": "2026-04-20T09:51:27+02:00"
-            },
-            {
-              "refreshed_at": "2026-04-27T09:48:00+02:00",
-              "detected_at": "2026-04-27 09:27:35",
-              "old_date": "2026-04-22T14:02:40+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-04T14:58:40+02:00",
-              "detected_at": "2026-05-05 09:13:38",
-              "old_date": "2026-04-27T09:48:00+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-08T10:31:08+02:00",
-              "detected_at": "2026-05-09 08:47:15",
-              "old_date": "2026-05-04T14:58:40+02:00"
-            }
-          ],
-          "first_price": 1400,
-          "price_change": -101,
-          "previous_price": 1400,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15"
-        },
-        {
-          "id": "1064085780",
-          "title": "Nowoczesne, przestronne mieszkanie z osobną sypialnią blisko centrum",
-          "price": 2299,
-          "price_text": "2 299 zł",
-          "url": "https://www.olx.pl/d/oferta/nowoczesne-przestronne-mieszkanie-z-osobna-sypialnia-blisko-centrum-CID3-ID1a0NjS.html",
-          "published": "2026-03-30",
-          "refreshed": "2026-05-08",
-          "last_refresh_timestamp": "2026-05-08T10:30:49+02:00",
-          "date_text": "Odświeżono 2026-05-08",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/7tnw5ckinqmg1-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-30 16:36:45",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 8,
-          "refresh_history": [
-            {
-              "detected_at": "2026-04-07 08:18",
-              "refreshed_at": "2026-04-07"
-            },
-            {
-              "detected_at": "2026-04-09 08:24",
-              "refreshed_at": "2026-04-09"
-            },
-            {
-              "detected_at": "2026-04-14 08:49",
-              "refreshed_at": "2026-04-14"
-            },
-            {
-              "refreshed_at": "2026-04-22T14:01:57+02:00",
-              "detected_at": "2026-04-22 12:33:25",
-              "old_date": "2026-04-17T12:00:02+02:00"
-            },
-            {
-              "refreshed_at": "2026-04-27T09:47:38+02:00",
-              "detected_at": "2026-04-27 09:27:35",
-              "old_date": "2026-04-22T14:01:57+02:00"
-            },
-            {
-              "refreshed_at": "2026-04-30T10:27:47+02:00",
-              "detected_at": "2026-04-30 09:23:08",
-              "old_date": "2026-04-27T09:47:38+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-04T14:58:16+02:00",
-              "detected_at": "2026-05-05 09:13:38",
-              "old_date": "2026-04-30T10:27:47+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-08T10:30:49+02:00",
-              "detected_at": "2026-05-09 08:47:15",
-              "old_date": "2026-05-04T14:58:16+02:00"
-            }
-          ],
-          "first_price": 2499,
-          "price_change": -200,
-          "previous_price": 2499,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1062988428",
-          "title": "Przestronny pokój w mieszkaniu 2pokojowym w zielonej i cichej okolicy",
-          "price": 1149,
-          "price_text": "1 149 zł",
-          "url": "https://www.olx.pl/d/oferta/przestronny-pokoj-w-mieszkaniu-2pokojowym-w-zielonej-i-cichej-okolicy-CID3-ID19VbQE.html",
-          "published": "2026-03-25",
-          "refreshed": "2026-05-04",
-          "last_refresh_timestamp": "2026-05-04T14:58:28+02:00",
-          "date_text": "Odświeżono 2026-05-04",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/wend8of221dl-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-26 06:53:32",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 4,
-          "refresh_history": [
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
-            },
-            {
-              "refreshed_at": "2026-04-24T12:27:55+02:00",
-              "detected_at": "2026-04-25 08:09:56",
-              "old_date": "2026-04-03T10:30:30+02:00"
-            },
-            {
-              "refreshed_at": "2026-04-27T09:48:25+02:00",
-              "detected_at": "2026-04-27 09:27:35",
-              "old_date": "2026-04-24T12:27:55+02:00"
-            },
-            {
-              "refreshed_at": "2026-05-04T14:58:28+02:00",
-              "detected_at": "2026-05-05 09:13:38",
-              "old_date": "2026-04-27T09:48:25+02:00"
-            }
-          ],
-          "first_price": 1249,
-          "price_change": -100,
-          "previous_price": 1249,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
         }
       ],
       "price_history": {
@@ -48861,7 +48500,29 @@
             "change": -200
           }
         ],
-        "1057082751": [
+        "1057084050": [
+          {
+            "date": "2026-03-19 06:41:23",
+            "old_price": 1450,
+            "new_price": 1400,
+            "change": -50
+          }
+        ],
+        "19DzL4": [
+          {
+            "date": "2026-04-03 06:54:06",
+            "old_price": 1149,
+            "new_price": 999,
+            "change": -150
+          },
+          {
+            "date": "2026-04-09 08:24:14",
+            "old_price": 999,
+            "new_price": 1099,
+            "change": 100
+          }
+        ],
+        "19xpwN": [
           {
             "date": "2026-03-19 06:41:23",
             "old_price": 2499,
@@ -48887,29 +48548,7 @@
             "change": -200
           }
         ],
-        "1057084050": [
-          {
-            "date": "2026-03-19 06:41:23",
-            "old_price": 1450,
-            "new_price": 1400,
-            "change": -50
-          }
-        ],
-        "1058552106": [
-          {
-            "date": "2026-04-03 06:54:06",
-            "old_price": 1149,
-            "new_price": 999,
-            "change": -150
-          },
-          {
-            "date": "2026-04-09 08:24:14",
-            "old_price": 999,
-            "new_price": 1099,
-            "change": 100
-          }
-        ],
-        "1062992150": [
+        "19VcOG": [
           {
             "date": "2026-04-10 13:32:17",
             "old_price": 1499,
@@ -48917,7 +48556,15 @@
             "change": -949
           }
         ],
-        "1064085780": [
+        "19Qbyj": [
+          {
+            "date": "2026-05-12 09:47:49",
+            "old_price": 1400,
+            "new_price": 1299,
+            "change": -101
+          }
+        ],
+        "1a0NjS": [
           {
             "date": "2026-04-17 08:50:27",
             "old_price": 2499,
@@ -48925,20 +48572,12 @@
             "change": -200
           }
         ],
-        "1062988428": [
+        "19VbQE": [
           {
             "date": "2026-04-29 09:20:35",
             "old_price": 1249,
             "new_price": 1149,
             "change": -100
-          }
-        ],
-        "1061557323": [
-          {
-            "date": "2026-05-12 09:47:49",
-            "old_price": 1400,
-            "new_price": 1299,
-            "change": -101
           }
         ]
       },
@@ -64483,7 +64122,7 @@
           "last_refresh_timestamp": "2026-05-17T16:28:46+02:00",
           "date_text": "Odświeżono 2026-05-17",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/k0wpehhlwkhh2-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-03-19 06:41:23",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64514,7 +64153,7 @@
           "last_refresh_timestamp": "2026-05-17T15:22:11+02:00",
           "date_text": "Odświeżono 2026-05-17",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/4je8gt4a99eu1-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-04-17 20:47:42",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64545,7 +64184,7 @@
           "last_refresh_timestamp": "2026-05-15T11:00:23+02:00",
           "date_text": "Odświeżono 2026-05-15",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/4mli7csdih941-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-03-28 06:41:43",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64570,7 +64209,7 @@
           "last_refresh_timestamp": "2026-05-14T12:40:27+02:00",
           "date_text": "Odświeżono 2026-05-14",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/29ijcyl83t2u3-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-05-15 06:03:31",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64595,7 +64234,7 @@
           "last_refresh_timestamp": "2026-05-14T12:09:24+02:00",
           "date_text": "Odświeżono 2026-05-14",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/ua5e8q88esxf2-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-05-15 06:03:31",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": false,
           "promotion_type": null,
@@ -64618,7 +64257,7 @@
           "last_refresh_timestamp": "2026-05-14T12:02:27+02:00",
           "date_text": "Odświeżono 2026-05-14",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/jwvoln19mk3r1-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-05-15 06:03:31",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64643,7 +64282,7 @@
           "last_refresh_timestamp": "2026-05-13T14:23:20+02:00",
           "date_text": "Odświeżono 2026-05-13",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/bfvonoj4rwpf2-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-05-14 09:39:24",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64668,7 +64307,7 @@
           "last_refresh_timestamp": "2026-05-13T13:39:21+02:00",
           "date_text": "Odświeżono 2026-05-13",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/495u49fsaa2a-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-03-07 15:48:38",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64693,7 +64332,7 @@
           "last_refresh_timestamp": "2026-05-13T10:27:11+02:00",
           "date_text": "Odświeżono 2026-05-13",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/b1qpell4hd5b3-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-03-19 06:41:23",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64718,7 +64357,7 @@
           "last_refresh_timestamp": "2026-05-12T14:00:14+02:00",
           "date_text": "Odświeżono 2026-05-12",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/7y07hi2f8up33-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-05-13 09:52:40",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64743,7 +64382,7 @@
           "last_refresh_timestamp": "2026-05-11T13:35:52+02:00",
           "date_text": "Odświeżono 2026-05-11",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/rqn7flgt519e3-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-05-12 09:47:49",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": false,
           "promotion_type": null,
@@ -64766,7 +64405,7 @@
           "last_refresh_timestamp": "2026-05-11T10:35:48+02:00",
           "date_text": "Odświeżono 2026-05-11",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/upyldgtdti2e-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-05-11 10:41:57",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64825,7 +64464,7 @@
           "last_refresh_timestamp": "2026-05-07T14:53:19+02:00",
           "date_text": "Odświeżono 2026-05-07",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/b71bdb8b4fad1-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-05-08 08:26:52",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64934,7 +64573,7 @@
           "last_refresh_timestamp": "2026-04-30T12:44:02+02:00",
           "date_text": "Odświeżono 2026-04-30",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/a9p15b8cu42f3-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-04-30 19:36:11",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64959,7 +64598,7 @@
           "last_refresh_timestamp": "2026-04-30T12:11:04+02:00",
           "date_text": "Odświeżono 2026-04-30",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/g1zvy4w3pa2r-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-04-30 19:36:11",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -64984,7 +64623,7 @@
           "last_refresh_timestamp": "2026-04-30T11:53:51+02:00",
           "date_text": "Odświeżono 2026-04-30",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/0k7d33rexb4e3-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-18 11:11:28",
+          "first_seen": "2026-04-30 19:36:11",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -65006,7 +64645,7 @@
           "last_refresh_timestamp": "2026-04-28T13:39:18+02:00",
           "date_text": "Odświeżono 2026-04-28",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/bhcbgvmg0cpe2-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-04-29 09:20:35",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -65031,7 +64670,7 @@
           "last_refresh_timestamp": "2026-04-28T11:00:26+02:00",
           "date_text": "Odświeżono 2026-04-28",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/1qfz2j98i8r3-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-04-28 09:31:10",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -65056,7 +64695,7 @@
           "last_refresh_timestamp": "2026-04-27T13:16:37+02:00",
           "date_text": "Odświeżono 2026-04-27",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/nc6xj41j0zkm-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-03-28 06:41:43",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -65081,7 +64720,7 @@
           "last_refresh_timestamp": "2026-04-27T11:11:18+02:00",
           "date_text": "Odświeżono 2026-04-27",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/ggm0m9kes7qn1-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-03-28 06:41:43",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -65140,7 +64779,7 @@
           "last_refresh_timestamp": "2026-04-24T15:43:19+02:00",
           "date_text": "Odświeżono 2026-04-24",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/1xupyrw2cr2a-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-04-25 08:09:56",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -65165,7 +64804,7 @@
           "last_refresh_timestamp": "2026-04-24T11:58:49+02:00",
           "date_text": "Odświeżono 2026-04-24",
           "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/u3zhf7kvkbwq3-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 12:05:15",
+          "first_seen": "2026-04-25 08:09:56",
           "last_seen": "2026-05-18 11:11:28",
           "is_promoted": true,
           "promotion_type": "premium",
@@ -68711,31 +68350,6 @@
           "reactivation_count": 0
         },
         {
-          "id": "1070378971",
-          "title": "Kawalerka z balkonem bez prowizji - Grochowska 207, Praga Południe, przy Rondzie Wiatraczna",
-          "price": 1900,
-          "price_text": "1 900 zł",
-          "url": "https://www.olx.pl/d/oferta/kawalerka-z-balkonem-bez-prowizji-grochowska-207-praga-poludnie-przy-rondzie-wiatraczna-CID3-ID1arcsX.html",
-          "published": "2026-04-30",
-          "refreshed": "2026-04-30",
-          "last_refresh_timestamp": "2026-04-30T11:53:51+02:00",
-          "date_text": "Odświeżono 2026-04-30",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/0k7d33rexb4e3-PL/image;s={width}x{height}",
-          "first_seen": "2026-04-30 19:36:11",
-          "last_seen": "2026-05-03 08:53:46",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 1900,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-04 09:29:33",
-          "reactivation_count": 0
-        },
-        {
           "id": "1070375723",
           "title": "Przestronna kawalerka z balkonem, klimatyzacją i miejscem w garażu bez prowizji - Sierpińskiego 1A",
           "price": 2800,
@@ -70009,189 +69623,6 @@
           "reactivation_count": 0
         },
         {
-          "id": "1063473654",
-          "title": "Słoneczna 2 pokoje blisko centrum - Kopińska 35, BRAK PROWIZJI",
-          "price": 2600,
-          "price_text": "2 600 zł",
-          "url": "https://www.olx.pl/d/oferta/sloneczna-2-pokoje-blisko-centrum-kopinska-35-brak-prowizji-CID3-ID19Ye4S.html",
-          "published": "2026-03-27",
-          "refreshed": "2026-05-15",
-          "last_refresh_timestamp": "2026-05-15T11:00:23+02:00",
-          "date_text": "Odświeżono 2026-05-15",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/4mli7csdih941-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-28 06:41:43",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "reactivated": true,
-          "reactivation_history": [
-            {
-              "active_from": "2026-03-28 06:41:43",
-              "active_to": "2026-04-01 07:06:03",
-              "reactivated_at": "2026-04-24 09:06:34",
-              "active_to_current": "2026-04-27 09:27:35"
-            },
-            {
-              "active_from": "2026-03-28 06:41:43",
-              "active_to": "2026-04-27 09:27:35",
-              "reactivated_at": "2026-05-15 09:52:10",
-              "active_to_current": "2026-05-15 12:05:15"
-            }
-          ],
-          "reactivation_count": 2,
-          "refresh_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "promotion_history": [],
-          "archived_date": "2026-05-15 12:05:15"
-        },
-        {
-          "id": "1036899060",
-          "title": "Przytulne studio, pet-friendly, brak prowizji - Trojańska 16, BRAK PROWIZJI",
-          "price": 1600,
-          "price_text": "1 600 zł",
-          "url": "https://www.olx.pl/d/oferta/przytulne-studio-pet-friendly-brak-prowizji-trojanska-16-brak-prowizji-CID3-ID18aIOo.html",
-          "published": "2025-11-07",
-          "refreshed": "2026-05-14",
-          "last_refresh_timestamp": "2026-05-14T12:40:27+02:00",
-          "date_text": "Odświeżono 2026-05-14",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/29ijcyl83t2u3-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 06:03:31",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 1600,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1073319475",
-          "title": "Jasny pokój z internetem w mieszkaniu dwupokojowym wynajmę, bez prowizji-  Mandarynki 12",
-          "price": 1050,
-          "price_text": "1 050 zł",
-          "url": "https://www.olx.pl/d/oferta/jasny-pokoj-z-internetem-w-mieszkaniu-dwupokojowym-wynajme-bez-prowizji-mandarynki-12-CID3-ID1aDxqr.html",
-          "published": "2026-05-14",
-          "refreshed": "2026-05-14",
-          "last_refresh_timestamp": "2026-05-14T12:09:24+02:00",
-          "date_text": "Odświeżono 2026-05-14",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/ua5e8q88esxf2-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 06:03:31",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 1050,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1073317066",
-          "title": "Klimatyczna mikro kawalerka bez prowizji – ul. Siewierska 3",
-          "price": 2200,
-          "price_text": "2 200 zł",
-          "url": "https://www.olx.pl/d/oferta/klimatyczna-mikro-kawalerka-bez-prowizji-ul-siewierska-3-CID3-ID1aDvNA.html",
-          "published": "2026-05-14",
-          "refreshed": "2026-05-14",
-          "last_refresh_timestamp": "2026-05-14T12:02:27+02:00",
-          "date_text": "Odświeżono 2026-05-14",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/jwvoln19mk3r1-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-15 06:03:31",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 2200,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1073000074",
-          "title": "Designerska mikro kawalerka po remoncie, brak prowizji - Dzielna 1, Śródmieście",
-          "price": 2500,
-          "price_text": "2 500 zł",
-          "url": "https://www.olx.pl/d/oferta/designerska-mikro-kawalerka-po-remoncie-brak-prowizji-dzielna-1-srodmiescie-CID3-ID1aCckO.html",
-          "published": "2026-05-13",
-          "refreshed": "2026-05-13",
-          "last_refresh_timestamp": "2026-05-13T14:23:20+02:00",
-          "date_text": "Odświeżono 2026-05-13",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/bfvonoj4rwpf2-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-14 09:39:24",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 2500,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "949135492",
-          "title": "Pokój blisko metra w promocji- Namysłowska 6, BRAK PROWIZJI",
-          "price": 880,
-          "price_text": "880 zł",
-          "url": "https://www.olx.pl/d/oferta/pokoj-blisko-metra-w-promocji-namyslowska-6-brak-prowizji-CID3-ID12etuY.html",
-          "published": "2024-10-02",
-          "refreshed": "2026-05-13",
-          "last_refresh_timestamp": "2026-05-13T13:39:21+02:00",
-          "date_text": "Odświeżono 2026-05-13",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/495u49fsaa2a-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-07 15:48:38",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 2,
-          "reactivated": true,
-          "reactivation_history": [
-            {
-              "active_from": "2026-03-07 15:48:38",
-              "active_to": "2026-05-05 09:13:38",
-              "reactivated_at": "2026-05-07 09:42:49",
-              "active_to_current": "2026-05-15 12:05:15"
-            }
-          ],
-          "reactivation_count": 1,
-          "refresh_history": [
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
-            },
-            {
-              "refreshed_at": "2026-05-13T13:39:21+02:00",
-              "detected_at": "2026-05-14 09:39:24",
-              "old_date": "2026-05-06T13:05:48+02:00"
-            }
-          ],
-          "first_price": 900,
-          "price_change": -20,
-          "previous_price": 900,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15"
-        },
-        {
           "id": "1063459507",
           "title": "Wiślicka 3, Ochota, przytulna kawalerka obok parku  im. Zasława Malickiego, BRAK PROWIZJI",
           "price": 1770,
@@ -70219,40 +69650,6 @@
           "reactivation_count": 1,
           "refresh_history": [],
           "first_price": 1770,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15"
-        },
-        {
-          "id": "1055435315",
-          "title": "2 pokoje z balkonem, miejscem postojowym, dostępem do siłowni i basenu, budynek chroniony - Górna Droga 2, BRAK PROWIZJI",
-          "price": 2240,
-          "price_text": "2 240 zł",
-          "url": "https://www.olx.pl/d/oferta/2-pokoje-z-balkonem-miejscem-postojowym-dostepem-do-silowni-i-basenu-budynek-chroniony-gorna-droga-2-brak-prowizji-CID3-ID19quVf.html",
-          "published": "2026-02-16",
-          "refreshed": "2026-05-13",
-          "last_refresh_timestamp": "2026-05-13T10:27:11+02:00",
-          "date_text": "Odświeżono 2026-05-13",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/b1qpell4hd5b3-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-19 06:41:23",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "reactivated": true,
-          "reactivation_history": [
-            {
-              "active_from": "2026-03-19 06:41:23",
-              "active_to": "2026-03-24 06:47:29",
-              "reactivated_at": "2026-05-13 09:52:40",
-              "active_to_current": "2026-05-15 12:05:15"
-            }
-          ],
-          "reactivation_count": 1,
-          "refresh_history": [],
-          "first_price": 2240,
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
@@ -70302,56 +69699,6 @@
           "refresh_count": 0,
           "refresh_history": [],
           "first_price": 1700,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1072764052",
-          "title": "Przytulna kawalerka pet friendly, bez prowizji- Jaworzniaków 8, Rembertów",
-          "price": 1700,
-          "price_text": "1 700 zł",
-          "url": "https://www.olx.pl/d/oferta/przytulna-kawalerka-pet-friendly-bez-prowizji-jaworzniakow-8-rembertow-CID3-ID1aBcV0.html",
-          "published": "2026-05-12",
-          "refreshed": "2026-05-12",
-          "last_refresh_timestamp": "2026-05-12T14:00:14+02:00",
-          "date_text": "Odświeżono 2026-05-12",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/7y07hi2f8up33-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-13 09:52:40",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 1700,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1072531767",
-          "title": "*Pokój blisko morza - Jana Pawła II 3D, Aviator, bez prowizji!",
-          "price": 900,
-          "price_text": "900 zł",
-          "url": "https://www.olx.pl/d/oferta/pokoj-blisko-morza-jana-pawla-ii-3d-aviator-bez-prowizji-CID3-ID1aAewt.html",
-          "published": "2026-05-11",
-          "refreshed": "2026-05-11",
-          "last_refresh_timestamp": "2026-05-11T13:35:52+02:00",
-          "date_text": "Odświeżono 2026-05-11",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/rqn7flgt519e3-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-12 09:47:49",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 900,
           "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
@@ -70414,56 +69761,6 @@
           "first_price": 2380,
           "price_change": -100,
           "previous_price": 2380,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1072489993",
-          "title": "Przytulny pokój bez prowizji w okolicy SWPS - Wspólna Droga 12",
-          "price": 700,
-          "price_text": "700 zł",
-          "url": "https://www.olx.pl/d/oferta/przytulny-pokoj-bez-prowizji-w-okolicy-swps-wspolna-droga-12-CID3-ID1aA3DH.html",
-          "published": "2026-05-11",
-          "refreshed": "2026-05-11",
-          "last_refresh_timestamp": "2026-05-11T10:35:48+02:00",
-          "date_text": "Odświeżono 2026-05-11",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/upyldgtdti2e-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-11 10:41:57",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 700,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1071757939",
-          "title": "Wynajmę jasny pokój z internetem w M4, bez prowizji i w promocji - Mandarynki 12, w okolicy metra Natolin",
-          "price": 1050,
-          "price_text": "1 050 zł",
-          "url": "https://www.olx.pl/d/oferta/wynajme-jasny-pokoj-z-internetem-w-m4-bez-prowizji-i-w-promocji-mandarynki-12-w-okolicy-metra-natolin-CID3-ID1avZcn.html",
-          "published": "2026-05-07",
-          "refreshed": "2026-05-07",
-          "last_refresh_timestamp": "2026-05-07T14:53:19+02:00",
-          "date_text": "Odświeżono 2026-05-07",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/b71bdb8b4fad1-PL/image;s={width}x{height}",
-          "first_seen": "2026-05-08 08:26:52",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 1050,
-          "price_change": 0,
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
@@ -70587,120 +69884,6 @@
           "reactivation_count": 0
         },
         {
-          "id": "1055508258",
-          "title": "*W pełni rozkładowe 2 pokoje z balkonem i komórką -II Morskiego Pułku Strzelców 16, BEZ PROWIZJI",
-          "price": 1850,
-          "price_text": "1 850 zł",
-          "url": "https://www.olx.pl/d/oferta/w-pelni-rozkladowe-2-pokoje-z-balkonem-i-komorka-ii-morskiego-pulku-strzelcow-16-bez-prowizji-CID3-ID19qNUK.html",
-          "published": "2026-02-16",
-          "refreshed": "2026-05-01",
-          "last_refresh_timestamp": "2026-05-01T11:28:11+02:00",
-          "date_text": "Odświeżono 2026-05-01",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/zi61z9skyljv3-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-07 15:48:38",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 2,
-          "reactivated": true,
-          "reactivation_history": [],
-          "reactivation_count": 0,
-          "refresh_history": [
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
-            },
-            {
-              "refreshed_at": "2026-05-01T11:28:11+02:00",
-              "detected_at": "2026-05-02 08:26:39",
-              "old_date": "2026-04-01T11:41:16+02:00"
-            }
-          ],
-          "first_price": 1990,
-          "price_change": -140,
-          "previous_price": 1990,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15"
-        },
-        {
-          "id": "1070390694",
-          "title": "Rozkładowe 2 pokoje w centrum, brak prowizji – ul. Złota 71, Wola",
-          "price": 3600,
-          "price_text": "3 600 zł",
-          "url": "https://www.olx.pl/d/oferta/rozkladowe-2-pokoje-w-centrum-brak-prowizji-ul-zlota-71-wola-CID3-ID1arfv2.html",
-          "published": "2026-04-30",
-          "refreshed": "2026-04-30",
-          "last_refresh_timestamp": "2026-04-30T12:44:02+02:00",
-          "date_text": "Odświeżono 2026-04-30",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/a9p15b8cu42f3-PL/image;s={width}x{height}",
-          "first_seen": "2026-04-30 19:36:11",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 3800,
-          "price_change": -200,
-          "previous_price": 3800,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1070383236",
-          "title": "Przytulna kawalerka pet-friendly, brak prowizji - Jaworzniaków 8, w pobliżu stacji PKP Rembertów",
-          "price": 1600,
-          "price_text": "1 600 zł",
-          "url": "https://www.olx.pl/d/oferta/przytulna-kawalerka-pet-friendly-brak-prowizji-jaworzniakow-8-w-poblizu-stacji-pkp-rembertow-CID3-ID1ardzK.html",
-          "published": "2026-04-30",
-          "refreshed": "2026-04-30",
-          "last_refresh_timestamp": "2026-04-30T12:11:04+02:00",
-          "date_text": "Odświeżono 2026-04-30",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/g1zvy4w3pa2r-PL/image;s={width}x{height}",
-          "first_seen": "2026-04-30 19:36:11",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 1600,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1070031855",
-          "title": "2 pokoje blisko UM, brak prowizji - Deotymy 45",
-          "price": 2200,
-          "price_text": "2 200 zł",
-          "url": "https://www.olx.pl/d/oferta/2-pokoje-blisko-um-brak-prowizji-deotymy-45-CID3-ID1apKaj.html",
-          "published": "2026-04-28",
-          "refreshed": "2026-04-28",
-          "last_refresh_timestamp": "2026-04-28T13:39:18+02:00",
-          "date_text": "Odświeżono 2026-04-28",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/bhcbgvmg0cpe2-PL/image;s={width}x{height}",
-          "first_seen": "2026-04-29 09:20:35",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 2200,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
           "id": "1070016636",
           "title": "Przestronne i w pełni rozkładowe 2 pokoje z miejscem parkingowym, brak prowizji- Jeżewskiego 7A",
           "price": 2450,
@@ -70724,66 +69907,6 @@
           "promoted_sessions_count": 0,
           "archived_date": "2026-05-15 12:05:15",
           "reactivation_count": 0
-        },
-        {
-          "id": "1044060815",
-          "title": "*2 pokoje z balkonem i miejscem postojowym, 34 m2 - Szczecińska 37/Przymorze, BRAK PROWIZJI",
-          "price": 2900,
-          "price_text": "2 900 zł",
-          "url": "https://www.olx.pl/d/oferta/2-pokoje-z-balkonem-i-miejscem-postojowym-34-m2-szczecinska-37-przymorze-brak-prowizji-CID3-ID18ELUz.html",
-          "published": "2025-12-12",
-          "refreshed": "2026-04-28",
-          "last_refresh_timestamp": "2026-04-28T11:00:26+02:00",
-          "date_text": "Odświeżono 2026-04-28",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/1qfz2j98i8r3-PL/image;s={width}x{height}",
-          "first_seen": "2026-04-28 09:31:10",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 2900,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1063428187",
-          "title": "Przytulna kawalerka blisko Wola Park- Szulborska 6, BRAK PROWIZJI",
-          "price": 1670,
-          "price_text": "1 670 zł",
-          "url": "https://www.olx.pl/d/oferta/przytulna-kawalerka-blisko-wola-park-szulborska-6-brak-prowizji-CID3-ID19Y2fx.html",
-          "published": "2026-03-27",
-          "refreshed": "2026-04-27",
-          "last_refresh_timestamp": "2026-04-27T13:16:37+02:00",
-          "date_text": "Odświeżono 2026-04-27",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/nc6xj41j0zkm-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-28 06:41:43",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "reactivated": true,
-          "reactivation_history": [
-            {
-              "active_from": "2026-03-28 06:41:43",
-              "active_to": "2026-03-30 13:23:56",
-              "reactivated_at": "2026-04-28 09:31:10",
-              "active_to_current": "2026-05-15 12:05:15"
-            }
-          ],
-          "reactivation_count": 1,
-          "refresh_history": [],
-          "first_price": 1800,
-          "price_change": -130,
-          "previous_price": 1800,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15"
         },
         {
           "id": "998839375",
@@ -70821,47 +69944,6 @@
           "archived_date": "2026-05-15 12:05:15"
         },
         {
-          "id": "946843642",
-          "title": "Wynajmę pokój w promocji na Bemowie przy ul. Gen. Waleriana Czumy 11, BRAK PROWIZJI",
-          "price": 1070,
-          "price_text": "1 070 zł",
-          "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-w-promocji-na-bemowie-przy-ul-gen-waleriana-czumy-11-brak-prowizji-CID3-ID124RhE.html",
-          "published": "2024-09-23",
-          "refreshed": "2026-04-27",
-          "last_refresh_timestamp": "2026-04-27T11:11:18+02:00",
-          "date_text": "Odświeżono 2026-04-27",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/ggm0m9kes7qn1-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-28 06:41:43",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "reactivated": true,
-          "reactivation_history": [
-            {
-              "active_from": "2026-03-28 06:41:43",
-              "active_to": "2026-03-31 12:16:09",
-              "reactivated_at": "2026-04-23 08:59:54",
-              "active_to_current": "2026-04-27 09:27:35"
-            },
-            {
-              "active_from": "2026-03-28 06:41:43",
-              "active_to": "2026-04-27 09:27:35",
-              "reactivated_at": "2026-04-28 09:31:10",
-              "active_to_current": "2026-05-15 12:05:15"
-            }
-          ],
-          "reactivation_count": 2,
-          "refresh_history": [],
-          "first_price": 1200,
-          "price_change": -130,
-          "previous_price": 1200,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15"
-        },
-        {
           "id": "1039523707",
           "title": "3 pokoje z mp w garażu, pet-friendly- Skoroszewska 7, BRAK PROWIZJI",
           "price": 3280,
@@ -70891,95 +69973,6 @@
           "first_price": 3300,
           "price_change": -20,
           "previous_price": 3300,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1057310262",
-          "title": "Kawalerka + balkon i miejsce parkingowe - Ordona 5, BRAK PROWIZJI",
-          "price": 2750,
-          "price_text": "2 750 zł",
-          "url": "https://www.olx.pl/d/oferta/kawalerka-balkon-i-miejsce-parkingowe-ordona-5-brak-prowizji-CID3-ID19ymHk.html",
-          "published": "2026-02-26",
-          "refreshed": "2026-04-27",
-          "last_refresh_timestamp": "2026-04-27T10:11:24+02:00",
-          "date_text": "Odświeżono 2026-04-27",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/6e6r2xfs1gsn1-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-07 15:48:38",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 2,
-          "reactivated": true,
-          "reactivation_history": [],
-          "reactivation_count": 0,
-          "refresh_history": [
-            {
-              "detected_at": "2026-04-17 12:31",
-              "refreshed_at": "2026-04-17"
-            },
-            {
-              "refreshed_at": "2026-04-27T10:11:24+02:00",
-              "detected_at": "2026-04-27 09:27:35",
-              "old_date": "2026-03-28T13:40:27+01:00"
-            }
-          ],
-          "first_price": 2750,
-          "price_change": 0,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15"
-        },
-        {
-          "id": "1069200066",
-          "title": "Słoneczna kawalerka bez prowizji, 24,5 m² – Przy Agorze 3",
-          "price": 2000,
-          "price_text": "2 000 zł",
-          "url": "https://www.olx.pl/d/oferta/sloneczna-kawalerka-bez-prowizji-24-5-m-przy-agorze-3-CID3-ID1amfMm.html",
-          "published": "2026-04-24",
-          "refreshed": "2026-04-24",
-          "last_refresh_timestamp": "2026-04-24T15:43:19+02:00",
-          "date_text": "Odświeżono 2026-04-24",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/1xupyrw2cr2a-PL/image;s={width}x{height}",
-          "first_seen": "2026-04-25 08:09:56",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 2200,
-          "price_change": -200,
-          "previous_price": 2200,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1069138713",
-          "title": "Pokój w promocji w otoczeniu uczelni, brak prowizji - T. Kościuszki, Śródmieście",
-          "price": 650,
-          "price_text": "650 zł",
-          "url": "https://www.olx.pl/d/oferta/pokoj-w-promocji-w-otoczeniu-uczelni-brak-prowizji-t-kosciuszki-srodmiescie-CID3-ID1alZON.html",
-          "published": "2026-04-24",
-          "refreshed": "2026-04-24",
-          "last_refresh_timestamp": "2026-04-24T11:58:49+02:00",
-          "date_text": "Odświeżono 2026-04-24",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/u3zhf7kvkbwq3-PL/image;s={width}x{height}",
-          "first_seen": "2026-04-25 08:09:56",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 800,
-          "price_change": -150,
-          "previous_price": 800,
           "promotion_history": [],
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
@@ -71045,63 +70038,6 @@
           "promoted_days_current": 0,
           "promoted_sessions_count": 0,
           "archived_date": "2026-05-15 12:05:15"
-        },
-        {
-          "id": "1061615519",
-          "title": "Przestronne 3 pokoje na Ursusie – Skoroszewska 1A, BRAK PROWIZJI",
-          "price": 2700,
-          "price_text": "2 700 zł",
-          "url": "https://www.olx.pl/d/oferta/przestronne-3-pokoje-na-ursusie-skoroszewska-1a-brak-prowizji-CID3-ID19QqGX.html",
-          "published": "2026-03-18",
-          "refreshed": "2026-04-17",
-          "last_refresh_timestamp": "2026-04-17T16:28:45+02:00",
-          "date_text": "Odświeżono 2026-04-17",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/k0wpehhlwkhh2-PL/image;s={width}x{height}",
-          "first_seen": "2026-03-19 06:41:23",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 1,
-          "refresh_history": [
-            {
-              "detected_at": "2026-04-11 14:44",
-              "refreshed_at": "2026-04-11"
-            }
-          ],
-          "first_price": 3200,
-          "price_change": -500,
-          "previous_price": 3200,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
-        },
-        {
-          "id": "1067689500",
-          "title": "Słoneczne 3 pokoje z balkonem, brak prowizji - Kobielska 23",
-          "price": 3300,
-          "price_text": "3 300 zł",
-          "url": "https://www.olx.pl/d/oferta/sloneczne-3-pokoje-z-balkonem-brak-prowizji-kobielska-23-CID3-ID1afUOo.html",
-          "published": "2026-04-17",
-          "refreshed": "2026-04-17",
-          "last_refresh_timestamp": "2026-04-17T15:38:03+02:00",
-          "date_text": "Odświeżono 2026-04-17",
-          "image_url": "https://ireland.apollo.olxcdn.com:443/v1/files/4je8gt4a99eu1-PL/image;s={width}x{height}",
-          "first_seen": "2026-04-17 20:47:42",
-          "last_seen": "2026-05-15 09:52:10",
-          "is_promoted": false,
-          "promotion_type": null,
-          "refresh_count": 0,
-          "refresh_history": [],
-          "first_price": 3600,
-          "price_change": -300,
-          "previous_price": 3600,
-          "promotion_history": [],
-          "promoted_days_current": 0,
-          "promoted_sessions_count": 0,
-          "archived_date": "2026-05-15 12:05:15",
-          "reactivation_count": 0
         },
         {
           "id": "1al4SW",
@@ -71380,20 +70316,6 @@
             "change": -190
           }
         ],
-        "1061615519": [
-          {
-            "date": "2026-03-28 06:41:43",
-            "old_price": 3200,
-            "new_price": 2800,
-            "change": -400
-          },
-          {
-            "date": "2026-04-22 08:53:55",
-            "old_price": 2800,
-            "new_price": 2700,
-            "change": -100
-          }
-        ],
         "1060222377": [
           {
             "date": "2026-03-30 13:23:56",
@@ -71430,14 +70352,6 @@
             "old_price": 950,
             "new_price": 890,
             "change": -60
-          }
-        ],
-        "949135492": [
-          {
-            "date": "2026-03-30 16:36:45",
-            "old_price": 900,
-            "new_price": 880,
-            "change": -20
           }
         ],
         "1060219892": [
@@ -71542,20 +70456,6 @@
             "change": -400
           }
         ],
-        "1055508258": [
-          {
-            "date": "2026-04-24 09:06:34",
-            "old_price": 1990,
-            "new_price": 1890,
-            "change": -100
-          },
-          {
-            "date": "2026-04-30 09:23:08",
-            "old_price": 1890,
-            "new_price": 1850,
-            "change": -40
-          }
-        ],
         "1064424683": [
           {
             "date": "2026-04-24 09:06:34",
@@ -71588,14 +70488,6 @@
             "change": 120
           }
         ],
-        "946843642": [
-          {
-            "date": "2026-05-07 09:42:49",
-            "old_price": 1200,
-            "new_price": 1070,
-            "change": -130
-          }
-        ],
         "1039523707": [
           {
             "date": "2026-05-07 09:42:49",
@@ -71604,48 +70496,12 @@
             "change": -20
           }
         ],
-        "1069138713": [
-          {
-            "date": "2026-05-07 09:42:49",
-            "old_price": 800,
-            "new_price": 650,
-            "change": -150
-          }
-        ],
-        "1067689500": [
-          {
-            "date": "2026-05-07 09:42:49",
-            "old_price": 3600,
-            "new_price": 3450,
-            "change": -150
-          },
-          {
-            "date": "2026-05-14 09:39:24",
-            "old_price": 3450,
-            "new_price": 3300,
-            "change": -150
-          }
-        ],
         "1070008013": [
           {
             "date": "2026-05-08 08:26:52",
             "old_price": 2560,
             "new_price": 2490,
             "change": -70
-          }
-        ],
-        "1063428187": [
-          {
-            "date": "2026-05-08 08:26:52",
-            "old_price": 1800,
-            "new_price": 1760,
-            "change": -40
-          },
-          {
-            "date": "2026-05-13 09:52:40",
-            "old_price": 1760,
-            "new_price": 1670,
-            "change": -90
           }
         ],
         "998839375": [
@@ -71664,7 +70520,29 @@
             "change": -110
           }
         ],
-        "1070390694": [
+        "12etuY": [
+          {
+            "date": "2026-03-30 16:36:45",
+            "old_price": 900,
+            "new_price": 880,
+            "change": -20
+          }
+        ],
+        "19qNUK": [
+          {
+            "date": "2026-04-24 09:06:34",
+            "old_price": 1990,
+            "new_price": 1890,
+            "change": -100
+          },
+          {
+            "date": "2026-04-30 09:23:08",
+            "old_price": 1890,
+            "new_price": 1850,
+            "change": -40
+          }
+        ],
+        "1arfv2": [
           {
             "date": "2026-05-13 09:52:40",
             "old_price": 3800,
@@ -71672,12 +70550,70 @@
             "change": -200
           }
         ],
-        "1069200066": [
+        "19Y2fx": [
+          {
+            "date": "2026-05-08 08:26:52",
+            "old_price": 1800,
+            "new_price": 1760,
+            "change": -40
+          },
+          {
+            "date": "2026-05-13 09:52:40",
+            "old_price": 1760,
+            "new_price": 1670,
+            "change": -90
+          }
+        ],
+        "124RhE": [
+          {
+            "date": "2026-05-07 09:42:49",
+            "old_price": 1200,
+            "new_price": 1070,
+            "change": -130
+          }
+        ],
+        "1amfMm": [
           {
             "date": "2026-05-13 09:52:40",
             "old_price": 2200,
             "new_price": 2000,
             "change": -200
+          }
+        ],
+        "1alZON": [
+          {
+            "date": "2026-05-07 09:42:49",
+            "old_price": 800,
+            "new_price": 650,
+            "change": -150
+          }
+        ],
+        "19QqGX": [
+          {
+            "date": "2026-03-28 06:41:43",
+            "old_price": 3200,
+            "new_price": 2800,
+            "change": -400
+          },
+          {
+            "date": "2026-04-22 08:53:55",
+            "old_price": 2800,
+            "new_price": 2700,
+            "change": -100
+          }
+        ],
+        "1afUOo": [
+          {
+            "date": "2026-05-07 09:42:49",
+            "old_price": 3600,
+            "new_price": 3450,
+            "change": -150
+          },
+          {
+            "date": "2026-05-14 09:39:24",
+            "old_price": 3450,
+            "new_price": 3300,
+            "change": -150
           }
         ]
       },
