@@ -2,27 +2,27 @@
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2026-05-20T10:28:41Z",
-    "duration_seconds": 93,
+    "timestamp": "2026-05-21T10:45:44Z",
+    "duration_seconds": 92,
     "profiles_scanned": 7,
-    "total_listings": 439,
+    "total_listings": 426,
     "new_listings": 0,
     "price_changes": 6,
     "errors": []
   },
   "nextScan": {
-    "scheduled": "2026-05-21T07:00:00Z",
-    "in_seconds": 73878
+    "scheduled": "2026-05-22T07:00:00Z",
+    "in_seconds": 72855
   },
   "profiles": {
     "pokojewlublinie": {
       "label": "pokojewlublinie",
-      "count": 4,
+      "count": 3,
       "new_listings": 0,
       "price_changes": 0,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=4, header=4",
-      "duration_seconds": 0.4,
+      "crosscheck_detail": "scraped=3, header=3",
+      "duration_seconds": 1.0,
       "ok": true,
       "error": null
     },
@@ -44,7 +44,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.3,
+      "duration_seconds": 0.4,
       "ok": true,
       "error": null
     },
@@ -61,12 +61,12 @@
     },
     "mzuri": {
       "label": "mzuri",
-      "count": 33,
+      "count": 32,
       "new_listings": 0,
-      "price_changes": 1,
+      "price_changes": 4,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=33, header=33",
-      "duration_seconds": 3.7,
+      "crosscheck_detail": "scraped=32, header=32",
+      "duration_seconds": 4.0,
       "ok": true,
       "error": null
     },
@@ -83,12 +83,12 @@
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 393,
+      "count": 382,
       "new_listings": 0,
-      "price_changes": 5,
+      "price_changes": 2,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=393, header=399",
-      "duration_seconds": 78.0,
+      "crosscheck_detail": "scraped=382, header=388",
+      "duration_seconds": 76.6,
       "ok": true,
       "error": null
     }
