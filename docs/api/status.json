@@ -2,17 +2,17 @@
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2026-05-22T10:28:17Z",
-    "duration_seconds": 85,
+    "timestamp": "2026-05-23T09:08:29Z",
+    "duration_seconds": 93,
     "profiles_scanned": 7,
-    "total_listings": 432,
+    "total_listings": 436,
     "new_listings": 0,
-    "price_changes": 5,
+    "price_changes": 1,
     "errors": []
   },
   "nextScan": {
-    "scheduled": "2026-05-23T07:00:00Z",
-    "in_seconds": 73902
+    "scheduled": "2026-05-24T07:00:00Z",
+    "in_seconds": 78690
   },
   "profiles": {
     "pokojewlublinie": {
@@ -22,7 +22,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=2, header=2",
-      "duration_seconds": 0.4,
+      "duration_seconds": 1.3,
       "ok": true,
       "error": null
     },
@@ -30,7 +30,7 @@
       "label": "poqui",
       "count": 6,
       "new_listings": 0,
-      "price_changes": 1,
+      "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=6, header=6",
       "duration_seconds": 0.2,
@@ -50,23 +50,23 @@
     },
     "dawny_patron": {
       "label": "dawny patron",
-      "count": 3,
+      "count": 2,
       "new_listings": 0,
       "price_changes": 0,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=3, header=3",
-      "duration_seconds": 0.2,
+      "crosscheck_detail": "scraped=2, header=2",
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
     "mzuri": {
       "label": "mzuri",
-      "count": 36,
+      "count": 39,
       "new_listings": 0,
       "price_changes": 0,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=36, header=36",
-      "duration_seconds": 3.5,
+      "crosscheck_detail": "scraped=39, header=39",
+      "duration_seconds": 4.2,
       "ok": true,
       "error": null
     },
@@ -83,12 +83,12 @@
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 385,
+      "count": 387,
       "new_listings": 0,
-      "price_changes": 4,
+      "price_changes": 1,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=385, header=390",
-      "duration_seconds": 71.7,
+      "crosscheck_detail": "scraped=387, header=392",
+      "duration_seconds": 74.8,
       "ok": true,
       "error": null
     }
