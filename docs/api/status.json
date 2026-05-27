@@ -2,17 +2,17 @@
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2026-05-26T12:48:49Z",
-    "duration_seconds": 102,
+    "timestamp": "2026-05-27T11:00:16Z",
+    "duration_seconds": 100,
     "profiles_scanned": 7,
-    "total_listings": 470,
+    "total_listings": 459,
     "new_listings": 0,
-    "price_changes": 4,
+    "price_changes": 3,
     "errors": []
   },
   "nextScan": {
-    "scheduled": "2026-05-27T07:00:00Z",
-    "in_seconds": 65470
+    "scheduled": "2026-05-28T07:00:00Z",
+    "in_seconds": 71983
   },
   "profiles": {
     "pokojewlublinie": {
@@ -22,17 +22,17 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=3, header=3",
-      "duration_seconds": 0.5,
+      "duration_seconds": 0.6,
       "ok": true,
       "error": null
     },
     "poqui": {
       "label": "poqui",
-      "count": 4,
+      "count": 3,
       "new_listings": 0,
       "price_changes": 0,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=4, header=4",
+      "crosscheck_detail": "scraped=3, header=3",
       "duration_seconds": 0.3,
       "ok": true,
       "error": null
@@ -61,11 +61,11 @@
     },
     "mzuri": {
       "label": "mzuri",
-      "count": 47,
+      "count": 45,
       "new_listings": 0,
       "price_changes": 0,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=47, header=47",
+      "crosscheck_detail": "scraped=45, header=45",
       "duration_seconds": 5.6,
       "ok": true,
       "error": null
@@ -77,18 +77,18 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.4,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 413,
+      "count": 405,
       "new_listings": 0,
-      "price_changes": 4,
+      "price_changes": 3,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=413, header=418",
-      "duration_seconds": 85.1,
+      "crosscheck_detail": "scraped=405, header=414",
+      "duration_seconds": 83.8,
       "ok": true,
       "error": null
     }
