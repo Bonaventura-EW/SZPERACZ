@@ -424,14 +424,14 @@ LOG_LEVEL=DEBUG
 ## 📏 Code metrics
 
 ```
-main.py:               ~250 lines
-scraper.py:            ~650 lines
-email_report.py:       ~150 lines
-docs/index.html:       ~850 lines (HTML+CSS+JS)
-.github/workflows:     ~80 lines (YAML)
+main.py:               ~470 lines
+scraper.py:            ~2260 lines
+email_report.py:       ~390 lines
+docs/index.html:       ~2570 lines (HTML+CSS+JS)
+.github/workflows:     ~200 lines (YAML, 4 pliki)
 
-Total LOC:             ~2000 lines
-Languages:             Python (65%), HTML/CSS/JS (30%), YAML (5%)
+Total LOC:             ~5900 lines
+Languages:             Python (~55%), HTML/CSS/JS (~43%), YAML (~3%)
 ```
 
 ---
