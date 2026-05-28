@@ -172,6 +172,7 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 - Gałąź robocza tej sesji: `claude/fervent-mendel-2AWyk`. Commituj i pushuj tam.
 - Commity i komunikaty po polsku, w stylu istniejącej historii.
 - Nie dodawaj PR bez wyraźnej prośby.
+- **Po skończonych zmianach pytaj, czy zmergować je do `main`** (sam nie pushuj do `main` ani nie otwieraj PR bez zgody).
 - Edytuj istniejące pliki; nie twórz nowej dokumentacji bez potrzeby.
 
 ---
