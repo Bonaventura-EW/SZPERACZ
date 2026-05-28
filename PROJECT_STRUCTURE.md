@@ -7,8 +7,10 @@ SZPERACZ/
 │
 ├── 📂 .github/
 │   └── 📂 workflows/
-│       ├── scan.yml                    # GitHub Action: Dzienny scan (9:00 CET)
-│       └── weekly_report.yml           # GitHub Action: Email w poniedziałki (9:30 CET)
+│       ├── scan.yml                    # Dzienny scan (9:00 PL; cron 0 7 latem / 0 8 zimą)
+│       ├── weekly_report.yml           # Email w poniedziałki (9:30 CET)
+│       ├── keep-alive.yml              # Pusty commit co 50 dni (anty-dezaktywacja cronów)
+│       └── failsafe.yml                # 11:00 UTC: dispatch scan.yml jeśli dzisiejszy scan nie poszedł
 │
 ├── 📂 data/                             # Dane (tracked in git, updated by Actions)
 │   ├── dashboard_data.json             # JSON dla dashboardu (90 dni historii)
@@ -235,7 +237,11 @@ requests>=2.31.0           # HTTP client
 beautifulsoup4>=4.12.0     # HTML parser
 openpyxl>=3.1.0            # Excel generation
 lxml>=5.0.0                # BS4 parser (faster)
+playwright>=1.40.0         # główny silnik scrapingu (renderuje OLX)
+brotli>=1.0.0              # WYMAGANY: OLX zwraca Content-Encoding: br
+matplotlib>=3.8.0          # wykresy w mailu
 ```
+> Po instalacji: `playwright install chromium` (raz).
 
 #### **.gitignore**
 ```

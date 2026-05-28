@@ -108,8 +108,10 @@
 SZPERACZ/
 ├── .github/
 │   └── workflows/
-│       ├── scan.yml              # Dzienny scan (7:00 UTC = 8:00 CET / 9:00 CEST)
-│       └── weekly_report.yml     # Email w poniedziałki (9:30 CET)
+│       ├── scan.yml              # Dzienny scan (9:00 PL; cron 0 7 latem / 0 8 zimą)
+│       ├── weekly_report.yml     # Email w poniedziałki (9:30 CET)
+│       ├── keep-alive.yml        # Pusty commit co 50 dni (anty-dezaktywacja)
+│       └── failsafe.yml          # 11:00 UTC: dispatch scan.yml jeśli scan nie poszedł
 ├── data/                         # Dane (tracked in git)
 │   ├── dashboard_data.json       # JSON dla dashboardu
 │   └── szperacz_olx.xlsx         # Excel z historią
@@ -277,6 +279,14 @@ Workflow: `.github/workflows/keep-alive.yml`
   - Keep-alive robi małego commita aby "pokazać aktywność"
 - Tworzy/aktualizuje plik `.github/KEEP_ALIVE.txt` z timestampem
 - **Nie wymaga żadnej akcji z Twojej strony** — działa automatycznie
+
+### Failsafe (codziennie o 11:00 UTC)
+
+Workflow: `.github/workflows/failsafe.yml`
+
+- Sprawdza, czy dzisiejszy scan się wykonał
+- Jeśli **nie** — automatycznie uruchamia (dispatch) `scan.yml`
+- Zabezpieczenie przed pominięciem/opóźnieniem scheduled workflow przez GitHub
 
 ### Email raport (poniedziałki o 9:30)
 
