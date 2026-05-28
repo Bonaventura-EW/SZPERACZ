@@ -1,0 +1,102 @@
+========================================================================
+ SZPERACZ OLX — JAK DZIAŁA API (opis dla człowieka)
+========================================================================
+
+CO TO JEST
+----------
+API SZPERACZA to dwa zwykłe pliki JSON, które po każdym scanie są na nowo
+zapisywane do repo i serwowane przez GitHub Pages. Nie ma serwera, nie ma
+logowania, nie ma haseł — wystarczy pobrać plik z internetu (GET).
+
+Base URL:
+  https://bonaventura-ew.github.io/SZPERACZ/api
+
+Dwa pliki:
+  GET /status.json    -> stan OSTATNIEGO scanu (zawsze najświeższy)
+  GET /history.json   -> 3 OSTATNIE scany (z datami)
+
+WSKAZÓWKA: dopisuj do URL znacznik czasu, żeby ominąć cache, np.:
+  https://bonaventura-ew.github.io/SZPERACZ/api/status.json?t=1716900000000
+
+
+JAK SIĘ ODŚWIEŻA
+----------------
+1. GitHub Action (cron) uruchamia scraper ~9:00 czasu polskiego.
+2. Scraper liczy dla każdego profilu: ile ogłoszeń jest teraz, ile PRZYBYŁO
+   i ile ZNIKNĘŁO względem poprzedniego scanu.
+3. Na końcu scanu zapisuje status.json oraz dopisuje nowy wpis (z datą)
+   do history.json. W history trzymane są TYLKO 3 ostatnie scany.
+4. Action commituje pliki, GitHub Pages udostępnia je po ~30-60 sekundach.
+
+
+CO POKAZUJE status.json
+-----------------------
+Pola najważniejsze:
+
+  status            -> "success" / "partial_failure" / "failure"
+  message           -> opis po polsku
+  lastScan          -> podsumowanie całego scanu:
+       timestamp         kiedy się zakończył (UTC)
+       total_listings    ILE OGŁOSZEŃ ŁĄCZNIE (suma wszystkich profili)
+       added             ile łącznie PRZYBYŁO
+       removed           ile łącznie ZNIKNĘŁO
+       price_changes     ile zmian cen
+  nextScan          -> kiedy planowany następny scan
+  profiles          -> dane dla KAŻDEGO profilu osobno (patrz niżej)
+
+Dla każdego profilu (klucze: wszystkie_pokoje, pokojewlublinie, poqui,
+artymiuk, dawny_patron, mzuri, villahome):
+
+       label             nazwa czytelna (np. "Wszystkie pokoje w Lublinie")
+       count             ile ogłoszeń jest TERAZ
+       added             ile PRZYBYŁO w tym scanie   <-- NOWE
+       removed           ile ZNIKNĘŁO w tym scanie   <-- NOWE
+       price_changes     ile zmian cen
+       crosscheck        czy dane się zgadzają z licznikiem OLX
+       ok                true/false
+       error             null albo opis błędu
+
+PRZYKŁAD (fragment):
+  "wszystkie_pokoje": {
+     "label": "Wszystkie pokoje w Lublinie",
+     "count": 410,        <- tyle jest (kafelek)
+     "added": 16,         <- tyle przybyło (zielona linia na wykresie)
+     "removed": 11,       <- tyle zniknęło (czerwona linia na wykresie)
+     ...
+  }
+
+
+CO POKAZUJE history.json
+------------------------
+  last_updated      -> kiedy zaktualizowano
+  scans[]           -> 3 ostatnie scany, od najstarszego do najnowszego
+  recent[]          -> te same 3 scany, ale od najnowszego (wygodne do UI)
+
+Każdy wpis scanu ma:
+       date              data scanu (RRRR-MM-DD)
+       total_listings    łączna liczba ogłoszeń tego dnia
+       added / removed   łącznie przybyło / zniknęło
+       profiles{}        rozbicie na profile, a w każdym:
+                         count, added, removed (przybyło/zniknęło per profil)
+
+Dzięki temu można narysować wykres "przybyło / zniknęło" z 3 ostatnich scanów
+dla wszystkich profili (wszystkie_pokoje oraz pozostałe).
+
+
+WARTOŚCI added / removed — UWAGA
+--------------------------------
+- Liczba = ile faktycznie przybyło/zniknęło względem poprzedniego scanu.
+- null   = nie dało się policzyć (np. pierwszy scan profilu albo scan
+           pominięty z powodu błędu/blokady OLX). To NIE znaczy "0".
+
+
+CO SIĘ ZMIENIŁO (nowe API)
+--------------------------
+1. Doszły pola "added" (przybyło) i "removed" (zniknęło) — globalnie
+   w lastScan oraz osobno dla każdego profilu.
+2. history.json trzyma teraz 3 ostatnie scany (wcześniej 30).
+3. "added" liczone jest poprawnie z dziennego bilansu ruchu ogłoszeń
+   (wcześniej potrafiło pokazywać 0).
+
+Plik generuje funkcja generate_api_json() w scraper.py.
+Pełna specyfikacja techniczna: openapi.yaml oraz README.md w tym folderze.

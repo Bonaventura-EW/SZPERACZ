@@ -2081,6 +2081,7 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
 
     profiles_status = {}
     total_new = 0
+    total_removed = 0
     total_price_changes = 0
     error_profiles = []
 
@@ -2096,30 +2097,36 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
             ))
         )
 
-        # Nowe ogłoszenia: ID których nie było w poprzednim scanie
-        new_today = 0
-        if pk in existing_data.get("profiles", {}):
-            old_ids = {
-                l["id"]
-                for l in existing_data["profiles"][pk].get("current_listings", [])
-            }
-            for listing in result["listings"]:
-                if listing["listing_id"] not in old_ids:
-                    new_today += 1
+        # Przybyło/zniknęło — odczyt z świeżo zapisanego daily_counts (dzisiejszy wpis).
+        # generate_dashboard_json() liczy added/removed per profil i zapisuje JSON
+        # PRZED tą funkcją, więc bierzemy gotowe wartości zamiast liczyć ponownie.
+        prof_data = existing_data.get("profiles", {}).get(pk, {})
+        added_today = None
+        removed_today = None
+        for dc_entry in reversed(prof_data.get("daily_counts", [])):
+            if dc_entry.get("date") == today_str:
+                added_today = dc_entry.get("added")
+                removed_today = dc_entry.get("removed")
+                break
+
+        new_today = added_today or 0
 
         # Zmiany cen: wpisy w price_history z dzisiaj
         price_changes_today = 0
-        for ph_entries in existing_data.get("profiles", {}).get(pk, {}).get("price_history", {}).values():
+        for ph_entries in prof_data.get("price_history", {}).values():
             for entry in ph_entries:
                 if entry.get("date", "").startswith(today_str):
                     price_changes_today += 1
 
         total_new += new_today
+        total_removed += (removed_today or 0)
         total_price_changes += price_changes_today
 
         profile_entry = {
             "label": PROFILES[pk]["label"],
             "count": count,
+            "added": added_today,
+            "removed": removed_today,
             "new_listings": new_today,
             "price_changes": price_changes_today,
             "crosscheck": crosscheck,
@@ -2165,6 +2172,8 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
             "duration_seconds": duration_seconds,
             "profiles_scanned": profiles_scanned,
             "total_listings": total_listings,
+            "added": total_new,
+            "removed": total_removed,
             "new_listings": total_new,
             "price_changes": total_price_changes,
             "errors": error_profiles,
@@ -2196,6 +2205,8 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
         "message": message,
         "duration_seconds": duration_seconds,
         "total_listings": total_listings,
+        "added": total_new,
+        "removed": total_removed,
         "new_listings": total_new,
         "price_changes": total_price_changes,
         "profiles_scanned": profiles_scanned,
@@ -2204,6 +2215,8 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
             pk: {
                 "label": v["label"],
                 "count": v["count"],
+                "added": v["added"],
+                "removed": v["removed"],
                 "new_listings": v["new_listings"],
                 "price_changes": v["price_changes"],
                 "crosscheck": v["crosscheck"],
@@ -2216,13 +2229,13 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
 
     scans = history_data.get("scans", [])
     scans.append(history_entry)
-    scans = scans[-30:]  # Max 30 wpisów
+    scans = scans[-3:]  # API trzyma 3 ostatnie scany
 
     history_data = {
         "last_updated": now_iso,
         "scans": scans,
         # Shortcut dla aplikacji: 3 najnowsze od razu (od najnowszego)
-        "recent": list(reversed(scans[-3:])),
+        "recent": list(reversed(scans)),
     }
 
     with open(API_HISTORY_PATH, "w", encoding="utf-8") as f:

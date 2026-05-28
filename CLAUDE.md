@@ -73,6 +73,11 @@ Pełna lista: `requirements.txt`.
 - `data/dashboard_data.json` — główny plik stanu (patrz §4).
 - `data/szperacz_olx.xlsx` — pełna historia, arkusze: per-profil, `historia_cen`, `podsumowanie`.
 - `docs/api/status.json`, `docs/api/history.json` — lekki API dla dashboardu/aplikacji.
+  - `status.json` — stan ostatniego scanu: globalnie `total_listings`/`added`/`removed`/`price_changes`
+    oraz per profil `count`/`added`/`removed`/`crosscheck`. `added`/`removed` = przybyło/zniknęło
+    (czytane ze świeżego `daily_counts`; `null` = nie policzono, nie 0).
+  - `history.json` — **3 ostatnie scany** (`scans` od najstarszego, `recent` od najnowszego), z added/removed per profil.
+  - Generuje `generate_api_json()` w scraper.py. Opis: `docs/api/JAK_DZIALA_API.txt`, `README.md`, `openapi.yaml`.
 
 ### Dashboard
 - `docs/index.html` (~2500 linii) — SPA czytająca `dashboard_data.json` i `docs/api/*`.

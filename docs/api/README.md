@@ -11,7 +11,7 @@ Statyczne JSON serwowane przez GitHub Pages. Brak autentykacji. Dane aktualizowa
 | Endpoint | Opis |
 |---|---|
 | `GET /status.json` | Aktualny status ostatniego skanu |
-| `GET /history.json` | Historia 30 skanów + pole `recent` (3 najnowsze) |
+| `GET /history.json` | 3 ostatnie skany (`scans`) + pole `recent` (te same 3, od najnowszego) |
 
 > ⚠️ Dodaj cache-bust do URL: `?t={timestamp_ms}`
 
@@ -28,6 +28,8 @@ Statyczne JSON serwowane przez GitHub Pages. Brak autentykacji. Dane aktualizowa
     "duration_seconds": 94,
     "profiles_scanned": 7,
     "total_listings":   449,
+    "added":            12,
+    "removed":          8,
     "new_listings":     12,
     "price_changes":    3,
     "errors":           []
@@ -40,6 +42,8 @@ Statyczne JSON serwowane przez GitHub Pages. Brak autentykacji. Dane aktualizowa
     "wszystkie_pokoje": {
       "label":             "Wszystkie pokoje w Lublinie",
       "count":             380,
+      "added":             11,
+      "removed":           7,
       "new_listings":      11,
       "price_changes":     0,
       "crosscheck":        "passed",
@@ -86,6 +90,8 @@ Statyczne JSON serwowane przez GitHub Pages. Brak autentykacji. Dane aktualizowa
       "message":          "Skan 7 profili zakończony pomyślnie",
       "duration_seconds": 94,
       "total_listings":   449,
+      "added":            12,
+      "removed":          8,
       "new_listings":     12,
       "price_changes":    3,
       "profiles_scanned": 7,
@@ -94,6 +100,8 @@ Statyczne JSON serwowane przez GitHub Pages. Brak autentykacji. Dane aktualizowa
         "wszystkie_pokoje": {
           "label":        "Wszystkie pokoje w Lublinie",
           "count":        380,
+          "added":        11,
+          "removed":      7,
           "new_listings": 11,
           "price_changes": 0,
           "crosscheck":   "passed",
@@ -104,11 +112,18 @@ Statyczne JSON serwowane przez GitHub Pages. Brak autentykacji. Dane aktualizowa
     }
   ],
 
-  "scans": [ /* pełna historia do 30 wpisów, od najstarszego */ ]
+  "scans": [ /* 3 ostatnie skany, od najstarszego */ ]
 }
 ```
 
-`recent` — tablica 3 najnowszych skanów (od najnowszego). Używaj tego w UI.
+`scans` — 3 ostatnie skany (od najstarszego). `recent` — te same 3, od najnowszego (wygodne do UI).
+
+### Pola `added` / `removed`
+
+- **`added`** — ile ogłoszeń **przybyło** względem poprzedniego skanu.
+- **`removed`** — ile ogłoszeń **zniknęło** względem poprzedniego skanu.
+- `null` = nie dało się policzyć (pierwszy skan profilu lub skan pominięty przez błąd) — to **nie** znaczy 0.
+- `new_listings` = alias `added` (zostaje dla zgodności wstecznej).
 
 ---
 

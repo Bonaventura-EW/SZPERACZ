@@ -61,10 +61,10 @@ paths:
 
   /history.json:
     get:
-      summary: Historia skanów (ostatnie 30 dni)
+      summary: Historia skanów (3 ostatnie)
       description: |
-        Zwraca listę wszystkich skanów z ostatnich 30 dni
-        z podstawowymi informacjami o każdym skanie.
+        Zwraca 3 ostatnie skany (`scans`, od najstarszego) oraz `recent`
+        (te same 3, od najnowszego), z liczbą przybyło/zniknęło per profil.
       operationId: getHistory
       tags:
         - Scan History
@@ -152,9 +152,19 @@ components:
           type: integer
           description: Suma ogłoszeń ze wszystkich profili
           example: 847
+        added:
+          type: integer
+          nullable: true
+          description: Ile ogłoszeń przybyło łącznie względem poprzedniego skanu
+          example: 12
+        removed:
+          type: integer
+          nullable: true
+          description: Ile ogłoszeń zniknęło łącznie względem poprzedniego skanu
+          example: 8
         new_listings:
           type: integer
-          description: Liczba nowych ogłoszeń od poprzedniego skanu
+          description: Alias `added` (zgodność wsteczna)
           example: 12
         price_changes:
           type: integer
@@ -192,6 +202,16 @@ components:
           type: integer
           description: Liczba aktywnych ogłoszeń w profilu
           example: 523
+        added:
+          type: integer
+          nullable: true
+          description: Ile ogłoszeń przybyło w profilu względem poprzedniego skanu
+          example: 16
+        removed:
+          type: integer
+          nullable: true
+          description: Ile ogłoszeń zniknęło w profilu względem poprzedniego skanu
+          example: 11
         crosscheck:
           type: string
           enum:
@@ -258,6 +278,16 @@ components:
           type: integer
           description: Suma ogłoszeń
           example: 847
+        added:
+          type: integer
+          nullable: true
+          description: Ile przybyło łącznie
+          example: 12
+        removed:
+          type: integer
+          nullable: true
+          description: Ile zniknęło łącznie
+          example: 8
         profiles_scanned:
           type: integer
           description: Liczba profili
