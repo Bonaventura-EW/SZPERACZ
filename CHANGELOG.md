@@ -13,6 +13,51 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-05-31] - 🗄️ Refaktor bazy: ledger NDJSON, Excel on-demand, trend pełnej historii
+
+Cel: zatrzymać rozrost repo (`.git` ~209 MB), bo binarny `szperacz_olx.xlsx` (~11,8 MB)
+był commitowany przy KAŻDYM scanie (niedeltowalny zip). Założenie użytkownika: pełna
+historia zachowana na zawsze i bezpieczna, Excel może być generowany.
+
+### Added ✨
+- **`data/history/daily_summary.ndjson`** — append-only ledger trendu (1 linia = 1 skan/profil:
+  `date, time, profile, count, crosscheck, change`). Wieczny, niemutowalny zapis liczby ogłoszeń,
+  niezależny od `dashboard_data.json`. Git deltuje tekst → przyrost ~KB/scan zamiast ~11 MB.
+- **`data/archive/szperacz_olx_archiwum_2026-02-23_do_2026-05-30.xlsx`** — jednorazowy, zamrożony
+  backup całego dotychczasowego xlsx (sha256 identyczny z oryginałem) = literalny snapshot per-skan.
+- **`migrate_xlsx_to_ndjson.py`** — jednorazowa, weryfikowalna migracja (count==liczba wierszy; multiset
+  xlsx == multiset ledger; 1012 linii). Idempotentny (odmawia nadpisania istniejącego ledgera).
+- **`scraper.py`**:
+  - `build_excel_from_data()` — generuje pełny Excel z `dashboard_data.json` + ledger (current+archiwum,
+    `historia_cen` ze zdarzeń cen, `trend_dzienny` z ledgera, `podsumowanie`). Wynik ~0,18 MB vs 11,8 MB.
+  - `append_history()` — append-only zapis do ledgera; ta sama ochrona „count==0/błąd scrapera nie psuje danych".
+  - `generate_trend_full()` — buduje `docs/api/trend_full.json` (pełna historia `count`, 1 punkt/dzień/profil).
+- **Dashboard** — przy tytule „Trend w czasie" przycisk **📅 90 dni / 🗓️ Cała historia**. Domyślnie 90 dni;
+  po włączeniu metryka „Ogłoszenia" pokazuje całą historię z ledgera. Pozostałe metryki (mediana, promowane,
+  przybyło/zniknęło) nie mają danych historycznych >90 dni → komunikat. Fetch `trend_full.json` best-effort.
+
+### Changed 🔄
+- **`run_scan()`** — `update_excel()` zastąpione przez `append_history()` + `generate_trend_full()`.
+  Excel NIE jest już zapisywany do repo (generowany na żądanie przy raporcie tygodniowym).
+- **`email_report.py`** — załącznik Excela generowany do `/tmp` przez `build_excel_from_data()`
+  (fallback: jeśli zawiedzie, mail wychodzi bez załącznika).
+- **`generate_dashboard_json()`** — stabilna serializacja `dashboard_data.json` (sort list ogłoszeń po `id`
+  + `sort_keys`) → diff przestał być „churnem" z przestawiania kolejności (dashboard sortuje po stronie klienta).
+- **`.gitignore`** — `data/szperacz_olx.xlsx` ignorowany (generowany on-demand); `data/email_preview.html` ignorowany.
+
+### Removed 🗑️
+- `data/szperacz_olx.xlsx` i `data/dashboard_data_backup_refreshed_count.json` — odpięte od trackingu
+  (xlsx zachowany w `data/archive/` + w historii gita; backup-śmieć usunięty na stałe).
+
+### Technical notes
+- Stara `update_excel()` pozostawiona w kodzie (legacy, niewywoływana w pipeline).
+- Istniejący `.git` (~209 MB) NIE jest czyszczony — refaktor zatrzymuje PRZYSZŁY przyrost; odzyskanie wstecz
+  wymagałoby `git filter-repo` + force-push (operacja osobna, destrukcyjna).
+- Rozbieżności count xlsx vs `daily_counts` (11/630) okazały się efektem wielu skanów w jednym dniu
+  (first-of-day w JSON vs last-of-day) — nie utratą danych. Ledger per-skan zachowuje wszystkie pomiary.
+
+---
+
 ## [2026-05-16] - 🔧 Refresh detection oparta o datę (max 1/dzień)
 
 ### Fixed 🐛

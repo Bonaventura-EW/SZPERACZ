@@ -48,12 +48,15 @@
   - Competitor benchmarking po strategii marketingowej
 
 ### 📁 Eksport danych
-- **Excel** (`data/szperacz_olx.xlsx`):
-  - Arkusz dla każdego profilu z historią skanów
-  - Kolumny: Data | Tytuł | Cena | 🎯 Prom. | Dni prom. | Sesje | Typ | Zmiana ceny | Data publ. | Data odsw. | **Liczba odsw.** | URL | ID
+- **Excel** — **generowany na żądanie** (nie trzymany w repo), dołączany do raportu tygodniowego.
+  Tworzy go `build_excel_from_data()` z `dashboard_data.json` + ledgera:
+  - Arkusz dla każdego profilu (aktywne + archiwalne ogłoszenia)
   - Arkusz "historia_cen" ze wszystkimi zmianami cen
+  - Arkusz "trend_dzienny" — pełna historia liczby ogłoszeń (z ledgera)
   - Arkusz "podsumowanie" z bieżącym statusem
-  - Kolorowe formatowanie (zielony ↑ czerwony ↓, emoji badges dla promoted)
+  - Kolorowe formatowanie (zielony ↑ czerwony ↓)
+  - Pełny, zamrożony backup historyczny: `data/archive/szperacz_olx_archiwum_*.xlsx`
+- **Ledger trendu** (`data/history/daily_summary.ndjson`): append-only, wieczna historia liczby ogłoszeń.
   
 - **JSON** (`data/dashboard_data.json`):
   - Struktura zoptymalizowana pod dashboard
@@ -113,9 +116,13 @@ SZPERACZ/
 │       ├── keep-alive.yml        # Pusty commit co 50 dni (anty-dezaktywacja)
 │       └── failsafe.yml          # 11:00 UTC: dispatch scan.yml jeśli scan nie poszedł
 ├── data/                         # Dane (tracked in git)
-│   ├── dashboard_data.json       # JSON dla dashboardu
-│   └── szperacz_olx.xlsx         # Excel z historią
+│   ├── dashboard_data.json       # JSON dla dashboardu (pełne dane per-ogłoszenie)
+│   ├── history/
+│   │   └── daily_summary.ndjson  # Append-only ledger trendu (wieczna historia count)
+│   └── archive/                  # Zamrożony backup starego xlsx (jednorazowy)
+│   # data/szperacz_olx.xlsx — generowany na żądanie, w .gitignore
 ├── docs/
+│   ├── api/trend_full.json       # Pełna historia count (dla przycisku "Cała historia")
 │   └── index.html                # Dashboard (GitHub Pages)
 ├── logs/                         # Logi (git ignored)
 │   └── szperacz_YYYYMMDD.log
@@ -396,11 +403,12 @@ curl -A "Mozilla/5.0" https://www.olx.pl/oferty/uzytkownik/XXXXX/
    const DATA_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/data/dashboard_data.json`;
    ```
 
-### Problem: Excel jest zbyt duży (>100MB)
+### Problem: Excel jest zbyt duży / rozrost repo
 
-**Rozwiązanie:**
-- Usuń starsze wiersze ręcznie lub przez skrypt
-- Dodaj `data/szperacz_olx.xlsx` do `.gitignore` (dane będą tylko w JSON)
+**Rozwiązane (2026-05-31):** Excel NIE jest już commitowany — jest generowany na żądanie
+(`build_excel_from_data()`) i dołączany do raportu tygodniowego. Trend trzymany jest w lekkim,
+append-only ledgerze `data/history/daily_summary.ndjson`, a pełny stary xlsx zamrożono w `data/archive/`.
+Jeśli chcesz odzyskać miejsce w `.git` *wstecz* — wymaga to `git filter-repo` + force-push (operacja destrukcyjna).
 
 ---
 
