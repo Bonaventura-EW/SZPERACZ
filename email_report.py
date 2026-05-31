@@ -343,20 +343,26 @@ def send_report():
     msg["Subject"] = subject
     msg.attach(MIMEText(build_report_html(), "html", "utf-8"))
 
-    if os.path.exists(EXCEL_PATH):
-        try:
-            with open(EXCEL_PATH, "rb") as f:
-                part = MIMEBase("application", "vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                part.set_payload(f.read())
-                encoders.encode_base64(part)
-                part.add_header(
-                    "Content-Disposition",
-                    f'attachment; filename="szperacz_olx_{today.strftime("%Y%m%d")}.xlsx"',
-                )
-                msg.attach(part)
-            log.info("Excel attached.")
-        except Exception as e:
-            log.warning(f"Could not attach Excel: {e}")
+    # Excel generowany na żądanie z dashboard_data.json + ledger (NIE jest trzymany w repo).
+    # Fallback: jeśli generowanie/załączenie zawiedzie, mail i tak wychodzi (raport HTML ma dane).
+    try:
+        import tempfile
+        import scraper  # build_excel_from_data
+        xlsx_path = os.path.join(tempfile.gettempdir(),
+                                 f"szperacz_olx_{today.strftime('%Y%m%d')}.xlsx")
+        scraper.build_excel_from_data(xlsx_path)
+        with open(xlsx_path, "rb") as f:
+            part = MIMEBase("application", "vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            part.set_payload(f.read())
+            encoders.encode_base64(part)
+            part.add_header(
+                "Content-Disposition",
+                f'attachment; filename="szperacz_olx_{today.strftime("%Y%m%d")}.xlsx"',
+            )
+            msg.attach(part)
+        log.info(f"Excel wygenerowany i załączony ({os.path.getsize(xlsx_path)} B).")
+    except Exception as e:
+        log.warning(f"Nie udało się wygenerować/załączyć Excela: {e}")
 
     try:
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
