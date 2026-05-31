@@ -72,6 +72,8 @@ DOCS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs")
 API_DIR = os.path.join(DOCS_DIR, "api")
 EXCEL_PATH = os.path.join(DATA_DIR, "szperacz_olx.xlsx")
 JSON_PATH = os.path.join(DATA_DIR, "dashboard_data.json")
+HISTORY_DIR = os.path.join(DATA_DIR, "history")
+HISTORY_LEDGER = os.path.join(HISTORY_DIR, "daily_summary.ndjson")
 API_STATUS_PATH = os.path.join(API_DIR, "status.json")
 API_HISTORY_PATH = os.path.join(API_DIR, "history.json")
 
@@ -1514,6 +1516,156 @@ def update_excel(scan_results, scan_timestamp):
 
     wb.save(EXCEL_PATH)
     log.info(f"Excel saved: {EXCEL_PATH}")
+
+
+# ─── Excel generowany na żądanie (z JSON + ledger) ──────────────────────────
+
+def _load_daily_ledger(ledger_path=HISTORY_LEDGER):
+    """Wczytuje append-only ledger trendu dziennego (NDJSON). Pusta lista jeśli brak."""
+    rows = []
+    if os.path.exists(ledger_path):
+        with open(ledger_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    rows.append(json.loads(line))
+    return rows
+
+
+def build_excel_from_data(output_path, json_path=JSON_PATH, ledger_path=HISTORY_LEDGER):
+    """
+    Buduje kompletny arkusz Excela z `dashboard_data.json` (pełne dane per-ogłoszenie:
+    current + archived + price_history) oraz z ledgera trendu dziennego (NDJSON).
+    Nie modyfikuje żadnych plików źródłowych — zapisuje TYLKO do `output_path`.
+    Zwraca `output_path`. Używane do załącznika maila (nie commitowane do repo).
+    """
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    profiles = data.get("profiles", {})
+    ledger = _load_daily_ledger(ledger_path)
+
+    wb = Workbook()
+    wb.remove(wb.active)
+
+    # ── Arkusze per profil: aktywne + archiwalne ogłoszenia ──
+    prof_headers = [
+        "Status", "Tytuł", "Cena (zł)", "Pierwsza cena", "Zmiana ceny",
+        "Promowane", "Typ prom.", "Dni prom.", "Liczba odświeżeń",
+        "Data publikacji", "Data odświeżenia", "Pierwszy raz", "Ostatni raz",
+        "Data archiwizacji", "URL", "ID ogłoszenia",
+    ]
+    for pk, pd_ in profiles.items():
+        ws = get_or_create_sheet(wb, pk[:31], prof_headers)
+        rows = ([("aktywne", l) for l in pd_.get("current_listings", [])] +
+                [("archiwum", l) for l in pd_.get("archived_listings", [])])
+        r = 2
+        for status, l in rows:
+            ws.cell(row=r, column=1, value=status)
+            ws.cell(row=r, column=2, value=l.get("title"))
+            ws.cell(row=r, column=3, value=l.get("price"))
+            ws.cell(row=r, column=4, value=l.get("first_price"))
+            pc = l.get("price_change")
+            ch_cell = ws.cell(row=r, column=5, value=pc)
+            ws.cell(row=r, column=6, value="✓" if l.get("is_promoted") else "—")
+            ws.cell(row=r, column=7, value=l.get("promotion_type") or "—")
+            ws.cell(row=r, column=8, value=l.get("promoted_days_current", 0))
+            ws.cell(row=r, column=9, value=l.get("refresh_count", 0))
+            ws.cell(row=r, column=10, value=l.get("published") or "")
+            ws.cell(row=r, column=11, value=l.get("refreshed") or "")
+            ws.cell(row=r, column=12, value=l.get("first_seen") or "")
+            ws.cell(row=r, column=13, value=l.get("last_seen") or "")
+            ws.cell(row=r, column=14, value=l.get("archived_date") or "")
+            ws.cell(row=r, column=15, value=l.get("url"))
+            ws.cell(row=r, column=16, value=l.get("id"))
+            for c in range(1, 17):
+                f = (UP_FONT if (c == 5 and isinstance(pc, (int, float)) and pc > 0)
+                     else DOWN_FONT if (c == 5 and isinstance(pc, (int, float)) and pc < 0)
+                     else DATA_FONT)
+                style_data_cell(ws.cell(row=r, column=c), f)
+            r += 1
+        for idx, w in enumerate([10, 50, 12, 12, 12, 11, 14, 9, 12, 16, 16, 16, 16, 16, 60, 15], 1):
+            ws.column_dimensions[get_column_letter(idx)].width = w
+
+    # ── historia_cen: wszystkie zdarzenia zmiany ceny ──
+    ph = ["Data", "Profil", "ID ogłoszenia", "Tytuł", "Stara cena", "Nowa cena", "Zmiana", "URL"]
+    ws_p = get_or_create_sheet(wb, "historia_cen", ph)
+    r = 2
+    price_rows = []
+    for pk, pd_ in profiles.items():
+        # mapa id -> (title, url) z current + archived
+        meta = {}
+        for l in pd_.get("current_listings", []) + pd_.get("archived_listings", []):
+            meta[l.get("id")] = (l.get("title"), l.get("url"))
+        for lid, events in pd_.get("price_history", {}).items():
+            title, url = meta.get(lid, (None, None))
+            for ev in events:
+                price_rows.append((ev.get("date"), pk, lid, title,
+                                   ev.get("old_price"), ev.get("new_price"),
+                                   ev.get("change"), url))
+    price_rows.sort(key=lambda x: (x[0] or "", x[1], str(x[2])))
+    for date, pk, lid, title, op, np_, chg, url in price_rows:
+        ws_p.cell(row=r, column=1, value=date)
+        ws_p.cell(row=r, column=2, value=pk)
+        ws_p.cell(row=r, column=3, value=lid)
+        ws_p.cell(row=r, column=4, value=title)
+        ws_p.cell(row=r, column=5, value=op)
+        ws_p.cell(row=r, column=6, value=np_)
+        ws_p.cell(row=r, column=7, value=chg)
+        ws_p.cell(row=r, column=8, value=url)
+        for c in range(1, 9):
+            f = (DOWN_FONT if (c == 7 and isinstance(chg, (int, float)) and chg < 0)
+                 else UP_FONT if (c == 7 and isinstance(chg, (int, float)) and chg > 0)
+                 else DATA_FONT)
+            style_data_cell(ws_p.cell(row=r, column=c), f)
+        r += 1
+    for idx, w in enumerate([12, 18, 15, 50, 12, 12, 12, 60], 1):
+        ws_p.column_dimensions[get_column_letter(idx)].width = w
+
+    # ── trend_dzienny: WIECZNY trend z ledgera (1 wiersz = 1 skan) ──
+    th = ["Data", "Godzina", "Profil", "Liczba ogłoszeń", "Crosscheck", "Zmiana vs poprzedni"]
+    ws_t = get_or_create_sheet(wb, "trend_dzienny", th)
+    r = 2
+    for row in ledger:
+        ws_t.cell(row=r, column=1, value=row.get("date"))
+        ws_t.cell(row=r, column=2, value=row.get("time"))
+        ws_t.cell(row=r, column=3, value=row.get("profile"))
+        ws_t.cell(row=r, column=4, value=row.get("count"))
+        ws_t.cell(row=r, column=5, value=row.get("crosscheck"))
+        chg = row.get("change")
+        ws_t.cell(row=r, column=6, value=chg)
+        for c in range(1, 7):
+            f = (UP_FONT if (c == 6 and isinstance(chg, (int, float)) and chg > 0)
+                 else DOWN_FONT if (c == 6 and isinstance(chg, (int, float)) and chg < 0)
+                 else DATA_FONT)
+            style_data_cell(ws_t.cell(row=r, column=c), f)
+        r += 1
+    for idx, w in enumerate([12, 10, 20, 16, 14, 18], 1):
+        ws_t.column_dimensions[get_column_letter(idx)].width = w
+
+    # ── podsumowanie: aktualny stan per profil ──
+    sh = ["Profil", "Label", "Aktywne", "Archiwalne", "Ostatni skan"]
+    ws_s = wb.create_sheet("podsumowanie")
+    for ci, h in enumerate(sh, 1):
+        ws_s.cell(row=1, column=ci, value=h)
+    style_header_row(ws_s, 1, len(sh))
+    ri = 2
+    last_scan = data.get("last_scan", "")
+    for pk, pd_ in profiles.items():
+        ws_s.cell(row=ri, column=1, value=pk)
+        ws_s.cell(row=ri, column=2, value=pd_.get("label", PROFILES.get(pk, {}).get("label", pk)))
+        ws_s.cell(row=ri, column=3, value=len(pd_.get("current_listings", [])))
+        ws_s.cell(row=ri, column=4, value=len(pd_.get("archived_listings", [])))
+        ws_s.cell(row=ri, column=5, value=last_scan)
+        for c in range(1, 6):
+            style_data_cell(ws_s.cell(row=ri, column=c))
+        ri += 1
+    for idx, w in enumerate([20, 30, 12, 12, 20], 1):
+        ws_s.column_dimensions[get_column_letter(idx)].width = w
+
+    os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+    wb.save(output_path)
+    log.info(f"Excel (z JSON+ledger) zapisany: {output_path}")
+    return output_path
 
 
 # ─── JSON for Dashboard ─────────────────────────────────────────────────────
