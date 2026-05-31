@@ -2264,8 +2264,17 @@ def generate_dashboard_json(scan_results, scan_timestamp):
     if len(data["scan_history"]) > 90:
         data["scan_history"] = data["scan_history"][-90:]
 
+    # Stabilna serializacja: deterministyczna kolejność list ogłoszeń + kluczy.
+    # Dashboard sortuje po stronie klienta, więc kolejność w pliku jest dla niego
+    # nieistotna — a stała kolejność drastycznie zmniejsza diff w gicie (mniej churnu).
+    for pk, pd_ in data.get("profiles", {}).items():
+        if isinstance(pd_.get("current_listings"), list):
+            pd_["current_listings"].sort(key=lambda l: str(l.get("id", "")))
+        if isinstance(pd_.get("archived_listings"), list):
+            pd_["archived_listings"].sort(key=lambda l: str(l.get("id", "")))
+
     with open(JSON_PATH, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+        json.dump(data, f, ensure_ascii=False, indent=2, sort_keys=True)
     log.info(f"Dashboard JSON saved: {JSON_PATH}")
 
 
