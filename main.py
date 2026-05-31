@@ -401,6 +401,7 @@ def show_status(log):
     data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
     json_path = os.path.join(data_dir, "dashboard_data.json")
     excel_path = os.path.join(data_dir, "szperacz_olx.xlsx")
+    ledger_path = os.path.join(data_dir, "history", "daily_summary.ndjson")
 
     if os.path.exists(json_path):
         try:
@@ -414,8 +415,19 @@ def show_status(log):
     else:
         log.warning(f"Dashboard JSON not found: {json_path}")
 
+    # Excel nie jest już trzymany w repo — generowany na żądanie (raport tygodniowy).
     if os.path.exists(excel_path):
-        log.info(f"Excel size: {os.path.getsize(excel_path) / (1024*1024):.2f} MB")
+        log.info(f"Excel (lokalny, niewersjonowany): {os.path.getsize(excel_path) / (1024*1024):.2f} MB")
+    else:
+        log.info("Excel: generowany na żądanie z JSON+ledger (nie w repo)")
+
+    if os.path.exists(ledger_path):
+        with open(ledger_path, 'r', encoding='utf-8') as f:
+            n_lines = sum(1 for _ in f)
+        size_kb = os.path.getsize(ledger_path) / 1024
+        log.info(f"Ledger trendu (NDJSON): {n_lines} wpisów, {size_kb:.0f} KB")
+    else:
+        log.warning(f"Ledger nie znaleziony: {ledger_path}")
 
     log.info(f"Python: {sys.version.split()[0]}")
     log.info(f"EMAIL_PASSWORD set: {'Yes' if os.environ.get('EMAIL_PASSWORD') else 'No'}")

@@ -55,13 +55,20 @@ Pełna lista: `requirements.txt`.
   - `parse_card()` / `parse_listings_from_soup()` — parsowanie kart ogłoszeń (selektor `[data-cy="l-card"]` z fallbackami).
   - `detect_promoted_status()` / `promotion_dict_to_fields()` — wykrywanie płatnych promocji.
   - `generate_dashboard_json()` — scala nowy scan ze stanem: archiwizacja, ceny, refresh, reaktywacje, promocje, daily_counts.
-  - `update_excel()` — zapis arkuszy Excela.
+    Na końcu **stabilna serializacja** (sort list po `id` + `sort_keys`) → mały diff w gicie.
+  - `append_history()` — **append-only** zapis do ledgera `data/history/daily_summary.ndjson` (1 linia/skan/profil).
+    Zachowuje ochronę „count==0/błąd scrapera nie psuje danych".
+  - `build_excel_from_data()` — generuje Excel z `dashboard_data.json` + ledger **na żądanie** (do `/tmp`, NIE do repo).
+  - `generate_trend_full()` — pisze `docs/api/trend_full.json` (pełna historia `count`, 1 punkt/dzień/profil, z ledgera).
+  - `update_excel()` — **legacy, niewywoływane** (stary zapis xlsx do repo; zostawione na wszelki wypadek).
   - `generate_api_json()` — pisze `docs/api/status.json` + `history.json` (ostatnie 30 scanów).
-  - `run_scan()` — orkiestracja: scrape → JSON → Excel → API.
+  - `run_scan()` — orkiestracja: scrape → JSON → **append_history** → API → **trend_full** (bez zapisu xlsx do repo).
   - `verify_listing_active()` — przed archiwizacją sprawdza, czy ogłoszenie naprawdę zniknęło.
+- `migrate_xlsx_to_ndjson.py` — jednorazowa, zweryfikowana migracja starego xlsx → ledger NDJSON (idempotentna).
 - `email_report.py` — raport tygodniowy. `SENDER_EMAIL = slowholidays00@gmail.com`,
   `RECEIVER_EMAIL = malczarski@gmail.com`. `build_report_html()` (podsumowanie rynku, wykresy,
-  top spadki cen, nowe ogłoszenia, wiersze per profil), `send_report()` (SMTP Gmail + załącznik Excel),
+  top spadki cen, nowe ogłoszenia, wiersze per profil), `send_report()` (SMTP Gmail + załącznik Excel
+  **generowany na żądanie** przez `build_excel_from_data()` do `/tmp`; fallback: mail bez załącznika),
   `save_preview()` → `data/email_preview.html`.
 
 ### Skrypty pomocnicze (jednorazowe naprawy/migracje danych)
@@ -75,9 +82,12 @@ Pełna lista: `requirements.txt`.
   > Te skrypty modyfikują `data/*.json`. Uruchamiaj świadomie, rób kopię/commit przed.
 
 ### Dane (commitowane do repo!)
-- `data/dashboard_data.json` — główny plik stanu (patrz §4).
-- `data/szperacz_olx.xlsx` — pełna historia, arkusze: per-profil, `historia_cen`, `podsumowanie`.
+- `data/dashboard_data.json` — główny plik stanu (patrz §4). Pełne dane per-ogłoszenie (current + archiwum).
+- `data/history/daily_summary.ndjson` — **append-only ledger** trendu: wieczna historia `count` (1 linia/skan/profil).
+- `data/archive/szperacz_olx_archiwum_*.xlsx` — **zamrożony, jednorazowy** backup całego starego xlsx (literalny snapshot per-skan).
+- `data/szperacz_olx.xlsx` — **NIE commitowany** (w `.gitignore`); generowany na żądanie przez `build_excel_from_data()`.
 - `docs/api/status.json`, `docs/api/history.json` — lekki API dla dashboardu/aplikacji.
+- `docs/api/trend_full.json` — pełna historia `count` per profil (źródło dla przycisku „Cała historia" na wykresie trendu).
   - `status.json` — stan ostatniego scanu: globalnie `total_listings`/`added`/`removed`/`price_changes`
     oraz per profil `count`/`added`/`removed`/`crosscheck`. `added`/`removed` = przybyło/zniknęło
     (czytane ze świeżego `daily_counts`; `null` = nie policzono, nie 0).
@@ -85,9 +95,11 @@ Pełna lista: `requirements.txt`.
   - Generuje `generate_api_json()` w scraper.py. Opis: `docs/api/JAK_DZIALA_API.txt`, `README.md`, `openapi.yaml`.
 
 ### Dashboard
-- `docs/index.html` (~2500 linii) — SPA czytająca `dashboard_data.json` i `docs/api/*`.
-  Karty profili, wykresy (słupkowy 7/14/30 dni, liniowy z zoomem, 4 metryki),
+- `docs/index.html` (~2500 linii) — SPA czytająca `dashboard_data.json`, `docs/api/*` oraz (leniwie) `trend_full.json`.
+  Karty profili, wykresy (słupkowy 7/14/30 dni, liniowy z zoomem, 5 metryk),
   sortowalne tabele aktywnych/archiwalnych, tryb jasny/ciemny, przycisk ręcznego scanu (przez GitHub PAT).
+  Wykres „Trend w czasie": przycisk **📅 90 dni / 🗓️ Cała historia** — pełna historia działa dla metryki
+  „Ogłoszenia" (z `trend_full.json`); inne metryki nie mają danych >90 dni (komunikat).
 
 ### Automatyzacja (`.github/workflows/`)
 - `scan.yml` — `cron: '0 7 * * *'` (LATEM/CEST = 9:00 PL). Uruchamia scraper, commituje `data/` + `docs/api/`. Wymaga `permissions: contents: write`.
@@ -116,7 +128,7 @@ CHANGELOG.md (pełna historia zmian) + raporty napraw (NAPRAWA_*, ROOT_CAUSE_RAP
         image_url, refresh_count, refresh_history[],
         reactivated, reactivation_history[], reactivation_count
       } ],
-      "archived_listings": [ { ...jw. + archived_date } ],   // BEZ LIMITU (paginacja po stronie dashboardu, scraper.py:2012)
+      "archived_listings": [ { ...jw. + archived_date } ],   // BEZ LIMITU (paginacja po stronie dashboardu, scraper.py:2251)
       "price_history": { "<id>": [ {date, old_price, new_price, change} ] },
       "daily_counts": [ {date, count, added, removed, new_count, median_price,
                          price_distribution, refreshed_count, reactivated_count, promoted_count} ], // limit 90 dni
@@ -173,18 +185,23 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 - **Dane są w gicie.** `data/*` i `docs/api/*` są commitowane. Przy ręcznych naprawach danych
   najpierw commit/backup — git history to jedyny backup.
 - **Retencja ≠ okno scrapingu.** Scraper pobiera WSZYSTKIE ogłoszenia obecne na OLX *teraz* (bez okna
-  czasowego). Przycinane są tylko agregaty: `daily_counts[-90:]` (scraper.py:1710) i `scan_history[-90:]`
-  (scraper.py:2059) → wykresy trendów obejmują ~90 dni. Natomiast `current_listings`, `archived_listings`
-  (nieograniczone!) oraz `price_history`/`refresh_history`/`promotion_history` rosną BEZ limitu → `dashboard_data.json`
-  puchnie latami. To (obok binarnego `xlsx`) główne źródło rozrostu repo.
+  czasowego). Przycinane są tylko agregaty: `daily_counts[-90:]` (scraper.py:1949) i `scan_history[-90:]`
+  (scraper.py:2298) → wykresy trendów obejmują ~90 dni (w dashboardzie + `daily_counts`). Pełną historię `count`
+  trzyma natomiast ledger `data/history/daily_summary.ndjson` (bez limitu) → przycisk „Cała historia". `current_listings`,
+  `archived_listings` (nieograniczone!) oraz `price_history`/`refresh_history`/`promotion_history` rosną BEZ limitu →
+  `dashboard_data.json` puchnie latami (główne źródło rozrostu repo po odpięciu binarnego `xlsx`).
 - **Archiwizacja po znikinięciu** weryfikowana przez `verify_listing_active()` (false positives przy blokadach OLX).
+- **Excel NIE jest w repo.** Od 2026-05-31 `szperacz_olx.xlsx` jest w `.gitignore` i generowany na żądanie
+  (`build_excel_from_data()`), bo binarny xlsx commitowany co scan rozdymał `.git`. Wieczny zapis trendu to
+  append-only ledger `data/history/daily_summary.ndjson` (NIGDY nie przepisuj — tylko dopisuj). Literalny snapshot
+  starej historii jest zamrożony w `data/archive/`. Nie przywracaj commitowania xlsx.
 - **Email**: `EMAIL_PASSWORD` to 16-znakowy Gmail App Password (nie hasło konta), w GitHub Secrets.
 
 ---
 
 ## 8. Konwencje pracy w tym repo
 
-- Gałąź robocza tej sesji: `claude/fervent-mendel-2AWyk`. Commituj i pushuj tam.
+- Gałąź robocza tej sesji: `claude/vibrant-lamport-L2Uq9`. Commituj i pushuj tam.
 - Commity i komunikaty po polsku, w stylu istniejącej historii.
 - Nie dodawaj PR bez wyraźnej prośby.
 - **Po skończonych zmianach pytaj, czy zmergować je do `main`** (sam nie pushuj do `main` ani nie otwieraj PR bez zgody).
