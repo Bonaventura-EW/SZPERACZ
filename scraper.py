@@ -1668,6 +1668,59 @@ def build_excel_from_data(output_path, json_path=JSON_PATH, ledger_path=HISTORY_
     return output_path
 
 
+def append_history(scan_results, scan_timestamp, ledger_path=HISTORY_LEDGER, json_path=JSON_PATH):
+    """
+    Dopisuje (APPEND-ONLY) do ledgera trendu dziennego po jednej linii na profil.
+    Nigdy nie nadpisuje istniejących linii. Zachowuje tę samą ochronę co
+    `generate_dashboard_json`: przy błędzie scrapera (a mając wcześniejsze dane)
+    NIE dopisuje fałszywego zera — pomija profil, żeby nie zafałszować trendu.
+
+    WAŻNE: wywoływane PO `generate_dashboard_json`, więc `dashboard_data.json`
+    jest już zaktualizowany (chroni current_listings przy błędach).
+    """
+    os.makedirs(os.path.dirname(ledger_path), exist_ok=True)
+
+    # Ostatni znany count per profil (do pola `change`)
+    last_count = {}
+    for row in _load_daily_ledger(ledger_path):
+        last_count[row["profile"]] = row["count"]
+
+    # Liczba aktualnych ogłoszeń per profil z JSON (już zaktualizowany)
+    prior_listing_count = {}
+    if os.path.exists(json_path):
+        try:
+            with open(json_path, "r", encoding="utf-8") as f:
+                d = json.load(f)
+            for pk, pd_ in d.get("profiles", {}).items():
+                prior_listing_count[pk] = len(pd_.get("current_listings", []))
+        except (json.JSONDecodeError, IOError):
+            pass
+
+    date = scan_timestamp.strftime("%Y-%m-%d")
+    time_s = scan_timestamp.strftime("%H:%M")
+    appended = 0
+    with open(ledger_path, "a", encoding="utf-8") as f:
+        for pk, result in scan_results.items():
+            crosscheck = result.get("crosscheck", "")
+            header_count = result.get("header_count")
+            count = result.get("count", 0)
+            is_scraper_error = (crosscheck == "error"
+                                or (count == 0 and header_count is None))
+            if is_scraper_error and prior_listing_count.get(pk, 0) > 0:
+                log.warning(f"[{pk}] Pomijam wpis do ledgera — błąd scrapera "
+                            f"(crosscheck={crosscheck}, header={header_count})")
+                continue
+            prev = last_count.get(pk)
+            change = (count - prev) if prev is not None else 0
+            rec = {"date": date, "time": time_s, "profile": pk, "count": count,
+                   "crosscheck": crosscheck, "change": change, "source": "scan"}
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            last_count[pk] = count
+            appended += 1
+    log.info(f"Ledger: dopisano {appended} wpisów -> {ledger_path}")
+    return appended
+
+
 # ─── JSON for Dashboard ─────────────────────────────────────────────────────
 
 def load_existing_json():
@@ -2413,9 +2466,11 @@ def run_scan():
 
     duration_seconds = int(time.time() - start_time)
     
-    # Generate JSON first so Excel can load updated refresh_count
+    # Najpierw JSON (pełny stan per-ogłoszenie), potem append-only ledger trendu.
+    # Excel NIE jest już zapisywany do repo — generowany na żądanie (build_excel_from_data)
+    # przy raporcie tygodniowym. Zamrożony backup: data/archive/.
     generate_dashboard_json(results, ts)
-    update_excel(results, ts)
+    append_history(results, ts)
     generate_api_json(results, ts, duration_seconds)
 
     log.info(f"{'='*60}")
