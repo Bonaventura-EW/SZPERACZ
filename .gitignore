@@ -171,6 +171,7 @@ data/*.bak
 data/*~
 data/.~*
 data/email_preview.html
+data/dashboard_data_backup_*.json
 
 # Exclude local test data
 data/test_*
