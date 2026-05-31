@@ -162,13 +162,15 @@ Thumbs.db
 desktop.ini
 
 # ─── IMPORTANT: Keep data/ in repo ──────────────────────────────────────────
-# We want to track data/dashboard_data.json and data/szperacz_olx.xlsx
-# but exclude any temporary or backup files
+# Śledzimy data/dashboard_data.json, data/history/*.ndjson oraz data/archive/*
+# (zamrożony, jednorazowy backup), ale NIE generowany xlsx (patrz niżej)
+# ani pliki tymczasowe/backupowe.
 
 data/*.tmp
 data/*.bak
 data/*~
 data/.~*
+data/email_preview.html
 
 # Exclude local test data
 data/test_*
@@ -192,6 +194,8 @@ github_pat.txt
 *secret*
 !email_report.py
 
-# ─── Optional: Exclude large Excel files ────────────────────────────────────
-# Uncomment if Excel files become too large (>10MB)
-# data/szperacz_olx.xlsx
+# ─── Excel: generowany na żądanie, NIE commitowany ──────────────────────────
+# Live xlsx jest budowany z dashboard_data.json + ledger przy raporcie tygodniowym
+# (scraper.build_excel_from_data). Trzymanie go w repo powodowało rozrost .git
+# (binarny, niedeltowalny, ~11 MB/scan). Pełny backup historyczny: data/archive/.
+data/szperacz_olx.xlsx
