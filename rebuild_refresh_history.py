@@ -10,8 +10,15 @@ import os
 from collections import defaultdict
 from openpyxl import load_workbook
 
+import glob
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+# Live xlsx nie jest już w repo (od 2026-05-31, generowany na żądanie). Ten skrypt legacy
+# parsuje historię per-skan → używamy zamrożonego archiwum, jeśli live nie istnieje.
 EXCEL_PATH = os.path.join(DATA_DIR, "szperacz_olx.xlsx")
+if not os.path.exists(EXCEL_PATH):
+    _arch = sorted(glob.glob(os.path.join(DATA_DIR, "archive", "szperacz_olx_archiwum_*.xlsx")))
+    if _arch:
+        EXCEL_PATH = _arch[-1]
 JSON_PATH = os.path.join(DATA_DIR, "dashboard_data.json")
 
 PROFILES = [

@@ -23,7 +23,6 @@ EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD", "")
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 JSON_PATH = os.path.join(DATA_DIR, "dashboard_data.json")
-EXCEL_PATH = os.path.join(DATA_DIR, "szperacz_olx.xlsx")
 
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587

@@ -18,8 +18,15 @@ from openpyxl import load_workbook
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger("rebuild-flows")
 
+import glob
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Live xlsx nie jest już w repo (od 2026-05-31, generowany na żądanie). Ten skrypt legacy
+# parsuje historię per-skan → używamy zamrożonego archiwum, jeśli live nie istnieje.
 EXCEL_PATH = os.path.join(BASE_DIR, "data", "szperacz_olx.xlsx")
+if not os.path.exists(EXCEL_PATH):
+    _arch = sorted(glob.glob(os.path.join(BASE_DIR, "data", "archive", "szperacz_olx_archiwum_*.xlsx")))
+    if _arch:
+        EXCEL_PATH = _arch[-1]
 JSON_PATH = os.path.join(BASE_DIR, "data", "dashboard_data.json")
 
 # Arkusze profilowe (pomijamy historia_cen, podsumowanie)

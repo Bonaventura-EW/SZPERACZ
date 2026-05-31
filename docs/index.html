@@ -1390,7 +1390,15 @@ function renderProfileCards() {
   const profiles = dashData.profiles || {};
 
   let html = '';
-  for (const [key, data] of Object.entries(profiles)) {
+  // Kategoria "wszystkie_pokoje" zawsze pierwsza (reszta w dotychczasowej kolejności).
+  // Niezależne od kolejności kluczy w JSON (od sort_keys klucze są alfabetyczne).
+  const orderedKeys = Object.keys(profiles).sort((a, b) => {
+    if (a === 'wszystkie_pokoje') return -1;
+    if (b === 'wszystkie_pokoje') return 1;
+    return 0;
+  });
+  for (const key of orderedKeys) {
+    const data = profiles[key];
     const counts = data.daily_counts || [];
     const latest = counts.length > 0 ? counts[counts.length - 1] : null;
     const count = latest ? latest.count : 0;
