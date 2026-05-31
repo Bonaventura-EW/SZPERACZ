@@ -39,15 +39,14 @@ Lub:
 
 **Symptom:** Scan wykonuje się o złej godzinie
 
-**Obecny cron:** `0 8 * * *` (8:00 UTC)
-- **Zima (CET):** 8:00 UTC = **9:00 czasu polskiego** ✅
-- **Lato (CEST):** 8:00 UTC = **10:00 czasu polskiego** ⚠️
+**Obecny cron:** `0 7 * * *` (7:00 UTC) — czas letni (CEST), aktywny od ~29.03 do ~25.10
 
-**Fix:** Jeśli chcesz zawsze o 9:00 polskiego czasu:
-- Zimą: użyj `0 8 * * *`
-- Latem: użyj `0 7 * * *`
+Cel: scan zawsze o **9:00 czasu polskiego**, dlatego cron zmieniamy 2x w roku:
+- **Lato (CEST, UTC+2):** `0 7 * * *` → 9:00 PL ← **obecnie aktywne**
+- **Zima (CET, UTC+1):** `0 8 * * *` → 9:00 PL
 
-Lub zaakceptuj, że latem będzie o 10:00.
+**Fix:** Jeśli scan leci o złej godzinie, ustaw cron zgodnie z porą roku (patrz `ZMIANA_CZASU_REMINDER.md`).
+⚠️ Pamiętaj, że GitHub Actions i tak bywa opóźniony (realnie scany lecą ~11:00 UTC).
 
 ---
 
@@ -175,12 +174,16 @@ https://bonaventura-ew.github.io/SZPERACZ/
 
 ## ⏰ Harmonogram workflow
 
-- **Daily Scan:** Codziennie o 9:00 CET (zimą) / 10:00 CEST (latem)
+- **Daily Scan:** Codziennie o 9:00 czasu PL (cron zmieniany sezonowo)
 - **Weekly Report:** Każdy poniedziałek o 9:30 CET
+- **Keep-alive:** Co 50 dni (zapobiega wyłączeniu cronów po 60 dniach)
+- **Failsafe:** Codziennie o 11:00 UTC (jeśli scan nie poszedł — dispatch scan.yml)
 
 **Cron expressions:**
-- Daily: `0 8 * * *` (8:00 UTC)
-- Weekly: `30 7 * * 1` (7:30 UTC w poniedziałki)
+- `scan.yml`: `0 7 * * *` (latem) / `0 8 * * *` (zimą)
+- `weekly_report.yml`: `30 7 * * 1` (7:30 UTC w poniedziałki)
+- `keep-alive.yml`: `0 3 */50 * *`
+- `failsafe.yml`: `0 11 * * *`
 
 ---
 

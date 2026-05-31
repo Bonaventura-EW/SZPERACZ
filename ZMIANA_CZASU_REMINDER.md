@@ -89,4 +89,4 @@ Ale dla prostoty, **ręczna zmiana 2x rocznie jest OK** - to tylko 5 minut pracy
 ---
 
 **Ostatnia aktualizacja:** 2026-02-27  
-**Obecny cron:** `'0 8 * * *'` (czas zimowy CET, do 29.03.2026)
+**Obecny cron:** `'0 7 * * *'` (czas letni CEST, od 29.03.2026 do ~25.10.2026)
