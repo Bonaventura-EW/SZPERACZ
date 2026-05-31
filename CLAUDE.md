@@ -116,7 +116,7 @@ CHANGELOG.md (pełna historia zmian) + raporty napraw (NAPRAWA_*, ROOT_CAUSE_RAP
         image_url, refresh_count, refresh_history[],
         reactivated, reactivation_history[], reactivation_count
       } ],
-      "archived_listings": [ { ...jw. + archived_date } ],   // limit 200/profil
+      "archived_listings": [ { ...jw. + archived_date } ],   // BEZ LIMITU (paginacja po stronie dashboardu, scraper.py:2012)
       "price_history": { "<id>": [ {date, old_price, new_price, change} ] },
       "daily_counts": [ {date, count, added, removed, new_count, median_price,
                          price_distribution, refreshed_count, reactivated_count, promoted_count} ], // limit 90 dni
@@ -172,6 +172,11 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   i `keep-alive.yml` to zabezpieczenia — nie usuwaj ich.
 - **Dane są w gicie.** `data/*` i `docs/api/*` są commitowane. Przy ręcznych naprawach danych
   najpierw commit/backup — git history to jedyny backup.
+- **Retencja ≠ okno scrapingu.** Scraper pobiera WSZYSTKIE ogłoszenia obecne na OLX *teraz* (bez okna
+  czasowego). Przycinane są tylko agregaty: `daily_counts[-90:]` (scraper.py:1710) i `scan_history[-90:]`
+  (scraper.py:2059) → wykresy trendów obejmują ~90 dni. Natomiast `current_listings`, `archived_listings`
+  (nieograniczone!) oraz `price_history`/`refresh_history`/`promotion_history` rosną BEZ limitu → `dashboard_data.json`
+  puchnie latami. To (obok binarnego `xlsx`) główne źródło rozrostu repo.
 - **Archiwizacja po znikinięciu** weryfikowana przez `verify_listing_active()` (false positives przy blokadach OLX).
 - **Email**: `EMAIL_PASSWORD` to 16-znakowy Gmail App Password (nie hasło konta), w GitHub Secrets.
 
