@@ -24,6 +24,8 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
   oraz nieużywaną stałą `EXCEL_PATH` w `email_report.py`.
 - **#3** dodano `test_scraper.py` — minimalne testy czystych funkcji (`parse_price`, `extract_listing_id`,
   `parse_date_text`, `_load_daily_ledger`); 17/17. Uruchom: `python test_scraper.py` lub `pytest`.
+- **deps**: `requirements.txt` — dodano górne granice `<major` (np. `playwright<2`, `lxml<7`),
+  by major bump nie zepsuł scrapingu po cichu. Caps powyżej aktualnych wersji (zero zmian dziś).
 - **#4** (odchudzenie `.git` przez `git filter-repo`) — **świadomie pominięte**. Refaktor zatrzymał przyrost;
   ~230 MB starej historii (54 bloby xlsx) zostaje. Backup sprzed refaktoru: gałąź `backup/pre-refactor-2026-05-31` + bundle.
 
