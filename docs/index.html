@@ -1202,7 +1202,13 @@ input[type=range].day-slider::-moz-range-thumb {
     <!-- Line Chart Section -->
     <div class="line-chart-section">
       <div class="line-chart-header">
-        <div class="chart-title">Trend w czasie</div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="chart-title">Trend w czasie</div>
+          <button id="toggleFullHistory" class="chart-range-tab" onclick="toggleFullHistory(this)"
+                  title="Przełącz między ostatnimi 90 dniami a całą zebraną historią (liczba ogłoszeń)">
+            📅 90 dni
+          </button>
+        </div>
         <div class="metric-tabs">
           <button class="metric-tab active" data-metric="count" onclick="switchMetric('count', this)">📊 Ogłoszenia</button>
           <button class="metric-tab" data-metric="median_price" onclick="switchMetric('median_price', this)">💰 Mediana ceny</button>
@@ -1272,6 +1278,7 @@ input[type=range].day-slider::-moz-range-thumb {
 const GITHUB_OWNER = 'Bonaventura-EW';
 const GITHUB_REPO = 'SZPERACZ';
 const DATA_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/data/dashboard_data.json`;
+const TREND_FULL_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/docs/api/trend_full.json`;
 const WORKFLOW_FILE = 'scan.yml';
 
 let dashData = null;
@@ -1282,6 +1289,8 @@ let sortColumn = 'date'; // Default: sortuj po dacie (newest first)
 let sortDirection = 'desc'; // desc = malejąco, asc = rosnąco
 let lineChart = null; // Instancja wykresu liniowego
 let currentMetric = 'count'; // Aktywna metryka: count, avg_price, min_price, max_price
+let trendFull = null; // Pełna historia liczby ogłoszeń (docs/api/trend_full.json), ładowana leniwie
+let lineChartFullHistory = false; // false = 90 dni (domyślnie), true = cała historia
 let pageSize = 100;       // domyślnie 100 ogłoszeń na stronę
 let currentPage = 0;      // 0-indexed, wspólny dla obu zakładek
 let archivePage = 0;      // zachowane dla kompatybilności (alias → currentPage)
@@ -1295,6 +1304,11 @@ async function loadData() {
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     dashData = await resp.json();
     renderAll();
+    // Pełna historia trendu — best-effort, nie blokuje dashboardu jeśli pliku brak
+    fetch(TREND_FULL_URL + cacheBust)
+      .then(r => r.ok ? r.json() : null)
+      .then(j => { trendFull = j; })
+      .catch(() => { trendFull = null; });
   } catch (e) {
     console.error('Failed to load data:', e);
     document.getElementById('profilesGrid').innerHTML = `
@@ -1645,8 +1659,14 @@ function renderLineChart(key) {
   const data = dashData.profiles[key];
   if (!data) return;
 
-  const counts = data.daily_counts || [];
-  
+  // Wybór źródła: domyślnie daily_counts (90 dni, wszystkie metryki).
+  // Gdy włączona 'cała historia' I metryka = liczba ogłoszeń → pełny ledger (trend_full).
+  // Pełna historia jest dostępna TYLKO dla 'count'; inne metryki historycznie nie istnieją.
+  const counts90 = data.daily_counts || [];
+  const fullCount = (lineChartFullHistory && currentMetric === 'count'
+                     && trendFull && trendFull.profiles && trendFull.profiles[key]);
+  const counts = fullCount ? trendFull.profiles[key] : counts90;
+
   if (counts.length === 0) {
     document.getElementById('lineChart').parentElement.innerHTML = `
       <div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych historycznych</div>
@@ -1734,8 +1754,15 @@ function renderLineChart(key) {
   const config = metricConfig[currentMetric];
 
   // Aktualizuj info o danych
-  document.getElementById('lineChartDataInfo').textContent = 
-    `Wyświetlam pełną historię: ${counts.length} dni danych`;
+  let infoText;
+  if (fullCount) {
+    infoText = `Cała historia: ${counts.length} dni (od ${counts[0].date})`;
+  } else if (lineChartFullHistory && currentMetric !== 'count') {
+    infoText = `Ostatnie ${counts.length} dni — pełna historia dostępna tylko dla liczby ogłoszeń`;
+  } else {
+    infoText = `Ostatnie ${counts.length} dni`;
+  }
+  document.getElementById('lineChartDataInfo').textContent = infoText;
 
   // Zniszcz poprzedni wykres jeśli istnieje
   if (lineChart) {
@@ -1926,6 +1953,15 @@ function switchMetric(metric, btn) {
   btn.classList.add('active');
   
   // Przerenderuj wykres z nową metryką
+  if (activeProfile) {
+    renderLineChart(activeProfile);
+  }
+}
+
+function toggleFullHistory(btn) {
+  lineChartFullHistory = !lineChartFullHistory;
+  btn.classList.toggle('active', lineChartFullHistory);
+  btn.textContent = lineChartFullHistory ? '🗓️ Cała historia' : '📅 90 dni';
   if (activeProfile) {
     renderLineChart(activeProfile);
   }

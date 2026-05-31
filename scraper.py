@@ -1721,6 +1721,40 @@ def append_history(scan_results, scan_timestamp, ledger_path=HISTORY_LEDGER, jso
     return appended
 
 
+def generate_trend_full(ledger_path=HISTORY_LEDGER, out_path=None):
+    """
+    Buduje lekki `docs/api/trend_full.json` z ledgera — PEŁNA historia liczby ogłoszeń
+    (1 punkt/dzień/profil = ostatni skan danego dnia). Dashboard pobiera go tylko gdy
+    użytkownik włączy widok 'cała historia' na wykresie trendu. Pozostałe metryki
+    (mediana itd.) nie są dostępne historycznie — żyją w daily_counts (90 dni).
+    """
+    out_path = out_path or os.path.join(API_DIR, "trend_full.json")
+    ledger = _load_daily_ledger(ledger_path)
+
+    # profile -> {date: (time, count)} ; przy wielu skanach w dniu bierzemy ostatni (max time)
+    by_prof = {}
+    for r in ledger:
+        p, d, t, c = r["profile"], r["date"], r.get("time", ""), r["count"]
+        day_map = by_prof.setdefault(p, {})
+        prev = day_map.get(d)
+        if prev is None or t >= prev[0]:
+            day_map[d] = (t, c)
+
+    profiles = {p: [{"date": d, "count": dm[d][1]} for d in sorted(dm)]
+                for p, dm in by_prof.items()}
+
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    payload = {
+        "generated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "profiles": profiles,
+    }
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2, sort_keys=True)
+    total = sum(len(v) for v in profiles.values())
+    log.info(f"trend_full.json zapisany: {total} punktów ({len(profiles)} profili) -> {out_path}")
+    return out_path
+
+
 # ─── JSON for Dashboard ─────────────────────────────────────────────────────
 
 def load_existing_json():
@@ -2481,6 +2515,7 @@ def run_scan():
     generate_dashboard_json(results, ts)
     append_history(results, ts)
     generate_api_json(results, ts, duration_seconds)
+    generate_trend_full()
 
     log.info(f"{'='*60}")
     log.info(f"SZPERACZ OLX — Scan completed {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
