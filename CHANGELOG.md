@@ -15,6 +15,18 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ## [2026-05-31] - 🗄️ Refaktor bazy: ledger NDJSON, Excel on-demand, trend pełnej historii
 
+### Po audycie (sprzątanie)
+- **Dashboard**: kafelek kategorii `wszystkie_pokoje` zawsze pierwszy w siatce profili
+  (`renderProfileCards` jawnie sortuje — niezależnie od kolejności kluczy JSON, która po `sort_keys` jest alfabetyczna).
+- **#1** `rebuild_daily_flows.py` / `rebuild_archive_counters.py` / `rebuild_refresh_history.py` —
+  czytają zamrożone `data/archive/szperacz_olx_archiwum_*.xlsx`, gdy live xlsx nie istnieje (nie padają).
+- **#2** usunięto martwy kod: `update_excel()` i `load_or_create_workbook()` w `scraper.py` (niewywoływane)
+  oraz nieużywaną stałą `EXCEL_PATH` w `email_report.py`.
+- **#3** dodano `test_scraper.py` — minimalne testy czystych funkcji (`parse_price`, `extract_listing_id`,
+  `parse_date_text`, `_load_daily_ledger`); 17/17. Uruchom: `python test_scraper.py` lub `pytest`.
+- **#4** (odchudzenie `.git` przez `git filter-repo`) — **świadomie pominięte**. Refaktor zatrzymał przyrost;
+  ~230 MB starej historii (54 bloby xlsx) zostaje. Backup sprzed refaktoru: gałąź `backup/pre-refactor-2026-05-31` + bundle.
+
 Cel: zatrzymać rozrost repo (`.git` ~209 MB), bo binarny `szperacz_olx.xlsx` (~11,8 MB)
 był commitowany przy KAŻDYM scanie (niedeltowalny zip). Założenie użytkownika: pełna
 historia zachowana na zawsze i bezpieczna, Excel może być generowany.
