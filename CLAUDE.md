@@ -3,6 +3,11 @@
 Przewodnik po projekcie dla Claude Code. Czytaj go na początku każdej sesji,
 a po każdej istotnej zmianie **aktualizuj** (patrz sekcja "Utrzymywanie tego pliku").
 
+> **Na początku każdej sesji przeczytaj też `CHANGELOG.md`** (zwłaszcza najnowsze
+> wpisy u góry), żeby być na bieżąco z ostatnimi zmianami, naprawami i decyzjami.
+> CLAUDE.md zawiera tylko zwięzłe reguły — pełny kontekst zmian jest w `CHANGELOG.md`
+> oraz w raportach napraw (`ROOT_CAUSE_RAPORT_*`, `NAPRAWA_*`).
+
 ---
 
 ## 1. Czym jest SZPERACZ
@@ -196,3 +201,7 @@ odpowiednią sekcję CLAUDE.md w tym samym commicie co zmianę kodu. W szczegól
 Dłuższe historie napraw zapisuj w `CHANGELOG.md` lub osobnym raporcie (jak `ROOT_CAUSE_RAPORT_*`),
 a w CLAUDE.md zostaw tylko zwięzły wniosek/regułę. Cel: czytając sam ten plik, można zrozumieć
 i bezpiecznie zmieniać projekt.
+
+**Na start sesji:** przeczytaj CLAUDE.md **oraz** najnowsze wpisy w `CHANGELOG.md`,
+żeby znać ostatnie zmiany i nie cofnąć cudzych napraw. Każdą istotną zmianę dopisuj
+do `CHANGELOG.md` (najnowsze na górze) w tym samym commicie co kod.
