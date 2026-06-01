@@ -206,6 +206,7 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 - Nie dodawaj PR bez wyraźnej prośby.
 - **Po skończonych zmianach pytaj, czy zmergować je do `main`** (sam nie pushuj do `main` ani nie otwieraj PR bez zgody).
 - Edytuj istniejące pliki; nie twórz nowej dokumentacji bez potrzeby.
+- **„Uruchom scan" = trigger `scan.yml` przez GitHub Actions**, nie uruchamianie skryptu lokalnie. Użyj narzędzi GitHub MCP (workflow dispatch) lub poinformuj użytkownika, żeby triggerował ręcznie przez zakładkę Actions na GitHubie.
 
 ---
 
