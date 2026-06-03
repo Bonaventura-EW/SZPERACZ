@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-02 11:26:11",
+  "generated": "2026-06-03 11:36:23",
   "profiles": {
     "artymiuk": [
       {
@@ -401,6 +401,10 @@
       {
         "count": 0,
         "date": "2026-06-02"
+      },
+      {
+        "count": 0,
+        "date": "2026-06-03"
       }
     ],
     "dawny_patron": [
@@ -2379,6 +2383,10 @@
       {
         "count": 0,
         "date": "2026-06-02"
+      },
+      {
+        "count": 0,
+        "date": "2026-06-03"
       }
     ],
     "wszystkie_pokoje": [
