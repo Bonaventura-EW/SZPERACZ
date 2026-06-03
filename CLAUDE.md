@@ -155,11 +155,18 @@ Dodawanie profilu: dopisz wpis do `PROFILES` (url, label, is_category) i uruchom
 
 ## 6. Najczęstsze komendy
 
+**WAŻNE: Gdy użytkownik mówi „uruchom scan" / „zrób scan" itp., zawsze oznacza to wyzwolenie
+workflow `scan.yml` na gałęzi `main` przez GitHub Actions** — używaj narzędzia `mcp__github__actions_run_trigger`
+(repo: `Bonaventura-EW/SZPERACZ`, workflow: `scan.yml`, ref: `main`).
+NIE uruchamiaj `python main.py --scan` lokalnie — scraper nie działa w środowisku Claude Code
+(OLX blokuje requesty + brak Playwright).
+
 ```bash
+# Lokalne uruchomienie (tylko na własnym komputerze):
 pip install -r requirements.txt
 playwright install chromium      # wymagane raz dla scrapingu
 
-python main.py --scan            # pełny scan (najczęstsze)
+python main.py --scan            # pełny scan
 python main.py --email           # wyślij raport (wymaga EMAIL_PASSWORD)
 python main.py --status          # status systemu
 python scraper.py                # bezpośredni scan (tak robi Action)
