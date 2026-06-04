@@ -1,5 +1,5 @@
 {
-  "last_scan": "2026-06-03 12:01:18",
+  "last_scan": "2026-06-04 10:42:41",
   "metadata": {
     "created": "2026-02-23 12:00:00",
     "description": "SZPERACZ OLX - Dashboard Data",
@@ -85,24 +85,6 @@
       ],
       "current_listings": [],
       "daily_counts": [
-        {
-          "added": 0,
-          "change": 0,
-          "count": 1,
-          "date": "2026-03-06",
-          "median_price": null,
-          "price_distribution": [
-            {
-              "count": 1,
-              "from": 1300,
-              "to": 1301
-            }
-          ],
-          "reactivated_count": 0,
-          "refreshed_count": 0,
-          "removed": 0,
-          "timestamp": "2026-03-06 07:54:10"
-        },
         {
           "added": 1,
           "change": 0,
@@ -2468,6 +2450,21 @@
           "refreshed_count": 0,
           "removed": 0,
           "timestamp": "2026-06-03 12:01:18"
+        },
+        {
+          "added": 0,
+          "change": 0,
+          "count": 0,
+          "date": "2026-06-04",
+          "median_price": null,
+          "price_distribution": [],
+          "promoted_count": 0,
+          "promoted_percentage": 0,
+          "promotion_breakdown": {},
+          "reactivated_count": 0,
+          "refreshed_count": 0,
+          "removed": 0,
+          "timestamp": "2026-06-04 10:42:41"
         }
       ],
       "is_category": false,
@@ -36301,17 +36298,6 @@
           "added": 0,
           "change": 0,
           "count": 0,
-          "date": "2026-03-06",
-          "price_distribution": [],
-          "reactivated_count": 0,
-          "refreshed_count": 0,
-          "removed": 0,
-          "timestamp": "2026-03-06 07:54:10"
-        },
-        {
-          "added": 0,
-          "change": 0,
-          "count": 0,
           "date": "2026-03-07",
           "price_distribution": [],
           "reactivated_count": 0,
@@ -37546,6 +37532,21 @@
           "refreshed_count": 0,
           "removed": 0,
           "timestamp": "2026-06-03 12:01:18"
+        },
+        {
+          "added": 0,
+          "change": 0,
+          "count": 0,
+          "date": "2026-06-04",
+          "median_price": null,
+          "price_distribution": [],
+          "promoted_count": 0,
+          "promoted_percentage": 0,
+          "promotion_breakdown": {},
+          "reactivated_count": 0,
+          "refreshed_count": 0,
+          "removed": 0,
+          "timestamp": "2026-06-04 10:42:41"
         }
       ],
       "is_category": false,
@@ -78476,40 +78477,6 @@
   },
   "scan_history": [
     {
-      "date": "2026-04-04",
-      "profiles": {
-        "artymiuk": {
-          "count": 1,
-          "crosscheck": "passed"
-        },
-        "dawny_patron": {
-          "count": 8,
-          "crosscheck": "passed"
-        },
-        "mzuri": {
-          "count": 55,
-          "crosscheck": "passed"
-        },
-        "pokojewlublinie": {
-          "count": 1,
-          "crosscheck": "passed"
-        },
-        "poqui": {
-          "count": 10,
-          "crosscheck": "passed"
-        },
-        "villahome": {
-          "count": 0,
-          "crosscheck": "passed"
-        },
-        "wszystkie_pokoje": {
-          "count": 374,
-          "crosscheck": "passed"
-        }
-      },
-      "timestamp": "2026-04-04 06:43:26"
-    },
-    {
       "date": "2026-04-05",
       "profiles": {
         "artymiuk": {
@@ -82038,6 +82005,54 @@
         }
       },
       "timestamp": "2026-06-03 12:01:18"
+    },
+    {
+      "date": "2026-06-04",
+      "profiles": {
+        "artymiuk": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "passed",
+          "removed": 0
+        },
+        "dawny_patron": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "passed",
+          "removed": 3
+        },
+        "mzuri": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "passed",
+          "removed": 52
+        },
+        "pokojewlublinie": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "passed",
+          "removed": 3
+        },
+        "poqui": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "passed",
+          "removed": 3
+        },
+        "villahome": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "passed",
+          "removed": 0
+        },
+        "wszystkie_pokoje": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "passed",
+          "removed": 433
+        }
+      },
+      "timestamp": "2026-06-04 10:42:41"
     }
   ]
 }

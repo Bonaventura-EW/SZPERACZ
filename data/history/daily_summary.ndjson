@@ -1045,3 +1045,5 @@
 {"date": "2026-06-03", "time": "12:01", "profile": "mzuri", "count": 52, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-06-03", "time": "12:01", "profile": "villahome", "count": 0, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-06-03", "time": "12:01", "profile": "wszystkie_pokoje", "count": 433, "crosscheck": "passed", "change": 6, "source": "scan"}
+{"date": "2026-06-04", "time": "10:42", "profile": "artymiuk", "count": 0, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-06-04", "time": "10:42", "profile": "villahome", "count": 0, "crosscheck": "passed", "change": 0, "source": "scan"}
