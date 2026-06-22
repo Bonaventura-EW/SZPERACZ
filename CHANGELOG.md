@@ -13,6 +13,29 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-06-22] - 📈 Nowa podstrona „Trend w czasie" (styl betonometr.pl)
+
+### Added ✨
+- **`docs/trend.html`** — nowa podstrona dashboardu z wykresem trendu liczby ogłoszeń w stylu
+  [betonometr.pl](https://nieruchy.pro/lublin/mieszkania). Konwencja jak `scans.html`: ta sama belka
+  (← Dashboard / logo / motyw), te same zmienne kolorów i fonty, **wykres rysowany na czystym canvasie
+  (zero zewnętrznych bibliotek)**. Cechy:
+  - wykres area z gradientem; linia bieżąca + przerywane linie i etykiety **MAX / MIN w oknie**
+    oraz **wartość bieżąca** (boks przy osi Y),
+  - pasek statystyk **1D / 1M / 6M / 1R** (zielony +, czerwony −, `—` gdy za mało historii),
+  - **drag-to-zoom** (przeciągnij po wykresie → przybliżenie zakresu, przycisk „Reset zoom"),
+  - hover z krzyżykiem i dymkiem (data + liczba ogłoszeń),
+  - przełącznik profilu/kategorii (wszystkie z `PROFILES`; domyślnie „Wszystkie pokoje w Lublinie")
+    + zakresy 1M / 3M / 6M / 1R / Całość, tryb jasny/ciemny.
+  - Dane na żywo: `docs/api/trend_full.json` (pełna historia `count`) + etykiety z `docs/api/status.json`
+    (`is_category` wyprowadzone z klucza `wszystkie_pokoje`, zgodnie z konwencją `scans.html`).
+- **`docs/index.html`** — w belce głównej dodany link **„Trend"** (obok „Scan teraz").
+
+> Uwaga (gotcha): `trend_full.json` zawiera tylko `count`/`date` (bez `label`/`is_category`) —
+> etykiety profili bierzemy ze `status.json`, a kategorię rozpoznajemy po kluczu `wszystkie_pokoje`.
+
+---
+
 ## [2026-05-31] - 🗄️ Refaktor bazy: ledger NDJSON, Excel on-demand, trend pełnej historii
 
 ### Po audycie (sprzątanie)

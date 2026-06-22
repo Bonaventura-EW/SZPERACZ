@@ -100,6 +100,12 @@ Pełna lista: `requirements.txt`.
   sortowalne tabele aktywnych/archiwalnych, tryb jasny/ciemny, przycisk ręcznego scanu (przez GitHub PAT).
   Wykres „Trend w czasie": przycisk **📅 90 dni / 🗓️ Cała historia** — pełna historia działa dla metryki
   „Ogłoszenia" (z `trend_full.json`); inne metryki nie mają danych >90 dni (komunikat).
+  W belce linki do podstron: **Skany** (`scans.html`) i **Trend** (`trend.html`).
+- `docs/scans.html` — podstrona „Historia skanów" (czas/profil, crosscheck). Czyta `docs/api/status.json` + `history.json`.
+- `docs/trend.html` — podstrona „Trend w czasie" w stylu betonometr.pl. **Wykres na czystym canvasie (bez bibliotek)**:
+  area + gradient, MAX/MIN w oknie, wartość bieżąca, statystyki 1D/1M/6M/1R, **drag-to-zoom** (+ „Reset zoom"),
+  hover, przełącznik profilu i zakresy. Dane: `trend_full.json` (count/date) + etykiety ze `status.json`
+  (`is_category` rozpoznawane po kluczu `wszystkie_pokoje`). Konwencja chrome/motywu wspólna ze `scans.html`.
 
 ### Automatyzacja (`.github/workflows/`)
 - `scan.yml` — `cron: '0 7 * * *'` (LATEM/CEST = 9:00 PL). Uruchamia scraper, commituje `data/` + `docs/api/`. Wymaga `permissions: contents: write`.
