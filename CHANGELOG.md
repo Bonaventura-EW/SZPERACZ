@@ -66,6 +66,20 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
     `count: 561`) zostaje z historycznym zawyżeniem o 1 — kosmetyczny, jednorazowy efekt
     uboczny ręcznego czyszczenia danych, bez wpływu na przyszłe skany.
 
+### Fixed 🐛 (drugie dogonienie: 06-29/06-30 zamieniły się w jeden pełnoszerokościowy słupek)
+- Powyższa "minimalna łatka" dla dni historycznych (przeniesienie 1 sztuki z widmowego kubełka
+  do kubełka `0–10000`) po przycięciu pustych kubełków na końcu zostawiała **tylko jeden
+  kubełek** obejmujący cały zakres — na wykresie wyglądało to jak jeden pełnoszerokościowy
+  słupek zamiast histogramu (widoczne po przełączeniu suwaka „Rozkład cen" na 29.06/30.06).
+  Właściwa poprawka: dla dni **2026-06-29** i **2026-06-30** zrekonstruowano pełny zestaw cen
+  aktywnych tego dnia ogłoszeń (analogicznie do `backfill_price_distribution.py`: ogłoszenie
+  liczy się jako aktywne gdy `first_seen <= dzień <= archived_date`, cena brana z
+  `price_history` jeśli się zmieniała, inaczej z bieżącej ceny) i przeliczono
+  `price_distribution` od zera tym samym algorytmem co `build_price_distribution()` w
+  `scraper.py`. Usunięte ogłoszenie `1bfXbx` samo wypadło z rekonstrukcji (nie ma go już
+  w `current_listings`/`archived_listings`), więc oba dni mają teraz normalny, drobnoziarnisty
+  histogram (13 kubełków, 0–2600 zł), tak jak dzień 2026-07-01.
+
 ---
 
 ## [2026-06-22] - 📈 Nowa podstrona „Trend w czasie" (styl betonometr.pl)
