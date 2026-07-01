@@ -13,6 +13,31 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-01] - 🚫 Filtr cenowych outlierów (10x średnia)
+
+### Added ✨
+- **`scraper.py` — `filter_price_outliers()`** — nowy krok w `run_scan()` (tuż po scrapowaniu,
+  przed `generate_dashboard_json()`), który odrzuca ze skanu ogłoszenia z ceną
+  `>= PRICE_OUTLIER_MULTIPLIER` (10) x średnia cena pozostałych ogłoszeń w danym profilu.
+  Takie ogłoszenia **nigdy nie trafiają** do `dashboard_data.json`, ledgera ani API — to
+  ochrona przed literówkami w cenie / ogłoszeniami-śmieciami, nie retencja danych.
+  - Średnia liczona metodą **leave-one-out** (bez ceny sprawdzanego ogłoszenia) — w przeciwnym
+    razie sam outlier zawyżałby własną średnią odniesienia i nigdy nie przekroczyłby progu
+    (przy małej liczbie ogłoszeń jeden ekstremalny outlier potrafi podbić średnią "ze wszystkich"
+    ponad własną wartość / 10).
+  - Wymaga min. 3 wycenionych ogłoszeń w profilu (inaczej średnia nie ma sensu — filtr pomija).
+  - Filtrowanie iteracyjne (kilka rund), na wypadek więcej niż jednego outliera na profil.
+  - Odrzucone ogłoszenia logowane jako `WARNING` (tytuł, cena, url, próg).
+
+### Found (istniejące dane, przed wprowadzeniem reguły)
+- Jednorazowe sprawdzenie `data/dashboard_data.json` (`current_listings`) wykazało **jeden**
+  taki outlier, w profilu `wszystkie_pokoje`: id `1bfXbx`, cena **126 065 zł** ("Pokój
+  jednoosobowy na wynajem"), https://www.olx.pl/d/oferta/pokoj-jednoosobowy-na-wynajem-CID3-ID1bfXbx.html
+  — najpewniej literówka w cenie na OLX. Dane historyczne **nie zostały** retroaktywnie
+  wyczyszczone (reguła działa tylko na nowe skany) — do decyzji, czy usunąć ręcznie.
+
+---
+
 ## [2026-06-22] - 📈 Nowa podstrona „Trend w czasie" (styl betonometr.pl)
 
 ### Added ✨

@@ -77,6 +77,10 @@ HISTORY_LEDGER = os.path.join(HISTORY_DIR, "daily_summary.ndjson")
 API_STATUS_PATH = os.path.join(API_DIR, "status.json")
 API_HISTORY_PATH = os.path.join(API_DIR, "history.json")
 
+# Ogłoszenia z ceną >= tej krotności średniej ceny w danym profilu są odrzucane
+# jako błędne dane (literówka w cenie, ogłoszenie nie-pokoju itp.) — patrz filter_price_outliers().
+PRICE_OUTLIER_MULTIPLIER = 10
+
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
@@ -1520,6 +1524,64 @@ def generate_trend_full(ledger_path=HISTORY_LEDGER, out_path=None):
     return out_path
 
 
+# ─── Filtrowanie cenowych odstających wartości ──────────────────────────────
+
+def filter_price_outliers(scan_results, multiplier=PRICE_OUTLIER_MULTIPLIER):
+    """
+    Odrzuca ze skanu ogłoszenia, których cena >= `multiplier` x średnia cena
+    POZOSTAŁYCH ogłoszeń w danym profilu (typowo literówka w cenie albo
+    ogłoszenie, które nie jest pokojem). Modyfikuje `result["listings"]`
+    i `result["count"]` w miejscu, więc dane nigdy nie trafiają do
+    dashboard_data.json / ledgera / API.
+    Wymaga min. 3 wycenionych ogłoszeń w profilu, żeby średnia miała sens.
+
+    Średnia liczona jest metodą "leave-one-out" (bez ceny sprawdzanego
+    ogłoszenia) — inaczej sam outlier zawyżałby własną średnią odniesienia
+    i nigdy nie przekroczyłby progu (np. przy 4 cenach: 1000, 1200, 900,
+    126065 zł, średnia ze WSZYSTKICH to >32000 zł, więc 126065 zł nie
+    przekroczyłoby 10x tej średniej; średnia z pozostałych trzech to
+    ~1033 zł, więc 126065 zł jednoznacznie przekracza 10x próg).
+    Filtrowanie jest iteracyjne — po odrzuceniu outlierów w danej rundzie
+    średnia dla pozostałych jest przeliczana i sprawdzana ponownie.
+    """
+    for pk, result in scan_results.items():
+        listings = result.get("listings", [])
+        removed = []
+        remaining = list(listings)
+
+        while True:
+            priced_items = [(l, l["price"]) for l in remaining if l.get("price") and l["price"] > 0]
+            if len(priced_items) < 3:
+                break
+            total = sum(p for _, p in priced_items)
+            n = len(priced_items)
+
+            round_removed = []
+            round_removed_ids = set()
+            for l, p in priced_items:
+                others_avg = (total - p) / (n - 1)
+                if p >= others_avg * multiplier:
+                    round_removed.append((l, others_avg))
+                    round_removed_ids.add(id(l))
+
+            if not round_removed:
+                break
+            removed.extend(round_removed)
+            remaining = [l for l in remaining if id(l) not in round_removed_ids]
+
+        if removed:
+            for l, others_avg in removed:
+                log.warning(
+                    f"[{pk}] Pominięto outlier cenowy (>= {multiplier}x średnia "
+                    f"{others_avg:.0f} zł): '{l.get('title', '')[:60]}' "
+                    f"{l.get('price_text', '')} — {l.get('url', '')}"
+                )
+            result["listings"] = remaining
+            result["count"] = len(remaining)
+
+    return scan_results
+
+
 # ─── JSON for Dashboard ─────────────────────────────────────────────────────
 
 def load_existing_json():
@@ -2271,6 +2333,9 @@ def run_scan():
 
     # All profiles scraped in one Playwright browser session
     results = scrape_with_playwright_all(PROFILES)
+
+    # Odrzuć ogłoszenia z ceną >= 10x średnia w profilu (błędne dane / nie-pokój)
+    filter_price_outliers(results)
 
     duration_seconds = int(time.time() - start_time)
     

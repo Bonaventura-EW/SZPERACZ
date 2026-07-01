@@ -62,8 +62,11 @@ Pełna lista: `requirements.txt`.
   - `generate_trend_full()` — pisze `docs/api/trend_full.json` (pełna historia `count`, 1 punkt/dzień/profil, z ledgera).
   - `update_excel()` — **legacy, niewywoływane** (stary zapis xlsx do repo; zostawione na wszelki wypadek).
   - `generate_api_json()` — pisze `docs/api/status.json` + `history.json` (ostatnie 30 scanów).
-  - `run_scan()` — orkiestracja: scrape → JSON → **append_history** → API → **trend_full** (bez zapisu xlsx do repo).
+  - `run_scan()` — orkiestracja: scrape → **filter_price_outliers** → JSON → **append_history** → API → **trend_full** (bez zapisu xlsx do repo).
   - `verify_listing_active()` — przed archiwizacją sprawdza, czy ogłoszenie naprawdę zniknęło.
+  - `filter_price_outliers()` — odrzuca ze skanu ogłoszenia z ceną >= `PRICE_OUTLIER_MULTIPLIER` (10)
+    x średnia pozostałych ogłoszeń w profilu (leave-one-out, iteracyjnie). Takie dane nigdy nie
+    trafiają do `dashboard_data.json`/ledgera/API (patrz §7).
 - `migrate_xlsx_to_ndjson.py` — jednorazowa, zweryfikowana migracja starego xlsx → ledger NDJSON (idempotentna).
 - `email_report.py` — raport tygodniowy. `SENDER_EMAIL = slowholidays00@gmail.com`,
   `RECEIVER_EMAIL = malczarski@gmail.com`. `build_report_html()` (podsumowanie rynku, wykresy,
@@ -202,6 +205,11 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   append-only ledger `data/history/daily_summary.ndjson` (NIGDY nie przepisuj — tylko dopisuj). Literalny snapshot
   starej historii jest zamrożony w `data/archive/`. Nie przywracaj commitowania xlsx.
 - **Email**: `EMAIL_PASSWORD` to 16-znakowy Gmail App Password (nie hasło konta), w GitHub Secrets.
+- **Filtr outlierów cenowych (od 2026-07-01).** `filter_price_outliers()` w `run_scan()` odrzuca ze
+  skanu ogłoszenia z ceną >= 10x średnia (leave-one-out) reszty ogłoszeń w profilu — typowo literówki
+  w cenie na OLX. Średnia MUSI liczyć się bez ceny sprawdzanego ogłoszenia, inaczej sam outlier
+  zawyża własny punkt odniesienia i nigdy nie przekroczy progu. Wymaga min. 3 wycenionych ogłoszeń
+  w profilu. Działa tylko na nowe skany — nie czyści retroaktywnie już zapisanych danych.
 
 ---
 
