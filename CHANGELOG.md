@@ -46,6 +46,26 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
   jest już naprawiony). `daily_counts` (median/rozkład cen) nie wymagały korekty — mediana
   z 528 nowych ogłoszeń tego dnia była odporna na ten jeden outlier.
 
+### Fixed 🐛 (dogonienie: `price_distribution`/`count` dalej pokazywały outlier)
+- Samo usunięcie rekordu z `current_listings` **nie wystarczyło** — `daily_counts[].price_distribution`
+  i `count` to zamrożone snapshoty per-dzień, liczone w momencie skanu, więc dashboard
+  (`ROZKŁAD CEN`) nadal pokazywał widmowy słupek ~126–130 tys. zł oraz zawyżone `count`/`ŚREDNIA`
+  dla dni **2026-06-29 / 06-30 / 07-01** (te dni miały tego ogłoszenia w danych). Poprawka:
+  - **2026-07-01** (dzisiejszy skan) — `price_distribution` i `count` przeliczone od zera
+    z aktualnych `current_listings` (560 ogłoszeń, max realnie 2400 zł → drobne kubełki
+    zamiast jednego kubełka 0–10000 zł).
+  - **2026-06-29 / 06-30** (dni historyczne, bez pełnych archiwalnych cen do przeliczenia
+    od zera) — przeniesiono 1 sztukę z widmowego kubełka 120 000–130 000 zł do kubełka
+    0–10 000 zł (tam realnie wpadała poprawiona cena ~1260 zł) i przycięto puste kubełki na
+    końcu. `count` per dzień **nie zmieniony** (ogłoszenie realnie istniało, zmieniła się
+    tylko jego błędna cena).
+  - `docs/api/status.json` i `docs/api/history.json` (wpis `2026-07-01`, oba w `scans` i
+    `recent`) — `count`/`total_listings` dla `wszystkie_pokoje` skorygowane 561→560 / 624→623.
+  - **Ledger `data/history/daily_summary.ndjson` NIE został poprawiony** (append-only, zgodnie
+    z regułą projektu — nigdy nie przepisujemy istniejących linii). Jedna linia (2026-07-01,
+    `count: 561`) zostaje z historycznym zawyżeniem o 1 — kosmetyczny, jednorazowy efekt
+    uboczny ręcznego czyszczenia danych, bez wpływu na przyszłe skany.
+
 ---
 
 ## [2026-06-22] - 📈 Nowa podstrona „Trend w czasie" (styl betonometr.pl)

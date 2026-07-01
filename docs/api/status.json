@@ -5,7 +5,7 @@
     "timestamp": "2026-07-01T10:46:18Z",
     "duration_seconds": 141,
     "profiles_scanned": 7,
-    "total_listings": 624,
+    "total_listings": 623,
     "added": 39,
     "removed": 29,
     "new_listings": 39,
@@ -97,7 +97,7 @@
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 561,
+      "count": 560,
       "added": 38,
       "removed": 22,
       "new_listings": 38,

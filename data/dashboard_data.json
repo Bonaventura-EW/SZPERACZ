@@ -73999,69 +73999,9 @@
           "median_price": 900,
           "price_distribution": [
             {
-              "count": 527,
+              "count": 528,
               "from": 0,
               "to": 10000
-            },
-            {
-              "count": 0,
-              "from": 10000,
-              "to": 20000
-            },
-            {
-              "count": 0,
-              "from": 20000,
-              "to": 30000
-            },
-            {
-              "count": 0,
-              "from": 30000,
-              "to": 40000
-            },
-            {
-              "count": 0,
-              "from": 40000,
-              "to": 50000
-            },
-            {
-              "count": 0,
-              "from": 50000,
-              "to": 60000
-            },
-            {
-              "count": 0,
-              "from": 60000,
-              "to": 70000
-            },
-            {
-              "count": 0,
-              "from": 70000,
-              "to": 80000
-            },
-            {
-              "count": 0,
-              "from": 80000,
-              "to": 90000
-            },
-            {
-              "count": 0,
-              "from": 90000,
-              "to": 100000
-            },
-            {
-              "count": 0,
-              "from": 100000,
-              "to": 110000
-            },
-            {
-              "count": 0,
-              "from": 110000,
-              "to": 120000
-            },
-            {
-              "count": 1,
-              "from": 120000,
-              "to": 130000
             }
           ],
           "promoted_count": 37,
@@ -74083,69 +74023,9 @@
           "median_price": 860,
           "price_distribution": [
             {
-              "count": 544,
+              "count": 545,
               "from": 0,
               "to": 10000
-            },
-            {
-              "count": 0,
-              "from": 10000,
-              "to": 20000
-            },
-            {
-              "count": 0,
-              "from": 20000,
-              "to": 30000
-            },
-            {
-              "count": 0,
-              "from": 30000,
-              "to": 40000
-            },
-            {
-              "count": 0,
-              "from": 40000,
-              "to": 50000
-            },
-            {
-              "count": 0,
-              "from": 50000,
-              "to": 60000
-            },
-            {
-              "count": 0,
-              "from": 60000,
-              "to": 70000
-            },
-            {
-              "count": 0,
-              "from": 70000,
-              "to": 80000
-            },
-            {
-              "count": 0,
-              "from": 80000,
-              "to": 90000
-            },
-            {
-              "count": 0,
-              "from": 90000,
-              "to": 100000
-            },
-            {
-              "count": 0,
-              "from": 100000,
-              "to": 110000
-            },
-            {
-              "count": 0,
-              "from": 110000,
-              "to": 120000
-            },
-            {
-              "count": 1,
-              "from": 120000,
-              "to": 130000
             }
           ],
           "promoted_count": 27,
@@ -74161,74 +74041,74 @@
         {
           "added": 38,
           "change": 16,
-          "count": 561,
+          "count": 560,
           "date": "2026-07-01",
           "median_price": 945,
           "price_distribution": [
             {
-              "count": 560,
+              "count": 2,
               "from": 0,
-              "to": 10000
+              "to": 200
             },
             {
               "count": 0,
-              "from": 10000,
-              "to": 20000
+              "from": 200,
+              "to": 400
             },
             {
-              "count": 0,
-              "from": 20000,
-              "to": 30000
+              "count": 16,
+              "from": 400,
+              "to": 600
             },
             {
-              "count": 0,
-              "from": 30000,
-              "to": 40000
+              "count": 116,
+              "from": 600,
+              "to": 800
             },
             {
-              "count": 0,
-              "from": 40000,
-              "to": 50000
+              "count": 197,
+              "from": 800,
+              "to": 1000
             },
             {
-              "count": 0,
-              "from": 50000,
-              "to": 60000
+              "count": 124,
+              "from": 1000,
+              "to": 1200
             },
             {
-              "count": 0,
-              "from": 60000,
-              "to": 70000
+              "count": 66,
+              "from": 1200,
+              "to": 1400
             },
             {
-              "count": 0,
-              "from": 70000,
-              "to": 80000
+              "count": 24,
+              "from": 1400,
+              "to": 1600
             },
             {
-              "count": 0,
-              "from": 80000,
-              "to": 90000
+              "count": 7,
+              "from": 1600,
+              "to": 1800
             },
             {
-              "count": 0,
-              "from": 90000,
-              "to": 100000
-            },
-            {
-              "count": 0,
-              "from": 100000,
-              "to": 110000
-            },
-            {
-              "count": 0,
-              "from": 110000,
-              "to": 120000
+              "count": 3,
+              "from": 1800,
+              "to": 2000
             },
             {
               "count": 1,
-              "from": 120000,
-              "to": 130000
+              "from": 2000,
+              "to": 2200
+            },
+            {
+              "count": 2,
+              "from": 2200,
+              "to": 2400
+            },
+            {
+              "count": 2,
+              "from": 2400,
+              "to": 2600
             }
           ],
           "promoted_count": 33,
