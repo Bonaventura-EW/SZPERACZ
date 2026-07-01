@@ -29,12 +29,22 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
   - Filtrowanie iteracyjne (kilka rund), na wypadek więcej niż jednego outliera na profil.
   - Odrzucone ogłoszenia logowane jako `WARNING` (tytuł, cena, url, próg).
 
-### Found (istniejące dane, przed wprowadzeniem reguły)
-- Jednorazowe sprawdzenie `data/dashboard_data.json` (`current_listings`) wykazało **jeden**
-  taki outlier, w profilu `wszystkie_pokoje`: id `1bfXbx`, cena **126 065 zł** ("Pokój
-  jednoosobowy na wynajem"), https://www.olx.pl/d/oferta/pokoj-jednoosobowy-na-wynajem-CID3-ID1bfXbx.html
-  — najpewniej literówka w cenie na OLX. Dane historyczne **nie zostały** retroaktywnie
-  wyczyszczone (reguła działa tylko na nowe skany) — do decyzji, czy usunąć ręcznie.
+### Fixed 🐛
+- **`scraper.py` — `parse_price()`** — prawdziwa przyczyna jedynego znalezionego outliera
+  (patrz niżej) NIE była literówką na OLX, tylko błędem parsera: funkcja usuwała wszystkie
+  znaki niebędące cyfrą (w tym przecinek dziesiętny), więc cena z groszami typu
+  `"1 260,65 zł"` zamieniała się w `126065` (10x realna wartość) zamiast `1260`. Poprawka:
+  ucinamy część po `.`/`,` PRZED usunięciem separatorów, więc grosze są odrzucane, a nie
+  doklejane do części całkowitej. Filtr `filter_price_outliers()` (wyżej) zostaje jako
+  dodatkowa siatka bezpieczeństwa na inne, nieprzewidziane przyczyny zawyżonych cen.
+
+### Data — usunięcie błędnego rekordu
+- Ręcznie usunięto z `data/dashboard_data.json` jedyny rekord dotknięty ww. bugiem: profil
+  `wszystkie_pokoje`, id `1bfXbx`, cena `126065` (przy realnej cenie ~1260 zł), "Pokój
+  jednoosobowy na wynajem" — wraz z pustym wpisem w `promotion_history`. Ogłoszenie może
+  wrócić przy kolejnym skanie z poprawną ceną (`first_seen` zresetuje się, bo `parse_price()`
+  jest już naprawiony). `daily_counts` (median/rozkład cen) nie wymagały korekty — mediana
+  z 528 nowych ogłoszeń tego dnia była odporna na ten jeden outlier.
 
 ---
 

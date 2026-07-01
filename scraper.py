@@ -171,7 +171,11 @@ def parse_price(text):
     if not text:
         return None
     cleaned = text.replace(" ", "").replace("\xa0", "")
-    cleaned = re.sub(r"[^\d]", "", cleaned.split("zł")[0] if "zł" in cleaned else cleaned)
+    cleaned = cleaned.split("zł")[0] if "zł" in cleaned else cleaned
+    # Odetnij część dziesiętną (grosze) PRZED usunięciem separatorów — inaczej
+    # np. "1 260,65 zł" traci przecinek i zamienia się w "126065" (10x realna cena).
+    cleaned = re.split(r"[.,]", cleaned)[0]
+    cleaned = re.sub(r"[^\d]", "", cleaned)
     if cleaned:
         try:
             return int(cleaned)

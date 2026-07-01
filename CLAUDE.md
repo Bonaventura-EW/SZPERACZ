@@ -206,10 +206,15 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   starej historii jest zamrożony w `data/archive/`. Nie przywracaj commitowania xlsx.
 - **Email**: `EMAIL_PASSWORD` to 16-znakowy Gmail App Password (nie hasło konta), w GitHub Secrets.
 - **Filtr outlierów cenowych (od 2026-07-01).** `filter_price_outliers()` w `run_scan()` odrzuca ze
-  skanu ogłoszenia z ceną >= 10x średnia (leave-one-out) reszty ogłoszeń w profilu — typowo literówki
-  w cenie na OLX. Średnia MUSI liczyć się bez ceny sprawdzanego ogłoszenia, inaczej sam outlier
-  zawyża własny punkt odniesienia i nigdy nie przekroczy progu. Wymaga min. 3 wycenionych ogłoszeń
-  w profilu. Działa tylko na nowe skany — nie czyści retroaktywnie już zapisanych danych.
+  skanu ogłoszenia z ceną >= 10x średnia (leave-one-out) reszty ogłoszeń w profilu. Średnia MUSI
+  liczyć się bez ceny sprawdzanego ogłoszenia, inaczej sam outlier zawyża własny punkt odniesienia
+  i nigdy nie przekroczy progu. Wymaga min. 3 wycenionych ogłoszeń w profilu. Działa tylko na nowe
+  skany — nie czyści retroaktywnie już zapisanych danych (wykryty jednorazowo błędny rekord
+  usunięto ręcznie, patrz CHANGELOG 2026-07-01).
+- **`parse_price()` i ceny z groszami.** Cena z przecinkiem dziesiętnym (np. `"1 260,65 zł"`) NIE
+  może trafić do `re.sub(r"[^\d]", ...)` przed odcięciem części po `.`/`,` — inaczej przecinek
+  znika, a grosze doklejają się do złotówek (`"1260,65"` → `126065`, 10x realna cena). Zawsze
+  najpierw `re.split(r"[.,]", ...)[0]`, dopiero potem usuwaj resztę niecyfrowych znaków.
 
 ---
 
