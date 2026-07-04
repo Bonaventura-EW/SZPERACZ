@@ -1,99 +1,6 @@
 {
-  "last_updated": "2026-07-03T10:09:55Z",
+  "last_updated": "2026-07-04T09:29:05Z",
   "scans": [
-    {
-      "timestamp": "2026-07-01T10:46:18Z",
-      "date": "2026-07-01",
-      "status": "success",
-      "message": "Skan 7 profili zakończony pomyślnie",
-      "duration_seconds": 141,
-      "total_listings": 623,
-      "added": 39,
-      "removed": 29,
-      "new_listings": 39,
-      "price_changes": 8,
-      "profiles_scanned": 7,
-      "errors": [],
-      "profiles": {
-        "pokojewlublinie": {
-          "label": "pokojewlublinie",
-          "count": 9,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "poqui": {
-          "label": "poqui",
-          "count": 6,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "artymiuk": {
-          "label": "artymiuk",
-          "count": 0,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "dawny_patron": {
-          "label": "dawny patron",
-          "count": 2,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "mzuri": {
-          "label": "mzuri",
-          "count": 46,
-          "added": 1,
-          "removed": 7,
-          "new_listings": 1,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "villahome": {
-          "label": "villahome",
-          "count": 0,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "wszystkie_pokoje": {
-          "label": "Wszystkie pokoje w Lublinie",
-          "count": 560,
-          "added": 38,
-          "removed": 22,
-          "new_listings": 38,
-          "price_changes": 8,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        }
-      }
-    },
     {
       "timestamp": "2026-07-02T10:13:45Z",
       "date": "2026-07-02",
@@ -274,6 +181,99 @@
           "removed": 22,
           "new_listings": 52,
           "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        }
+      }
+    },
+    {
+      "timestamp": "2026-07-04T09:29:05Z",
+      "date": "2026-07-04",
+      "status": "success",
+      "message": "Skan 7 profili zakończony pomyślnie",
+      "duration_seconds": 152,
+      "total_listings": 682,
+      "added": 37,
+      "removed": 24,
+      "new_listings": 37,
+      "price_changes": 8,
+      "profiles_scanned": 7,
+      "errors": [],
+      "profiles": {
+        "pokojewlublinie": {
+          "label": "pokojewlublinie",
+          "count": 9,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "poqui": {
+          "label": "poqui",
+          "count": 40,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "artymiuk": {
+          "label": "artymiuk",
+          "count": 0,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "dawny_patron": {
+          "label": "dawny patron",
+          "count": 2,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "mzuri": {
+          "label": "mzuri",
+          "count": 42,
+          "added": 2,
+          "removed": 1,
+          "new_listings": 2,
+          "price_changes": 1,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "villahome": {
+          "label": "villahome",
+          "count": 0,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "wszystkie_pokoje": {
+          "label": "Wszystkie pokoje w Lublinie",
+          "count": 589,
+          "added": 35,
+          "removed": 23,
+          "new_listings": 35,
+          "price_changes": 7,
           "crosscheck": "passed",
           "ok": true,
           "error": null
@@ -283,6 +283,99 @@
   ],
   "recent": [
     {
+      "timestamp": "2026-07-04T09:29:05Z",
+      "date": "2026-07-04",
+      "status": "success",
+      "message": "Skan 7 profili zakończony pomyślnie",
+      "duration_seconds": 152,
+      "total_listings": 682,
+      "added": 37,
+      "removed": 24,
+      "new_listings": 37,
+      "price_changes": 8,
+      "profiles_scanned": 7,
+      "errors": [],
+      "profiles": {
+        "pokojewlublinie": {
+          "label": "pokojewlublinie",
+          "count": 9,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "poqui": {
+          "label": "poqui",
+          "count": 40,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "artymiuk": {
+          "label": "artymiuk",
+          "count": 0,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "dawny_patron": {
+          "label": "dawny patron",
+          "count": 2,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "mzuri": {
+          "label": "mzuri",
+          "count": 42,
+          "added": 2,
+          "removed": 1,
+          "new_listings": 2,
+          "price_changes": 1,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "villahome": {
+          "label": "villahome",
+          "count": 0,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "wszystkie_pokoje": {
+          "label": "Wszystkie pokoje w Lublinie",
+          "count": 589,
+          "added": 35,
+          "removed": 23,
+          "new_listings": 35,
+          "price_changes": 7,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        }
+      }
+    },
+    {
       "timestamp": "2026-07-03T10:09:55Z",
       "date": "2026-07-03",
       "status": "success",
@@ -462,99 +555,6 @@
           "removed": 29,
           "new_listings": 16,
           "price_changes": 4,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        }
-      }
-    },
-    {
-      "timestamp": "2026-07-01T10:46:18Z",
-      "date": "2026-07-01",
-      "status": "success",
-      "message": "Skan 7 profili zakończony pomyślnie",
-      "duration_seconds": 141,
-      "total_listings": 623,
-      "added": 39,
-      "removed": 29,
-      "new_listings": 39,
-      "price_changes": 8,
-      "profiles_scanned": 7,
-      "errors": [],
-      "profiles": {
-        "pokojewlublinie": {
-          "label": "pokojewlublinie",
-          "count": 9,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "poqui": {
-          "label": "poqui",
-          "count": 6,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "artymiuk": {
-          "label": "artymiuk",
-          "count": 0,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "dawny_patron": {
-          "label": "dawny patron",
-          "count": 2,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "mzuri": {
-          "label": "mzuri",
-          "count": 46,
-          "added": 1,
-          "removed": 7,
-          "new_listings": 1,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "villahome": {
-          "label": "villahome",
-          "count": 0,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "wszystkie_pokoje": {
-          "label": "Wszystkie pokoje w Lublinie",
-          "count": 560,
-          "added": 38,
-          "removed": 22,
-          "new_listings": 38,
-          "price_changes": 8,
           "crosscheck": "passed",
           "ok": true,
           "error": null
