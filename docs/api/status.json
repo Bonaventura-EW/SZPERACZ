@@ -2,19 +2,19 @@
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2026-07-06T11:42:39Z",
-    "duration_seconds": 168,
+    "timestamp": "2026-07-06T13:43:45Z",
+    "duration_seconds": 145,
     "profiles_scanned": 7,
-    "total_listings": 698,
-    "added": 29,
+    "total_listings": 701,
+    "added": 32,
     "removed": 23,
-    "new_listings": 29,
-    "price_changes": 9,
+    "new_listings": 32,
+    "price_changes": 10,
     "errors": []
   },
   "nextScan": {
     "scheduled": "2026-07-07T07:00:00Z",
-    "in_seconds": 69440
+    "in_seconds": 62174
   },
   "profiles": {
     "pokojewlublinie": {
@@ -39,7 +39,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=40, header=40",
-      "duration_seconds": 17.9,
+      "duration_seconds": 5.0,
       "ok": true,
       "error": null
     },
@@ -52,7 +52,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.3,
+      "duration_seconds": 0.4,
       "ok": true,
       "error": null
     },
@@ -78,7 +78,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=42, header=42",
-      "duration_seconds": 5.3,
+      "duration_seconds": 5.7,
       "ok": true,
       "error": null
     },
@@ -91,20 +91,20 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.3,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 606,
-      "added": 26,
+      "count": 609,
+      "added": 29,
       "removed": 20,
-      "new_listings": 26,
-      "price_changes": 5,
+      "new_listings": 29,
+      "price_changes": 6,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=606, header=607",
-      "duration_seconds": 135.3,
+      "crosscheck_detail": "scraped=609, header=610",
+      "duration_seconds": 124.3,
       "ok": true,
       "error": null
     }
