@@ -13,6 +13,21 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-09] - ➕ Nowy profil: „stylowe pokoje-ania"
+
+### Added ✨
+- **`scraper.py` — `PROFILES`** — dodano nowy monitorowany profil użytkownika OLX
+  `stylowe_pokoje_ania` (label „stylowe pokoje-ania", url
+  `https://www.olx.pl/oferty/uzytkownik/1WLoW/`, `is_category: False`,
+  `uuid: 6ce22f3f-2dc7-4299-99e6-3c0d7ab9df19`). UUID (user_id do REST API OLX)
+  wyciągnięty ze strony profilu i zweryfikowany przez `api/v1/offers` (user „Ania",
+  ogłoszenia pokoi w Lublinie / Czechów Dolny).
+- Zaktualizowano listę profili w `CLAUDE.md` §5.
+- Kafelek pojawi się na dashboardzie automatycznie (renderowanie jest dynamiczne po
+  kluczach z `dashboard_data.json`) po pierwszym skanie obejmującym nowy profil.
+
+---
+
 ## [2026-07-01] - 🚫 Filtr cenowych outlierów (10x średnia)
 
 ### Added ✨
