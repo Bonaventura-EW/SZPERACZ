@@ -65,6 +65,12 @@ PROFILES = {
         "is_category": False,
         "uuid": "1889499b-05ae-4dc2-b640-0b2ed032422b",
     },
+    "stylowe_pokoje_ania": {
+        "url": "https://www.olx.pl/oferty/uzytkownik/1WLoW/",
+        "label": "stylowe pokoje-ania",
+        "is_category": False,
+        "uuid": "6ce22f3f-2dc7-4299-99e6-3c0d7ab9df19",
+    },
 }
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
