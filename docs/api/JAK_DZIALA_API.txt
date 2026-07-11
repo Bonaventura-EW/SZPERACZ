@@ -33,8 +33,16 @@ CO POKAZUJE status.json
 -----------------------
 Pola najważniejsze:
 
-  status            -> "success" / "partial_failure" / "failure"
+  status            -> "success" / "warning" / "partial_failure" / "failure"
+                       ("warning" = scan przeszedł, ale wykryto poważną anomalię)
   message           -> opis po polsku
+  alerts            -> lista wykrytych anomalii (pusta gdy wszystko OK):
+       profile           klucz profilu, którego dotyczy alert
+       type              "mass_removal" (zniknęło >=30% i >=10 ogłoszeń w dobę)
+                         lub "header_shortfall" (pobrano <50% ogłoszeń z nagłówka OLX)
+       severity          "critical"
+       message           gotowy opis po polsku (np. "zniknęło 595 z 640 ogłoszeń (93%)")
+       + liczby: removed / previous_count / count / header_count (zależnie od typu)
   lastScan          -> podsumowanie całego scanu:
        timestamp         kiedy się zakończył (UTC)
        total_listings    ILE OGŁOSZEŃ ŁĄCZNIE (suma wszystkich profili)

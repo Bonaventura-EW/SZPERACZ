@@ -1,6 +1,17 @@
 {
-  "status": "success",
-  "message": "Skan 8 profili zakończony pomyślnie",
+  "status": "warning",
+  "message": "Skan zakończony, ale wykryto poważne anomalie w: wszystkie_pokoje — sprawdź pole 'alerts'",
+  "alerts": [
+    {
+      "profile": "wszystkie_pokoje",
+      "type": "mass_removal",
+      "severity": "critical",
+      "message": "⚠️ POWAŻNA ANOMALIA: z profilu „Wszystkie pokoje w Lublinie” zniknęło 595 z 640 ogłoszeń (93%) w ciągu doby — możliwy błąd skanu/blokada OLX.",
+      "removed": 595,
+      "previous_count": 640,
+      "count": 652
+    }
+  ],
   "lastScan": {
     "timestamp": "2026-07-11T18:02:51Z",
     "duration_seconds": 161,

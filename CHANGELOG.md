@@ -13,6 +13,47 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-11] - 🚨 Alerty anomalii w API + ochrona przed skanem częściowym
+
+### Incydent
+Poranny skan 11.07 (08:54 UTC) pobrał dla `wszystkie_pokoje` tylko **50 z 650** ogłoszeń
+(crosscheck `best_of_two`: `1st=50, 2nd=50, header=650`), mimo to został potraktowany jako
+poprawny (`ok: true`) i **zarchiwizował 595 istniejących ogłoszeń** (`verify_listing_active()`
+przy blokadzie OLX również dała false positives). Wieczorny skan (18:02 UTC) je „reaktywował"
+(`added=607`). Ochrona danych działała dotąd tylko przy `crosscheck=error` lub `count==0`.
+
+### Added ✨
+- **`scraper.py` — `is_header_shortfall()`** (+ `HEADER_SHORTFALL_RATIO = 0.5`) — skan, który
+  pobrał <50% ogłoszeń deklarowanych w nagłówku strony OLX, jest teraz traktowany jak błąd
+  scrapera we WSZYSTKICH miejscach ochrony danych: `generate_dashboard_json()` (bez archiwizacji
+  i nadpisania `current_listings`, bez wpisu `daily_counts`), `append_history()` (bez wpisu do
+  ledgera) oraz `generate_api_json()` (profil `ok:false`, status `partial_failure`).
+- **`scraper.py` — `generate_api_json()`: pole `alerts` + status `warning`** w
+  `docs/api/status.json` i `history.json`. Typy alertów (severity `critical`):
+  - `mass_removal` — z profilu zniknęło ≥30% (`MASS_REMOVAL_RATIO`) i ≥10 szt.
+    (`MASS_REMOVAL_MIN`) ogłoszeń względem poprzedniego dnia (`daily_counts`),
+  - `header_shortfall` — częściowy scrape jak wyżej (dane profilu nie zostały zaktualizowane).
+  Gdy są alerty a nie ma błędów, globalny `status` = `"warning"`. Alerty logowane jako WARNING.
+- **Dashboard (`docs/index.html`) i `docs/scans.html`** — czerwony baner z treścią alertów
+  z `status.json` (na dashboardzie best-effort fetch, nie blokuje renderu); w tabeli historii
+  skanów nowy badge „⚠ anomalia" (status `warning`) + tooltip z treścią alertu.
+- Dokumentacja API: `docs/api/README.md`, `JAK_DZIALA_API.txt`, `openapi.yaml` (pole `alerts`,
+  status `warning`).
+
+### Changed 🔧
+- **`docs/api/status.json` / `history.json`** — retroaktywnie oznaczono skany z 11.07:
+  poranny (08:54) → `partial_failure` + alert `header_shortfall`; wieczorny (18:02) →
+  `warning` + alert `mass_removal` (595 z 640 ogłoszeń, 93%).
+
+### Known issues ⚠️
+- Skutki uboczne incydentu w `data/dashboard_data.json` NIE zostały wyczyszczone:
+  `daily_counts` 2026-07-11 profilu `wszystkie_pokoje` ma sztuczne
+  `added=607 / removed=595 / reactivated_count=573`, a ~573 ogłoszenia mają fałszywy wpis
+  w `reactivation_history` (+1 `reactivation_count`) z 2026-07-11. Ledger ma dodatkową linię
+  z porannego skanu (count=50) — append-only, zostaje. Do ewentualnej naprawy osobnym skryptem.
+
+---
+
 ## [2026-07-09] - ➕ Nowy profil: „stylowe pokoje-ania"
 
 ### Added ✨

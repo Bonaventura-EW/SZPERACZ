@@ -103,13 +103,14 @@
           "ok": true,
           "error": null
         }
-      }
+      },
+      "alerts": []
     },
     {
       "timestamp": "2026-07-11T08:54:05Z",
       "date": "2026-07-11",
-      "status": "success",
-      "message": "Skan 8 profili zakończony pomyślnie",
+      "status": "partial_failure",
+      "message": "Skan częściowy — błędy w: wszystkie_pokoje (wykryto retroaktywnie: pobrano 50 z 650 ogłoszeń)",
       "duration_seconds": 83,
       "total_listings": 159,
       "added": 9,
@@ -117,7 +118,9 @@
       "new_listings": 9,
       "price_changes": 0,
       "profiles_scanned": 8,
-      "errors": [],
+      "errors": [
+        "wszystkie_pokoje"
+      ],
       "profiles": {
         "pokojewlublinie": {
           "label": "pokojewlublinie",
@@ -204,16 +207,26 @@
           "new_listings": 5,
           "price_changes": 0,
           "crosscheck": "best_of_two",
-          "ok": true,
-          "error": null
+          "ok": false,
+          "error": "Częściowy scrape: pobrano 50 z 650 ogłoszeń (1st=50, 2nd=50, header=650)"
         }
-      }
+      },
+      "alerts": [
+        {
+          "profile": "wszystkie_pokoje",
+          "type": "header_shortfall",
+          "severity": "critical",
+          "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „Wszystkie pokoje w Lublinie” — pobrano tylko 50 z 650 ogłoszeń deklarowanych przez OLX (wykryto retroaktywnie; skan błędnie zarchiwizował 595 ogłoszeń).",
+          "count": 50,
+          "header_count": 650
+        }
+      ]
     },
     {
       "timestamp": "2026-07-11T18:02:51Z",
       "date": "2026-07-11",
-      "status": "success",
-      "message": "Skan 8 profili zakończony pomyślnie",
+      "status": "warning",
+      "message": "Skan zakończony, ale wykryto poważne anomalie w: wszystkie_pokoje — sprawdź pole 'alerts'",
       "duration_seconds": 161,
       "total_listings": 761,
       "added": 611,
@@ -311,15 +324,26 @@
           "ok": true,
           "error": null
         }
-      }
+      },
+      "alerts": [
+        {
+          "profile": "wszystkie_pokoje",
+          "type": "mass_removal",
+          "severity": "critical",
+          "message": "⚠️ POWAŻNA ANOMALIA: z profilu „Wszystkie pokoje w Lublinie” zniknęło 595 z 640 ogłoszeń (93%) w ciągu doby — możliwy błąd skanu/blokada OLX.",
+          "removed": 595,
+          "previous_count": 640,
+          "count": 652
+        }
+      ]
     }
   ],
   "recent": [
     {
       "timestamp": "2026-07-11T18:02:51Z",
       "date": "2026-07-11",
-      "status": "success",
-      "message": "Skan 8 profili zakończony pomyślnie",
+      "status": "warning",
+      "message": "Skan zakończony, ale wykryto poważne anomalie w: wszystkie_pokoje — sprawdź pole 'alerts'",
       "duration_seconds": 161,
       "total_listings": 761,
       "added": 611,
@@ -417,13 +441,24 @@
           "ok": true,
           "error": null
         }
-      }
+      },
+      "alerts": [
+        {
+          "profile": "wszystkie_pokoje",
+          "type": "mass_removal",
+          "severity": "critical",
+          "message": "⚠️ POWAŻNA ANOMALIA: z profilu „Wszystkie pokoje w Lublinie” zniknęło 595 z 640 ogłoszeń (93%) w ciągu doby — możliwy błąd skanu/blokada OLX.",
+          "removed": 595,
+          "previous_count": 640,
+          "count": 652
+        }
+      ]
     },
     {
       "timestamp": "2026-07-11T08:54:05Z",
       "date": "2026-07-11",
-      "status": "success",
-      "message": "Skan 8 profili zakończony pomyślnie",
+      "status": "partial_failure",
+      "message": "Skan częściowy — błędy w: wszystkie_pokoje (wykryto retroaktywnie: pobrano 50 z 650 ogłoszeń)",
       "duration_seconds": 83,
       "total_listings": 159,
       "added": 9,
@@ -431,7 +466,9 @@
       "new_listings": 9,
       "price_changes": 0,
       "profiles_scanned": 8,
-      "errors": [],
+      "errors": [
+        "wszystkie_pokoje"
+      ],
       "profiles": {
         "pokojewlublinie": {
           "label": "pokojewlublinie",
@@ -518,10 +555,20 @@
           "new_listings": 5,
           "price_changes": 0,
           "crosscheck": "best_of_two",
-          "ok": true,
-          "error": null
+          "ok": false,
+          "error": "Częściowy scrape: pobrano 50 z 650 ogłoszeń (1st=50, 2nd=50, header=650)"
         }
-      }
+      },
+      "alerts": [
+        {
+          "profile": "wszystkie_pokoje",
+          "type": "header_shortfall",
+          "severity": "critical",
+          "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „Wszystkie pokoje w Lublinie” — pobrano tylko 50 z 650 ogłoszeń deklarowanych przez OLX (wykryto retroaktywnie; skan błędnie zarchiwizował 595 ogłoszeń).",
+          "count": 50,
+          "header_count": 650
+        }
+      ]
     },
     {
       "timestamp": "2026-07-10T10:27:55Z",
@@ -625,7 +672,8 @@
           "ok": true,
           "error": null
         }
-      }
+      },
+      "alerts": []
     }
   ]
 }

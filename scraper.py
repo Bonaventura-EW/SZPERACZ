@@ -87,6 +87,26 @@ API_HISTORY_PATH = os.path.join(API_DIR, "history.json")
 # jako błędne dane (literówka w cenie, ogłoszenie nie-pokoju itp.) — patrz filter_price_outliers().
 PRICE_OUTLIER_MULTIPLIER = 10
 
+# Skan, który pobrał mniej niż tę część ogłoszeń deklarowanych w nagłówku strony,
+# traktujemy jak błąd scrapera (ochrona danych jak przy count==0) — patrz is_header_shortfall().
+HEADER_SHORTFALL_RATIO = 0.5
+
+# Progi alertu "masowe zniknięcie ogłoszeń" w docs/api/status.json — patrz generate_api_json().
+MASS_REMOVAL_MIN = 10      # min. liczba zniknięć, żeby w ogóle rozważać alert
+MASS_REMOVAL_RATIO = 0.3   # zniknięcia >= 30% poprzedniego stanu profilu = anomalia
+
+
+def is_header_shortfall(result):
+    """
+    True, gdy skan pobrał drastycznie mniej ogłoszeń niż deklaruje nagłówek strony
+    (np. 50 z 650 → crosscheck 'best_of_two'). Taki skan traktujemy jak błąd scrapera:
+    NIE archiwizujemy, NIE nadpisujemy current_listings, NIE dopisujemy do ledgera.
+    Incydent 2026-07-11: taki skan zarchiwizował 595 ogłoszeń, które istniały na OLX.
+    """
+    header = result.get("header_count")
+    count = result.get("count", 0)
+    return bool(header and header > 0 and count < header * HEADER_SHORTFALL_RATIO)
+
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
@@ -1484,7 +1504,8 @@ def append_history(scan_results, scan_timestamp, ledger_path=HISTORY_LEDGER, jso
             header_count = result.get("header_count")
             count = result.get("count", 0)
             is_scraper_error = (crosscheck == "error"
-                                or (count == 0 and header_count is None))
+                                or (count == 0 and header_count is None)
+                                or is_header_shortfall(result))
             if is_scraper_error and prior_listing_count.get(pk, 0) > 0:
                 log.warning(f"[{pk}] Pomijam wpis do ledgera — błąd scrapera "
                             f"(crosscheck={crosscheck}, header={header_count})")
@@ -1660,11 +1681,13 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         #   2. Scan OK ale header_count=None i count=0 → nie można zweryfikować, chroń
         #   3. Scan OK, header=0, count=0 → profil PRAWDZIWIE pusty, archiwizuj normalnie
         #   4. Scan OK, header=N, count=N → normalna sytuacja
+        #   5. Scan pobrał < 50% ogłoszeń z nagłówka (np. 50 z 650) → częściowy scrape, chroń dane
         crosscheck = result.get("crosscheck", "")
         header_count = result.get("header_count")
         is_scraper_error = (
             crosscheck == "error"
             or (result["count"] == 0 and header_count is None)
+            or is_header_shortfall(result)
         )
         current_listings_count = len(pd_.get("current_listings", []))
 
@@ -2169,17 +2192,22 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
     total_removed = 0
     total_price_changes = 0
     error_profiles = []
+    alerts = []
 
     for pk, result in scan_results.items():
         crosscheck = result.get("crosscheck", "unknown")
         count = result.get("count", 0)
+        header_count = result.get("header_count")
 
-        # Błąd = jawny "error" lub 0 ogłoszeń z niepasującym crosscheck
+        # Błąd = jawny "error", 0 ogłoszeń z niepasującym crosscheck,
+        # albo częściowy scrape (pobrano < 50% ogłoszeń z nagłówka strony)
+        shortfall = is_header_shortfall(result)
         is_error = (
             crosscheck == "error"
             or (count == 0 and crosscheck not in (
                 "passed", "passed_retry", "consistent", "best_of_two"
             ))
+            or shortfall
         )
 
         # Przybyło/zniknęło — odczyt z świeżo zapisanego daily_counts (dzisiejszy wpis).
@@ -2188,11 +2216,46 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
         prof_data = existing_data.get("profiles", {}).get(pk, {})
         added_today = None
         removed_today = None
+        prev_count = None
         for dc_entry in reversed(prof_data.get("daily_counts", [])):
-            if dc_entry.get("date") == today_str:
+            entry_date = dc_entry.get("date", "")
+            if entry_date == today_str and added_today is None:
                 added_today = dc_entry.get("added")
                 removed_today = dc_entry.get("removed")
+            elif entry_date < today_str:
+                prev_count = dc_entry.get("count")
                 break
+
+        # ── Alerty anomalii ──────────────────────────────────────────────────
+        # 1. Częściowy scrape: pobrano drastycznie mniej niż deklaruje nagłówek OLX.
+        if shortfall:
+            alerts.append({
+                "profile": pk,
+                "type": "header_shortfall",
+                "severity": "critical",
+                "message": (f"⚠️ POWAŻNY BŁĄD SKANU: profil „{PROFILES[pk]['label']}” — "
+                            f"pobrano tylko {count} z {header_count} ogłoszeń deklarowanych "
+                            f"przez OLX. Dane profilu NIE zostały zaktualizowane (ochrona)."),
+                "count": count,
+                "header_count": header_count,
+            })
+        # 2. Masowe zniknięcie: ubyło >= 30% wczorajszego stanu profilu (i >= 10 szt.).
+        #    Łapie przypadki, gdzie dane JUŻ zostały zmodyfikowane (np. masowa archiwizacja).
+        if (removed_today and prev_count
+                and removed_today >= MASS_REMOVAL_MIN
+                and removed_today >= MASS_REMOVAL_RATIO * prev_count):
+            pct = round(100 * removed_today / prev_count)
+            alerts.append({
+                "profile": pk,
+                "type": "mass_removal",
+                "severity": "critical",
+                "message": (f"⚠️ POWAŻNA ANOMALIA: z profilu „{PROFILES[pk]['label']}” "
+                            f"zniknęło {removed_today} z {prev_count} ogłoszeń ({pct}%) "
+                            f"w ciągu doby — możliwy błąd skanu/blokada OLX."),
+                "removed": removed_today,
+                "previous_count": prev_count,
+                "count": count,
+            })
 
         new_today = added_today or 0
 
@@ -2221,7 +2284,11 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
         }
 
         if is_error:
-            detail = result.get("crosscheck_detail", "Nieznany błąd podczas skanowania")
+            if shortfall:
+                detail = (f"Częściowy scrape: pobrano {count} z {header_count} ogłoszeń "
+                          f"({result.get('crosscheck_detail', '')})")
+            else:
+                detail = result.get("crosscheck_detail", "Nieznany błąd podczas skanowania")
             profile_entry["error"] = detail
             error_profiles.append(pk)
         else:
@@ -2231,15 +2298,23 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
 
     # ── Globalny status ───────────────────────────────────────────────────────
     error_count = len(error_profiles)
-    if error_count == 0:
+    if error_count == 0 and not alerts:
         status = "success"
         message = f"Skan {profiles_scanned} profili zakończony pomyślnie"
+    elif error_count == 0:
+        status = "warning"
+        alert_profiles = sorted({a["profile"] for a in alerts})
+        message = (f"Skan zakończony, ale wykryto poważne anomalie w: "
+                   f"{', '.join(alert_profiles)} — sprawdź pole 'alerts'")
     elif error_count < profiles_scanned:
         status = "partial_failure"
         message = f"Skan częściowy — błędy w: {', '.join(error_profiles)}"
     else:
         status = "failure"
         message = "Skan nieudany — wszystkie profile zwróciły błędy"
+
+    for alert in alerts:
+        log.warning(f"[ALERT] {alert['message']}")
 
     # ── Następny scan: 07:00 UTC ──────────────────────────────────────────────
     next_scan = scan_timestamp.replace(hour=7, minute=0, second=0, microsecond=0)
@@ -2252,6 +2327,7 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
     status_data = {
         "status": status,
         "message": message,
+        "alerts": alerts,
         "lastScan": {
             "timestamp": now_iso,
             "duration_seconds": duration_seconds,
@@ -2288,6 +2364,7 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
         "date": today_str,
         "status": status,
         "message": message,
+        "alerts": alerts,
         "duration_seconds": duration_seconds,
         "total_listings": total_listings,
         "added": total_new,
