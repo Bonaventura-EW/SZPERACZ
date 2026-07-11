@@ -45,12 +45,33 @@ przy blokadzie OLX również dała false positives). Wieczorny skan (18:02 UTC) 
   poranny (08:54) → `partial_failure` + alert `header_shortfall`; wieczorny (18:02) →
   `warning` + alert `mass_removal` (595 z 640 ogłoszeń, 93%).
 
+### Fixed 🐛 — czyszczenie danych po incydencie (`rebuild_incident_20260711.py`)
+Jednorazowy, idempotentny skrypt (baseline = stan po skanie 10.07, commit `e1dfdc7`)
+naprawił skutki uboczne incydentu w `data/dashboard_data.json` i `docs/api/*.json`:
+- usunięto **572 fałszywe wpisy** `reactivation_history` (sygnatura `active_to ==
+  2026-07-11 08:54:05`) + przywrócono `reactivated`/`reactivation_count`; zachowano
+  1 prawdziwą reaktywację z 11.07 (`17jKAL`, zarchiwizowane 06.07),
+- cofnięto **12 artefaktów sesji promocji** (ogłoszenia promowane 10.07 i 11.07, którym
+  fałszywa archiwizacja zamknęła sesję i otworzyła nową: sessions+1, days reset → przywrócono
+  sesje/historię, days = stare+1),
+- przywrócono historię `1b1ruw` (wieczorny skan potraktował je jako NOWE: first_seen/
+  first_price/refresh_history wyzerowane → przywrócone + doliczony refresh z 11.07),
+- **10 zgubionych ogłoszeń** wróciło do archiwum z `archived_date = 2026-07-11 18:02:51`
+  (mechanizm zguby: rano `verify_listing_active()` uznała je za aktywne → pominięto
+  archiwizację, ale `current_listings` i tak nadpisano 50 zeskanowanymi → wypadły bez śladu),
+- `daily_counts` 2026-07-11: `added 607→34`, `removed 595→22` (realny ruch doby),
+  `reactivated_count 573→1`, `refreshed_count 20→21`; poprawiono też `scan_history`
+  i `docs/api/status.json`/`history.json` (globalnie added 611→38, removed 596→23).
+  **Alerty o incydencie w API zostają** — dokumentują zdarzenie.
+- Ledger NDJSON nietknięty (append-only; linia porannego skanu count=50 zostaje).
+
 ### Known issues ⚠️
-- Skutki uboczne incydentu w `data/dashboard_data.json` NIE zostały wyczyszczone:
-  `daily_counts` 2026-07-11 profilu `wszystkie_pokoje` ma sztuczne
-  `added=607 / removed=595 / reactivated_count=573`, a ~573 ogłoszenia mają fałszywy wpis
-  w `reactivation_history` (+1 `reactivation_count`) z 2026-07-11. Ledger ma dodatkową linię
-  z porannego skanu (count=50) — append-only, zostaje. Do ewentualnej naprawy osobnym skryptem.
+- **Ciche gubienie ogłoszeń przy rotacji wyników OLX** (bug istniejący wcześniej, ujawniony
+  przez incydent): gdy ogłoszenie nie wypadnie w skanie, a `verify_listing_active()` potwierdzi,
+  że nadal istnieje, kod pomija archiwizację, ale i tak nadpisuje `current_listings` samymi
+  zeskanowanymi → ogłoszenie znika z danych bez śladu, a przy powrocie jest liczone jako NOWE
+  (traci historię). Tak zgubiono ww. 10+1 ogłoszeń. Do naprawy osobno (weryfikowane-aktywne
+  powinny zostawać w `current_listings`).
 
 ---
 

@@ -81,6 +81,7 @@ Pełna lista: `requirements.txt`.
 - `rebuild_daily_flows.py` — przelicza `added`/`removed` w `daily_counts`.
 - `rebuild_refresh_history.py` / `rebuild_refresh_dedupe.py` / `rebuild_refreshed_count.py` — naprawa danych o odświeżeniach.
 - `rebuild_archive_counters.py` / `rebuild_refresh_reactivation_counts.py` — liczniki refresh/reaktywacji.
+- `rebuild_incident_20260711.py` — jednorazowe czyszczenie danych po incydencie skanu częściowego 11.07.
 - `backfill_prices.py` (przestarzały) / `backfill_price_distribution.py` — uzupełnianie historii cen.
   > Te skrypty modyfikują `data/*.json`. Uruchamiaj świadomie, rób kopię/commit przed.
 
@@ -210,9 +211,13 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   jest traktowany jak błąd scrapera: bez archiwizacji, bez nadpisania `current_listings`, bez
   wpisu do ledgera, profil `ok:false` w API. Dodatkowo `generate_api_json()` emituje `alerts`
   (+ status `warning`) przy masowym zniknięciu ogłoszeń (`mass_removal`). Nie osłabiaj tej ochrony.
-  Skutki uboczne incydentu w danych: `daily_counts` 2026-07-11 profilu `wszystkie_pokoje` ma
-  sztuczne `added=607/removed=595/reactivated_count=573`, a ~573 ogłoszenia mają fałszywy wpis
-  w `reactivation_history` z 2026-07-11 (nie naprawiono retroaktywnie).
+  Skutki uboczne incydentu w danych wyczyszczono skryptem `rebuild_incident_20260711.py`
+  (patrz CHANGELOG 2026-07-11); ledger celowo nietknięty (append-only).
+- **Ciche gubienie ogłoszeń przy rotacji wyników OLX (bug, do naprawy).** Gdy ogłoszenia nie ma
+  w skanie, ale `verify_listing_active()` potwierdzi, że istnieje, kod pomija archiwizację —
+  jednak `current_listings` i tak jest nadpisywane samymi zeskanowanymi, więc ogłoszenie znika
+  z danych bez śladu i przy powrocie liczy się jako NOWE (traci historię). Tak incydent 11.07
+  zgubił 11 ogłoszeń (przywrócone ww. skryptem).
 - **Excel NIE jest w repo.** Od 2026-05-31 `szperacz_olx.xlsx` jest w `.gitignore` i generowany na żądanie
   (`build_excel_from_data()`), bo binarny xlsx commitowany co scan rozdymał `.git`. Wieczny zapis trendu to
   append-only ledger `data/history/daily_summary.ndjson` (NIGDY nie przepisuj — tylko dopisuj). Literalny snapshot
