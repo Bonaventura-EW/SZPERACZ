@@ -2,19 +2,19 @@
   "status": "success",
   "message": "Skan 8 profili zakończony pomyślnie",
   "lastScan": {
-    "timestamp": "2026-07-11T08:54:05Z",
-    "duration_seconds": 83,
+    "timestamp": "2026-07-11T18:02:51Z",
+    "duration_seconds": 161,
     "profiles_scanned": 8,
-    "total_listings": 159,
-    "added": 9,
+    "total_listings": 761,
+    "added": 611,
     "removed": 596,
-    "new_listings": 9,
+    "new_listings": 611,
     "price_changes": 0,
     "errors": []
   },
   "nextScan": {
     "scheduled": "2026-07-12T07:00:00Z",
-    "in_seconds": 79554
+    "in_seconds": 46628
   },
   "profiles": {
     "pokojewlublinie": {
@@ -26,7 +26,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=9, header=9",
-      "duration_seconds": 0.3,
+      "duration_seconds": 0.4,
       "ok": true,
       "error": null
     },
@@ -39,7 +39,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=42, header=42",
-      "duration_seconds": 5.6,
+      "duration_seconds": 5.5,
       "ok": true,
       "error": null
     },
@@ -52,7 +52,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.2,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
@@ -65,7 +65,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.3,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
@@ -78,7 +78,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=48, header=48",
-      "duration_seconds": 6.9,
+      "duration_seconds": 6.0,
       "ok": true,
       "error": null
     },
@@ -104,20 +104,20 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=10, header=10",
-      "duration_seconds": 0.5,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 50,
-      "added": 5,
+      "count": 652,
+      "added": 607,
       "removed": 595,
-      "new_listings": 5,
+      "new_listings": 607,
       "price_changes": 0,
-      "crosscheck": "best_of_two",
-      "crosscheck_detail": "1st=50, 2nd=50, header=650",
-      "duration_seconds": 57.7,
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=652, header=652",
+      "duration_seconds": 136.2,
       "ok": true,
       "error": null
     }
