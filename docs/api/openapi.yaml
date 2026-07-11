@@ -106,17 +106,62 @@ components:
           type: string
           enum:
             - success
+            - warning
             - partial_failure
             - failure
           description: |
             Status ostatniego skanu:
             - `success` - wszystkie profile zeskanowane poprawnie
+            - `warning` - skan przeszedł, ale wykryto poważną anomalię (patrz `alerts`)
             - `partial_failure` - niektóre profile miały błędy
             - `failure` - skan całkowicie nie powiódł się
         message:
           type: string
           description: Czytelny opis statusu po polsku
           example: Skan 5 profili zakończony pomyślnie
+        alerts:
+          type: array
+          description: |
+            Wykryte anomalie ostatniego skanu (pusta lista gdy wszystko OK):
+            - `mass_removal` - z profilu zniknęło >=30% (i >=10 szt.) ogłoszeń w ciągu doby
+            - `header_shortfall` - pobrano <50% ogłoszeń deklarowanych w nagłówku OLX
+              (dane profilu NIE są wtedy aktualizowane - ochrona przed masową archiwizacją)
+          items:
+            type: object
+            required:
+              - profile
+              - type
+              - severity
+              - message
+            properties:
+              profile:
+                type: string
+                description: Klucz profilu, którego dotyczy alert
+                example: wszystkie_pokoje
+              type:
+                type: string
+                enum:
+                  - mass_removal
+                  - header_shortfall
+              severity:
+                type: string
+                enum:
+                  - critical
+              message:
+                type: string
+                description: Gotowy opis anomalii po polsku
+              removed:
+                type: integer
+                description: (mass_removal) ile ogłoszeń zniknęło
+              previous_count:
+                type: integer
+                description: (mass_removal) stan profilu dzień wcześniej
+              count:
+                type: integer
+                description: Liczba ogłoszeń w tym scanie
+              header_count:
+                type: integer
+                description: (header_shortfall) liczba ogłoszeń wg nagłówka strony OLX
         lastScan:
           $ref: '#/components/schemas/LastScanInfo'
         nextScan:
@@ -271,9 +316,15 @@ components:
           type: string
           enum:
             - success
+            - warning
             - partial_failure
             - failure
-          description: Status skanu
+          description: Status skanu (warning = wykryto anomalię, patrz `alerts`)
+        alerts:
+          type: array
+          description: Anomalie wykryte w tym scanie (jak w status.json)
+          items:
+            type: object
         total_listings:
           type: integer
           description: Suma ogłoszeń

@@ -366,6 +366,24 @@ body {
 
 .status-success { background: var(--green-bg); color: var(--green); }
 .status-error { background: var(--red-bg); color: var(--red); }
+.status-warning { background: rgba(245, 158, 11, 0.12); color: var(--orange); }
+
+.alert-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  border: 1px solid var(--red);
+  border-left-width: 5px;
+  border-radius: 10px;
+  background: var(--red-bg);
+  color: var(--red);
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.alert-banner .alert-icon { font-size: 18px; line-height: 1.3; }
 
 .dur-bar-inline {
   display: inline-block;
@@ -574,6 +592,25 @@ async function loadAndRender() {
   const maxProfileDur = Math.max(...profKeys.map(k => profiles[k].duration_seconds || 0), 1);
   const maxHistDur    = Math.max(...scans.map(s => s.duration_seconds || 0), 1);
 
+  // ── Baner alertów (anomalie / błędy z ostatniego skanu) ─
+  let alertsHtml = '';
+  const alerts = status.alerts || [];
+  if (alerts.length > 0) {
+    alertsHtml = alerts.map(a => `
+      <div class="alert-banner">
+        <span class="alert-icon">🚨</span>
+        <span>${esc(a.message)}</span>
+      </div>
+    `).join('');
+  } else if (status.status && status.status !== 'success') {
+    alertsHtml = `
+      <div class="alert-banner">
+        <span class="alert-icon">🚨</span>
+        <span>${esc(status.message || 'Ostatni scan zakończył się błędem.')}</span>
+      </div>
+    `;
+  }
+
   // ── Hero ──────────────────────────────────────────────
   let heroHtml = `
     <div class="hero">
@@ -656,7 +693,8 @@ async function loadAndRender() {
     const pct = Math.max(Math.round((dur / maxHistDur) * 100), 2);
     const date = scan.date ? scan.date.slice(5).replace('-', '.') : '?';
     const statusOk = scan.status === 'success';
-    const color = statusOk ? 'var(--accent)' : 'var(--red)';
+    const color = statusOk ? 'var(--accent)'
+      : scan.status === 'warning' ? 'var(--orange)' : 'var(--red)';
 
     chartHtml += `
       <div class="dur-bar-wrap" title="${fmtTs(scan.timestamp)} — ${fmtDur(dur)}">
@@ -695,15 +733,17 @@ async function loadAndRender() {
     const dur    = scan.duration_seconds || 0;
     const barW   = Math.round((dur / maxHistDur) * 120);
     const isOk   = scan.status === 'success';
-    const badgeCls = isOk ? 'status-success' : 'status-error';
-    const badgeTxt = isOk ? '✓ sukces' : '✗ błąd';
+    const isWarn = scan.status === 'warning';
+    const badgeCls = isOk ? 'status-success' : isWarn ? 'status-warning' : 'status-error';
+    const badgeTxt = isOk ? '✓ sukces' : isWarn ? '⚠ anomalia' : '✗ błąd';
+    const alertTip = (scan.alerts || []).map(a => a.message).join('\n');
     const num    = scans.length - i;
 
     tableHtml += `
       <tr>
         <td style="color:var(--text-muted);font-size:11px">${num}</td>
         <td class="ts">${fmtTs(scan.timestamp)}</td>
-        <td><span class="status-badge ${badgeCls}">${badgeTxt}</span></td>
+        <td><span class="status-badge ${badgeCls}" title="${esc(alertTip)}">${badgeTxt}</span></td>
         <td class="dur">${fmtDur(dur)}</td>
         <td>
           <div style="display:flex;align-items:center;gap:6px">
@@ -720,7 +760,7 @@ async function loadAndRender() {
   tableHtml += `</tbody></table></div>`;
 
   document.getElementById('pageContent').innerHTML =
-    heroHtml + cardsHtml + chartHtml + tableHtml;
+    alertsHtml + heroHtml + cardsHtml + chartHtml + tableHtml;
 }
 
 loadAndRender();

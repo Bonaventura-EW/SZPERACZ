@@ -81,6 +81,7 @@ Pełna lista: `requirements.txt`.
 - `rebuild_daily_flows.py` — przelicza `added`/`removed` w `daily_counts`.
 - `rebuild_refresh_history.py` / `rebuild_refresh_dedupe.py` / `rebuild_refreshed_count.py` — naprawa danych o odświeżeniach.
 - `rebuild_archive_counters.py` / `rebuild_refresh_reactivation_counts.py` — liczniki refresh/reaktywacji.
+- `rebuild_incident_20260711.py` — jednorazowe czyszczenie danych po incydencie skanu częściowego 11.07.
 - `backfill_prices.py` (przestarzały) / `backfill_price_distribution.py` — uzupełnianie historii cen.
   > Te skrypty modyfikują `data/*.json`. Uruchamiaj świadomie, rób kopię/commit przed.
 
@@ -94,6 +95,9 @@ Pełna lista: `requirements.txt`.
   - `status.json` — stan ostatniego scanu: globalnie `total_listings`/`added`/`removed`/`price_changes`
     oraz per profil `count`/`added`/`removed`/`crosscheck`. `added`/`removed` = przybyło/zniknęło
     (czytane ze świeżego `daily_counts`; `null` = nie policzono, nie 0).
+    Pole `alerts` + status `warning` (od 2026-07-11): anomalie ostatniego scanu — `mass_removal`
+    (zniknęło ≥30% i ≥10 ogłoszeń w dobę) i `header_shortfall` (pobrano <50% ogłoszeń z nagłówka
+    OLX). Dashboard (`index.html`) i `scans.html` pokazują je jako czerwony baner.
   - `history.json` — **3 ostatnie scany** (`scans` od najstarszego, `recent` od najnowszego), z added/removed per profil.
   - Generuje `generate_api_json()` w scraper.py. Opis: `docs/api/JAK_DZIALA_API.txt`, `README.md`, `openapi.yaml`.
 
@@ -200,6 +204,20 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   `archived_listings` (nieograniczone!) oraz `price_history`/`refresh_history`/`promotion_history` rosną BEZ limitu →
   `dashboard_data.json` puchnie latami (główne źródło rozrostu repo po odpięciu binarnego `xlsx`).
 - **Archiwizacja po znikinięciu** weryfikowana przez `verify_listing_active()` (false positives przy blokadach OLX).
+- **Skan częściowy (scraped ≪ header) = błąd scrapera (od 2026-07-11).** Incydent: poranny skan
+  11.07 pobrał 50 z 650 ogłoszeń `wszystkie_pokoje` (crosscheck `best_of_two` to przepuszczał!)
+  i zarchiwizował 595 istniejących ogłoszeń (`verify_listing_active()` też dała false positives).
+  Naprawa: `is_header_shortfall()` — skan z `count < 50% header_count` (HEADER_SHORTFALL_RATIO)
+  jest traktowany jak błąd scrapera: bez archiwizacji, bez nadpisania `current_listings`, bez
+  wpisu do ledgera, profil `ok:false` w API. Dodatkowo `generate_api_json()` emituje `alerts`
+  (+ status `warning`) przy masowym zniknięciu ogłoszeń (`mass_removal`). Nie osłabiaj tej ochrony.
+  Skutki uboczne incydentu w danych wyczyszczono skryptem `rebuild_incident_20260711.py`
+  (patrz CHANGELOG 2026-07-11); ledger celowo nietknięty (append-only).
+- **Ciche gubienie ogłoszeń przy rotacji wyników OLX (bug, do naprawy).** Gdy ogłoszenia nie ma
+  w skanie, ale `verify_listing_active()` potwierdzi, że istnieje, kod pomija archiwizację —
+  jednak `current_listings` i tak jest nadpisywane samymi zeskanowanymi, więc ogłoszenie znika
+  z danych bez śladu i przy powrocie liczy się jako NOWE (traci historię). Tak incydent 11.07
+  zgubił 11 ogłoszeń (przywrócone ww. skryptem).
 - **Excel NIE jest w repo.** Od 2026-05-31 `szperacz_olx.xlsx` jest w `.gitignore` i generowany na żądanie
   (`build_excel_from_data()`), bo binarny xlsx commitowany co scan rozdymał `.git`. Wieczny zapis trendu to
   append-only ledger `data/history/daily_summary.ndjson` (NIGDY nie przepisuj — tylko dopisuj). Literalny snapshot
@@ -220,7 +238,7 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 
 ## 8. Konwencje pracy w tym repo
 
-- Gałąź robocza tej sesji: `claude/vibrant-lamport-L2Uq9`. Commituj i pushuj tam.
+- Gałąź robocza tej sesji: `claude/missing-listings-scan-alert-sdpzh3`. Commituj i pushuj tam.
 - Commity i komunikaty po polsku, w stylu istniejącej historii.
 - Nie dodawaj PR bez wyraźnej prośby.
 - **Po skończonych zmianach pytaj, czy zmergować je do `main`** (sam nie pushuj do `main` ani nie otwieraj PR bez zgody).

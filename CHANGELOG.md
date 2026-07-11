@@ -13,6 +13,68 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-11] - 🚨 Alerty anomalii w API + ochrona przed skanem częściowym
+
+### Incydent
+Poranny skan 11.07 (08:54 UTC) pobrał dla `wszystkie_pokoje` tylko **50 z 650** ogłoszeń
+(crosscheck `best_of_two`: `1st=50, 2nd=50, header=650`), mimo to został potraktowany jako
+poprawny (`ok: true`) i **zarchiwizował 595 istniejących ogłoszeń** (`verify_listing_active()`
+przy blokadzie OLX również dała false positives). Wieczorny skan (18:02 UTC) je „reaktywował"
+(`added=607`). Ochrona danych działała dotąd tylko przy `crosscheck=error` lub `count==0`.
+
+### Added ✨
+- **`scraper.py` — `is_header_shortfall()`** (+ `HEADER_SHORTFALL_RATIO = 0.5`) — skan, który
+  pobrał <50% ogłoszeń deklarowanych w nagłówku strony OLX, jest teraz traktowany jak błąd
+  scrapera we WSZYSTKICH miejscach ochrony danych: `generate_dashboard_json()` (bez archiwizacji
+  i nadpisania `current_listings`, bez wpisu `daily_counts`), `append_history()` (bez wpisu do
+  ledgera) oraz `generate_api_json()` (profil `ok:false`, status `partial_failure`).
+- **`scraper.py` — `generate_api_json()`: pole `alerts` + status `warning`** w
+  `docs/api/status.json` i `history.json`. Typy alertów (severity `critical`):
+  - `mass_removal` — z profilu zniknęło ≥30% (`MASS_REMOVAL_RATIO`) i ≥10 szt.
+    (`MASS_REMOVAL_MIN`) ogłoszeń względem poprzedniego dnia (`daily_counts`),
+  - `header_shortfall` — częściowy scrape jak wyżej (dane profilu nie zostały zaktualizowane).
+  Gdy są alerty a nie ma błędów, globalny `status` = `"warning"`. Alerty logowane jako WARNING.
+- **Dashboard (`docs/index.html`) i `docs/scans.html`** — czerwony baner z treścią alertów
+  z `status.json` (na dashboardzie best-effort fetch, nie blokuje renderu); w tabeli historii
+  skanów nowy badge „⚠ anomalia" (status `warning`) + tooltip z treścią alertu.
+- Dokumentacja API: `docs/api/README.md`, `JAK_DZIALA_API.txt`, `openapi.yaml` (pole `alerts`,
+  status `warning`).
+
+### Changed 🔧
+- **`docs/api/status.json` / `history.json`** — retroaktywnie oznaczono skany z 11.07:
+  poranny (08:54) → `partial_failure` + alert `header_shortfall`; wieczorny (18:02) →
+  `warning` + alert `mass_removal` (595 z 640 ogłoszeń, 93%).
+
+### Fixed 🐛 — czyszczenie danych po incydencie (`rebuild_incident_20260711.py`)
+Jednorazowy, idempotentny skrypt (baseline = stan po skanie 10.07, commit `e1dfdc7`)
+naprawił skutki uboczne incydentu w `data/dashboard_data.json` i `docs/api/*.json`:
+- usunięto **572 fałszywe wpisy** `reactivation_history` (sygnatura `active_to ==
+  2026-07-11 08:54:05`) + przywrócono `reactivated`/`reactivation_count`; zachowano
+  1 prawdziwą reaktywację z 11.07 (`17jKAL`, zarchiwizowane 06.07),
+- cofnięto **12 artefaktów sesji promocji** (ogłoszenia promowane 10.07 i 11.07, którym
+  fałszywa archiwizacja zamknęła sesję i otworzyła nową: sessions+1, days reset → przywrócono
+  sesje/historię, days = stare+1),
+- przywrócono historię `1b1ruw` (wieczorny skan potraktował je jako NOWE: first_seen/
+  first_price/refresh_history wyzerowane → przywrócone + doliczony refresh z 11.07),
+- **10 zgubionych ogłoszeń** wróciło do archiwum z `archived_date = 2026-07-11 18:02:51`
+  (mechanizm zguby: rano `verify_listing_active()` uznała je za aktywne → pominięto
+  archiwizację, ale `current_listings` i tak nadpisano 50 zeskanowanymi → wypadły bez śladu),
+- `daily_counts` 2026-07-11: `added 607→34`, `removed 595→22` (realny ruch doby),
+  `reactivated_count 573→1`, `refreshed_count 20→21`; poprawiono też `scan_history`
+  i `docs/api/status.json`/`history.json` (globalnie added 611→38, removed 596→23).
+  **Alerty o incydencie w API zostają** — dokumentują zdarzenie.
+- Ledger NDJSON nietknięty (append-only; linia porannego skanu count=50 zostaje).
+
+### Known issues ⚠️
+- **Ciche gubienie ogłoszeń przy rotacji wyników OLX** (bug istniejący wcześniej, ujawniony
+  przez incydent): gdy ogłoszenie nie wypadnie w skanie, a `verify_listing_active()` potwierdzi,
+  że nadal istnieje, kod pomija archiwizację, ale i tak nadpisuje `current_listings` samymi
+  zeskanowanymi → ogłoszenie znika z danych bez śladu, a przy powrocie jest liczone jako NOWE
+  (traci historię). Tak zgubiono ww. 10+1 ogłoszeń. Do naprawy osobno (weryfikowane-aktywne
+  powinny zostawać w `current_listings`).
+
+---
+
 ## [2026-07-09] - ➕ Nowy profil: „stylowe pokoje-ania"
 
 ### Added ✨

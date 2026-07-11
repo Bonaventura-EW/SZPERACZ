@@ -23,6 +23,7 @@ Statyczne JSON serwowane przez GitHub Pages. Brak autentykacji. Dane aktualizowa
 {
   "status": "success",
   "message": "Skan 7 profili zakończony pomyślnie",
+  "alerts": [],
   "lastScan": {
     "timestamp":        "2026-04-30T09:23:08Z",
     "duration_seconds": 94,
@@ -61,8 +62,33 @@ Statyczne JSON serwowane przez GitHub Pages. Brak autentykacji. Dane aktualizowa
 | Wartość | Znaczenie |
 |---|---|
 | `success` | Wszystkie profile OK |
+| `warning` | Scan przeszedł, ale wykryto poważną anomalię (patrz `alerts`) |
 | `partial_failure` | Część profili z błędem |
 | `failure` | Błąd krytyczny — zero danych |
+
+### Pole `alerts`
+
+Lista anomalii wykrytych w ostatnim scanie (pusta, gdy wszystko OK). Typy:
+
+| `type` | Znaczenie |
+|---|---|
+| `mass_removal` | Z profilu zniknęło ≥30% (i ≥10 szt.) ogłoszeń w ciągu doby — możliwy poważny błąd skanu |
+| `header_shortfall` | Pobrano <50% ogłoszeń deklarowanych w nagłówku OLX — dane profilu NIE zostały zaktualizowane (ochrona) |
+
+Każdy alert ma pola: `profile`, `type`, `severity` (`critical`), `message` (opis po polsku)
+oraz liczby zależne od typu (`removed`/`previous_count`/`count`/`header_count`).
+
+```json
+"alerts": [{
+  "profile": "wszystkie_pokoje",
+  "type": "mass_removal",
+  "severity": "critical",
+  "message": "⚠️ POWAŻNA ANOMALIA: z profilu „Wszystkie pokoje w Lublinie” zniknęło 595 z 640 ogłoszeń (93%) w ciągu doby — możliwy błąd skanu/blokada OLX.",
+  "removed": 595,
+  "previous_count": 640,
+  "count": 652
+}]
+```
 
 ### Wartości `crosscheck` (per profil)
 
