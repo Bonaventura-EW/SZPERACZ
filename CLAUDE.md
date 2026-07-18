@@ -56,6 +56,9 @@ Pełna lista: `requirements.txt`.
   - `detect_promoted_status()` / `promotion_dict_to_fields()` — wykrywanie płatnych promocji.
   - `generate_dashboard_json()` — scala nowy scan ze stanem: archiwizacja, ceny, refresh, reaktywacje, promocje, daily_counts.
     Na końcu **stabilna serializacja** (sort list po `id` + `sort_keys`) → mały diff w gicie.
+  - `recompute_daily_refresh_reactivation()` — przelicza `refreshed_count`/`reactivated_count`
+    we wszystkich wpisach `daily_counts` jako projekcję historii ogłoszeń (backfill eventów
+    wykrytych z opóźnieniem; liczniki tylko podnoszone — patrz §7).
   - `append_history()` — **append-only** zapis do ledgera `data/history/daily_summary.ndjson` (1 linia/skan/profil).
     Zachowuje ochronę „count==0/błąd scrapera nie psuje danych".
   - `build_excel_from_data()` — generuje Excel z `dashboard_data.json` + ledger **na żądanie** (do `/tmp`, NIE do repo).
@@ -81,6 +84,8 @@ Pełna lista: `requirements.txt`.
 - `rebuild_daily_flows.py` — przelicza `added`/`removed` w `daily_counts`.
 - `rebuild_refresh_history.py` / `rebuild_refresh_dedupe.py` / `rebuild_refreshed_count.py` — naprawa danych o odświeżeniach.
 - `rebuild_archive_counters.py` / `rebuild_refresh_reactivation_counts.py` — liczniki refresh/reaktywacji.
+- `rebuild_refresh_daily_backfill.py` — przeliczenie `daily_counts` z historii odświeżeń/reaktywacji
+  (idempotentny; uruchomiony jednorazowo 2026-07-18).
 - `rebuild_incident_20260711.py` — jednorazowe czyszczenie danych po incydencie skanu częściowego 11.07.
 - `backfill_prices.py` (przestarzały) / `backfill_price_distribution.py` — uzupełnianie historii cen.
   > Te skrypty modyfikują `data/*.json`. Uruchamiaj świadomie, rób kopię/commit przed.
@@ -229,6 +234,14 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   i nigdy nie przekroczy progu. Wymaga min. 3 wycenionych ogłoszeń w profilu. Działa tylko na nowe
   skany — nie czyści retroaktywnie już zapisanych danych (wykryty jednorazowo błędny rekord
   usunięto ręcznie, patrz CHANGELOG 2026-07-01).
+- **Dzienne liczniki odświeżeń/reaktywacji = projekcja historii, tylko w górę (od 2026-07-18).**
+  Odświeżenie po porannej godzinie skanu jest wykrywane dopiero nazajutrz z wczorajszą datą
+  `refreshed_at` — dlatego `recompute_daily_refresh_reactivation()` przelicza po każdym skanie
+  całe `daily_counts` z `refresh_history`/`reactivation_history` (backfill wstecz). Liczniki są
+  wyłącznie PODNOSZONE (max), nigdy zmniejszane — bug cichego gubienia ogłoszeń (wyżej) potrafi
+  skasować historię i czysta projekcja wyzerowałaby prawdziwe stare dni. Event odświeżenia liczy
+  też przejście `None → data`, a data `refreshed` jest chroniona przed regresją do `None`
+  (jak `published`). Nie wracaj do liczenia „tylko eventy z refreshed_at == dzisiaj".
 - **`parse_price()` i ceny z groszami.** Cena z przecinkiem dziesiętnym (np. `"1 260,65 zł"`) NIE
   może trafić do `re.sub(r"[^\d]", ...)` przed odcięciem części po `.`/`,` — inaczej przecinek
   znika, a grosze doklejają się do złotówek (`"1260,65"` → `126065`, 10x realna cena). Zawsze
@@ -238,7 +251,7 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 
 ## 8. Konwencje pracy w tym repo
 
-- Gałąź robocza tej sesji: `claude/missing-listings-scan-alert-sdpzh3`. Commituj i pushuj tam.
+- Gałąź robocza tej sesji: `claude/szperacz-refresh-reactivation-check-lmuf8f`. Commituj i pushuj tam.
 - Commity i komunikaty po polsku, w stylu istniejącej historii.
 - Nie dodawaj PR bez wyraźnej prośby.
 - **Po skończonych zmianach pytaj, czy zmergować je do `main`** (sam nie pushuj do `main` ani nie otwieraj PR bez zgody).

@@ -12,6 +12,7 @@ import re
 import time
 import random
 import logging
+from collections import defaultdict
 from datetime import datetime, timedelta
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -1625,6 +1626,62 @@ def load_existing_json():
     return {"profiles": {}, "scan_history": [], "last_scan": None}
 
 
+def recompute_daily_refresh_reactivation(pd_):
+    """Przelicza `refreshed_count` i `reactivated_count` we WSZYSTKICH wpisach
+    `daily_counts` profilu jako projekcję historii ogłoszeń
+    (`refresh_history`/`reactivation_history`, current + archived).
+
+    Powód: skan leci raz dziennie rano, więc odświeżenie po godzinie skanu jest
+    wykrywane dopiero następnego dnia — z wczorajszą datą `refreshed_at`. Stare
+    liczenie ("wpisy z refreshed_at == dzisiaj") nigdy nie zliczało takich
+    eventów (w danych ~54% eventów!). Projekcja przypisuje event do właściwego
+    dnia wstecz (backfill) i jest idempotentna przy wielu skanach dziennie
+    (eventy w historii są deduplikowane per data).
+
+    Event z datą bez wpisu w daily_counts (dzień bez skanu) doliczany jest do
+    najbliższego późniejszego wpisu, żeby nie przepadł; eventy sprzed okna
+    90 dni są poza wykresem i pomijane.
+
+    WAŻNE: liczniki są tylko PODNOSZONE (max ze starej i przeliczonej wartości),
+    nigdy zmniejszane. Historie ogłoszeń bywają tracone przez znany bug cichego
+    gubienia ogłoszeń przy rotacji wyników OLX (patrz CLAUDE.md §7) — czysta
+    projekcja wyzerowałaby wtedy prawdziwe, wcześniej policzone dni.
+    """
+    dc = pd_.get("daily_counts", [])
+    if not dc:
+        return
+    dates = sorted(e["date"] for e in dc if e.get("date"))
+    if not dates:
+        return
+    date_set = set(dates)
+
+    def bucket_for(day):
+        if not day or day < dates[0]:
+            return None  # sprzed okna daily_counts — poza wykresem
+        if day in date_set:
+            return day
+        return next((d for d in dates if d > day), dates[-1])
+
+    refresh_by_day = defaultdict(int)
+    react_by_day = defaultdict(int)
+    for l in pd_.get("current_listings", []) + pd_.get("archived_listings", []):
+        for h in l.get("refresh_history", []):
+            b = bucket_for(str(h.get("refreshed_at", ""))[:10])
+            if b:
+                refresh_by_day[b] += 1
+        for h in l.get("reactivation_history", []):
+            b = bucket_for(str(h.get("reactivated_at", ""))[:10])
+            if b:
+                react_by_day[b] += 1
+
+    for e in dc:
+        d = e.get("date")
+        if not d:
+            continue
+        e["refreshed_count"] = max(int(e.get("refreshed_count") or 0), refresh_by_day.get(d, 0))
+        e["reactivated_count"] = max(int(e.get("reactivated_count") or 0), react_by_day.get(d, 0))
+
+
 def generate_dashboard_json(scan_results, scan_timestamp):
     data = load_existing_json()
     now_str = scan_timestamp.strftime("%Y-%m-%d %H:%M:%S")
@@ -1759,8 +1816,8 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                         today_entry.setdefault("added", None)
                         today_entry.setdefault("removed", None)
 
-                    # refreshed_count and reactivated_count will be updated later after new_listings processing
-                    # (need to check refresh_history to count actual refreshes, not just listings with refreshed==today)
+                    # refreshed_count/reactivated_count przelicza recompute_daily_refresh_reactivation()
+                    # na końcu przetwarzania profilu (projekcja z historii ogłoszeń)
 
                     # Przelicz change względem wczoraj, nie poprzedniej wartości dzisiejszej
                     yesterday_entry = dc[-2] if len(dc) >= 2 else None
@@ -1782,8 +1839,8 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                         ptype = l.get("promotion_type", 'unknown')
                         promo_breakdown[ptype] = promo_breakdown.get(ptype, 0) + 1
 
-                # refreshed_count will be calculated later after new_listings processing
-                # (need to check refresh_history to count actual refreshes)
+                # refreshed_count/reactivated_count przelicza recompute_daily_refresh_reactivation()
+                # na końcu przetwarzania profilu (projekcja z historii ogłoszeń)
 
                 dc.append({
                     "date": today,
@@ -1797,7 +1854,7 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     "promotion_breakdown": promo_breakdown,
                     # Price distribution snapshot
                     "price_distribution": price_dist,
-                    # Refresh and reactivation counts - will be updated after new_listings processing
+                    # Wartości początkowe — przelicza recompute_daily_refresh_reactivation()
                     "refreshed_count": 0,
                     "reactivated_count": 0,
                     # NEW: Flow (przybyło/zniknęło)
@@ -1854,7 +1911,8 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 nl["refresh_count"] = old.get("refresh_count", 0)
                 nl["refresh_history"] = old.get("refresh_history", [])
 
-                # Event odświeżenia = ZMIANA DATY `refreshed` (YYYY-MM-DD) na nowszą.
+                # Event odświeżenia = ZMIANA DATY `refreshed` (YYYY-MM-DD) na nowszą
+                # LUB pojawienie się daty, gdy wcześniej jej nie było (None -> data).
                 # OLX pokazuje na stronie tylko datę ("Odświeżono dnia 12 maja 2026"),
                 # więc to jest źródło prawdy. Max 1 event/dzień per ogłoszenie.
                 # NIE używamy last_refresh_timestamp jako triggera — w danych category
@@ -1867,10 +1925,18 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 old_refreshed = old.get("refreshed")
                 new_refreshed = nl.get("refreshed")
 
-                is_new_refresh = (
+                # Zachowaj starą datę `refreshed`, gdy nowy skan jej nie ma (np. karta
+                # bez "Odświeżono" / nieudane parsowanie) — analogicznie do `published`.
+                # Bez tego data regresowała do None i kolejne odświeżenie nie miało
+                # punktu odniesienia (event przepadał).
+                if old_refreshed and not new_refreshed:
+                    nl["refreshed"] = old_refreshed
+                    if not nl.get("last_refresh_timestamp") and old.get("last_refresh_timestamp"):
+                        nl["last_refresh_timestamp"] = old["last_refresh_timestamp"]
+
+                is_new_refresh = bool(
                     new_refreshed
-                    and old_refreshed
-                    and new_refreshed > old_refreshed
+                    and (not old_refreshed or new_refreshed > old_refreshed)
                 )
 
                 if is_new_refresh:
@@ -1905,14 +1971,18 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                 nl["refresh_history"] = old_archived.get("refresh_history", [])
 
                 # REFRESH DETECTION przy reaktywacji:
-                # Jeśli wraca z nowszą datą `refreshed` niż miało w archiwum,
+                # Jeśli wraca z nowszą datą `refreshed` niż miało w archiwum
+                # (lub z datą, gdy w archiwum jej nie było — None -> data),
                 # to OLX odświeżył je w trakcie nieaktywności — liczymy event.
                 old_archived_refreshed = old_archived.get("refreshed")
                 new_refreshed_reactivated = nl.get("refreshed")
+                if old_archived_refreshed and not new_refreshed_reactivated:
+                    nl["refreshed"] = old_archived_refreshed
+                    if not nl.get("last_refresh_timestamp") and old_archived.get("last_refresh_timestamp"):
+                        nl["last_refresh_timestamp"] = old_archived["last_refresh_timestamp"]
                 if (
                     new_refreshed_reactivated
-                    and old_archived_refreshed
-                    and new_refreshed_reactivated > old_archived_refreshed
+                    and (not old_archived_refreshed or new_refreshed_reactivated > old_archived_refreshed)
                 ):
                     already_counted = any(
                         h.get("refreshed_at") == new_refreshed_reactivated
@@ -2064,7 +2134,6 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         # CRITICAL: Chroń przed archiwizacją gdy scraper ma błąd (OLX blocking, network, itp.).
         # Gdy profil prawdziwie jest pusty (crosscheck=passed, header=0), archiwizuj normalnie
         # — użytkownik mógł usunąć wszystkie swoje ogłoszenia.
-        newly_archived = []  # Ogłoszenia zarchiwizowane w tym scanie (do zliczenia zdarzeń z dzisiaj)
         if not is_scraper_error:
             for old_l in pd_.get("current_listings", []):
                 if old_l["id"] not in current_ids:
@@ -2106,44 +2175,18 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                         old_l["refresh_count"] = len(old_l["refresh_history"])
 
                     pd_["archived_listings"].append(old_l)
-                    newly_archived.append(old_l)
 
             # Archiwum nieograniczone — paginacja po stronie dashboardu
-            
-            # Count reactivations and refreshes detected TODAY
-            # Zlicza zdarzenia z DZISIAJ dla WSZYSTKICH ogłoszeń (aktywnych + świeżo zarchiwizowanych),
-            # bo ogłoszenie mogło zostać odświeżone dzisiaj, a potem w tym samym scanie zniknąć do archiwum.
-            reactivated_count = 0
-            refreshed_count = 0
-            
-            for l in list(new_listings) + newly_archived:
-                # Count reactivations
-                reactivation_history = l.get("reactivation_history", [])
-                if reactivation_history:
-                    last_reactivation = reactivation_history[-1]
-                    reactivated_at = last_reactivation.get("reactivated_at", "")
-                    if reactivated_at.startswith(today):
-                        reactivated_count += 1
-                
-                # Count refreshes - check if refresh_history has entry for today
-                # (refreshed_at == today). Z reguły "max 1 event/dzień" wystarczy
-                # zsumować po wszystkich ogłoszeniach, gdzie historia zawiera
-                # wpis z `refreshed_at` == today.
-                refresh_history = l.get("refresh_history", [])
-                has_refresh_today = any(
-                    h.get("refreshed_at", "").startswith(today)
-                    for h in refresh_history
-                )
-                if has_refresh_today:
-                    refreshed_count += 1
-            
-            today_entry = next((d for d in dc if d["date"] == today), None)
-            if today_entry:
-                today_entry["reactivated_count"] = reactivated_count
-                today_entry["refreshed_count"] = refreshed_count
-            
+
             # Aktualizuj current_listings TYLKO gdy scan był poprawny (count > 0)
             pd_["current_listings"] = new_listings
+
+            # Przelicz dzienne liczniki odświeżeń/reaktywacji we WSZYSTKICH wpisach
+            # daily_counts jako projekcję historii ogłoszeń (current + archived).
+            # Event wykryty z opóźnieniem (odświeżenie po godzinie skanu, widoczne
+            # dopiero nazajutrz z wczorajszą datą) trafia dzięki temu do właściwego
+            # dnia wstecz, zamiast przepadać — patrz recompute_daily_refresh_reactivation.
+            recompute_daily_refresh_reactivation(pd_)
         else:
             log.warning(f"[{pk}] Skipping archiving AND current_listings update - scraper error detected (crosscheck={crosscheck}, header={header_count})")
             # Zachowaj stare current_listings - nie nadpisuj pustą listą!

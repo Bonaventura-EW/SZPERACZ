@@ -13,6 +13,46 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-18] - 🔄 Naprawa liczenia odświeżeń: backfill dzienny + detekcja None→data
+
+### Problem
+1. **Dzienny licznik `refreshed_count` gubił ~54% odświeżeń.** Skan leci raz dziennie rano
+   (~9:20), więc odświeżenie po godzinie skanu jest wykrywane dopiero następnego dnia —
+   z wczorajszą datą `refreshed_at`. Stare liczenie brało tylko wpisy z `refreshed_at == dzisiaj`,
+   więc taki event nie trafiał do żadnego dnia (wczorajszy wpis `daily_counts` był już zamknięty).
+   W danych: 659 z 1220 eventów odświeżenia wykryto później niż ich data — żaden nie został
+   zliczony w dziennym liczniku.
+2. **Pierwsze odświeżenie ogłoszenia bez daty nigdy nie było liczone.** Warunek detekcji wymagał
+   istnienia starej daty (`old_refreshed and new > old`), a w kategorii `wszystkie_pokoje`
+   493/728 aktywnych ogłoszeń ma `refreshed=None` — przejście `None → data` przepadało.
+   Dodatkowo `refreshed` nie było chronione przed regresją do `None` przy nieudanym parsowaniu
+   (w przeciwieństwie do `published`), co kasowało punkt odniesienia dla kolejnych eventów.
+
+### Changed 🔧
+- **`scraper.py` — `recompute_daily_refresh_reactivation()`** (nowa funkcja) — po każdym skanie
+  `refreshed_count`/`reactivated_count` we WSZYSTKICH wpisach `daily_counts` przeliczane są jako
+  projekcja historii ogłoszeń (`refresh_history`/`reactivation_history`, current + archived).
+  Event wykryty z opóźnieniem trafia do właściwego dnia wstecz (backfill). Event z datą bez wpisu
+  w `daily_counts` (dzień bez skanu) doliczany jest do najbliższego późniejszego wpisu. Liczniki
+  są **tylko podnoszone** (max ze starej i przeliczonej wartości) — historie bywają tracone przez
+  bug cichego gubienia ogłoszeń (CLAUDE.md §7), więc czysta projekcja zerowałaby prawdziwe stare dni.
+  Zastępuje stare liczenie „tylko eventy z dzisiaj" w `generate_dashboard_json()`.
+- **`scraper.py` — detekcja odświeżenia** (obie ścieżki: aktywne + reaktywacja z archiwum):
+  event liczony także przy przejściu `None → data` (deduplikacja po `refreshed_at` bez zmian);
+  stara data `refreshed` (+ `last_refresh_timestamp`) zachowywana, gdy nowy skan jej nie ma.
+
+### Added ✨
+- **`rebuild_refresh_daily_backfill.py`** — jednorazowe (idempotentne) przeliczenie
+  `daily_counts` z historii przez nową projekcję. Uruchomiony 2026-07-18: podniósł 66 wpisów
+  (np. `wszystkie_pokoje` 14.07: 11→45, 13.07: 14→43), żadnego nie obniżył.
+
+### Weryfikacja ✅
+- Test symulacyjny (kopia danych, bez sieci): 11/11 scenariuszy PASS — None→data, regresja daty,
+  backfill do wczoraj, deduplikacja przy drugim skanie dnia.
+- Po rebuildzie: 0 wpisów `daily_counts` poniżej projekcji z historii; drugi run skryptu = 0 zmian.
+
+---
+
 ## [2026-07-11] - 🚨 Alerty anomalii w API + ochrona przed skanem częściowym
 
 ### Incydent
