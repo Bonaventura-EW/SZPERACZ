@@ -1748,6 +1748,24 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         )
         current_listings_count = len(pd_.get("current_listings", []))
 
+        # BUGFIX „ciche gubienie ogłoszeń" (rotacja wyników OLX): ogłoszenia nieobecne
+        # w skanie weryfikujemy JUŻ TUTAJ — przed policzeniem flow i przed archiwizacją.
+        # Potwierdzone jako wciąż aktywne trafiają do carried_ids: nie liczą się jako
+        # `removed` i pozostają w current_listings (patrz pętla archiwizacji niżej),
+        # zamiast znikać bez śladu i wracać w kolejnym skanie jako "nowe" z wyzerowaną
+        # historią (refresh/reaktywacje/ceny).
+        carried_ids = set()
+        if not is_scraper_error:
+            for old_l in pd_.get("current_listings", []):
+                if old_l["id"] in current_ids_new:
+                    continue
+                if old_l.get("url") and verify_listing_active(old_l["url"]):
+                    log.info(f"[{pk}] Ogłoszenie nieobecne w skanie, ale aktywne na OLX — zachowuję: {old_l['id']}")
+                    carried_ids.add(old_l["id"])
+        if flow_removed is not None and carried_ids:
+            # Ogłoszenia potwierdzone jako aktywne NIE zniknęły — nie są "removed"
+            flow_removed -= len(carried_ids)
+
         # Guard na daily_counts: pomijamy tylko gdy mamy znane dane a scan zawiódł
         skip_daily_update = is_scraper_error and current_listings_count > 0
 
@@ -2137,19 +2155,22 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         if not is_scraper_error:
             for old_l in pd_.get("current_listings", []):
                 if old_l["id"] not in current_ids:
-                    # WERYFIKACJA: zanim zarchiwizujemy, sprawdź czy ogłoszenie naprawdę zniknęło z OLX.
-                    # OLX może nie zwrócić ogłoszenia w danej sesji (rotacja wyników, throttling, paginacja),
-                    # co nie oznacza że zostało usunięte.
-                    listing_url = old_l.get("url", "")
-                    if listing_url:
-                        still_active = verify_listing_active(listing_url)
-                        if still_active:
-                            log.info(f"[{pk}] Pominięto archiwizację (ogłoszenie nadal aktywne na OLX): {old_l['id']}")
-                            # Ogłoszenie pozostaje w current_listings bez zmian
-                            current_ids.add(old_l["id"])
-                            continue
-                        else:
-                            log.info(f"[{pk}] Potwierdzono nieaktywność — archiwizuję: {old_l['id']}")
+                    # Weryfikacja (verify_listing_active) odbyła się wyżej, przed flow.
+                    # Ogłoszenie potwierdzone jako wciąż aktywne (rotacja wyników OLX)
+                    # NIE jest archiwizowane — przenosimy je do nowej listy
+                    # current_listings z licznikiem `missed_scans`, żeby zachować
+                    # jego historię (refresh/reaktywacje/ceny) między skanami.
+                    # Licznik resetuje się sam, gdy ogłoszenie wróci do skanu
+                    # (świeży rekord nie kopiuje pola missed_scans).
+                    if old_l["id"] in carried_ids:
+                        log.info(f"[{pk}] Pominięto archiwizację (ogłoszenie nadal aktywne na OLX) — zachowuję w current_listings: {old_l['id']}")
+                        old_l["last_seen"] = now_str
+                        old_l["missed_scans"] = int(old_l.get("missed_scans") or 0) + 1
+                        new_listings.append(old_l)
+                        current_ids.add(old_l["id"])
+                        continue
+                    if old_l.get("url"):
+                        log.info(f"[{pk}] Potwierdzono nieaktywność — archiwizuję: {old_l['id']}")
                     else:
                         log.warning(f"[{pk}] Brak URL dla ogłoszenia {old_l['id']} — archiwizuję bez weryfikacji")
 

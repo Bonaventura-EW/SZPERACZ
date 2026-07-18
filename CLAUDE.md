@@ -144,7 +144,8 @@ CHANGELOG.md (pełna historia zmian) + raporty napraw (NAPRAWA_*, ROOT_CAUSE_RAP
         first_seen, last_seen, first_price, price_change, previous_price,
         is_promoted, promotion_type, promoted_days_current, promoted_sessions_count, promotion_history[],
         image_url, refresh_count, refresh_history[],
-        reactivated, reactivation_history[], reactivation_count
+        reactivated, reactivation_history[], reactivation_count,
+        missed_scans   // tylko gdy ogłoszenie nieobecne w skanie, ale aktywne (rotacja OLX, §7)
       } ],
       "archived_listings": [ { ...jw. + archived_date } ],   // BEZ LIMITU (paginacja po stronie dashboardu, scraper.py:2251)
       "price_history": { "<id>": [ {date, old_price, new_price, change} ] },
@@ -218,11 +219,15 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   (+ status `warning`) przy masowym zniknięciu ogłoszeń (`mass_removal`). Nie osłabiaj tej ochrony.
   Skutki uboczne incydentu w danych wyczyszczono skryptem `rebuild_incident_20260711.py`
   (patrz CHANGELOG 2026-07-11); ledger celowo nietknięty (append-only).
-- **Ciche gubienie ogłoszeń przy rotacji wyników OLX (bug, do naprawy).** Gdy ogłoszenia nie ma
-  w skanie, ale `verify_listing_active()` potwierdzi, że istnieje, kod pomija archiwizację —
-  jednak `current_listings` i tak jest nadpisywane samymi zeskanowanymi, więc ogłoszenie znika
-  z danych bez śladu i przy powrocie liczy się jako NOWE (traci historię). Tak incydent 11.07
-  zgubił 11 ogłoszeń (przywrócone ww. skryptem).
+- **Rotacja wyników OLX: ogłoszenia nieobecne w skanie, ale aktywne, są ZACHOWYWANE
+  (naprawione 2026-07-18).** Gdy ogłoszenia nie ma w skanie, a `verify_listing_active()`
+  potwierdzi, że istnieje, zostaje ono w `current_listings` z licznikiem `missed_scans`
+  (rośnie co pominięty skan, znika przy powrocie do skanu) i NIE liczy się jako `removed`.
+  Weryfikacja odbywa się PRZED policzeniem flow (`added`/`removed`) — nie przenoś jej z
+  powrotem do pętli archiwizacji, bo `removed` znów będzie zawyżone. Wcześniej takie
+  ogłoszenia znikały z danych bez śladu i wracały jako "nowe" z wyzerowaną historią
+  (tak incydent 11.07 zgubił 11 ogłoszeń). Skutek uboczny: `current_listings` może być
+  liczniejsze niż `count` ze skanu (`count` = wynik skanu, wykresy trendu bez zmian).
 - **Excel NIE jest w repo.** Od 2026-05-31 `szperacz_olx.xlsx` jest w `.gitignore` i generowany na żądanie
   (`build_excel_from_data()`), bo binarny xlsx commitowany co scan rozdymał `.git`. Wieczny zapis trendu to
   append-only ledger `data/history/daily_summary.ndjson` (NIGDY nie przepisuj — tylko dopisuj). Literalny snapshot

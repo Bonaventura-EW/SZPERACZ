@@ -13,6 +13,34 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-18] - 🕳️ Naprawa cichego gubienia ogłoszeń przy rotacji wyników OLX
+
+### Problem
+Gdy ogłoszenia nie było w skanie, ale `verify_listing_active()` potwierdziło, że wciąż
+istnieje na OLX, kod pomijał archiwizację — jednak `current_listings` i tak było nadpisywane
+wyłącznie zeskanowanymi ogłoszeniami. Ogłoszenie znikało z danych bez śladu, a przy powrocie
+do wyników liczyło się jako NOWE: traciło całą historię (refresh/reaktywacje/ceny, `first_seen`)
+i sztucznie zawyżało `added`; samo zniknięcie zawyżało `removed`. Tak incydent 11.07 zgubił
+11 ogłoszeń.
+
+### Fixed 🐛
+- **`scraper.py` — `generate_dashboard_json()`**: weryfikacja znikniętych ogłoszeń przeniesiona
+  PRZED policzenie flow (`added`/`removed`). Ogłoszenia potwierdzone jako aktywne (`carried_ids`):
+  - zostają w `current_listings` (przeniesione do nowej listy z zachowaniem wszystkich pól),
+  - dostają licznik **`missed_scans`** (+1 co pominięty skan; pole znika, gdy ogłoszenie
+    wróci do wyników skanu — świeży rekord go nie kopiuje),
+  - NIE liczą się jako `removed` (mniej fałszywych `mass_removal`), a ich późniejszy powrót
+    NIE liczy się jako `added`/nowe ogłoszenie.
+  Weryfikacja HTTP wykonywana jest raz na ogłoszenie na skan (pętla archiwizacji korzysta
+  z wyniku `carried_ids` zamiast pytać OLX ponownie).
+
+### Weryfikacja ✅
+- Test symulacyjny (kopia danych, bez sieci): 23/23 PASS — m.in. ogłoszenie nieobecne+aktywne
+  zachowane z `missed_scans=1→2`, nieobecne+nieaktywne zarchiwizowane, `removed` liczy tylko
+  faktycznie zniknięte, powrót po rotacji bez utraty historii / bez `added` / bez reaktywacji.
+
+---
+
 ## [2026-07-18] - 🔄 Naprawa liczenia odświeżeń: backfill dzienny + detekcja None→data
 
 ### Problem
