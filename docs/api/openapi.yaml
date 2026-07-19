@@ -126,6 +126,8 @@ components:
             - `mass_removal` - z profilu zniknęło >=30% (i >=10 szt.) ogłoszeń w ciągu doby
             - `header_shortfall` - pobrano <50% ogłoszeń deklarowanych w nagłówku OLX
               (dane profilu NIE są wtedy aktualizowane - ochrona przed masową archiwizacją)
+            - `stale_listings` - ogłoszenia nieobecne w wynikach od >=5 skanów, a wciąż
+              uznawane za aktywne (możliwa zmiana komunikatu OLX o nieaktualności)
           items:
             type: object
             required:
@@ -143,10 +145,12 @@ components:
                 enum:
                   - mass_removal
                   - header_shortfall
+                  - stale_listings
               severity:
                 type: string
                 enum:
                   - critical
+                  - warning
               message:
                 type: string
                 description: Gotowy opis anomalii po polsku
@@ -162,6 +166,12 @@ components:
               header_count:
                 type: integer
                 description: (header_shortfall) liczba ogłoszeń wg nagłówka strony OLX
+              stale_count:
+                type: integer
+                description: (stale_listings) liczba "wiszących" ogłoszeń w profilu
+              max_missed_scans:
+                type: integer
+                description: (stale_listings) najwyższy licznik missed_scans w profilu
         lastScan:
           $ref: '#/components/schemas/LastScanInfo'
         nextScan:

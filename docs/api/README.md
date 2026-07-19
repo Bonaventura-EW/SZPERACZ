@@ -74,9 +74,10 @@ Lista anomalii wykrytych w ostatnim scanie (pusta, gdy wszystko OK). Typy:
 |---|---|
 | `mass_removal` | Z profilu zniknęło ≥30% (i ≥10 szt.) ogłoszeń w ciągu doby — możliwy poważny błąd skanu |
 | `header_shortfall` | Pobrano <50% ogłoszeń deklarowanych w nagłówku OLX — dane profilu NIE zostały zaktualizowane (ochrona) |
+| `stale_listings` | Ogłoszenia nieobecne w wynikach od ≥5 skanów, a wciąż uznawane za aktywne — możliwa zmiana komunikatu OLX o nieaktualności |
 
-Każdy alert ma pola: `profile`, `type`, `severity` (`critical`), `message` (opis po polsku)
-oraz liczby zależne od typu (`removed`/`previous_count`/`count`/`header_count`).
+Każdy alert ma pola: `profile`, `type`, `severity` (`critical` lub `warning`), `message` (opis po polsku)
+oraz liczby zależne od typu (`removed`/`previous_count`/`count`/`header_count`/`stale_count`/`max_missed_scans`).
 
 ```json
 "alerts": [{

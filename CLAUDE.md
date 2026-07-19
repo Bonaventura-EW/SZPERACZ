@@ -101,8 +101,9 @@ Pełna lista: `requirements.txt`.
     oraz per profil `count`/`added`/`removed`/`crosscheck`. `added`/`removed` = przybyło/zniknęło
     (czytane ze świeżego `daily_counts`; `null` = nie policzono, nie 0).
     Pole `alerts` + status `warning` (od 2026-07-11): anomalie ostatniego scanu — `mass_removal`
-    (zniknęło ≥30% i ≥10 ogłoszeń w dobę) i `header_shortfall` (pobrano <50% ogłoszeń z nagłówka
-    OLX). Dashboard (`index.html`) i `scans.html` pokazują je jako czerwony baner.
+    (zniknęło ≥30% i ≥10 ogłoszeń w dobę), `header_shortfall` (pobrano <50% ogłoszeń z nagłówka
+    OLX) i `stale_listings` (od 2026-07-19: ogłoszenia z `missed_scans >= 5`, patrz §7).
+    Dashboard (`index.html`) i `scans.html` pokazują je jako czerwony baner.
   - `history.json` — **3 ostatnie scany** (`scans` od najstarszego, `recent` od najnowszego), z added/removed per profil.
   - Generuje `generate_api_json()` w scraper.py. Opis: `docs/api/JAK_DZIALA_API.txt`, `README.md`, `openapi.yaml`.
 
@@ -210,6 +211,15 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   `archived_listings` (nieograniczone!) oraz `price_history`/`refresh_history`/`promotion_history` rosną BEZ limitu →
   `dashboard_data.json` puchnie latami (główne źródło rozrostu repo po odpięciu binarnego `xlsx`).
 - **Archiwizacja po znikinięciu** weryfikowana przez `verify_listing_active()` (false positives przy blokadach OLX).
+- **`verify_listing_active()`: fraz nieaktywności szukaj TYLKO w widocznym tekście strony
+  (od 2026-07-19).** Frazy dopasowywane są do `BeautifulSoup(...).get_text()`, NIE do surowego
+  HTML-a — w blobie `__PRERENDERED_STATE__` komunikaty szablonu siedzą też na aktywnych stronach.
+  NIE dodawaj do `INACTIVE_PHRASES` krótkich/ogólnych ciągów (usunięty literał `"404"` łapał ID
+  i hashe aktywnych ogłoszeń → fałszywa archiwizacja; status 404 sprawdza `resp.status_code`).
+  Gdy fraza przestanie pasować (OLX zmieni komunikat), martwe ogłoszenia wiszą w `current_listings`
+  z rosnącym `missed_scans` — łapie to alert `stale_listings` (`missed_scans >= 5`,
+  STALE_MISSED_SCANS_MIN) w `status.json`. Celowo BEZ auto-archiwizacji po N skanach
+  (zasada „nie kasuj przy wątpliwości"). Między weryfikacyjnymi GET-ami jest pauza 0,7 s.
 - **Skan częściowy (scraped ≪ header) = błąd scrapera (od 2026-07-11).** Incydent: poranny skan
   11.07 pobrał 50 z 650 ogłoszeń `wszystkie_pokoje` (crosscheck `best_of_two` to przepuszczał!)
   i zarchiwizował 595 istniejących ogłoszeń (`verify_listing_active()` też dała false positives).

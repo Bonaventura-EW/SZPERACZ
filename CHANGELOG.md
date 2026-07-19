@@ -13,6 +13,45 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-19] - 🔍 Wzmocnienie weryfikacji aktywności ogłoszeń (verify_listing_active)
+
+### Problem
+1. **Fraza `"404"` w `INACTIVE_PHRASES` groziła fałszywą archiwizacją.** Była dopasowywana
+   jako substring do CAŁEGO surowego HTML-a strony ogłoszenia — wystarczyło, że ciąg „404"
+   wystąpił w ID ogłoszenia, hashu obrazka czy cenie, a aktywne ogłoszenie było uznawane za
+   nieaktywne i archiwizowane. Status HTTP 404 i tak jest sprawdzany osobno po `resp.status_code`.
+2. **Frazy nieaktywności szukane w surowym HTML** — w blobie JSON-a (`__PRERENDERED_STATE__`)
+   komunikaty szablonu (np. „oferta wygasła") mogą siedzieć także na aktywnych stronach.
+3. **Brak sygnału, gdy OLX zmieni komunikat o nieaktualności** — martwe ogłoszenia wisiałyby
+   wtedy w `current_listings` w nieskończoność z rosnącym `missed_scans`, bez ostrzeżenia.
+4. **Seria weryfikacyjnych GET-ów bez pauzy** mogła prowokować blokadę OLX i zafałszować
+   kolejne sprawdzenia w tej samej pętli.
+
+### Fixed 🐛
+- **`scraper.py` — `verify_listing_active()`**: usunięto `"404"` z listy fraz (status 404
+  obsługuje `resp.status_code`); frazy dopasowywane do widocznego tekstu strony
+  (`BeautifulSoup(...).get_text()`), nie do surowego HTML-a.
+
+### Added ✨
+- **`scraper.py` — `generate_api_json()`**: nowy alert **`stale_listings`** (severity
+  `warning`) w `docs/api/status.json`, gdy w profilu jest ogłoszenie z
+  `missed_scans >= 5` (`STALE_MISSED_SCANS_MIN`) — sygnał, że `verify_listing_active()`
+  mogła przestać wykrywać martwe ogłoszenia (np. OLX zmienił komunikat). Dashboard
+  pokazuje go istniejącym banerem alertów (bez zmian we frontendzie). Świadomie BEZ
+  automatycznej archiwizacji po N skanach — zasada „nie kasuj przy wątpliwości" zostaje.
+- **`scraper.py` — pętla `carried_ids`**: pauza 0,7 s między weryfikacyjnymi GET-ami.
+- Dokumentacja API (`docs/api/README.md`, `JAK_DZIALA_API.txt`, `openapi.yaml`): opis
+  nowego typu alertu i pól `stale_count`/`max_missed_scans`.
+
+### Weryfikacja ✅
+- Testy z zamockowanym HTTP: 7/7 PASS — m.in. „404" w HTML aktywnej strony ≠ nieaktywne,
+  fraza w `<script>` ≠ nieaktywne, fraza w widocznym tekście = nieaktywne, HTTP 404 =
+  nieaktywne, HTTP 403/wyjątek sieciowy = fail-safe „aktywne".
+- Smoke test `generate_api_json()`: profil z `missed_scans=6` → status `warning`
+  + alert `stale_listings` (`stale_count=1`, `max_missed_scans=6`).
+
+---
+
 ## [2026-07-18] - 🕳️ Naprawa cichego gubienia ogłoszeń przy rotacji wyników OLX
 
 ### Problem
