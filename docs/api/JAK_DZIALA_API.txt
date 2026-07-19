@@ -38,8 +38,10 @@ Pola najważniejsze:
   message           -> opis po polsku
   alerts            -> lista wykrytych anomalii (pusta gdy wszystko OK):
        profile           klucz profilu, którego dotyczy alert
-       type              "mass_removal" (zniknęło >=30% i >=10 ogłoszeń w dobę)
-                         lub "header_shortfall" (pobrano <50% ogłoszeń z nagłówka OLX)
+       type              "mass_removal" (zniknęło >=30% i >=10 ogłoszeń w dobę),
+                         "header_shortfall" (pobrano <50% ogłoszeń z nagłówka OLX)
+                         lub "stale_listings" (ogłoszenia nieobecne od >=5 skanów,
+                         a wciąż uznawane za aktywne — możliwa zmiana komunikatu OLX)
        severity          "critical"
        message           gotowy opis po polsku (np. "zniknęło 595 z 640 ogłoszeń (93%)")
        + liczby: removed / previous_count / count / header_count (zależnie od typu)

@@ -96,6 +96,11 @@ HEADER_SHORTFALL_RATIO = 0.5
 MASS_REMOVAL_MIN = 10      # min. liczba zniknięć, żeby w ogóle rozważać alert
 MASS_REMOVAL_RATIO = 0.3   # zniknięcia >= 30% poprzedniego stanu profilu = anomalia
 
+# Próg alertu "stale_listings": ogłoszenie nieobecne w tylu kolejnych skanach z rzędu
+# (missed_scans), a wciąż uznawane za aktywne — może znaczyć, że OLX zmienił komunikat
+# o nieaktualności i verify_listing_active() przestała wykrywać martwe ogłoszenia.
+STALE_MISSED_SCANS_MIN = 5
+
 
 def is_header_shortfall(result):
     """
@@ -149,13 +154,14 @@ def verify_listing_active(url: str, timeout: int = 10) -> bool:
     Zwraca True jeśli ogłoszenie istnieje i jest aktywne, False jeśli zostało usunięte/wygasło.
     W razie błędu sieciowego zwraca True (fail-safe: nie archiwizuj przy wątpliwości).
     """
+    # UWAGA: bez gołego "404" — status 404 sprawdzamy po resp.status_code; substring
+    # "404" w treści strony trafiał w ID/hashe aktywnych ogłoszeń (fałszywa archiwizacja).
     INACTIVE_PHRASES = [
         "To ogłoszenie jest już nieaktualne",
         "Ogłoszenie nieaktywne",
         "oferta wygasła",
         "oferta została usunięta",
         "Nie znaleźliśmy tej strony",
-        "404",
     ]
     try:
         session = get_session()
@@ -165,9 +171,11 @@ def verify_listing_active(url: str, timeout: int = 10) -> bool:
         if resp.status_code != 200:
             log.warning(f"[verify] {url[:60]} → HTTP {resp.status_code}, zakładam aktywne")
             return True
-        text = resp.text
+        # Frazy szukamy w widocznym tekście strony, nie w surowym HTML — w blobie
+        # JSON-a (__PRERENDERED_STATE__) komunikaty szablonu siedzą też na aktywnych stronach.
+        text = BeautifulSoup(resp.text, "lxml").get_text(" ").lower()
         for phrase in INACTIVE_PHRASES:
-            if phrase.lower() in text.lower():
+            if phrase.lower() in text:
                 log.info(f"[verify] Nieaktywne ('{phrase}'): {url[:60]}")
                 return False
         return True
@@ -1755,11 +1763,19 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         # zamiast znikać bez śladu i wracać w kolejnym skanie jako "nowe" z wyzerowaną
         # historią (refresh/reaktywacje/ceny).
         carried_ids = set()
+        verified_any = False
         if not is_scraper_error:
             for old_l in pd_.get("current_listings", []):
                 if old_l["id"] in current_ids_new:
                     continue
-                if old_l.get("url") and verify_listing_active(old_l["url"]):
+                if not old_l.get("url"):
+                    continue
+                # Pauza między weryfikacyjnymi GET-ami — seria szybkich requestów
+                # może sprowokować blokadę OLX i zafałszować kolejne sprawdzenia.
+                if verified_any:
+                    time.sleep(0.7)
+                verified_any = True
+                if verify_listing_active(old_l["url"]):
                     log.info(f"[{pk}] Ogłoszenie nieobecne w skanie, ale aktywne na OLX — zachowuję: {old_l['id']}")
                     carried_ids.add(old_l["id"])
         if flow_removed is not None and carried_ids:
@@ -2319,6 +2335,25 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
                 "removed": removed_today,
                 "previous_count": prev_count,
                 "count": count,
+            })
+        # 3. Ogłoszenia "wiszące": od wielu skanów nieobecne w wynikach, a wciąż
+        #    uznawane za aktywne. Może znaczyć, że OLX zmienił komunikat o nieaktualności
+        #    i verify_listing_active() przestała wykrywać martwe ogłoszenia.
+        stale = [l for l in prof_data.get("current_listings", [])
+                 if (l.get("missed_scans") or 0) >= STALE_MISSED_SCANS_MIN]
+        if stale:
+            max_missed = max(l["missed_scans"] for l in stale)
+            alerts.append({
+                "profile": pk,
+                "type": "stale_listings",
+                "severity": "warning",
+                "message": (f"⚠️ UWAGA: profil „{PROFILES[pk]['label']}” — {len(stale)} "
+                            f"ogłoszeń nieobecnych w wynikach od >= {STALE_MISSED_SCANS_MIN} "
+                            f"skanów (max {max_missed}), a wciąż uznawanych za aktywne. "
+                            f"Możliwa zmiana komunikatu OLX o nieaktualności — sprawdź "
+                            f"verify_listing_active()."),
+                "stale_count": len(stale),
+                "max_missed_scans": max_missed,
             })
 
         new_today = added_today or 0
