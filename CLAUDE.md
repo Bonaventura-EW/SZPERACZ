@@ -168,7 +168,7 @@ CHANGELOG.md (pełna historia zmian) + raporty napraw (NAPRAWA_*, ROOT_CAUSE_RAP
 ## 5. Monitorowane profile (`PROFILES` w scraper.py)
 
 `wszystkie_pokoje` (kategoria), `pokojewlublinie`, `poqui`, `artymiuk`, `dawny_patron`,
-`mzuri`, `villahome`, `stylowe_pokoje_ania`. Profile użytkowników mają `uuid` do API OLX; kategoria ma `is_category: True`.
+`mzuri`, `villahome`, `stylowe_pokoje_ania`, `myrent`. Profile użytkowników mają `uuid` do API OLX; kategoria ma `is_category: True`.
 Dodawanie profilu: dopisz wpis do `PROFILES` (url, label, is_category) i uruchom scan.
 
 ---

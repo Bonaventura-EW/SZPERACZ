@@ -72,6 +72,12 @@ PROFILES = {
         "is_category": False,
         "uuid": "6ce22f3f-2dc7-4299-99e6-3c0d7ab9df19",
     },
+    "myrent": {
+        "url": "https://www.olx.pl/oferty/uzytkownik/56DT9/",
+        "label": "MyRent",
+        "is_category": False,
+        "uuid": "a17ed560-8913-4f97-9c67-0ebb5c2041c0",
+    },
 }
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
