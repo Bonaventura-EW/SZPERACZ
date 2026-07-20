@@ -13,6 +13,24 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-20] - ➕ Nowy monitorowany profil: MyRent
+
+### Added ✨
+- Dodano profil **MyRent** do `PROFILES` w `scraper.py`
+  (klucz `myrent`, `is_category: False`).
+  - URL: https://www.olx.pl/oferty/uzytkownik/56DT9/
+  - `uuid` do API OLX: `a17ed560-8913-4f97-9c67-0ebb5c2041c0`
+    (odczytany z HTML profilu, potwierdzony zapytaniem `api/v1/offers?user_id=...` —
+    zwraca ogłoszenia tego profilu).
+- Zaktualizowano listę profili w §5 `CLAUDE.md`.
+
+### Uwagi
+- Profil będzie scrapowany od najbliższego skanu przez OLX REST API (jak pozostałe
+  profile użytkowników). Pierwszy skan zapisze go do `dashboard_data.json`, ledgera
+  i API dashboardu — historia zacznie się od dnia pierwszego skanu.
+
+---
+
 ## [2026-07-19] - 🔍 Wzmocnienie weryfikacji aktywności ogłoszeń (verify_listing_active)
 
 ### Problem
