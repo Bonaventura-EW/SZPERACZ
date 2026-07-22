@@ -105,7 +105,10 @@ MASS_REMOVAL_RATIO = 0.3   # zniknięcia >= 30% poprzedniego stanu profilu = ano
 # Próg alertu "stale_listings": ogłoszenie nieobecne w tylu kolejnych skanach z rzędu
 # (missed_scans), a wciąż uznawane za aktywne — może znaczyć, że OLX zmienił komunikat
 # o nieaktualności i verify_listing_active() przestała wykrywać martwe ogłoszenia.
-STALE_MISSED_SCANS_MIN = 5
+# Próg = 12 (a nie 5): zwykła rotacja wyników OLX potrafi ukryć żywe ogłoszenie na kilka
+# skanów z rzędu i wygenerować fałszywy alarm (patrz §7 — carried/missed_scans). Dopiero
+# ~2 tygodnie nieobecności przy verify=aktywne to sygnał realnego problemu, nie rotacji.
+STALE_MISSED_SCANS_MIN = 12
 
 
 def is_header_shortfall(result):
@@ -2349,6 +2352,18 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
                  if (l.get("missed_scans") or 0) >= STALE_MISSED_SCANS_MIN]
         if stale:
             max_missed = max(l["missed_scans"] for l in stale)
+            # Lista podejrzanych ogłoszeń (od najdłużej nieobecnych) — żeby alert był
+            # działający: można otworzyć URL i w kilka sekund sprawdzić na oko, czy
+            # ogłoszenie faktycznie żyje, czy verify_listing_active() daje false positive.
+            stale_items = [
+                {
+                    "id": l["id"],
+                    "url": l.get("url"),
+                    "title": l.get("title"),
+                    "missed_scans": l["missed_scans"],
+                }
+                for l in sorted(stale, key=lambda x: -x["missed_scans"])[:10]
+            ]
             alerts.append({
                 "profile": pk,
                 "type": "stale_listings",
@@ -2357,9 +2372,10 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
                             f"ogłoszeń nieobecnych w wynikach od >= {STALE_MISSED_SCANS_MIN} "
                             f"skanów (max {max_missed}), a wciąż uznawanych za aktywne. "
                             f"Możliwa zmiana komunikatu OLX o nieaktualności — sprawdź "
-                            f"verify_listing_active()."),
+                            f"verify_listing_active() (linki w polu 'stale_items')."),
                 "stale_count": len(stale),
                 "max_missed_scans": max_missed,
+                "stale_items": stale_items,
             })
 
         new_today = added_today or 0

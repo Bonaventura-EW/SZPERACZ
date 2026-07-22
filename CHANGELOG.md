@@ -13,6 +13,31 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-22] - 🔧 Doprecyzowanie alertu `stale_listings`
+
+### Changed 🔧
+- **Podniesiono próg alertu `stale_listings` z 5 na 12 skanów** (`STALE_MISSED_SCANS_MIN`
+  w `scraper.py`). Powód: przy progu 5 sama **rotacja wyników OLX** (żywe ogłoszenie
+  chwilowo poza wynikami skanu, ale potwierdzone jako aktywne przez `verify_listing_active()`)
+  generowała fałszywe alarmy prawie codziennie — alert nie odróżnia „ogłoszenie martwe, verify
+  daje false positive" od „ogłoszenie żywe, tylko rotuje poza wynikami". Skan z 2026-07-22
+  odpalił alert dla 16 ogłoszeń `wszystkie_pokoje` przy `max_missed=5`, mimo że skan był poprawny
+  (crosscheck passed, scraped=753/header=760). Próg 12 (~2 tyg.) reaguje dopiero, gdy nieobecność
+  jest zbyt długa, by tłumaczyć ją rotacją.
+
+### Added ✨
+- Alert `stale_listings` w `status.json` niesie nowe pole **`stale_items`** — lista do 10
+  podejrzanych ogłoszeń (od najdłużej nieobecnych) z `id`, `url`, `title`, `missed_scans`.
+  Dzięki temu alert jest działający: można otworzyć URL i w kilka sekund sprawdzić na oko,
+  czy ogłoszenie faktycznie żyje, czy `verify_listing_active()` daje false positive.
+
+### Uwagi
+- Linki `stale_items` trafiają na razie tylko do API (`status.json`); baner na dashboardzie
+  (`index.html`/`scans.html`) pokazuje wciąż sam tekst `message`. Ewentualne renderowanie
+  klikalnych linków na banerze to osobna, opcjonalna zmiana.
+
+---
+
 ## [2026-07-20] - ➕ Nowy monitorowany profil: MyRent
 
 ### Added ✨
