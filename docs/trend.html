@@ -162,7 +162,7 @@ body {
   background: linear-gradient(90deg, var(--accent), #818cf8);
 }
 .chart-card.outflow { margin-top: 22px; }
-.chart-card.outflow::before { background: linear-gradient(90deg, var(--red), var(--orange)); }
+.chart-card.outflow::before { background: linear-gradient(90deg, #e8624c, #f0a35e); }
 .c-title { font-family: var(--font-display); font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
 .c-sub { margin-top: 6px; font-family: var(--font-display); font-size: 13px; color: var(--text-secondary); }
 .c-stats { margin-top: 14px; display: flex; gap: 22px; flex-wrap: wrap;
@@ -190,7 +190,7 @@ body {
 }
 .chart-tooltip .tt-date { color: var(--text-muted); font-size: 10px; margin-bottom: 3px; }
 .chart-tooltip .tt-val { color: var(--text-primary); font-weight: 700; font-size: 14px; }
-.chart-tooltip .tt-ma { color: var(--orange); font-size: 10px; margin-top: 2px; }
+.chart-tooltip .tt-ma { color: #f0a35e; font-size: 10px; margin-top: 2px; }
 
 .chart-legend {
   margin-top: 14px; display: flex; gap: 20px; flex-wrap: wrap;
@@ -425,8 +425,8 @@ function buildUI(generated){
       </div>
       <div class="loading" id="outflowEmpty" style="display:none; padding:60px 20px"></div>
       <div class="chart-legend">
-        <span><span class="dot" style="border-top-color:var(--red);border-top-style:solid;border-top-width:3px"></span>Znikło danego dnia</span>
-        <span><span class="dot" style="border-top-color:var(--orange)"></span>Średnia 7 dni</span>
+        <span><span class="dot" style="border-top-color:#e8624c;border-top-style:solid;border-top-width:2px"></span>Znikło danego dnia</span>
+        <span><span class="dot" style="border-top-color:#f0a35e;border-top-style:solid;border-top-width:3px"></span>Średnia 7 dni</span>
       </div>
       <div class="chart-hint">Źródło: dla każdego dnia liczba ogłoszeń zarchiwizowanych tego dnia (zniknęły z OLX)</div>
     </div>
@@ -887,42 +887,59 @@ function drawOutflow(){
     mm++; if (mm>11){mm=0;my++;} curM = Date.UTC(my, mm, 1);
   }
 
-  // Słupki dzienne
-  const slot = plotW / Math.max(1, viewOut.length);
-  const barW = Math.max(1, Math.min(14, slot * 0.68));
-  const y0 = yOf(0);
-  for (let i = 0; i < viewOut.length; i++){
-    const p = viewOut[i];
-    if (p[1] <= 0) continue;
-    const x = xOf(p[0]), y = yOf(p[1]);
-    ctx.fillStyle = hexA(col.red, (i === hoverO) ? 1 : 0.72);
-    ctx.fillRect(x - barW/2, y, barW, Math.max(1, y0 - y));
-  }
+  // Kolory serii (jak w bliźniaczym SONAR-POKOJOWY)
+  const CORAL = '#e8624c';   // dzienny odpływ (linia prosta)
+  const AMBER = '#f0a35e';   // średnia 7 dni (linia wygładzona)
 
-  // Linia średniej 7-dniowej
+  // Delikatne wypełnienie pod linią dzienną
+  const grad = ctx.createLinearGradient(0, padT, 0, H-padB);
+  grad.addColorStop(0, hexA(CORAL, 0.16));
+  grad.addColorStop(1, hexA(CORAL, 0.01));
   ctx.beginPath();
-  let started = false;
-  for (const p of viewOut){
-    const x = xOf(p[0]), y = yOf(p[2]);
-    if (!started){ ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y);
-  }
-  ctx.strokeStyle = col.orange; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
+  ctx.moveTo(xOf(viewOut[0][0]), yOf(viewOut[0][1]));
+  for (const p of viewOut) ctx.lineTo(xOf(p[0]), yOf(p[1]));
+  ctx.lineTo(xOf(t1), H-padB); ctx.lineTo(xOf(t0), H-padB); ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
 
-  // Rekord (najwyższy słupek w oknie)
+  // Linia dzienna („Znikło danego dnia") — prosta, poszarpana
+  ctx.beginPath();
+  ctx.moveTo(xOf(viewOut[0][0]), yOf(viewOut[0][1]));
+  for (const p of viewOut) ctx.lineTo(xOf(p[0]), yOf(p[1]));
+  ctx.strokeStyle = hexA(CORAL, 0.92); ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
+
+  // Linia średniej 7-dniowej — wygładzona krzywa (quadratic midpoint)
+  const n = viewOut.length;
+  ctx.beginPath();
+  ctx.moveTo(xOf(viewOut[0][0]), yOf(viewOut[0][2]));
+  if (n < 3){
+    for (const p of viewOut) ctx.lineTo(xOf(p[0]), yOf(p[2]));
+  } else {
+    for (let i = 1; i < n-1; i++){
+      const xc = (xOf(viewOut[i][0]) + xOf(viewOut[i+1][0])) / 2;
+      const yc = (yOf(viewOut[i][2]) + yOf(viewOut[i+1][2])) / 2;
+      ctx.quadraticCurveTo(xOf(viewOut[i][0]), yOf(viewOut[i][2]), xc, yc);
+    }
+    ctx.quadraticCurveTo(xOf(viewOut[n-2][0]), yOf(viewOut[n-2][2]),
+                         xOf(viewOut[n-1][0]), yOf(viewOut[n-1][2]));
+  }
+  ctx.strokeStyle = AMBER; ctx.lineWidth = 3; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.stroke();
+
+  // Rekord (najwyższy dzień w oknie)
   let maxP = viewOut[0];
   for (const p of viewOut) if (p[1] > maxP[1]) maxP = p;
   if (maxP[1] > 0){
-    drawDot(ctx, xOf(maxP[0]), yOf(maxP[1]), col.red);
-    drawTag(ctx, `MAX: ${maxP[1]}`, xOf(maxP[0]), yOf(maxP[1]) - 16, col.red, '#fff', 'center', W);
+    drawDot(ctx, xOf(maxP[0]), yOf(maxP[1]), CORAL);
+    drawTag(ctx, `MAX: ${maxP[1]}`, xOf(maxP[0]), yOf(maxP[1]) - 16, CORAL, '#fff', 'center', W);
   }
 
-  // Crosshair przy najechaniu
+  // Crosshair + punkty przy najechaniu
   if (hoverO >= 0 && hoverO < viewOut.length){
     const p = viewOut[hoverO], x = xOf(p[0]);
     ctx.strokeStyle = col.muted; ctx.globalAlpha = 0.6; ctx.setLineDash([3,3]);
     ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, H-padB); ctx.stroke();
     ctx.setLineDash([]); ctx.globalAlpha = 1;
-    drawDot(ctx, x, yOf(p[2]), col.orange, 4, true);
+    drawDot(ctx, x, yOf(p[2]), AMBER, 4, true);
+    drawDot(ctx, x, yOf(p[1]), CORAL, 4, true);
   }
 
   geomO = { padL, padR, padT, padB, plotW, plotH, t0, t1, tSpan, xOf, yOf, W, H };
