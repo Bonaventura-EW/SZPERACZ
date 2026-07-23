@@ -13,6 +13,27 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-23] - 📉 Nowy wykres „Odpływ ofert" na podstronie Trend
+
+### Added ✨
+- **Drugi wykres na `docs/trend.html` — „📉 Odpływ ofert – ile znika z rynku"** (wzorowany na
+  bliźniaczym projekcie SONAR-POKOJOWY, ale w natywnym stylu SZPERACZ: **czysty canvas, bez bibliotek**).
+  Pokazuje dzienny odpływ ogłoszeń (czerwone słupki) + **średnią kroczącą 7-dniową** (pomarańczowa linia),
+  ze statystykami (śr./dzień, rekord z datą, suma w oknie), znacznikiem MAX i hoverem. Współdzieli
+  z głównym wykresem wybór profilu, zakresy (1M/3M/6M/1R/Całość) i zoom.
+- **`generate_trend_full()` (`scraper.py`) dokłada do `trend_full.json` klucz `outflow`** — pełna historia
+  odpływu per profil (`{date, count}` = liczba ogłoszeń zarchiwizowanych danego dnia). Źródłem jest
+  `archived_listings.archived_date` w `dashboard_data.json`, **bez limitu 90 dni** (w przeciwieństwie do
+  `daily_counts.removed`), więc wykres pokrywa całą historię. Konwencja liczenia po dniu archiwizacji jest
+  spójna z metryką „Zniknęło" na dashboardzie.
+
+### Uwagi
+- `trend_full.json` przeliczony jednorazowo z istniejącego `dashboard_data.json`, więc wykres ma dane od razu
+  (bez czekania na kolejny skan). Dla `wszystkie_pokoje`: 70 dni odpływu, suma 276, rekord 17 (11.07 — dzień
+  incydentu masowego usunięcia). Profile bez archiwum (np. `myrent`, `villahome`) pokazują komunikat „brak danych".
+
+---
+
 ## [2026-07-22] - 🔧 Doprecyzowanie alertu `stale_listings`
 
 ### Changed 🔧

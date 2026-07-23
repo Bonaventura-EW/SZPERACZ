@@ -1561,15 +1561,41 @@ def generate_trend_full(ledger_path=HISTORY_LEDGER, out_path=None):
     profiles = {p: [{"date": d, "count": dm[d][1]} for d in sorted(dm)]
                 for p, dm in by_prof.items()}
 
+    # Odpływ ofert („ile znika z rynku") — pełna historia per profil.
+    # Dla każdego dnia liczymy ogłoszenia zarchiwizowane tego dnia (data-part
+    # `archived_date`). Źródłem jest `archived_listings` w dashboard_data.json,
+    # które NIE ma limitu 90 dni (w przeciwieństwie do `daily_counts.removed`),
+    # więc daje pełną historię. Konwencja liczenia po dniu archiwizacji jest
+    # spójna z metryką „Zniknęło" (`daily_counts.removed`) na dashboardzie.
+    outflow = {}
+    try:
+        data = load_existing_json()
+        for pk, pdata in (data.get("profiles") or {}).items():
+            day_counts = {}
+            for l in pdata.get("archived_listings", []):
+                ad = l.get("archived_date")
+                if not ad:
+                    continue
+                day = ad[:10]  # 'YYYY-MM-DD'
+                if len(day) == 10:
+                    day_counts[day] = day_counts.get(day, 0) + 1
+            if day_counts:
+                outflow[pk] = [{"date": d, "count": day_counts[d]} for d in sorted(day_counts)]
+    except Exception as e:
+        log.warning(f"Nie udało się policzyć odpływu ofert do trend_full.json: {e}")
+
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     payload = {
         "generated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "profiles": profiles,
+        "outflow": outflow,
     }
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2, sort_keys=True)
     total = sum(len(v) for v in profiles.values())
-    log.info(f"trend_full.json zapisany: {total} punktów ({len(profiles)} profili) -> {out_path}")
+    out_total = sum(len(v) for v in outflow.values())
+    log.info(f"trend_full.json zapisany: {total} punktów count + {out_total} punktów odpływu "
+             f"({len(profiles)} profili) -> {out_path}")
     return out_path
 
 

@@ -62,7 +62,9 @@ Pełna lista: `requirements.txt`.
   - `append_history()` — **append-only** zapis do ledgera `data/history/daily_summary.ndjson` (1 linia/skan/profil).
     Zachowuje ochronę „count==0/błąd scrapera nie psuje danych".
   - `build_excel_from_data()` — generuje Excel z `dashboard_data.json` + ledger **na żądanie** (do `/tmp`, NIE do repo).
-  - `generate_trend_full()` — pisze `docs/api/trend_full.json` (pełna historia `count`, 1 punkt/dzień/profil, z ledgera).
+  - `generate_trend_full()` — pisze `docs/api/trend_full.json`: pełna historia `count` (1 punkt/dzień/profil, z ledgera)
+    pod kluczem `profiles` ORAZ pełna historia **odpływu** pod kluczem `outflow` (per profil, `{date,count}` = liczba
+    ogłoszeń zarchiwizowanych danego dnia; źródło: `archived_listings.archived_date` w `dashboard_data.json`, bez limitu 90 dni).
   - `update_excel()` — **legacy, niewywoływane** (stary zapis xlsx do repo; zostawione na wszelki wypadek).
   - `generate_api_json()` — pisze `docs/api/status.json` + `history.json` (ostatnie 30 scanów).
   - `run_scan()` — orkiestracja: scrape → **filter_price_outliers** → JSON → **append_history** → API → **trend_full** (bez zapisu xlsx do repo).
@@ -96,7 +98,8 @@ Pełna lista: `requirements.txt`.
 - `data/archive/szperacz_olx_archiwum_*.xlsx` — **zamrożony, jednorazowy** backup całego starego xlsx (literalny snapshot per-skan).
 - `data/szperacz_olx.xlsx` — **NIE commitowany** (w `.gitignore`); generowany na żądanie przez `build_excel_from_data()`.
 - `docs/api/status.json`, `docs/api/history.json` — lekki API dla dashboardu/aplikacji.
-- `docs/api/trend_full.json` — pełna historia `count` per profil (źródło dla przycisku „Cała historia" na wykresie trendu).
+- `docs/api/trend_full.json` — pełna historia per profil: `profiles` (`count`/`date`, źródło przycisku „Cała historia"
+  na wykresie trendu) + `outflow` (`count`/`date` = odpływ, ile ogłoszeń zniknęło danego dnia; źródło wykresu „Odpływ ofert" na `trend.html`).
   - `status.json` — stan ostatniego scanu: globalnie `total_listings`/`added`/`removed`/`price_changes`
     oraz per profil `count`/`added`/`removed`/`crosscheck`. `added`/`removed` = przybyło/zniknęło
     (czytane ze świeżego `daily_counts`; `null` = nie policzono, nie 0).
@@ -115,10 +118,14 @@ Pełna lista: `requirements.txt`.
   „Ogłoszenia" (z `trend_full.json`); inne metryki nie mają danych >90 dni (komunikat).
   W belce linki do podstron: **Skany** (`scans.html`) i **Trend** (`trend.html`).
 - `docs/scans.html` — podstrona „Historia skanów" (czas/profil, crosscheck). Czyta `docs/api/status.json` + `history.json`.
-- `docs/trend.html` — podstrona „Trend w czasie" w stylu betonometr.pl. **Wykres na czystym canvasie (bez bibliotek)**:
-  area + gradient, MAX/MIN w oknie, wartość bieżąca, statystyki 1D/1M/6M/1R, **drag-to-zoom** (+ „Reset zoom"),
-  hover, przełącznik profilu i zakresy. Dane: `trend_full.json` (count/date) + etykiety ze `status.json`
-  (`is_category` rozpoznawane po kluczu `wszystkie_pokoje`). Konwencja chrome/motywu wspólna ze `scans.html`.
+- `docs/trend.html` — podstrona „Trend w czasie" w stylu betonometr.pl. **Wykresy na czystym canvasie (bez bibliotek)**:
+  - Wykres 1 „liczba ogłoszeń": area + gradient, MAX/MIN w oknie, wartość bieżąca, statystyki 1D/1M/6M/1R,
+    **drag-to-zoom** (+ „Reset zoom"), hover.
+  - Wykres 2 „📉 Odpływ ofert – ile znika z rynku": słupki dziennego odpływu + pomarańczowa **średnia 7-dniowa**,
+    rekord (MAX), statystyki (śr./dzień, rekord, suma w oknie), hover. Czyta `trend_full.json.outflow[profil]`
+    (sparse `{date,count}` rozwijane po stronie klienta do ciągłej serii dziennej z zerami).
+  - Oba wykresy współdzielą wybór profilu i zakresu (1M/3M/6M/1R/Całość + zoom). Dane: `trend_full.json` + etykiety
+    ze `status.json` (`is_category` rozpoznawane po kluczu `wszystkie_pokoje`). Konwencja chrome/motywu wspólna ze `scans.html`.
 
 ### Automatyzacja (`.github/workflows/`)
 - `scan.yml` — `cron: '0 7 * * *'` (LATEM/CEST = 9:00 PL). Uruchamia scraper, commituje `data/` + `docs/api/`. Wymaga `permissions: contents: write`.
