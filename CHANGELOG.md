@@ -26,6 +26,8 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 - **Wykresy ściśnięte** — wysokość `.chart-host` 460 → 380 px (mobile 360 → 300), a kolumna przełączników
   zwęża pole wykresu. Handlery zakresu scope'owane per kontener (`#rangeTabs` / `#outRangeTabs`), żeby klik
   na jednym wykresie nie zmieniał podświetlenia guzików drugiego.
+- **Zredukowane odstępy pionowe** — górny padding `.container` 32 → 12 px, `.controls` margin-bottom 18 → 10 px,
+  odstęp między kartami wykresów (`.chart-card.outflow`) 22 → 12 px. Strona jest zwarta, mniej pustej przestrzeni.
 
 ---
 
