@@ -124,8 +124,10 @@ Pełna lista: `requirements.txt`.
   - Wykres 2 „📉 Odpływ ofert – ile znika z rynku": słupki dziennego odpływu + pomarańczowa **średnia 7-dniowa**,
     rekord (MAX), statystyki (śr./dzień, rekord, suma w oknie), hover. Czyta `trend_full.json.outflow[profil]`
     (sparse `{date,count}` rozwijane po stronie klienta do ciągłej serii dziennej z zerami).
-  - Oba wykresy współdzielą wybór profilu i zakresu (1M/3M/6M/1R/Całość + zoom). Dane: `trend_full.json` + etykiety
-    ze `status.json` (`is_category` rozpoznawane po kluczu `wszystkie_pokoje`). Konwencja chrome/motywu wspólna ze `scans.html`.
+  - Wspólny jest tylko **wybór profilu** (selektor u góry). **Zakres każdego wykresu jest niezależny** — każdy ma
+    własną pionową kolumnę przełączników z boku (1M/3M/6M/1R/Całość): główny steruje `currentDays`/`zoomRange`
+    (+ drag-to-zoom), odpływ steruje osobnym `outDays`. Dane: `trend_full.json` + etykiety ze `status.json`
+    (`is_category` rozpoznawane po kluczu `wszystkie_pokoje`). Konwencja chrome/motywu wspólna ze `scans.html`.
 
 ### Automatyzacja (`.github/workflows/`)
 - `scan.yml` — `cron: '0 7 * * *'` (LATEM/CEST = 9:00 PL). Uruchamia scraper, commituje `data/` + `docs/api/`. Wymaga `permissions: contents: write`.

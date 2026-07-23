@@ -13,6 +13,22 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-23] - 🎛️ Niezależne przełączniki zakresu per wykres na podstronie Trend
+
+### Changed 🔧
+- **Każdy z dwóch wykresów na `trend.html` ma teraz własny, niezależny zakres.** Wcześniej przełączniki
+  1M/3M/6M/1R/Całość sterowały oboma wykresami naraz (`renderAll`). Teraz wykres główny ma stan `currentDays`
+  (+ drag-to-zoom), a wykres odpływu — osobny `outDays`. Wspólny pozostał tylko wybór profilu.
+  Powód: odpływ ma krótszą historię (od pierwszej archiwizacji) niż liczba ogłoszeń, więc wspólny zakres
+  przy większych oknach wyglądał, jakby nie działał na dolnym wykresie.
+- **Przełączniki przeniesione „z boku"** — z poziomego paska u góry do pionowej kolumny po prawej stronie
+  każdego wykresu (`.range-side`). Selektor profilu został sam w górnym pasku.
+- **Wykresy ściśnięte** — wysokość `.chart-host` 460 → 380 px (mobile 360 → 300), a kolumna przełączników
+  zwęża pole wykresu. Handlery zakresu scope'owane per kontener (`#rangeTabs` / `#outRangeTabs`), żeby klik
+  na jednym wykresie nie zmieniał podświetlenia guzików drugiego.
+
+---
+
 ## [2026-07-23] - 📉 Nowy wykres „Odpływ ofert" na podstronie Trend
 
 ### Added ✨
