@@ -8243,7 +8243,7 @@
     "myrent": {
       "archived_listings": [
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "Odświeżono 2026-07-15",
           "first_price": 1100,
           "first_seen": "2026-07-20 19:48:32",
@@ -8269,7 +8269,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-dla-studenta-wszystko-nowe-swietna-lokalizacja-lublin-CID3-ID1baC2U.html"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "Odświeżono 2026-07-16",
           "first_price": 990,
           "first_seen": "2026-07-20 19:48:32",
@@ -8296,7 +8296,7 @@
         },
         {
           "_promotion_last_day": "2026-07-23",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono 2026-07-22",
           "first_price": 920,
           "first_seen": "2026-07-20 19:48:32",
@@ -8755,7 +8755,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 6,
-          "removed": 0,
+          "removed": 2,
           "timestamp": "2026-07-21 09:33:17"
         },
         {
@@ -8892,7 +8892,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 0,
-          "removed": 0,
+          "removed": 1,
           "timestamp": "2026-07-23 09:29:58"
         },
         {
@@ -8960,7 +8960,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 0,
-          "removed": 3,
+          "removed": 0,
           "timestamp": "2026-07-24 13:12:35"
         }
       ],
@@ -14004,7 +14004,7 @@
         },
         {
           "_promotion_last_day": "2026-07-20",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "Odświeżono 2026-07-13",
           "first_price": 2200,
           "first_seen": "2026-06-30 10:35:13",
@@ -14039,7 +14039,7 @@
         },
         {
           "_promotion_last_day": "2026-07-19",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono 2026-06-23",
           "first_price": 1380,
           "first_seen": "2026-06-23 10:39:55",
@@ -14067,7 +14067,7 @@
         },
         {
           "_promotion_last_day": "2026-07-23",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono 2026-06-26",
           "first_price": 1880,
           "first_seen": "2026-06-27 09:33:00",
@@ -14095,7 +14095,7 @@
         },
         {
           "_promotion_last_day": "2026-07-22",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "Odświeżono 2026-07-01",
           "first_price": 1040,
           "first_seen": "2026-07-21 09:33:17",
@@ -14123,7 +14123,7 @@
         },
         {
           "_promotion_last_day": "2026-07-19",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono 2026-07-06",
           "first_price": 1600,
           "first_seen": "2026-07-06 11:42:39",
@@ -14160,7 +14160,7 @@
         },
         {
           "_promotion_last_day": "2026-07-20",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "Odświeżono 2026-07-07",
           "first_price": 1500,
           "first_seen": "2026-07-08 09:30:39",
@@ -14188,7 +14188,7 @@
         },
         {
           "_promotion_last_day": "2026-07-19",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono 2026-07-10",
           "first_price": 2600,
           "first_seen": "2026-07-11 08:54:05",
@@ -14216,7 +14216,7 @@
         },
         {
           "_promotion_last_day": "2026-07-19",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono 2026-07-13",
           "first_price": 2100,
           "first_seen": "2026-07-13 10:33:40",
@@ -14244,7 +14244,7 @@
         },
         {
           "_promotion_last_day": "2026-07-19",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono 2026-07-13",
           "first_price": 2500,
           "first_seen": "2026-07-14 09:11:18",
@@ -23204,7 +23204,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 1,
-          "removed": 0,
+          "removed": 5,
           "timestamp": "2026-07-18 10:56:06"
         },
         {
@@ -23287,7 +23287,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 0,
-          "removed": 0,
+          "removed": 2,
           "timestamp": "2026-07-19 09:10:25"
         },
         {
@@ -23537,7 +23537,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 1,
-          "removed": 0,
+          "removed": 1,
           "timestamp": "2026-07-22 09:33:07"
         },
         {
@@ -23620,7 +23620,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 1,
-          "removed": 0,
+          "removed": 1,
           "timestamp": "2026-07-23 09:29:58"
         },
         {
@@ -23703,7 +23703,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 0,
-          "removed": 9,
+          "removed": 0,
           "timestamp": "2026-07-24 13:12:35"
         }
       ],
@@ -33937,7 +33937,7 @@
         },
         {
           "_promotion_last_day": "2026-07-19",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono 2026-07-13",
           "first_price": 1400,
           "first_seen": "2026-06-20 10:12:43",
@@ -33977,7 +33977,7 @@
         },
         {
           "_promotion_last_day": "2026-07-20",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "Odświeżono 2026-06-30",
           "first_price": 2499,
           "first_seen": "2026-06-02 11:24:17",
@@ -41089,7 +41089,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 6,
-          "removed": 0,
+          "removed": 1,
           "timestamp": "2026-07-18 10:56:06"
         },
         {
@@ -41153,7 +41153,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 0,
-          "removed": 0,
+          "removed": 1,
           "timestamp": "2026-07-19 09:10:25"
         },
         {
@@ -41471,7 +41471,7 @@
           },
           "reactivated_count": 0,
           "refreshed_count": 0,
-          "removed": 2,
+          "removed": 0,
           "timestamp": "2026-07-24 13:12:35"
         }
       ],
@@ -45677,7 +45677,7 @@
           "url": "https://www.olx.pl/d/oferta/16-m2-w-okolicy-szpitala-psk-4-i-uniw-medycznego-tylko-999-bez-oplat-CID3-ID13wevL.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "Odświeżono dnia 16 lipca 2026",
           "first_price": 1200,
           "first_seen": "2026-07-10 10:27:55",
@@ -45797,7 +45797,7 @@
           "url": "https://www.olx.pl/d/oferta/lsm-pokoj-1-os-dla-studenta-ul-grazyny-blisko-umcs-kul-up-pl-CID3-ID15LA75.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono dnia 18 lipca 2026",
           "first_price": 1000,
           "first_seen": "2026-05-05 09:13:38",
@@ -45892,7 +45892,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-od-zaraz-300m-od-um-CID3-ID15g2P4.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "Odświeżono dnia 14 lipca 2026",
           "first_price": 800,
           "first_seen": "2026-04-25 08:09:56",
@@ -46592,7 +46592,7 @@
         },
         {
           "_promotion_last_day": "2026-07-20",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "Odświeżono dnia 17 lipca 2026",
           "first_price": 870,
           "first_seen": "2026-04-04 06:43:26",
@@ -46765,7 +46765,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-dla-studentki-lsm-ul-magdaleny-brzeskiej-CID3-ID16q02h.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "Odświeżono dnia 21 lipca 2026",
           "first_price": 850,
           "first_seen": "2026-04-21 08:58:34",
@@ -46877,7 +46877,7 @@
           "url": "https://www.olx.pl/d/oferta/przytulny-pokoj-jednoosobowy-CID3-ID172QaK.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "Odświeżono dnia 28 czerwca 2026",
           "first_price": 1100,
           "first_seen": "2026-06-23 10:39:55",
@@ -47545,7 +47545,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-duzy-jasny-pokoj-dwuosobowy-centrum-lublina-obok-politechniki-CID3-ID17cImx.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "08 lipca 2026",
           "first_price": 870,
           "first_seen": "2026-03-27 06:53:34",
@@ -47734,7 +47734,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-ponikwoda-ul-cyprysowa-CID3-ID17p6wK.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "12 lipca 2026",
           "first_price": 1100,
           "first_seen": "2026-06-10 11:01:16",
@@ -47910,7 +47910,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-przy-kul-room-next-to-kul-CID3-ID17zNsT.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "19 czerwca 2026",
           "first_price": 500,
           "first_seen": "2026-06-20 10:12:43",
@@ -47936,7 +47936,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-swidnik-CID3-ID187FQ5.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "21 czerwca 2026",
           "first_price": 1400,
           "first_seen": "2026-06-22 12:55:50",
@@ -48034,7 +48034,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-dla-1-osoby-na-czechowie-w-lublinie-blisko-CID3-ID18Au0I.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "05 lipca 2026",
           "first_price": 900,
           "first_seen": "2026-07-06 11:42:39",
@@ -48276,7 +48276,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-CID3-ID18odJB.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "18 lipca 2026",
           "first_seen": "2026-07-19 09:10:25",
           "id": "18uGlj",
@@ -48441,7 +48441,7 @@
           "url": "https://www.olx.pl/d/oferta/duzy-pokoj-do-wynajecia-od-zaraz-miasteczko-akademickie-CID3-ID18wwTB.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "22 czerwca 2026",
           "first_price": 900,
           "first_seen": "2026-06-23 10:39:55",
@@ -48492,7 +48492,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-wolny-od-zaraz-osiedle-piastowskie-lsm-bardzo-blisko-uczelnie-CID3-ID190qf0.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "20 czerwca 2026",
           "first_price": 590,
           "first_seen": "2026-06-20 10:12:43",
@@ -48518,7 +48518,7 @@
           "url": "https://www.olx.pl/d/oferta/duzy-pokoj-10-5-m-narutowicza-od-zaraz-CID3-ID191eHl.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 13 lipca 2026",
           "first_price": 1000,
           "first_seen": "2026-07-08 09:30:39",
@@ -48639,7 +48639,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-ul-zolnierska-przy-rondzie-krwiodawcow-CID3-ID195PVZ.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono dnia 25 czerwca 2026",
           "first_price": 800,
           "first_seen": "2026-06-04 19:04:48",
@@ -48765,7 +48765,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-dwuosobowy-bronowice-ul-sokola-11-CID3-ID19BSa4.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "24 czerwca 2026",
           "first_price": 900,
           "first_seen": "2026-06-24 10:26:44",
@@ -49541,7 +49541,7 @@
           "url": "https://www.olx.pl/d/oferta/do-wynajecia-studio-ul-furmanska-CID3-ID19OuP0.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-20 13:12:35",
           "date_text": "15 lipca 2026",
           "first_price": 550,
           "first_seen": "2026-07-16 09:21:58",
@@ -49569,7 +49569,7 @@
         },
         {
           "_promotion_last_day": "2026-07-19",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono dnia 13 lipca 2026",
           "first_price": 1400,
           "first_seen": "2026-06-20 10:12:43",
@@ -50059,7 +50059,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-z-balkonem-do-wynajecia-na-lsm-grazyny-CID3-ID19dF06.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "23 czerwca 2026",
           "first_price": 1400,
           "first_seen": "2026-06-23 10:39:55",
@@ -50601,7 +50601,7 @@
           "url": "https://www.olx.pl/d/oferta/duzy-pokoj-czechow-koncertowa-nowy-blok-od-wlasciciela-lublin-CID3-ID19vIcq.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "Odświeżono dnia 18 lipca 2026",
           "first_price": 700,
           "first_seen": "2026-02-25 08:56:18",
@@ -51363,7 +51363,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-blisko-centrum-i-uczelni-czechow-wi-fi-CID3-ID1a1UVu.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "22 czerwca 2026",
           "first_price": 1200,
           "first_seen": "2026-03-31 06:58:55",
@@ -52046,7 +52046,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-dla-dziewczyny-czechow-CID3-ID1a7ZtQ.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "05 lipca 2026",
           "first_price": 1350,
           "first_seen": "2026-07-06 11:42:39",
@@ -52154,7 +52154,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-na-botaniku-z-bezplatnym-miejscem-parkingowym-CID3-ID1a8sgq.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 09:28:08",
+          "archived_date": "2026-07-19 09:28:08",
           "date_text": "19 czerwca 2026",
           "first_price": 600,
           "first_seen": "2026-06-20 10:12:43",
@@ -52452,7 +52452,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-dzielnica-dziesiata-CID3-ID1aHQGi.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "23 czerwca 2026",
           "first_price": 1250,
           "first_seen": "2026-06-24 10:26:44",
@@ -52503,7 +52503,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jedno-i-dwuosobwy-CID3-ID1aHTe3.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "27 czerwca 2026",
           "first_price": 860,
           "first_seen": "2026-06-27 09:33:00",
@@ -52530,7 +52530,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-1-osobowy-pokoj-blisko-uczelni-ul-pana-tadeusza-CID3-ID1aI31M.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 15 lipca 2026",
           "first_price": 1050,
           "first_seen": "2026-06-23 10:39:55",
@@ -52583,7 +52583,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoje-do-wynajecia-lublin-ul-pulawska-18-CID3-ID1aIsh1.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "Odświeżono dnia 14 lipca 2026",
           "first_price": 1300,
           "first_seen": "2026-05-22 10:28:17",
@@ -53087,7 +53087,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-konstantynow-lublin-CID3-ID1aTwyb.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "06 lipca 2026",
           "first_price": 999,
           "first_seen": "2026-07-06 11:42:39",
@@ -53389,7 +53389,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-dla-studentki-od-lipca-lsm-ul-skrzatow-CID3-ID1aYJCS.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "07 lipca 2026",
           "first_price": 1000,
           "first_seen": "2026-06-30 10:35:13",
@@ -53805,7 +53805,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-lsm-lublin-CID3-ID1abmJE.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "18 czerwca 2026",
           "first_price": 1200,
           "first_seen": "2026-04-13 09:07:12",
@@ -54022,7 +54022,7 @@
           "url": "https://www.olx.pl/d/oferta/przestronny-pokoj-z-balkonem-mozliwy-wynajem-dla-par-CID3-ID1acimv.html?search_reason=search%7Cpromoted"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "08 lipca 2026",
           "first_price": 800,
           "first_seen": "2026-04-14 08:49:34",
@@ -54922,7 +54922,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-chodzki-5-lublin-obok-um-i-szpitala-psk4-CID3-ID1ahHBA.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "Odświeżono dnia 14 lipca 2026",
           "first_price": 1100,
           "first_seen": "2026-07-01 10:46:18",
@@ -55874,7 +55874,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-1-os-lsm-ul-magdaleny-brzeskiej-bez-dodatkowych-oplat-wifi-gratis-dostepny-od-zaraz-CID3-ID1aupgS.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-20 13:12:35",
           "date_text": "12 lipca 2026",
           "first_price": 1000,
           "first_seen": "2026-07-13 10:33:40",
@@ -55901,7 +55901,7 @@
         },
         {
           "_promotion_last_day": "2026-07-22",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "Odświeżono dnia 21 lipca 2026",
           "first_price": 1400,
           "first_seen": "2026-06-20 10:12:43",
@@ -56022,7 +56022,7 @@
           "url": "https://www.olx.pl/d/oferta/przestronny-pokoj-do-wynajecia-na-dzielnicy-czuby-CID3-ID1awDYv.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "08 czerwca 2026",
           "first_price": 700,
           "first_seen": "2026-06-09 10:38:10",
@@ -56232,7 +56232,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-1-osobowy-lublin-czuby-CID3-ID1azndP.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "19 lipca 2026",
           "first_price": 1000,
           "first_seen": "2026-07-20 10:19:04",
@@ -56516,7 +56516,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-lublin-ul-jagodowa-wspa-wssp-um-olimp-CID3-ID1b1YFx.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 18 lipca 2026",
           "first_price": 1000,
           "first_seen": "2026-06-12 11:06:41",
@@ -56605,7 +56605,7 @@
           "url": "https://www.olx.pl/d/oferta/3x-pokoj-jednoosobowy-ul-pana-balcera-po-remoncie-lsm-CID3-ID1b23XY.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "14 lipca 2026",
           "first_price": 1200,
           "first_seen": "2026-06-14 10:30:07",
@@ -56774,7 +56774,7 @@
           "url": "https://www.olx.pl/d/oferta/2-pokoje-jednoosobowe-na-wynajem-czechow-CID3-ID1b6Cqv.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono dnia 25 czerwca 2026",
           "first_price": 1120,
           "first_seen": "2026-06-19 11:40:38",
@@ -56836,7 +56836,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-5-minut-do-um-CID3-ID1b7MAq.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "Odświeżono dnia 21 lipca 2026",
           "first_price": 1300,
           "first_seen": "2026-06-18 11:13:35",
@@ -56902,7 +56902,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-piekny-duzy-pokoj-dla-studentki-na-lsm-cena-zawiera-wszystkie-oplaty-CID3-ID1b88hK.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "19 czerwca 2026",
           "first_price": 850,
           "first_seen": "2026-06-20 10:12:43",
@@ -56928,7 +56928,7 @@
           "url": "https://www.olx.pl/d/oferta/stacja-pokoj-dla-studentki-CID3-ID1b8Ujx.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "18 czerwca 2026",
           "first_price": 660,
           "first_seen": "2026-06-19 11:40:38",
@@ -56954,7 +56954,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-dzielnica-lsm-ul-zarnowiecka-CID3-ID1b8hjA.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "18 czerwca 2026",
           "first_price": 850,
           "first_seen": "2026-06-19 11:40:38",
@@ -57033,7 +57033,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-wieniawa-ulica-skautow-CID3-ID1b8tiz.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-20 13:12:35",
           "date_text": "20 czerwca 2026",
           "first_price": 1250,
           "first_seen": "2026-06-21 10:37:55",
@@ -57059,7 +57059,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-dobra-okolica-CID3-ID1b9SD4.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "Odświeżono dnia 15 lipca 2026",
           "first_price": 1100,
           "first_seen": "2026-06-22 12:55:50",
@@ -57108,7 +57108,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-dla-studenta-wszystko-nowe-swietna-lokalizacja-lublin-CID3-ID1baC2U.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "Odświeżono dnia 16 lipca 2026",
           "first_price": 900,
           "first_seen": "2026-06-22 12:55:50",
@@ -57151,7 +57151,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-dla-studenta-wszystko-nowe-swietna-lokalizacja-lublin-CID3-ID1baCks.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "22 czerwca 2026",
           "first_price": 950,
           "first_seen": "2026-06-22 12:55:50",
@@ -57177,7 +57177,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-CID3-ID1baEtE.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "Odświeżono dzisiaj o 10:55",
           "first_price": 1000,
           "first_seen": "2026-06-22 12:55:50",
@@ -57255,7 +57255,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-1-osobowy-lsm-ul-leonarda-CID3-ID1baGL1.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "Odświeżono dnia 06 lipca 2026",
           "first_price": 900,
           "first_seen": "2026-06-22 12:55:50",
@@ -57287,7 +57287,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-czechow-ul-lipinskiego-CID3-ID1baGcl.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "21 czerwca 2026",
           "first_price": 50,
           "first_seen": "2026-06-22 12:55:50",
@@ -57313,7 +57313,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-w-centrum-CID3-ID1baaBt.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 09:28:08",
+          "archived_date": "2026-07-23 09:28:08",
           "date_text": "22 czerwca 2026",
           "first_price": 1400,
           "first_seen": "2026-06-23 10:39:55",
@@ -57339,7 +57339,7 @@
           "url": "https://www.olx.pl/d/oferta/stancja-dla-osoby-pracujacej-uczacej-sie-CID3-ID1bb4PT.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "23 czerwca 2026",
           "first_price": 1000,
           "first_seen": "2026-06-23 10:39:55",
@@ -57390,7 +57390,7 @@
           "url": "https://www.olx.pl/d/oferta/do-wynajecia-pokoj-w-3-pokojowym-mieszkaniu-dla-spokojnej-dziewczyny-studentki-os-karlowicza-czechow-poludniowy-lublin-CID3-ID1bbKNn.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 22 lipca 2026",
           "first_price": 950,
           "first_seen": "2026-06-24 10:26:44",
@@ -57453,7 +57453,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-od-zaraz-super-lokalizacja-CID3-ID1bbWsu.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 29 czerwca 2026",
           "first_price": 1500,
           "first_seen": "2026-06-24 10:26:44",
@@ -57498,7 +57498,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-dla-studentki-studenta-lublin-al-krasnicka-2k-CID3-ID1bbXkL.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "22 czerwca 2026",
           "first_price": 850,
           "first_seen": "2026-06-23 10:39:55",
@@ -57524,7 +57524,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-w-samodzielnym-mieszkaniu-studenckim-lsm-CID3-ID1bbcEV.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "22 czerwca 2026",
           "first_price": 700,
           "first_seen": "2026-06-23 10:39:55",
@@ -57550,7 +57550,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-w-samodzielnym-mieszkaniu-studenckim-lsm-CID3-ID1bbcn6.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "22 czerwca 2026",
           "first_price": 850,
           "first_seen": "2026-06-23 10:39:55",
@@ -57576,7 +57576,7 @@
           "url": "https://www.olx.pl/d/oferta/jednoosobowy-pokoj-w-ogrodzonym-bloku-blisko-um-CID3-ID1bbfXz.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "23 czerwca 2026",
           "first_price": 1000,
           "first_seen": "2026-06-24 10:26:44",
@@ -57602,7 +57602,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-za-1000-ze-wszystkimi-oplatami-CID3-ID1bbjmu.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "23 czerwca 2026",
           "first_price": 750,
           "first_seen": "2026-06-24 10:26:44",
@@ -57628,7 +57628,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-na-kalinie-CID3-ID1bc0hD.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 16 lipca 2026",
           "first_price": 1000,
           "first_seen": "2026-06-24 10:26:44",
@@ -57666,7 +57666,7 @@
         },
         {
           "_promotion_last_day": "2026-07-23",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 21 lipca 2026",
           "first_price": 1100,
           "first_seen": "2026-06-24 10:26:44",
@@ -57959,7 +57959,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-lublin-ul-lwowska-CID3-ID1bcUw7.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "23 czerwca 2026",
           "first_price": 1100,
           "first_seen": "2026-06-24 10:26:44",
@@ -57985,7 +57985,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-2-pokoje-w-mieszkaniu-57m2-na-ul-glebokiej-18-w-lublinie-CID3-ID1bcdo1.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "Odświeżono dnia 14 lipca 2026",
           "first_price": 850,
           "first_seen": "2026-06-24 10:26:44",
@@ -58050,7 +58050,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-blisko-centrum-umcs-kul-up-um-CID3-ID1bce9E.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "23 czerwca 2026",
           "first_price": 750,
           "first_seen": "2026-06-24 10:26:44",
@@ -58134,7 +58134,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-w-domku-jednorodzinnym-CID3-ID1bck1J.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "26 czerwca 2026",
           "first_price": 850,
           "first_seen": "2026-06-27 09:33:00",
@@ -58160,7 +58160,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-na-wynajem-przy-ul-nadbystrzycka-politechnika-umcs-uczelnie-blisko-CID3-ID1beUNp.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "29 czerwca 2026",
           "first_price": 900,
           "first_seen": "2026-06-29 12:05:00",
@@ -58186,7 +58186,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-14m-lublin-czechow-poludnie-CID3-ID1beXNe.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "Odświeżono dnia 12 lipca 2026",
           "first_price": 900,
           "first_seen": "2026-06-30 10:35:13",
@@ -58240,7 +58240,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-z-balkonem-do-wynajecia-dla-kobiety-lublin-czuby-CID3-ID1bfVoD.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "27 czerwca 2026",
           "first_price": 800,
           "first_seen": "2026-07-03 10:09:55",
@@ -58312,7 +58312,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-1-2-osobowy-CID3-ID1bgN7b.html?search_reason=search%7Cpromoted"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono dnia 13 lipca 2026",
           "first_price": 900,
           "first_seen": "2026-06-30 10:35:13",
@@ -58344,7 +58344,7 @@
           "url": "https://www.olx.pl/d/oferta/duzy-pokoj-od-1-sierpnia-CID3-ID1bgNdL.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "29 czerwca 2026",
           "first_price": 600,
           "first_seen": "2026-06-30 10:35:13",
@@ -58371,7 +58371,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-2-osobowy-z-balkonem-ul-lotnicza-promocja-na-wakacje-CID3-ID1bgtL3.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 21 lipca 2026",
           "first_price": 940,
           "first_seen": "2026-07-01 10:46:18",
@@ -58463,7 +58463,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-do-wynajecia-czechow-dolny-ul-paganiniego-4-blisko-um-umcs-kul-CID3-ID1bh0an.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "Odświeżono dnia 16 lipca 2026",
           "first_price": 1600,
           "first_seen": "2026-07-01 10:46:18",
@@ -58590,7 +58590,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-w-mieszkaniu-CID3-ID1biDeu.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 21 lipca 2026",
           "first_price": 920,
           "first_seen": "2026-07-02 10:13:45",
@@ -58688,7 +58688,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-2-dwuosobowy-centrum-lublin-podzamcze-2-CID3-ID1bijkH.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "03 lipca 2026",
           "first_price": 750,
           "first_seen": "2026-07-14 09:11:18",
@@ -58715,7 +58715,7 @@
         },
         {
           "_promotion_last_day": "2026-07-18",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "Odświeżono dnia 17 lipca 2026",
           "first_price": 880,
           "first_seen": "2026-07-04 09:29:05",
@@ -58792,7 +58792,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoje-jednoosobowe-przy-ulicy-kleniewskich-6-blisko-uniwersytetu-medy-CID3-ID1bjtIw.html?search_reason=search%7Cpromoted"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "03 lipca 2026",
           "first_price": 800,
           "first_seen": "2026-07-04 09:29:05",
@@ -58826,7 +58826,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-przy-ulicy-kleniewskich-6-blisko-uniwersytetu-medycznego-CID3-ID1bju0p.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 22 lipca 2026",
           "first_price": 900,
           "first_seen": "2026-07-05 09:45:44",
@@ -58894,7 +58894,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-ul-pogodna-34-CID3-ID1bk7Lo.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "Odświeżono dnia 10 lipca 2026",
           "first_price": 1000,
           "first_seen": "2026-07-05 09:45:44",
@@ -58946,7 +58946,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-1-osobowy-miasteczko-akademickie-wieniawa-ul-spadochroniarzy-CID3-ID1bkAum.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "05 lipca 2026",
           "first_price": 1100,
           "first_seen": "2026-07-05 09:45:44",
@@ -58972,7 +58972,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-1-osobowy-ul-pulawska-aleje-raclawickie-centrum-wieniawa-park-litewski-CID3-ID1bkJNG.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "04 lipca 2026",
           "first_price": 850,
           "first_seen": "2026-07-05 09:45:44",
@@ -59023,7 +59023,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-uniwerstytet-medyczny-lubartowska-CID3-ID1blcnU.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "07 lipca 2026",
           "first_price": 800,
           "first_seen": "2026-07-08 09:30:39",
@@ -59049,7 +59049,7 @@
           "url": "https://www.olx.pl/d/oferta/bardzo-blisko-um-idealne-dla-studentki-lublin-CID3-ID1bmToL.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "06 lipca 2026",
           "first_price": 800,
           "first_seen": "2026-07-07 10:30:00",
@@ -59075,7 +59075,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-lublin-dzielnica-dziesiata-CID3-ID1bmcyD.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "Odświeżono dnia 19 lipca 2026",
           "first_price": 950,
           "first_seen": "2026-07-07 10:30:00",
@@ -59197,7 +59197,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-1-osobowy-ul-rogowskiego-czechow-poludniowy-CID3-ID1bn715.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "09 lipca 2026",
           "first_price": 800,
           "first_seen": "2026-07-09 10:28:32",
@@ -59223,7 +59223,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-jedynka-sowinskiego-umcs-miasteczko-akademickie-CID3-ID1bo7LS.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "09 lipca 2026",
           "first_price": 800,
           "first_seen": "2026-07-10 10:27:55",
@@ -59250,7 +59250,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-lsm-ul-pana-balcera-CID3-ID1boDX4.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "09 lipca 2026",
           "first_price": 560,
           "first_seen": "2026-07-10 10:27:55",
@@ -59276,7 +59276,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-1-osobowy-do-wynajecia-CID3-ID1boIJt.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "09 lipca 2026",
           "first_price": 1050,
           "first_seen": "2026-07-10 10:27:55",
@@ -59302,7 +59302,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-lublin-obok-kul-umcs-CID3-ID1boKmd.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 22 lipca 2026",
           "first_price": 920,
           "first_seen": "2026-07-10 10:27:55",
@@ -59394,7 +59394,7 @@
           "url": "https://www.olx.pl/d/oferta/2-pokoje-jednoosobowe-do-wynajecia-czechow-dolny-ul-paganiniego-11-blisko-um-CID3-ID1bomFK.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dnia 22 lipca 2026",
           "first_price": 820,
           "first_seen": "2026-07-10 10:27:55",
@@ -59456,7 +59456,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-jednoosobowy-bronowice-ul-pogodna-34-CID3-ID1bou8D.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "11 lipca 2026",
           "first_price": 900,
           "first_seen": "2026-07-11 18:02:51",
@@ -59507,7 +59507,7 @@
           "url": "https://www.olx.pl/d/oferta/do-wynajecia-pokoj-lublin-uniwesytet-medyczny-CID3-ID1bpIWs.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "11 lipca 2026",
           "first_price": 900,
           "first_seen": "2026-07-11 18:02:51",
@@ -59533,7 +59533,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-CID3-ID1bpN0e.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "10 lipca 2026",
           "first_price": 1000,
           "first_seen": "2026-07-11 18:02:51",
@@ -59560,7 +59560,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-25-m2-czechow-paganiniego-4-blisko-uczelni-i-centrum-dla-1-lub-2-studentek-juz-jest-wolny-CID3-ID1bpm1u.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "12 lipca 2026",
           "first_price": 1100,
           "first_seen": "2026-07-13 10:33:40",
@@ -59586,7 +59586,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-duzy-pokoj-z-balkonem-ul-al-raclawickie-studenci-os-pracujace-CID3-ID1bqNco.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "13 lipca 2026",
           "first_price": 950,
           "first_seen": "2026-07-13 10:33:40",
@@ -59612,7 +59612,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-w-mieszkaniu-3-osobowym-CID3-ID1bqQSt.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-20 13:12:35",
           "date_text": "13 lipca 2026",
           "first_price": 1250,
           "first_seen": "2026-07-13 10:33:40",
@@ -59638,7 +59638,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-ul-probostwo-blisko-um-CID3-ID1bqZ6q.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "Odświeżono dnia 20 lipca 2026",
           "first_price": 1240,
           "first_seen": "2026-07-13 10:33:40",
@@ -59670,7 +59670,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-dla-studentki-w-3-pokojowym-mieszkaniu-al-raclawickie-22-blisko-kul-umcs-um-CID3-ID1br5eh.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "13 lipca 2026",
           "first_price": 900,
           "first_seen": "2026-07-14 09:11:18",
@@ -59696,7 +59696,7 @@
           "url": "https://www.olx.pl/d/oferta/jednoosobowy-pokoj-dla-studentki-CID3-ID1brBeW.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "14 lipca 2026",
           "first_price": 1000,
           "first_seen": "2026-07-14 09:11:18",
@@ -59722,7 +59722,7 @@
           "url": "https://www.olx.pl/d/oferta/wolny-pokoj-dla-dziewczyny-bez-dodatkowych-oplat-CID3-ID1brMZX.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-17 13:12:35",
           "date_text": "15 lipca 2026",
           "first_price": 650,
           "first_seen": "2026-07-16 09:21:58",
@@ -59748,7 +59748,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-CID3-ID1bsLi7.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "15 lipca 2026",
           "first_price": 1500,
           "first_seen": "2026-07-16 09:21:58",
@@ -59776,7 +59776,7 @@
         },
         {
           "_promotion_last_day": "2026-07-21",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "14 lipca 2026",
           "first_price": 1100,
           "first_seen": "2026-07-16 09:21:58",
@@ -59811,7 +59811,7 @@
           "url": "https://www.olx.pl/d/oferta/komfortowy-pokoj-w-super-lokalizacji-czechow-koncertowa-19-CID3-ID1bsgGs.html?search_reason=search%7Cpromoted"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "16 lipca 2026",
           "first_price": 750,
           "first_seen": "2026-07-16 09:21:58",
@@ -59837,7 +59837,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-lsm-ul-wajdeloty-CID3-ID1bthZh.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "16 lipca 2026",
           "first_price": 1250,
           "first_seen": "2026-07-17 09:16:05",
@@ -59863,7 +59863,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-ul-probostwo-w-mieszkaniu-3-pokojowym-blisko-um-srodmiescie-CID3-ID1bttIZ.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "16 lipca 2026",
           "first_price": 800,
           "first_seen": "2026-07-17 09:16:05",
@@ -59889,7 +59889,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-w-centrum-lublina-dla-studentki-lub-uczennicy-CID3-ID1bttnN.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "17 lipca 2026",
           "first_price": 880,
           "first_seen": "2026-07-18 08:54:27",
@@ -59915,7 +59915,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednosobowy-politechnika-umcs-kul-up-CID3-ID1buF4e.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "18 lipca 2026",
           "first_price": 1400,
           "first_seen": "2026-07-18 10:56:06",
@@ -59941,7 +59941,7 @@
           "url": "https://www.olx.pl/d/oferta/po-remoncie-pokoj-blisko-umcs-kul-am-centrum-leszczynskiego-CID3-ID1buV7r.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "20 lipca 2026",
           "first_price": 800,
           "first_seen": "2026-07-20 10:19:04",
@@ -59967,7 +59967,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-1-osobowy-umeblowany-pokoj-ul-pana-tadeusza-blisko-uczelni-CID3-ID1bv8pC.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-21 13:12:35",
           "date_text": "20 lipca 2026",
           "first_price": 950,
           "first_seen": "2026-07-20 19:48:32",
@@ -60018,7 +60018,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-lublin-czechow-CID3-ID1bvI1Y.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "20 lipca 2026",
           "first_price": 980,
           "first_seen": "2026-07-20 19:48:32",
@@ -60044,7 +60044,7 @@
           "url": "https://www.olx.pl/d/oferta/przytulny-pokoj-z-balkonem-do-wynajecia-blisko-kul-umcs-up-politechniki-CID3-ID1bvus2.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-19 13:12:35",
           "date_text": "18 lipca 2026",
           "first_price": 1550,
           "first_seen": "2026-07-19 09:10:25",
@@ -60070,7 +60070,7 @@
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-jednoosobowy-ul-chodzki-5-uniwersytet-medyczny-CID3-ID1bw2Yp.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "19 lipca 2026",
           "first_price": 1300,
           "first_seen": "2026-07-20 10:19:04",
@@ -60096,7 +60096,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-CID3-ID1bwISU.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-23 13:12:35",
           "date_text": "Odświeżono dzisiaj o 10:23",
           "first_price": 1200,
           "first_seen": "2026-07-21 09:33:17",
@@ -60137,7 +60137,7 @@
         },
         {
           "_promotion_last_day": "2026-07-22",
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-22 13:12:35",
           "date_text": "21 lipca 2026",
           "first_seen": "2026-07-22 09:33:07",
           "id": "1bxnEK",
@@ -60304,7 +60304,7 @@
           "url": "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-CID3-IDQ4GV1.html?search_reason=search%7Corganic"
         },
         {
-          "archived_date": "2026-07-24 13:12:35",
+          "archived_date": "2026-07-18 13:12:35",
           "date_text": "Odświeżono dnia 16 lipca 2026",
           "first_price": 950,
           "first_seen": "2026-07-02 10:13:45",
@@ -95470,7 +95470,7 @@
           },
           "reactivated_count": 12,
           "refreshed_count": 33,
-          "removed": 25,
+          "removed": 40,
           "timestamp": "2026-07-17 19:16:50"
         },
         {
@@ -95564,7 +95564,7 @@
           },
           "reactivated_count": 3,
           "refreshed_count": 39,
-          "removed": 9,
+          "removed": 23,
           "timestamp": "2026-07-18 08:54:27"
         },
         {
@@ -95658,7 +95658,7 @@
           },
           "reactivated_count": 6,
           "refreshed_count": 44,
-          "removed": 4,
+          "removed": 16,
           "timestamp": "2026-07-19 09:10:25"
         },
         {
@@ -95752,7 +95752,7 @@
           },
           "reactivated_count": 11,
           "refreshed_count": 64,
-          "removed": 3,
+          "removed": 7,
           "timestamp": "2026-07-20 19:48:32"
         },
         {
@@ -95846,7 +95846,7 @@
           },
           "reactivated_count": 2,
           "refreshed_count": 55,
-          "removed": 1,
+          "removed": 23,
           "timestamp": "2026-07-21 09:33:17"
         },
         {
@@ -95940,7 +95940,7 @@
           },
           "reactivated_count": 1,
           "refreshed_count": 60,
-          "removed": 4,
+          "removed": 25,
           "timestamp": "2026-07-22 09:33:07"
         },
         {
@@ -96034,7 +96034,7 @@
           },
           "reactivated_count": 1,
           "refreshed_count": 48,
-          "removed": 6,
+          "removed": 33,
           "timestamp": "2026-07-23 09:29:58"
         },
         {
@@ -96128,7 +96128,7 @@
           },
           "reactivated_count": 5,
           "refreshed_count": 35,
-          "removed": 128,
+          "removed": 13,
           "timestamp": "2026-07-24 13:12:35"
         }
       ],

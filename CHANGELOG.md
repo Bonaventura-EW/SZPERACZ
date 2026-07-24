@@ -45,9 +45,21 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
   (nie archiwizujemy „na słowo"). `archived_date` = znacznik skanu wykrywającego nieobecność
   (`2026-07-24 09:28:08`), `daily_counts[2026-07-24].removed` 0 → 5. Po naprawie profil jest
   spójny: `current_listings` 10 → 5, `archived_listings` 0 → 5, `count` = 5.
-- Pozostałe profile (`wszystkie_pokoje`, `mzuri`, `poqui`, `myrent`) **celowo nie były ruszane
-  ręcznie** — ich „missed" ogłoszenia (w większości realna rotacja) rozstrzygnie następny skan
-  przez poprawiony `verify_listing_active()`.
+- Pozostałe profile posprzątał **ręcznie odpalony skan** (`scan.yml`, `workflow_dispatch`) już
+  z poprawionym `verify_listing_active()`: zarchiwizował naraz **147 martwych ofert** z całej
+  zaległości (128 `wszystkie_pokoje`, 9 `mzuri`, 5 `stylowe_pokoje_ania`, 3 `myrent`, 2 `poqui`),
+  a liczba „missed" spadła ze 138 do 2 (te 2 → HTTP 200 = żywe, słusznie zostawione). Kontrolna
+  próbka 12 archiwizowanych ofert: 11× HTTP 410 + 1× HTTP 404, zero fałszywych trafień.
+
+### Rozsmarowanie odpływu (`rebuild_outflow_backdate_20260724.py`)
+- Skasowanie zaległości naraz dało **jednorazowy skok ~147 na wykresach „Odpływ ofert" i
+  „Przybyło/Zniknęło" w dniu 2026-07-24**, choć oferty gasły stopniowo przez ~2 tygodnie.
+- Skrypt (jednorazowy, idempotentny) przesuwa `archived_date` ofert z `missed_scans>=1` wstecz
+  o `missed_scans` dni (≈ szacowany dzień zniknięcia z OLX) i analogicznie redystrybuuje
+  `daily_counts[...].removed` z 07-24 na te dni. Oferty bez `missed_scans` (zniknęły dopiero
+  dziś, m.in. 5 `stylowe_pokoje_ania`) zostają na 07-24. Efekt: odpływ 07-24 spadł ze 147 do 18,
+  reszta rozłożona 07-17…07-23 (łagodny przebieg). Suma odpływu i liczba archiwum bez zmian
+  (tylko redystrybucja dat).
 
 ---
 
