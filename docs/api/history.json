@@ -1,131 +1,6 @@
 {
-  "last_updated": "2026-07-24T09:28:08Z",
+  "last_updated": "2026-07-24T13:12:35Z",
   "scans": [
-    {
-      "timestamp": "2026-07-22T09:33:07Z",
-      "date": "2026-07-22",
-      "status": "warning",
-      "message": "Skan zakończony, ale wykryto poważne anomalie w: wszystkie_pokoje — sprawdź pole 'alerts'",
-      "alerts": [
-        {
-          "profile": "wszystkie_pokoje",
-          "type": "stale_listings",
-          "severity": "warning",
-          "message": "⚠️ UWAGA: profil „Wszystkie pokoje w Lublinie” — 16 ogłoszeń nieobecnych w wynikach od >= 5 skanów (max 5), a wciąż uznawanych za aktywne. Możliwa zmiana komunikatu OLX o nieaktualności — sprawdź verify_listing_active().",
-          "stale_count": 16,
-          "max_missed_scans": 5
-        }
-      ],
-      "duration_seconds": 215,
-      "total_listings": 880,
-      "added": 33,
-      "removed": 4,
-      "new_listings": 33,
-      "price_changes": 22,
-      "profiles_scanned": 9,
-      "errors": [],
-      "profiles": {
-        "pokojewlublinie": {
-          "label": "pokojewlublinie",
-          "count": 12,
-          "added": 2,
-          "removed": 0,
-          "new_listings": 2,
-          "price_changes": 1,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "poqui": {
-          "label": "poqui",
-          "count": 40,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "artymiuk": {
-          "label": "artymiuk",
-          "count": 2,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "dawny_patron": {
-          "label": "dawny patron",
-          "count": 1,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "mzuri": {
-          "label": "mzuri",
-          "count": 53,
-          "added": 1,
-          "removed": 0,
-          "new_listings": 1,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "villahome": {
-          "label": "villahome",
-          "count": 0,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "stylowe_pokoje_ania": {
-          "label": "stylowe pokoje-ania",
-          "count": 10,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 3,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "myrent": {
-          "label": "MyRent",
-          "count": 9,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "wszystkie_pokoje": {
-          "label": "Wszystkie pokoje w Lublinie",
-          "count": 753,
-          "added": 30,
-          "removed": 4,
-          "new_listings": 30,
-          "price_changes": 18,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        }
-      }
-    },
     {
       "timestamp": "2026-07-23T09:29:58Z",
       "date": "2026-07-23",
@@ -352,6 +227,122 @@
           "removed": 7,
           "new_listings": 31,
           "price_changes": 5,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        }
+      }
+    },
+    {
+      "timestamp": "2026-07-24T13:12:35Z",
+      "date": "2026-07-24",
+      "status": "success",
+      "message": "Skan 9 profili zakończony pomyślnie",
+      "alerts": [],
+      "duration_seconds": 191,
+      "total_listings": 903,
+      "added": 45,
+      "removed": 147,
+      "new_listings": 45,
+      "price_changes": 11,
+      "profiles_scanned": 9,
+      "errors": [],
+      "profiles": {
+        "pokojewlublinie": {
+          "label": "pokojewlublinie",
+          "count": 15,
+          "added": 2,
+          "removed": 0,
+          "new_listings": 2,
+          "price_changes": 1,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "poqui": {
+          "label": "poqui",
+          "count": 41,
+          "added": 0,
+          "removed": 2,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "artymiuk": {
+          "label": "artymiuk",
+          "count": 7,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "dawny_patron": {
+          "label": "dawny patron",
+          "count": 1,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "mzuri": {
+          "label": "mzuri",
+          "count": 61,
+          "added": 6,
+          "removed": 9,
+          "new_listings": 6,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "villahome": {
+          "label": "villahome",
+          "count": 0,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "stylowe_pokoje_ania": {
+          "label": "stylowe pokoje-ania",
+          "count": 5,
+          "added": 0,
+          "removed": 5,
+          "new_listings": 0,
+          "price_changes": 2,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "myrent": {
+          "label": "MyRent",
+          "count": 8,
+          "added": 0,
+          "removed": 3,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "wszystkie_pokoje": {
+          "label": "Wszystkie pokoje w Lublinie",
+          "count": 765,
+          "added": 37,
+          "removed": 128,
+          "new_listings": 37,
+          "price_changes": 8,
           "crosscheck": "passed",
           "ok": true,
           "error": null
@@ -361,6 +352,122 @@
   ],
   "recent": [
     {
+      "timestamp": "2026-07-24T13:12:35Z",
+      "date": "2026-07-24",
+      "status": "success",
+      "message": "Skan 9 profili zakończony pomyślnie",
+      "alerts": [],
+      "duration_seconds": 191,
+      "total_listings": 903,
+      "added": 45,
+      "removed": 147,
+      "new_listings": 45,
+      "price_changes": 11,
+      "profiles_scanned": 9,
+      "errors": [],
+      "profiles": {
+        "pokojewlublinie": {
+          "label": "pokojewlublinie",
+          "count": 15,
+          "added": 2,
+          "removed": 0,
+          "new_listings": 2,
+          "price_changes": 1,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "poqui": {
+          "label": "poqui",
+          "count": 41,
+          "added": 0,
+          "removed": 2,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "artymiuk": {
+          "label": "artymiuk",
+          "count": 7,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "dawny_patron": {
+          "label": "dawny patron",
+          "count": 1,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "mzuri": {
+          "label": "mzuri",
+          "count": 61,
+          "added": 6,
+          "removed": 9,
+          "new_listings": 6,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "villahome": {
+          "label": "villahome",
+          "count": 0,
+          "added": 0,
+          "removed": 0,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "stylowe_pokoje_ania": {
+          "label": "stylowe pokoje-ania",
+          "count": 5,
+          "added": 0,
+          "removed": 5,
+          "new_listings": 0,
+          "price_changes": 2,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "myrent": {
+          "label": "MyRent",
+          "count": 8,
+          "added": 0,
+          "removed": 3,
+          "new_listings": 0,
+          "price_changes": 0,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        },
+        "wszystkie_pokoje": {
+          "label": "Wszystkie pokoje w Lublinie",
+          "count": 765,
+          "added": 37,
+          "removed": 128,
+          "new_listings": 37,
+          "price_changes": 8,
+          "crosscheck": "passed",
+          "ok": true,
+          "error": null
+        }
+      }
+    },
+    {
       "timestamp": "2026-07-24T09:28:08Z",
       "date": "2026-07-24",
       "status": "success",
@@ -586,131 +693,6 @@
           "removed": 6,
           "new_listings": 33,
           "price_changes": 7,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        }
-      }
-    },
-    {
-      "timestamp": "2026-07-22T09:33:07Z",
-      "date": "2026-07-22",
-      "status": "warning",
-      "message": "Skan zakończony, ale wykryto poważne anomalie w: wszystkie_pokoje — sprawdź pole 'alerts'",
-      "alerts": [
-        {
-          "profile": "wszystkie_pokoje",
-          "type": "stale_listings",
-          "severity": "warning",
-          "message": "⚠️ UWAGA: profil „Wszystkie pokoje w Lublinie” — 16 ogłoszeń nieobecnych w wynikach od >= 5 skanów (max 5), a wciąż uznawanych za aktywne. Możliwa zmiana komunikatu OLX o nieaktualności — sprawdź verify_listing_active().",
-          "stale_count": 16,
-          "max_missed_scans": 5
-        }
-      ],
-      "duration_seconds": 215,
-      "total_listings": 880,
-      "added": 33,
-      "removed": 4,
-      "new_listings": 33,
-      "price_changes": 22,
-      "profiles_scanned": 9,
-      "errors": [],
-      "profiles": {
-        "pokojewlublinie": {
-          "label": "pokojewlublinie",
-          "count": 12,
-          "added": 2,
-          "removed": 0,
-          "new_listings": 2,
-          "price_changes": 1,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "poqui": {
-          "label": "poqui",
-          "count": 40,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "artymiuk": {
-          "label": "artymiuk",
-          "count": 2,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "dawny_patron": {
-          "label": "dawny patron",
-          "count": 1,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "mzuri": {
-          "label": "mzuri",
-          "count": 53,
-          "added": 1,
-          "removed": 0,
-          "new_listings": 1,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "villahome": {
-          "label": "villahome",
-          "count": 0,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "stylowe_pokoje_ania": {
-          "label": "stylowe pokoje-ania",
-          "count": 10,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 3,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "myrent": {
-          "label": "MyRent",
-          "count": 9,
-          "added": 0,
-          "removed": 0,
-          "new_listings": 0,
-          "price_changes": 0,
-          "crosscheck": "passed",
-          "ok": true,
-          "error": null
-        },
-        "wszystkie_pokoje": {
-          "label": "Wszystkie pokoje w Lublinie",
-          "count": 753,
-          "added": 30,
-          "removed": 4,
-          "new_listings": 30,
-          "price_changes": 18,
           "crosscheck": "passed",
           "ok": true,
           "error": null
