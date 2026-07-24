@@ -233,6 +233,14 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   `stale_items` (do 10 podejrzanych ogłoszeń: id/url/title/missed_scans) — do ręcznego sprawdzenia.
   Celowo BEZ auto-archiwizacji po N skanach (zasada „nie kasuj przy wątpliwości").
   Między weryfikacyjnymi GET-ami jest pauza 0,7 s.
+- **HTTP 410 (Gone) = ogłoszenie usunięte — tak samo jak 404 (od 2026-07-24).**
+  OLX zwraca dla zdjętych/wygasłych ofert status **410**, nie 404. `verify_listing_active()`
+  sprawdza `resp.status_code in (404, 410)` → `False` (nieaktywne). NIE cofaj tego do samego 404:
+  strona 410 ma tylko generyczny placeholder (żadna `INACTIVE_PHRASES` nie pasuje), więc status
+  HTTP jest jedynym sygnałem — przy obsłudze wyłącznie 404 martwe ogłoszenia (410) wisiały w
+  `current_listings` w nieskończoność z rosnącym `missed_scans` i nigdy nie trafiały do archiwum
+  (incydent `stylowe_pokoje_ania` 2026-07-24: 5 ogłoszeń „zniknęło" z kafelka, ale nie z archiwum;
+  naprawa danych `rebuild_stylowe_410_20260724.py`). Inne statusy != 200 wciąż = aktywne (fail-safe).
 - **Skan częściowy (scraped ≪ header) = błąd scrapera (od 2026-07-11).** Incydent: poranny skan
   11.07 pobrał 50 z 650 ogłoszeń `wszystkie_pokoje` (crosscheck `best_of_two` to przepuszczał!)
   i zarchiwizował 595 istniejących ogłoszeń (`verify_listing_active()` też dała false positives).
@@ -279,7 +287,7 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 
 ## 8. Konwencje pracy w tym repo
 
-- Gałąź robocza tej sesji: `claude/szperacz-refresh-reactivation-check-lmuf8f`. Commituj i pushuj tam.
+- Gałąź robocza tej sesji: `claude/kafelek-missing-listings-v0nzau`. Commituj i pushuj tam.
 - Commity i komunikaty po polsku, w stylu istniejącej historii.
 - Nie dodawaj PR bez wyraźnej prośby.
 - **Po skończonych zmianach pytaj, czy zmergować je do `main`** (sam nie pushuj do `main` ani nie otwieraj PR bez zgody).

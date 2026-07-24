@@ -13,6 +13,44 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-24] - 🐛 HTTP 410 (Gone) = ogłoszenie usunięte (naprawa `verify_listing_active`)
+
+### Problem
+- Kafelek **`stylowe_pokoje_ania`** pokazał spadek 10 → 5 ogłoszeń (2026-07-24), ale
+  5 „zniknionych" ofert **nie trafiło do archiwum** — utknęły w `current_listings`
+  z `missed_scans=1`.
+- Przyczyna: OLX zwraca dla zdjętych/wygasłych ofert **HTTP 410 (Gone)**, a
+  `verify_listing_active()` obsługiwała jako nieaktywne **tylko** status 404 — każdy inny
+  nie-200 (w tym 410) wpadał w gałąź `return True` („zakładam aktywne", fail-safe). Strona
+  410 zawiera tylko generyczny placeholder (tytuł „Ogłoszenia - Sprzedam, kupię na OLX.pl"),
+  więc żadna z `INACTIVE_PHRASES` też nie pasowała — status HTTP był jedynym sygnałem.
+  Efekt: ogłoszenia z 410 były trzymane w `current_listings` w nieskończoność, nie były
+  liczone jako `removed` i nigdy nie trafiały do archiwum.
+- Weryfikacja na żywo wszystkich 5 „zniknionych" URL-i `stylowe_pokoje_ania`: każdy zwraca
+  **HTTP 410** (kontrolne ogłoszenie wciąż w skanie → HTTP 200). Bug dotyczył **wszystkich
+  profili**, nie tylko tego jednego (w chwili naprawy 138 ogłoszeń z `missed_scans>=1`,
+  część to realna rotacja OLX = wciąż aktywne).
+
+### Fixed 🐛
+- **`scraper.py` — `verify_listing_active()`**: status **410 traktowany jak 404**
+  (`if resp.status_code in (404, 410): return False`). Sygnał serwera, nie dopasowanie treści
+  — precyzyjne i bezpieczne (410 „Gone" jest jednoznaczne). Poprawka jest uniwersalna:
+  przy kolejnym skanie każde „missed" ogłoszenie jest ponownie weryfikowane, więc martwe
+  (404/410) same trafią do archiwum, a żywe (200, rotacja) zostaną — dane innych profili
+  naprawią się samoczynnie bez ręcznej ingerencji.
+
+### Naprawa danych
+- **`rebuild_stylowe_410_20260724.py`** (jednorazowy, idempotentny): przeniósł do archiwum
+  te 5 ogłoszeń `stylowe_pokoje_ania`, ponownie weryfikując na żywo, że każde zwraca 404/410
+  (nie archiwizujemy „na słowo"). `archived_date` = znacznik skanu wykrywającego nieobecność
+  (`2026-07-24 09:28:08`), `daily_counts[2026-07-24].removed` 0 → 5. Po naprawie profil jest
+  spójny: `current_listings` 10 → 5, `archived_listings` 0 → 5, `count` = 5.
+- Pozostałe profile (`wszystkie_pokoje`, `mzuri`, `poqui`, `myrent`) **celowo nie były ruszane
+  ręcznie** — ich „missed" ogłoszenia (w większości realna rotacja) rozstrzygnie następny skan
+  przez poprawiony `verify_listing_active()`.
+
+---
+
 ## [2026-07-23] - 🎛️ Niezależne przełączniki zakresu per wykres na podstronie Trend
 
 ### Changed 🔧
