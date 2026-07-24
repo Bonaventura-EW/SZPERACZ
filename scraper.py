@@ -175,7 +175,14 @@ def verify_listing_active(url: str, timeout: int = 10) -> bool:
     try:
         session = get_session()
         resp = session.get(url.split("?")[0], timeout=timeout, allow_redirects=True)
-        if resp.status_code == 404:
+        # 404 (Not Found) i 410 (Gone) = ogłoszenie usunięte/wygasłe. OLX zwraca 410
+        # dla ofert zdjętych przez użytkownika lub po wygaśnięciu — strona 410 nie zawiera
+        # żadnej z INACTIVE_PHRASES (tylko generyczny placeholder), więc status HTTP jest
+        # jedynym pewnym sygnałem. Potwierdzone 2026-07-24: 5 ogłoszeń stylowe_pokoje_ania
+        # zniknęło z listingu profilu, każde dawało HTTP 410, a stara gałąź
+        # "status != 200 → aktywne" trzymała je w current_listings bez końca (nie trafiały
+        # do archiwum). Patrz §7 CLAUDE.md.
+        if resp.status_code in (404, 410):
             return False
         if resp.status_code != 200:
             log.warning(f"[verify] {url[:60]} → HTTP {resp.status_code}, zakładam aktywne")

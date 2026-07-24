@@ -8,7 +8,7 @@
     "profiles_scanned": 9,
     "total_listings": 896,
     "added": 34,
-    "removed": 7,
+    "removed": 12,
     "new_listings": 34,
     "price_changes": 8,
     "errors": []
@@ -100,7 +100,7 @@
       "label": "stylowe pokoje-ania",
       "count": 5,
       "added": 0,
-      "removed": 0,
+      "removed": 5,
       "new_listings": 0,
       "price_changes": 2,
       "crosscheck": "passed",
