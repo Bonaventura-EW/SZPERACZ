@@ -30,6 +30,7 @@ SMTP_PORT = 587
 PROFILE_ORDER = [
     "wszystkie_pokoje", "mzuri", "poqui", "dawny_patron",
     "pokojewlublinie", "artymiuk", "villahome",
+    "stylowe_pokoje_ania", "myrent", "mat",
 ]
 
 

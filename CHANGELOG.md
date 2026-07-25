@@ -13,6 +13,32 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-25] - ➕ Nowy monitorowany profil (kafelek): MAT
+
+### Added ✨
+- Dodano profil **MAT** do `PROFILES` w `scraper.py` (klucz `mat`, `is_category: False`).
+  - URL: https://www.olx.pl/oferty/uzytkownik/4B6oQ/
+  - `uuid` do API OLX: `3e1e5f35-ba20-43bb-87a7-4587cb67af17` (odczytany z
+    `__PRERENDERED_STATE__` w HTML profilu, potwierdzony zapytaniem
+    `api/v1/offers?user_id=...` — zwraca 4 ogłoszenia tego profilu, pokoje w Lublinie,
+    ceny 790–1100 zł; sprzedawca „Mateusz”, konto firmowe).
+- Zaktualizowano listę profili w §5 `CLAUDE.md` + notatkę, co trzeba zmienić przy dodawaniu
+  kolejnego profilu (kafelki dashboardu są dynamiczne, ale `PROFILE_ORDER` i docs API — nie).
+
+### Fixed 🐛
+- **`email_report.py` — `PROFILE_ORDER`**: dopisano `stylowe_pokoje_ania`, `myrent` i `mat`.
+  Lista działa jak whitelist (`if pk not in profiles: continue` po niej iteruje), więc profile
+  dodane po 2026-07-19 **w ogóle nie pojawiały się** w wierszach per-profil raportu tygodniowego.
+- Zaktualizowano nieaktualne listy profili w `docs/api/README.md` (tabela „Monitorowane profile”)
+  i `docs/api/JAK_DZIALA_API.txt` — brakowało tam `stylowe_pokoje_ania` i `myrent`.
+
+### Uwagi
+- Profil będzie scrapowany od najbliższego skanu przez OLX REST API (jak pozostałe profile
+  użytkowników). Pierwszy skan zapisze go do `dashboard_data.json`, ledgera i API dashboardu —
+  kafelek pojawi się na dashboardzie po tym skanie, a historia zacznie się od tego dnia.
+
+---
+
 ## [2026-07-24] - 🐛 HTTP 410 (Gone) = ogłoszenie usunięte (naprawa `verify_listing_active`)
 
 ### Problem

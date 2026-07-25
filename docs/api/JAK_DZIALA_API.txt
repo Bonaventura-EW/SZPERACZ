@@ -55,7 +55,7 @@ Pola najważniejsze:
   profiles          -> dane dla KAŻDEGO profilu osobno (patrz niżej)
 
 Dla każdego profilu (klucze: wszystkie_pokoje, pokojewlublinie, poqui,
-artymiuk, dawny_patron, mzuri, villahome):
+artymiuk, dawny_patron, mzuri, villahome, stylowe_pokoje_ania, myrent, mat):
 
        label             nazwa czytelna (np. "Wszystkie pokoje w Lublinie")
        count             ile ogłoszeń jest TERAZ
