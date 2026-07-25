@@ -165,6 +165,9 @@ oraz liczby zależne od typu (`removed`/`previous_count`/`count`/`header_count`/
 | `dawny_patron` | dawny patron |
 | `mzuri` | mzuri |
 | `villahome` | villahome |
+| `stylowe_pokoje_ania` | stylowe pokoje-ania |
+| `myrent` | MyRent |
+| `mat` | MAT |
 
 ---
 

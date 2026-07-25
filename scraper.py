@@ -78,6 +78,12 @@ PROFILES = {
         "is_category": False,
         "uuid": "a17ed560-8913-4f97-9c67-0ebb5c2041c0",
     },
+    "mat": {
+        "url": "https://www.olx.pl/oferty/uzytkownik/4B6oQ/",
+        "label": "MAT",
+        "is_category": False,
+        "uuid": "3e1e5f35-ba20-43bb-87a7-4587cb67af17",
+    },
 }
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
