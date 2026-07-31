@@ -13,6 +13,24 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-07-31] - 🔗 Podmiana linku profilu firmowego: villahome
+
+### Changed 🔧
+- Zaktualizowano profil **villahome** w `PROFILES` (`scraper.py`) na nowy profil OLX
+  sprzedawcy (stary profil `1n7fOJ` był już pusty — 0 ogłoszeń przez API).
+  - URL: `https://www.olx.pl/oferty/uzytkownik/1n7fOJ/` → `https://www.olx.pl/oferty/uzytkownik/2MKggM/`
+  - `uuid` do API OLX: `1889499b-05ae-4dc2-b640-0b2ed032422b` → `6da7ff53-b041-4214-af55-8dc1ea2f30ff`
+    (odczytany z HTML nowego profilu, potwierdzony zapytaniem `api/v1/offers?user_id=...`
+    — zwraca 13 ogłoszeń: pokoje/mieszkania w Lublinie, sprzedawca „Magda").
+  - **Uwaga:** dla profili użytkowników scraper korzysta z `uuid` (API `user_id={uuid}`),
+    a NIE z `url` — sama podmiana URL bez `uuid` dalej pobierałaby stary (pusty) profil.
+- Zaktualizowano pole `url` profilu villahome w `data/dashboard_data.json` (link w kafelku
+  dashboardu ustawiany jest tylko przy tworzeniu profilu, więc istniejący wpis wymagał ręcznej
+  korekty). Historyczne dane villahome były puste (`current_listings`/`archived_listings` = []),
+  więc podmiana profilu nie miesza starych ogłoszeń z nowymi.
+
+---
+
 ## [2026-07-25] - ➕ Nowy monitorowany profil (kafelek): MAT
 
 ### Added ✨
