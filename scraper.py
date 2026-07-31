@@ -61,10 +61,10 @@ PROFILES = {
         "uuid": "aef14b8b-6252-4f27-adb1-b2b73bd8dea6",
     },
     "villahome": {
-        "url": "https://www.olx.pl/oferty/uzytkownik/1n7fOJ/",
+        "url": "https://www.olx.pl/oferty/uzytkownik/2MKggM/",
         "label": "villahome",
         "is_category": False,
-        "uuid": "1889499b-05ae-4dc2-b640-0b2ed032422b",
+        "uuid": "6da7ff53-b041-4214-af55-8dc1ea2f30ff",
     },
     "stylowe_pokoje_ania": {
         "url": "https://www.olx.pl/oferty/uzytkownik/1WLoW/",
