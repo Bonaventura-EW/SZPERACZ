@@ -13,6 +13,31 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-08-14] - 📅 „Cała historia" działa dla wszystkich metryk wykresu trendu
+
+### Changed 🔧
+- Przycisk **📅 90 dni / 🗓️ Cała historia** na wykresie „Trend w czasie" (`docs/index.html`)
+  działa teraz dla **wszystkich** metryk, nie tylko „Ogłoszenia":
+  Mediana ceny, % Promowanych, Odśw./Reakt. oraz Przybyło/Zniknęło.
+  Wcześniej dla tych metryk przełącznik pokazywał tylko ostatnie 90 dni + komunikat.
+- `generate_trend_full()` (`scraper.py`) buduje `docs/api/trend_full.json` z **kompletem metryk**
+  per dzień/profil (`count`, `median_price`, `promoted_count`/`promoted_percentage`,
+  `refreshed_count`/`reactivated_count`, `added`/`removed`) zamiast samego `count`.
+  - Metryki inne niż `count` są **rekonstruowane** z per-ogłoszeniowej historii w
+    `dashboard_data.json` (`first_seen`/`archived_date`, `refresh_history`,
+    `reactivation_history`, `promotion_history` — wszystkie bez limitu 90 dni). Metodyka spójna
+    z liczeniem `daily_counts` w `generate_dashboard_json`/`recompute_daily_refresh_reactivation`:
+    mediana z cen nowych ogłoszeń danego dnia, odpływ po `archived_date`, odświeżenia/reaktywacje
+    po dacie eventu, promowane = ogłoszenia w aktywnej sesji promocji danego dnia.
+  - Dla dni obecnych w `daily_counts` (ostatnie ~90 dni) używane są **autorytatywne** wartości
+    z `daily_counts` — brak skoku wartości przy przełączaniu 90 dni ↔ cała historia.
+  - `count` ma pełną głębię z ledgera (od lutego); pozostałe metryki sięgają tylko tak wstecz,
+    jak dane per-ogłoszeniowe (starsze dni bywają 0/None — ograniczenie danych, nie błąd).
+  - Klucz `outflow` (wykres „Odpływ ofert" na `trend.html`) zachowany bez zmian; dodatkowe pola
+    w `profiles[].{...}` są wstecznie kompatybilne (`trend.html` czyta tylko `date`/`count`).
+
+---
+
 ## [2026-07-31] - 🔗 Podmiana linku profilu firmowego: villahome
 
 ### Changed 🔧
