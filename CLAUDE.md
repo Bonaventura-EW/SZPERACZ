@@ -62,9 +62,15 @@ Pełna lista: `requirements.txt`.
   - `append_history()` — **append-only** zapis do ledgera `data/history/daily_summary.ndjson` (1 linia/skan/profil).
     Zachowuje ochronę „count==0/błąd scrapera nie psuje danych".
   - `build_excel_from_data()` — generuje Excel z `dashboard_data.json` + ledger **na żądanie** (do `/tmp`, NIE do repo).
-  - `generate_trend_full()` — pisze `docs/api/trend_full.json`: pełna historia `count` (1 punkt/dzień/profil, z ledgera)
-    pod kluczem `profiles` ORAZ pełna historia **odpływu** pod kluczem `outflow` (per profil, `{date,count}` = liczba
-    ogłoszeń zarchiwizowanych danego dnia; źródło: `archived_listings.archived_date` w `dashboard_data.json`, bez limitu 90 dni).
+  - `generate_trend_full()` — pisze `docs/api/trend_full.json`: pełna historia trendu (bez limitu 90 dni) pod kluczem
+    `profiles` — dla KAŻDEGO dnia (1 punkt/dzień/profil) KOMPLET metryk wykresu: `count` (z ledgera) + `median_price`,
+    `promoted_count`/`promoted_percentage`, `refreshed_count`/`reactivated_count`, `added`/`removed`
+    (**rekonstrukcja** z per-ogłoszeniowej historii w `dashboard_data.json`: `first_seen`/`archived_date`,
+    `refresh_history`/`reactivation_history`/`promotion_history`). Dni obecne w `daily_counts` (~90 dni) biorą
+    AUTORYTATYWNE wartości z `daily_counts` (brak skoku przy przełączaniu), starsze — rekonstrukcję (metryki inne niż
+    `count` sięgają tylko tak wstecz, jak dane per-ogłoszeniowe; starsze dni mogą mieć 0/None). Klucz `outflow`
+    (per profil, `{date,count}` = liczba ogłoszeń zarchiwizowanych danego dnia; źródło: `archived_listings.archived_date`)
+    — źródło wykresu „Odpływ ofert" na `trend.html`. Cały plik = źródło przycisku „Cała historia" na wykresie trendu.
   - `update_excel()` — **legacy, niewywoływane** (stary zapis xlsx do repo; zostawione na wszelki wypadek).
   - `generate_api_json()` — pisze `docs/api/status.json` + `history.json` (ostatnie 30 scanów).
   - `run_scan()` — orkiestracja: scrape → **filter_price_outliers** → JSON → **append_history** → API → **trend_full** (bez zapisu xlsx do repo).
@@ -114,8 +120,9 @@ Pełna lista: `requirements.txt`.
 - `docs/index.html` (~2500 linii) — SPA czytająca `dashboard_data.json`, `docs/api/*` oraz (leniwie) `trend_full.json`.
   Karty profili, wykresy (słupkowy 7/14/30 dni, liniowy z zoomem, 5 metryk),
   sortowalne tabele aktywnych/archiwalnych, tryb jasny/ciemny, przycisk ręcznego scanu (przez GitHub PAT).
-  Wykres „Trend w czasie": przycisk **📅 90 dni / 🗓️ Cała historia** — pełna historia działa dla metryki
-  „Ogłoszenia" (z `trend_full.json`); inne metryki nie mają danych >90 dni (komunikat).
+  Wykres „Trend w czasie": przycisk **📅 90 dni / 🗓️ Cała historia** — pełna historia działa dla WSZYSTKICH
+  metryk (Ogłoszenia, Mediana ceny, % Promowanych, Odśw./Reakt., Przybyło/Zniknęło) z `trend_full.json`; metryki
+  inne niż „Ogłoszenia" bywają rzadsze dla najstarszych dni (ograniczenie danych per-ogłoszeniowych).
   W belce linki do podstron: **Skany** (`scans.html`) i **Trend** (`trend.html`).
 - `docs/scans.html` — podstrona „Historia skanów" (czas/profil, crosscheck). Czyta `docs/api/status.json` + `history.json`.
 - `docs/trend.html` — podstrona „Trend w czasie" w stylu betonometr.pl. **Wykresy na czystym canvasie (bez bibliotek)**:

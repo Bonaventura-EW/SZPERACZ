@@ -1552,12 +1552,48 @@ def append_history(scan_results, scan_timestamp, ledger_path=HISTORY_LEDGER, jso
     return appended
 
 
+def _median_int(prices):
+    """Mediana listy cen (int, zaokrąglona), spójna z `generate_dashboard_json`. None dla pustej."""
+    if not prices:
+        return None
+    s = sorted(prices)
+    n = len(s)
+    if n % 2 == 0:
+        return round((s[n // 2 - 1] + s[n // 2]) / 2)
+    return s[n // 2]
+
+
 def generate_trend_full(ledger_path=HISTORY_LEDGER, out_path=None):
     """
-    Buduje lekki `docs/api/trend_full.json` z ledgera — PEŁNA historia liczby ogłoszeń
-    (1 punkt/dzień/profil = ostatni skan danego dnia). Dashboard pobiera go tylko gdy
-    użytkownik włączy widok 'cała historia' na wykresie trendu. Pozostałe metryki
-    (mediana itd.) nie są dostępne historycznie — żyją w daily_counts (90 dni).
+    Buduje `docs/api/trend_full.json` — PEŁNA historia trendu per profil (bez limitu
+    90 dni), pobierana leniwie przez dashboard po włączeniu widoku „Cała historia"
+    na wykresie trendu. Dla KAŻDEGO dnia (1 punkt/dzień = ostatni skan) zawiera
+    komplet metryk wykresu, żeby przełącznik działał dla wszystkich zakładek
+    (Ogłoszenia, Mediana ceny, % Promowanych, Odśw./Reakt., Przybyło/Zniknęło):
+
+      {date, count, median_price, promoted_count, promoted_percentage,
+       refreshed_count, reactivated_count, added, removed}
+
+    Źródła:
+      - `count` — z append-only ledgera (`daily_summary.ndjson`), pełna historia.
+      - reszta metryk — REKONSTRUKCJA z per-ogłoszeniowej historii w
+        `dashboard_data.json` (`current_listings` + `archived_listings`, oba bez
+        limitu 90 dni): daty `first_seen`/`archived_date`, `refresh_history`,
+        `reactivation_history`, `promotion_history`. Metodyka spójna z tym, jak
+        `generate_dashboard_json`/`recompute_daily_refresh_reactivation` liczą
+        `daily_counts` (mediana z nowych ogłoszeń danego dnia, odpływ po
+        `archived_date`, odświeżenia/reaktywacje po dacie eventu, promowane =
+        ogłoszenia w aktywnej sesji promocji danego dnia).
+
+    Dla dni obecnych w `daily_counts` (ostatnie ~90 dni) bierzemy AUTORYTATYWNE
+    wartości z `daily_counts` (identyczne z widokiem 90-dniowym — brak skoku przy
+    przełączaniu); starsze dni uzupełniamy rekonstrukcją. Metryki wymagające
+    per-ogłoszeniowej historii sięgają tylko tak wstecz, jak dane w
+    `dashboard_data.json` (starsze dni mogą mieć 0/None — to ograniczenie danych,
+    nie błąd). Pełną głębię ma zawsze `count`.
+
+    Zachowuje też klucz `outflow` (pełna historia odpływu per profil) — źródło
+    wykresu „Odpływ ofert" na `trend.html`.
     """
     out_path = out_path or os.path.join(API_DIR, "trend_full.json")
     ledger = _load_daily_ledger(ledger_path)
@@ -1571,31 +1607,110 @@ def generate_trend_full(ledger_path=HISTORY_LEDGER, out_path=None):
         if prev is None or t >= prev[0]:
             day_map[d] = (t, c)
 
-    profiles = {p: [{"date": d, "count": dm[d][1]} for d in sorted(dm)]
-                for p, dm in by_prof.items()}
-
-    # Odpływ ofert („ile znika z rynku") — pełna historia per profil.
-    # Dla każdego dnia liczymy ogłoszenia zarchiwizowane tego dnia (data-part
-    # `archived_date`). Źródłem jest `archived_listings` w dashboard_data.json,
-    # które NIE ma limitu 90 dni (w przeciwieństwie do `daily_counts.removed`),
-    # więc daje pełną historię. Konwencja liczenia po dniu archiwizacji jest
-    # spójna z metryką „Zniknęło" (`daily_counts.removed`) na dashboardzie.
-    outflow = {}
     try:
         data = load_existing_json()
-        for pk, pdata in (data.get("profiles") or {}).items():
-            day_counts = {}
-            for l in pdata.get("archived_listings", []):
-                ad = l.get("archived_date")
-                if not ad:
-                    continue
-                day = ad[:10]  # 'YYYY-MM-DD'
-                if len(day) == 10:
-                    day_counts[day] = day_counts.get(day, 0) + 1
-            if day_counts:
-                outflow[pk] = [{"date": d, "count": day_counts[d]} for d in sorted(day_counts)]
     except Exception as e:
-        log.warning(f"Nie udało się policzyć odpływu ofert do trend_full.json: {e}")
+        log.warning(f"trend_full.json: nie udało się wczytać dashboard_data.json ({e}) — "
+                    f"tylko historia count")
+        data = {"profiles": {}}
+    dprofiles = data.get("profiles") or {}
+    today_str = datetime.now().strftime("%Y-%m-%d")
+
+    profiles = {}
+    outflow = {}
+    for pk, dm in by_prof.items():
+        pdata = dprofiles.get(pk, {})
+        all_listings = (pdata.get("current_listings", []) or []) + (pdata.get("archived_listings", []) or [])
+
+        # ── Rekonstrukcja metryk z per-ogłoszeniowej historii ──
+        added_by_day = defaultdict(int)     # nowe ogłoszenia (first_seen == D)
+        prices_by_day = defaultdict(list)   # ceny nowych ogłoszeń (do mediany)
+        removed_by_day = defaultdict(int)   # odpływ (archived_date == D)
+        refresh_by_day = defaultdict(int)   # eventy odświeżeń
+        react_by_day = defaultdict(int)     # eventy reaktywacji
+        promoted_by_day = defaultdict(int)  # ogłoszenia w aktywnej sesji promocji danego dnia
+
+        for l in all_listings:
+            fs = str(l.get("first_seen") or "")[:10]
+            if len(fs) == 10:
+                added_by_day[fs] += 1
+                pr = l.get("price")
+                if isinstance(pr, (int, float)) and pr > 0:
+                    prices_by_day[fs].append(pr)
+            ad = str(l.get("archived_date") or "")[:10]
+            if len(ad) == 10:
+                removed_by_day[ad] += 1
+            for h in (l.get("refresh_history") or []):
+                rr = str(h.get("refreshed_at") or "")[:10]
+                if len(rr) == 10:
+                    refresh_by_day[rr] += 1
+            for h in (l.get("reactivation_history") or []):
+                ra = str(h.get("reactivated_at") or "")[:10]
+                if len(ra) == 10:
+                    react_by_day[ra] += 1
+            for h in (l.get("promotion_history") or []):
+                sd = str(h.get("start_date") or "")[:10]
+                if len(sd) != 10:
+                    continue
+                ed = str(h.get("end_date") or "")[:10]
+                if len(ed) != 10:
+                    # sesja otwarta — do dnia archiwizacji lub dziś
+                    ed = ad if len(ad) == 10 else today_str
+                try:
+                    d0 = datetime.strptime(sd, "%Y-%m-%d").date()
+                    d1 = datetime.strptime(ed, "%Y-%m-%d").date()
+                except ValueError:
+                    continue
+                if d1 < d0:
+                    continue
+                cur = d0
+                while cur <= d1:
+                    promoted_by_day[cur.strftime("%Y-%m-%d")] += 1
+                    cur += timedelta(days=1)
+
+        # Autorytatywne wartości z daily_counts (ostatnie ~90 dni) — nadpisują rekonstrukcję
+        dc_by_date = {e["date"]: e for e in pdata.get("daily_counts", []) if e.get("date")}
+
+        series = []
+        for d in sorted(dm):
+            count = dm[d][1]
+            auth = dc_by_date.get(d)
+            if auth is not None:
+                median_price = auth.get("median_price")
+                promoted_count = auth.get("promoted_count", promoted_by_day.get(d, 0))
+                promoted_percentage = auth.get("promoted_percentage")
+                if promoted_percentage is None:
+                    promoted_percentage = round(promoted_count / count * 100, 1) if count > 0 else 0
+                refreshed_count = auth.get("refreshed_count", refresh_by_day.get(d, 0))
+                reactivated_count = auth.get("reactivated_count", react_by_day.get(d, 0))
+                added = auth.get("added", added_by_day.get(d, 0))
+                removed = auth.get("removed", removed_by_day.get(d, 0))
+            else:
+                median_price = _median_int(prices_by_day.get(d, []))
+                promoted_count = promoted_by_day.get(d, 0)
+                promoted_percentage = round(promoted_count / count * 100, 1) if count > 0 else 0
+                refreshed_count = refresh_by_day.get(d, 0)
+                reactivated_count = react_by_day.get(d, 0)
+                added = added_by_day.get(d, 0)
+                removed = removed_by_day.get(d, 0)
+            series.append({
+                "date": d,
+                "count": count,
+                "median_price": median_price,
+                "promoted_count": promoted_count,
+                "promoted_percentage": promoted_percentage,
+                "refreshed_count": refreshed_count,
+                "reactivated_count": reactivated_count,
+                "added": added,
+                "removed": removed,
+            })
+        profiles[pk] = series
+
+        # Odpływ ofert („ile znika z rynku") — pełna historia (źródło wykresu na trend.html).
+        # Ta sama mapa co `removed_by_day`; konwencja liczenia po dniu archiwizacji
+        # spójna z metryką „Zniknęło".
+        if removed_by_day:
+            outflow[pk] = [{"date": d, "count": removed_by_day[d]} for d in sorted(removed_by_day)]
 
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     payload = {
@@ -1607,7 +1722,7 @@ def generate_trend_full(ledger_path=HISTORY_LEDGER, out_path=None):
         json.dump(payload, f, ensure_ascii=False, indent=2, sort_keys=True)
     total = sum(len(v) for v in profiles.values())
     out_total = sum(len(v) for v in outflow.values())
-    log.info(f"trend_full.json zapisany: {total} punktów count + {out_total} punktów odpływu "
+    log.info(f"trend_full.json zapisany: {total} punktów (komplet metryk) + {out_total} punktów odpływu "
              f"({len(profiles)} profili) -> {out_path}")
     return out_path
 

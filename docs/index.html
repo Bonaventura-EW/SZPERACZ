@@ -1229,7 +1229,7 @@ input[type=range].day-slider::-moz-range-thumb {
         <div style="display:flex;align-items:center;gap:12px;">
           <div class="chart-title">Trend w czasie</div>
           <button id="toggleFullHistory" class="chart-range-tab" onclick="toggleFullHistory(this)"
-                  title="Przełącz między ostatnimi 90 dniami a całą zebraną historią (liczba ogłoszeń)">
+                  title="Przełącz między ostatnimi 90 dniami a całą zebraną historią (wszystkie metryki)">
             📅 90 dni
           </button>
         </div>
@@ -1314,7 +1314,7 @@ let sortColumn = 'date'; // Default: sortuj po dacie (newest first)
 let sortDirection = 'desc'; // desc = malejąco, asc = rosnąco
 let lineChart = null; // Instancja wykresu liniowego
 let currentMetric = 'count'; // Aktywna metryka: count, avg_price, min_price, max_price
-let trendFull = null; // Pełna historia liczby ogłoszeń (docs/api/trend_full.json), ładowana leniwie
+let trendFull = null; // Pełna historia wszystkich metryk (docs/api/trend_full.json), ładowana leniwie
 let lineChartFullHistory = false; // false = 90 dni (domyślnie), true = cała historia
 let pageSize = 100;       // domyślnie 100 ogłoszeń na stronę
 let currentPage = 0;      // 0-indexed, wspólny dla obu zakładek
@@ -1722,13 +1722,14 @@ function renderLineChart(key) {
   const data = dashData.profiles[key];
   if (!data) return;
 
-  // Wybór źródła: domyślnie daily_counts (90 dni, wszystkie metryki).
-  // Gdy włączona 'cała historia' I metryka = liczba ogłoszeń → pełny ledger (trend_full).
-  // Pełna historia jest dostępna TYLKO dla 'count'; inne metryki historycznie nie istnieją.
+  // Wybór źródła: domyślnie daily_counts (90 dni). Gdy włączona 'cała historia' →
+  // pełna historia z trend_full.json (komplet metryk zrekonstruowany po stronie
+  // scrapera). Działa dla WSZYSTKICH metryk (count, mediana, promowane, odśw./reakt.,
+  // przybyło/zniknęło); starsze dni bywają rzadsze dla metryk innych niż count.
   const counts90 = data.daily_counts || [];
-  const fullCount = (lineChartFullHistory && currentMetric === 'count'
-                     && trendFull && trendFull.profiles && trendFull.profiles[key]);
-  const counts = fullCount ? trendFull.profiles[key] : counts90;
+  const fullHistory = (lineChartFullHistory
+                       && trendFull && trendFull.profiles && trendFull.profiles[key]);
+  const counts = fullHistory ? trendFull.profiles[key] : counts90;
 
   if (counts.length === 0) {
     document.getElementById('lineChart').parentElement.innerHTML = `
@@ -1818,10 +1819,10 @@ function renderLineChart(key) {
 
   // Aktualizuj info o danych
   let infoText;
-  if (fullCount) {
+  if (fullHistory) {
     infoText = `Cała historia: ${counts.length} dni (od ${counts[0].date})`;
-  } else if (lineChartFullHistory && currentMetric !== 'count') {
-    infoText = `Ostatnie ${counts.length} dni — pełna historia dostępna tylko dla liczby ogłoszeń`;
+  } else if (lineChartFullHistory) {
+    infoText = `Ostatnie ${counts.length} dni — pełna historia niedostępna`;
   } else {
     infoText = `Ostatnie ${counts.length} dni`;
   }
