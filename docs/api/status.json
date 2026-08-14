@@ -3,19 +3,19 @@
   "message": "Skan 10 profili zakończony pomyślnie",
   "alerts": [],
   "lastScan": {
-    "timestamp": "2026-08-13T08:27:17Z",
-    "duration_seconds": 182,
+    "timestamp": "2026-08-14T08:23:10Z",
+    "duration_seconds": 315,
     "profiles_scanned": 10,
-    "total_listings": 795,
-    "added": 32,
+    "total_listings": 789,
+    "added": 39,
     "removed": 0,
-    "new_listings": 32,
-    "price_changes": 9,
+    "new_listings": 39,
+    "price_changes": 15,
     "errors": []
   },
   "nextScan": {
-    "scheduled": "2026-08-14T07:00:00Z",
-    "in_seconds": 81162
+    "scheduled": "2026-08-15T07:00:00Z",
+    "in_seconds": 81409
   },
   "profiles": {
     "pokojewlublinie": {
@@ -27,7 +27,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=None",
-      "duration_seconds": 0.1,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
@@ -40,7 +40,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=None",
-      "duration_seconds": 0.0,
+      "duration_seconds": 0.1,
       "ok": true,
       "error": null
     },
@@ -92,7 +92,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=None",
-      "duration_seconds": 0.0,
+      "duration_seconds": 0.1,
       "ok": true,
       "error": null
     },
@@ -131,20 +131,20 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=None",
-      "duration_seconds": 0.0,
+      "duration_seconds": 0.1,
       "ok": true,
       "error": null
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 795,
-      "added": 32,
+      "count": 789,
+      "added": 39,
       "removed": 0,
-      "new_listings": 32,
-      "price_changes": 9,
-      "crosscheck": "passed",
-      "crosscheck_detail": "scraped=795, header=803",
-      "duration_seconds": 166.7,
+      "new_listings": 39,
+      "price_changes": 15,
+      "crosscheck": "best_of_two",
+      "crosscheck_detail": "1st=789, 2nd=789, header=804",
+      "duration_seconds": 298.1,
       "ok": true,
       "error": null
     }
