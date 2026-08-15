@@ -3,19 +3,19 @@
   "message": "Skan 10 profili zakończony pomyślnie",
   "alerts": [],
   "lastScan": {
-    "timestamp": "2026-08-14T08:23:10Z",
-    "duration_seconds": 315,
+    "timestamp": "2026-08-15T07:37:17Z",
+    "duration_seconds": 170,
     "profiles_scanned": 10,
-    "total_listings": 789,
-    "added": 39,
+    "total_listings": 777,
+    "added": 14,
     "removed": 0,
-    "new_listings": 39,
-    "price_changes": 15,
+    "new_listings": 14,
+    "price_changes": 12,
     "errors": []
   },
   "nextScan": {
-    "scheduled": "2026-08-15T07:00:00Z",
-    "in_seconds": 81409
+    "scheduled": "2026-08-16T07:00:00Z",
+    "in_seconds": 84162
   },
   "profiles": {
     "pokojewlublinie": {
@@ -27,7 +27,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=None",
-      "duration_seconds": 0.2,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
@@ -40,7 +40,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=None",
-      "duration_seconds": 0.1,
+      "duration_seconds": 0.0,
       "ok": true,
       "error": null
     },
@@ -137,14 +137,14 @@
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 789,
-      "added": 39,
+      "count": 777,
+      "added": 14,
       "removed": 0,
-      "new_listings": 39,
-      "price_changes": 15,
-      "crosscheck": "best_of_two",
-      "crosscheck_detail": "1st=789, 2nd=789, header=804",
-      "duration_seconds": 298.1,
+      "new_listings": 14,
+      "price_changes": 12,
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=777, header=784",
+      "duration_seconds": 154.9,
       "ok": true,
       "error": null
     }
