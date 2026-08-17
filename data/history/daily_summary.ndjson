@@ -1666,3 +1666,4 @@
 {"date": "2026-08-14", "time": "08:23", "profile": "wszystkie_pokoje", "count": 789, "crosscheck": "best_of_two", "change": -6, "source": "scan"}
 {"date": "2026-08-15", "time": "07:37", "profile": "wszystkie_pokoje", "count": 777, "crosscheck": "passed", "change": -12, "source": "scan"}
 {"date": "2026-08-16", "time": "07:38", "profile": "wszystkie_pokoje", "count": 776, "crosscheck": "passed", "change": -1, "source": "scan"}
+{"date": "2026-08-17", "time": "07:57", "profile": "wszystkie_pokoje", "count": 777, "crosscheck": "passed", "change": 1, "source": "scan"}
