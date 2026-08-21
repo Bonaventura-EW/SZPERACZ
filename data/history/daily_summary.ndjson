@@ -1670,3 +1670,4 @@
 {"date": "2026-08-18", "time": "07:45", "profile": "wszystkie_pokoje", "count": 790, "crosscheck": "passed", "change": 13, "source": "scan"}
 {"date": "2026-08-19", "time": "11:44", "profile": "wszystkie_pokoje", "count": 792, "crosscheck": "passed", "change": 2, "source": "scan"}
 {"date": "2026-08-20", "time": "07:48", "profile": "wszystkie_pokoje", "count": 783, "crosscheck": "best_of_two", "change": -9, "source": "scan"}
+{"date": "2026-08-21", "time": "07:49", "profile": "wszystkie_pokoje", "count": 787, "crosscheck": "passed", "change": 4, "source": "scan"}

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-20 07:57:02",
+  "generated": "2026-08-21 07:56:17",
   "outflow": {
     "artymiuk": [
       {
@@ -477,7 +477,7 @@
         "date": "2026-05-20"
       },
       {
-        "count": 3,
+        "count": 2,
         "date": "2026-05-21"
       },
       {
@@ -545,7 +545,7 @@
         "date": "2026-06-10"
       },
       {
-        "count": 2,
+        "count": 1,
         "date": "2026-06-11"
       },
       {
@@ -693,7 +693,7 @@
         "date": "2026-07-29"
       },
       {
-        "count": 33,
+        "count": 32,
         "date": "2026-07-30"
       },
       {
@@ -13590,13 +13590,13 @@
         "promoted_percentage": 2.6,
         "reactivated_count": 0,
         "refreshed_count": 4,
-        "removed": 3
+        "removed": 2
       },
       {
         "added": 1,
         "count": 385,
         "date": "2026-05-22",
-        "median_price": 1200,
+        "median_price": 1100,
         "promoted_count": 10,
         "promoted_percentage": 2.6,
         "reactivated_count": 1,
@@ -13604,15 +13604,15 @@
         "removed": 1
       },
       {
-        "added": 9,
+        "added": 3,
         "count": 387,
         "date": "2026-05-23",
         "median_price": 1300,
-        "promoted_count": 25,
-        "promoted_percentage": 6.5,
-        "reactivated_count": 1,
+        "promoted_count": 7,
+        "promoted_percentage": 1.8,
+        "reactivated_count": 0,
         "refreshed_count": 2,
-        "removed": 7
+        "removed": 0
       },
       {
         "added": 16,
@@ -14590,7 +14590,18 @@
         "promoted_count": 63,
         "promoted_percentage": 8.0,
         "reactivated_count": 1,
-        "refreshed_count": 10,
+        "refreshed_count": 67,
+        "removed": 0
+      },
+      {
+        "added": 24,
+        "count": 787,
+        "date": "2026-08-21",
+        "median_price": 885,
+        "promoted_count": 56,
+        "promoted_percentage": 7.1,
+        "reactivated_count": 3,
+        "refreshed_count": 19,
         "removed": 0
       }
     ]
