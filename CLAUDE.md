@@ -32,6 +32,7 @@ Język projektu i dokumentacji: **polski**. Pisz komunikaty/commity po polsku.
 
 - Python 3.11+ (Actions używają 3.12)
 - `requests` + `beautifulsoup4` + `lxml` — scraping HTML
+- `curl_cffi` — **wymagany**, impersonacja TLS przeglądarki; OLX blokuje `requests` po odcisku JA3 (patrz Gotchas)
 - `playwright` — główny silnik scrapingu (renderuje stronę OLX)
 - `brotli` — **wymagany**, OLX zwraca `Content-Encoding: br` (patrz Gotchas)
 - `openpyxl` — generowanie Excela
@@ -50,6 +51,8 @@ Pełna lista: `requirements.txt`.
   obsługa błędów (zapis statusu failu do API).
 - `scraper.py` — silnik (~2200 linii). Najważniejsze:
   - `PROFILES` — słownik monitorowanych profili/kategorii (patrz §5).
+  - `OlxSession` + `get_session()`/`get_api_session()` — warstwa HTTP na `curl_cffi` z impersonacją
+    TLS, ponawianiem 429/5xx i rotacją profilu impersonacji przy 403 (patrz §7).
   - `scrape_with_playwright_all()` — główny scrape wszystkich profili w jednej przeglądarce.
   - `scrape_with_crosscheck()` — scrape + weryfikacja liczby wyników z nagłówkiem strony.
   - `parse_card()` / `parse_listings_from_soup()` — parsowanie kart ogłoszeń (selektor `[data-cy="l-card"]` z fallbackami).
@@ -87,6 +90,10 @@ Pełna lista: `requirements.txt`.
 
 ### Skrypty pomocnicze (jednorazowe naprawy/migracje danych)
 - `diagnose.py` — checklist diagnostyczny (linki do Actions).
+- `diag_olx_tls.py` — diagnostyka blokady OLX: sprawdza, którym klientem HTTP da się dobić
+  do OLX (kontrola na `requests`, przegląd profili impersonacji `curl_cffi`, pełna powierzchnia:
+  API profilu / ogłoszenie żywe / ogłoszenie martwe / kategoria). Uruchamiana workflow-em
+  `diag_olx_tls.yml`; sam odczyt. **Uruchom to najpierw**, gdy skan zacznie zwracać zera.
 - `autofix.py` — pusty commit reaktywujący wyłączone scheduled workflows.
 - `rebuild_historical_medians.py` — odtwarza `median_price` per dzień.
 - `rebuild_daily_flows.py` — przelicza `added`/`removed` w `daily_counts`.
@@ -95,6 +102,8 @@ Pełna lista: `requirements.txt`.
 - `rebuild_refresh_daily_backfill.py` — przeliczenie `daily_counts` z historii odświeżeń/reaktywacji
   (idempotentny; uruchomiony jednorazowo 2026-07-18).
 - `rebuild_incident_20260711.py` — jednorazowe czyszczenie danych po incydencie skanu częściowego 11.07.
+- `rebuild_archived_dates_20260824.py` — korekta dat archiwizacji po blokadzie TLS: odtwarza
+  realną datę zniknięcia z `missed_scans` (dry-run domyślnie, zapis na `--apply`, idempotentny).
 - `backfill_prices.py` (przestarzały) / `backfill_price_distribution.py` — uzupełnianie historii cen.
   > Te skrypty modyfikują `data/*.json`. Uruchamiaj świadomie, rób kopię/commit przed.
 
@@ -111,7 +120,10 @@ Pełna lista: `requirements.txt`.
     (czytane ze świeżego `daily_counts`; `null` = nie policzono, nie 0).
     Pole `alerts` + status `warning` (od 2026-07-11): anomalie ostatniego scanu — `mass_removal`
     (zniknęło ≥30% i ≥10 ogłoszeń w dobę), `header_shortfall` (pobrano <50% ogłoszeń z nagłówka
-    OLX) i `stale_listings` (od 2026-07-19: ogłoszenia z `missed_scans >= 12`, patrz §7).
+    OLX), `stale_listings` (od 2026-07-19: ogłoszenia z `missed_scans >= 12`, patrz §7) oraz
+    `profile_empty` (od 2026-08-24: profil zwrócił 0 ogłoszeń mimo niepustego `current_listings`
+    — sygnatura awarii pobierania; taki profil ma też `ok: false`). `lastScan` niesie
+    `http_impersonate`/`http_impersonate_rotations` — który odcisk TLS przeszedł i ile rotacji.
     Dashboard (`index.html`) i `scans.html` pokazują je jako czerwony baner.
   - `history.json` — **3 ostatnie scany** (`scans` od najstarszego, `recent` od najnowszego), z added/removed per profil.
   - Generuje `generate_api_json()` w scraper.py. Opis: `docs/api/JAK_DZIALA_API.txt`, `README.md`, `openapi.yaml`.
@@ -141,6 +153,8 @@ Pełna lista: `requirements.txt`.
 - `weekly_report.yml` — `cron: '30 7 * * 1'` (poniedziałki). Uruchamia `email_report.py`. Wymaga sekretu `EMAIL_PASSWORD`.
 - `keep-alive.yml` — `cron: '0 3 */50 * *'`. Pusty commit co 50 dni, żeby GitHub nie wyłączył crona po 60 dniach.
 - `failsafe.yml` — `cron: '0 11 * * *'`. Sprawdza, czy dzisiejszy scan się udał; jeśli nie — dispatch `scan.yml`.
+- `diag_olx_tls.yml` — bez crona (ręcznie / przy zmianie `diag_olx_tls.py`). Diagnostyka blokady OLX,
+  `permissions: contents: read` — nic nie commituje.
 
 ### Dokumentacja
 README.md, SETUP_GUIDE.md, PROJECT_STRUCTURE.md, QUICK_REFERENCE.md, TROUBLESHOOTING.md,
@@ -213,6 +227,22 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 
 - **Brotli jest obowiązkowy.** OLX zwraca `Content-Encoding: br`. Bez pakietu `brotli`
   `resp.text` to binarne śmieci → 0 ogłoszeń dla wszystkich profili. Nie usuwaj z requirements.
+- **OLX blokuje po ODCISKU TLS (JA3) — `requests` dostaje 403 na wszystko (od 2026-08-12).**
+  Warstwa HTTP do OLX to `curl_cffi` z impersonacją TLS przeglądarki (`OlxSession`), NIE `requests`.
+  Blokada nie jest po nagłówkach ani po IP: przy tym samym IP egress `requests` z pełnym zestawem
+  nagłówków przeglądarki i `httpx` z HTTP/2 dostają 403 na każdy adres olx.pl, a `curl_cffi`
+  z `impersonate` dostaje 200. Potwierdzone na runnerze Actions — wszystkie 12 sprawdzonych profili
+  impersonacji przechodzi, więc reputacja IP Azure nie jest czynnikiem. NIE wracaj do `requests`
+  i NIE dokładaj własnego User-Agenta do `OlxSession`: `curl_cffi` ustawia nagłówki spójne
+  z podszywaną przeglądarką, a np. Chrome'owy UA przy TLS Safari to sama w sobie niespójność,
+  której szukają WAF-y. Przy 403 `OlxSession` rotuje profil impersonacji, a gdy padną wszystkie —
+  **podnosi wyjątek zamiast zwrócić 403**; cicha 403 była właśnie tym, co przez 13 skanów udawało
+  „profil ma 0 ogłoszeń". Gdy skany znów zaczną zwracać zera: `python diag_olx_tls.py`.
+- **Awaria warstwy HTTP uderza w DWA miejsca naraz — pamiętaj o archiwizacji.** Blokada 403 nie
+  tylko wyzerowała 9 profili (`scrape_user_via_api`), ale też zatrzymała archiwizację: 403 to dla
+  `verify_listing_active()` „status != 200" → fail-safe „zakładam aktywne" → `removed=0` przez
+  13 dni i 351 martwych ogłoszeń wiszących w `current_listings`. Sprawdzając awarię pobierania,
+  sprawdź ZAWSZE oba objawy — `count` profili ORAZ czy cokolwiek trafia do archiwum.
 - **Nigdy nie nadpisuj danych przy count == 0.** Gdy scan zwróci 0 ogłoszeń (oznaka błędu/blokady),
   kod NIE archiwizuje i NIE nadpisuje `current_listings` — stare dane zostają. Zachowaj tę ochronę
   przy zmianach w `generate_dashboard_json()`.
@@ -244,6 +274,10 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   `stale_items` (do 10 podejrzanych ogłoszeń: id/url/title/missed_scans) — do ręcznego sprawdzenia.
   Celowo BEZ auto-archiwizacji po N skanach (zasada „nie kasuj przy wątpliwości").
   Między weryfikacyjnymi GET-ami jest pauza 0,7 s.
+  UWAGA (2026-08-24): `stale_listings` jest sygnałem POWOLNYM — przy progu 12 odpala dopiero
+  po ~2 tygodniach awarii. Szybsza sygnatura tej samej klasy problemu to `removed == 0`
+  utrzymujące się kilka dni z rzędu przy niezerowym `added` — zerowa archiwizacja przy żywym
+  napływie ogłoszeń nie zdarza się naturalnie.
 - **HTTP 410 (Gone) = ogłoszenie usunięte — tak samo jak 404 (od 2026-07-24).**
   OLX zwraca dla zdjętych/wygasłych ofert status **410**, nie 404. `verify_listing_active()`
   sprawdza `resp.status_code in (404, 410)` → `False` (nieaktywne). NIE cofaj tego do samego 404:
@@ -298,7 +332,7 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 
 ## 8. Konwencje pracy w tym repo
 
-- Gałąź robocza tej sesji: `claude/kafelek-missing-listings-v0nzau`. Commituj i pushuj tam.
+- Gałąź robocza tej sesji: `claude/ostatnie-scany-kgaqw6`. Commituj i pushuj tam.
 - Commity i komunikaty po polsku, w stylu istniejącej historii.
 - Nie dodawaj PR bez wyraźnej prośby.
 - **Po skończonych zmianach pytaj, czy zmergować je do `main`** (sam nie pushuj do `main` ani nie otwieraj PR bez zgody).

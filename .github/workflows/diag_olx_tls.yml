@@ -1,0 +1,39 @@
+name: SZPERACZ OLX - Diagnostyka blokady TLS
+
+# Diagnostyka, nie element pipeline'u. Uruchamiana ręcznie albo przy zmianie
+# samego skryptu — sprawdza, którym klientem HTTP da się dobić do OLX z IP
+# runnera GitHub Actions. Nic nie commituje (permissions: contents: read).
+#
+# Trigger `push` jest tu dlatego, że workflow_dispatch działa dopiero, gdy plik
+# jest na gałęzi domyślnej — a to trzeba sprawdzić PRZED mergem do main.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'diag_olx_tls.py'
+      - '.github/workflows/diag_olx_tls.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install curl_cffi requests beautifulsoup4 lxml
+
+      - name: Diagnostyka blokady OLX
+        run: python diag_olx_tls.py
