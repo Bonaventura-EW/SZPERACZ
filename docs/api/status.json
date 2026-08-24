@@ -6,87 +6,87 @@
       "profile": "wszystkie_pokoje",
       "type": "stale_listings",
       "severity": "warning",
-      "message": "⚠️ UWAGA: profil „Wszystkie pokoje w Lublinie” — 27 ogłoszeń nieobecnych w wynikach od >= 12 skanów (max 12), a wciąż uznawanych za aktywne. Możliwa zmiana komunikatu OLX o nieaktualności — sprawdź verify_listing_active() (linki w polu 'stale_items').",
-      "stale_count": 27,
-      "max_missed_scans": 12,
+      "message": "⚠️ UWAGA: profil „Wszystkie pokoje w Lublinie” — 60 ogłoszeń nieobecnych w wynikach od >= 12 skanów (max 13), a wciąż uznawanych za aktywne. Możliwa zmiana komunikatu OLX o nieaktualności — sprawdź verify_listing_active() (linki w polu 'stale_items').",
+      "stale_count": 60,
+      "max_missed_scans": 13,
       "stale_items": [
         {
           "id": "15LBwM",
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-w-mieszkaniu-3-pokojowym-CID3-ID15LBwM.html?search_reason=search%7Corganic",
           "title": "Wynajmę pokój w mieszkaniu 3 pokojowym",
-          "missed_scans": 12
+          "missed_scans": 13
         },
         {
           "id": "18S4Cc",
           "url": "https://www.olx.pl/d/oferta/duzy-piekny-i-w-dobrej-lokalizacji-pokoj-tanio-kalina-ul-lwowska-CID3-ID18S4Cc.html?search_reason=search%7Corganic",
           "title": "Duży,piękny i w dobrej lokalizacji pokój-tanio-Kalina-ul.Lwowska",
-          "missed_scans": 12
+          "missed_scans": 13
         },
         {
           "id": "1bDUrS",
           "url": "https://www.olx.pl/d/oferta/duzy-24-mkw-pokoj-w-mieszkaniu-po-remoncie-wczesna-kalina-ul-lwowska-CID3-ID1bDUrS.html?search_reason=search%7Corganic",
           "title": "Duży 24 mkw pokój w mieszkaniu po remoncie - wczesna Kalina ul. Lwowska",
-          "missed_scans": 12
+          "missed_scans": 13
         },
         {
           "id": "1bGcnf",
           "url": "https://www.olx.pl/d/oferta/wynajem-pokoju-lublin-CID3-ID1bGcnf.html?search_reason=search%7Corganic",
           "title": "Wynajem pokoju, Lublin",
-          "missed_scans": 12
+          "missed_scans": 13
         },
         {
           "id": "1bHs83",
           "url": "https://www.olx.pl/d/oferta/pokoj-lsm-pozytywistow-politechnika-CID3-ID1bHs83.html?search_reason=search%7Corganic",
           "title": "Pokój lsm pozytywistów politechnika",
-          "missed_scans": 12
+          "missed_scans": 13
         },
         {
           "id": "1bI0fM",
           "url": "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-CID3-ID1bI0fM.html?search_reason=search%7Corganic",
           "title": "Pokój do wynajęcia",
-          "missed_scans": 12
+          "missed_scans": 13
         },
         {
           "id": "1bKL1R",
           "url": "https://www.olx.pl/d/oferta/stancja-dla-studentki-CID3-ID1bKL1R.html?search_reason=search%7Corganic",
           "title": "Stancja dla studentki",
-          "missed_scans": 12
+          "missed_scans": 13
         },
         {
           "id": "1bKMEW",
           "url": "https://www.olx.pl/d/oferta/pokoj-12m2-lsm-konrada-wallenroda-CID3-ID1bKMEW.html?search_reason=search%7Corganic",
           "title": "Pokój 12m2, LSM, Konrada Wallenroda",
-          "missed_scans": 12
+          "missed_scans": 13
         },
         {
           "id": "1bLJDH",
           "url": "https://www.olx.pl/d/oferta/wynajme-pokoj-od-wrzesnia-ul-godebskiego-blisko-kul-umcs-up-CID3-ID1bLJDH.html?search_reason=search%7Corganic",
           "title": "Wynajmę pokój od września ul. Godebskiego, blisko KUL, UMCS, UP",
-          "missed_scans": 12
+          "missed_scans": 13
         },
         {
           "id": "1ba9cb",
           "url": "https://www.olx.pl/d/oferta/2-pokoje-na-wynajem-czechow-ul-pileckiego-CID3-ID1ba9cb.html?search_reason=search%7Corganic",
           "title": "2 pokoje na wynajem, Czechów, ul. Pileckiego",
-          "missed_scans": 12
+          "missed_scans": 13
         }
       ]
     }
   ],
   "lastScan": {
-    "timestamp": "2026-08-23T07:40:02Z",
-    "duration_seconds": 174,
+    "timestamp": "2026-08-24T11:22:09Z",
+    "duration_seconds": 169,
     "profiles_scanned": 10,
-    "total_listings": 774,
-    "added": 18,
+    "total_listings": 776,
+    "added": 24,
     "removed": 0,
-    "new_listings": 18,
-    "price_changes": 8,
+    "new_listings": 24,
+    "price_changes": 17,
     "errors": []
   },
   "nextScan": {
-    "scheduled": "2026-08-24T07:00:00Z",
-    "in_seconds": 83997
+    "scheduled": "2026-08-25T07:00:00Z",
+    "in_seconds": 70670
   },
   "profiles": {
     "pokojewlublinie": {
@@ -98,7 +98,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=None",
-      "duration_seconds": 1.1,
+      "duration_seconds": 1.2,
       "ok": true,
       "error": null
     },
@@ -137,7 +137,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=None",
-      "duration_seconds": 0.1,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
@@ -208,14 +208,14 @@
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 774,
-      "added": 18,
+      "count": 776,
+      "added": 24,
       "removed": 0,
-      "new_listings": 18,
-      "price_changes": 8,
+      "new_listings": 24,
+      "price_changes": 17,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=774, header=783",
-      "duration_seconds": 158.5,
+      "crosscheck_detail": "scraped=776, header=785",
+      "duration_seconds": 151.8,
       "ok": true,
       "error": null
     }
