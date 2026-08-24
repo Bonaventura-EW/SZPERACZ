@@ -2,6 +2,9 @@
 # CICHĄ awarią po major bumpie (np. playwright/lxml) — patrz §7 CLAUDE.md (brotli/blokady OLX).
 # Caps dobrane powyżej aktualnie działających wersji (nie zmieniają tego, co Actions instaluje dziś).
 requests>=2.31.0,<3
+# Impersonacja TLS przeglądarki. OLX blokuje po odcisku TLS (JA3) — zwykłe `requests`
+# dostaje 403 na każdy adres olx.pl. NIE usuwaj, patrz §7 CLAUDE.md i diag_olx_tls.py.
+curl_cffi>=0.7,<1
 beautifulsoup4>=4.12.0,<5
 openpyxl>=3.1.0,<4
 lxml>=5.0.0,<7

@@ -5,6 +5,7 @@ Scrape'uje profile, śledzi ceny, zapisuje do Excela i generuje JSON dla dashboa
 """
 
 import requests
+from curl_cffi import requests as curl_requests
 from bs4 import BeautifulSoup
 import json
 import os
@@ -139,28 +140,116 @@ USER_AGENTS = [
 
 # ─── HTTP Session ────────────────────────────────────────────────────────────
 
+# Impersonacja TLS. OLX (CloudFront) blokuje po ODCISKU TLS (JA3), a nie po nagłówkach
+# ani po IP: zwykłe `requests` z pełnym zestawem nagłówków przeglądarki dostaje 403 na
+# KAŻDY adres olx.pl, podczas gdy curl_cffi podszywający się pod TLS przeglądarki
+# dostaje 200 z tego samego IP. Potwierdzone na runnerze GitHub Actions 2026-08-24
+# skryptem diag_olx_tls.py — patrz §7 CLAUDE.md. Kolejność listy = preferencja;
+# OlxSession rotuje na kolejny profil, gdy OLX odrzuci bieżący odcisk.
+IMPERSONATE_PROFILES = ["chrome131", "chrome124", "safari18_0", "firefox133"]
+
+# Stan impersonacji wystawiany w docs/api/status.json — żeby po cichej zmianie reguł
+# po stronie OLX było w API widać, że scraper musiał zmienić odcisk (albo nie dał rady).
+_impersonate_state = {"active": IMPERSONATE_PROFILES[0], "rotations": 0}
+
+
+class OlxSession:
+    """
+    Sesja HTTP do OLX z impersonacją TLS przeglądarki (curl_cffi) zamiast `requests`.
+
+    Dwie rzeczy, których NIE wolno tu zmieniać bez testu na runnerze (diag_olx_tls.py):
+
+    1. NIE nadpisujemy User-Agenta. curl_cffi ustawia komplet nagłówków spójny
+       z podszywaną przeglądarką; doklejenie własnego UA (np. Chrome'owego przy TLS
+       Safari) tworzy dokładnie tę niespójność, której szukają WAF-y.
+    2. Statusy 404/410 wracają BEZ ponawiania — dla verify_listing_active() to
+       poprawna odpowiedź (ogłoszenie usunięte), a nie awaria sieci.
+    """
+
+    # Ponawiane statusy = przeciążenie/awaria po stronie OLX. 403 celowo NIE jest tu:
+    # 403 znaczy „odrzucony odcisk TLS", więc ponawianie tym samym profilem nic nie da
+    # — od 403 rotujemy profil impersonacji.
+    RETRY_STATUSES = (429, 500, 502, 503, 504)
+    MAX_ATTEMPTS = 3
+
+    def __init__(self, accept):
+        self._headers = {"Accept": accept, "Accept-Language": "pl-PL,pl;q=0.9"}
+        self._sessions = {}
+
+    def _session_for(self, profile):
+        if profile not in self._sessions:
+            self._sessions[profile] = curl_requests.Session(
+                impersonate=profile, headers=self._headers
+            )
+        return self._sessions[profile]
+
+    def get(self, url, timeout=30, allow_redirects=True):
+        """
+        GET z ponawianiem (429/5xx, błędy transportu) i rotacją impersonacji (403).
+
+        Gdy WSZYSTKIE profile dostaną 403, podnosi wyjątek zamiast zwrócić odpowiedź
+        403 — cicha 403 to dokładnie to, co w sierpniu 2026 przez 13 skanów wyglądało
+        jak „profil ma 0 ogłoszeń" i „wszystkie ogłoszenia nadal aktywne".
+        """
+        active = _impersonate_state["active"]
+        order = [active] + [p for p in IMPERSONATE_PROFILES if p != active]
+        last_exc = None
+        blocked = []
+
+        for profile in order:
+            for attempt in range(self.MAX_ATTEMPTS):
+                try:
+                    resp = self._session_for(profile).get(
+                        url, timeout=timeout, allow_redirects=allow_redirects
+                    )
+                except Exception as e:
+                    last_exc = e
+                    if attempt < self.MAX_ATTEMPTS - 1:
+                        time.sleep(2 ** attempt)
+                    continue
+
+                if resp.status_code in self.RETRY_STATUSES:
+                    if attempt < self.MAX_ATTEMPTS - 1:
+                        time.sleep(2 ** (attempt + 1))
+                    continue
+
+                if resp.status_code == 403:
+                    blocked.append(profile)
+                    break  # odrzucony odcisk — rotuj profil, nie ponawiaj
+
+                if profile != _impersonate_state["active"]:
+                    log.warning(
+                        f"[http] Odcisk '{_impersonate_state['active']}' nie przeszedł "
+                        f"(403 albo błąd transportu) — przełączam impersonację na '{profile}'"
+                    )
+                    _impersonate_state["active"] = profile
+                    _impersonate_state["rotations"] += 1
+                return resp
+
+        if blocked:
+            raise RuntimeError(
+                f"OLX odrzucił (403) wszystkie profile impersonacji {blocked} "
+                f"dla {url[:70]} — prawdopodobnie zmiana reguł blokowania. "
+                f"Uruchom diag_olx_tls.py, żeby znaleźć działający odcisk."
+            )
+        if last_exc:
+            raise last_exc
+        raise RuntimeError(f"Nie udało się pobrać {url[:70]}")
+
+
+# Sesje trzymamy w cache: verify_listing_active() woła get_session() dla KAŻDEGO
+# sprawdzanego ogłoszenia (setki razy na skan), a budowanie sesji curl_cffi za każdym
+# razem gubiłoby keep-alive i kosztowało pełny handshake TLS na każde ogłoszenie.
+_session_cache = {}
+
+
 def get_session():
-    s = requests.Session()
-    ua = random.choice(USER_AGENTS)
-    s.headers.update({
-        "User-Agent": ua,
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "pl-PL,pl;q=0.9",
-        "Connection": "keep-alive",
-        "Upgrade-Insecure-Requests": "1",
-    })
-    # Add retries with exponential backoff
-    from requests.adapters import HTTPAdapter
-    from urllib3.util.retry import Retry
-    retry_strategy = Retry(
-        total=3,
-        backoff_factor=2,
-        status_forcelist=[429, 500, 502, 503, 504],
-    )
-    adapter = HTTPAdapter(max_retries=retry_strategy)
-    s.mount("http://", adapter)
-    s.mount("https://", adapter)
-    return s
+    """Sesja do stron HTML OLX (weryfikacja, czy ogłoszenie jeszcze żyje)."""
+    if "html" not in _session_cache:
+        _session_cache["html"] = OlxSession(
+            accept="text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        )
+    return _session_cache["html"]
 
 
 def verify_listing_active(url: str, timeout: int = 10) -> bool:
@@ -207,19 +296,10 @@ def verify_listing_active(url: str, timeout: int = 10) -> bool:
 
 
 def get_api_session():
-    """Session for OLX JSON API endpoints."""
-    s = requests.Session()
-    s.headers.update({
-        "User-Agent": random.choice(USER_AGENTS),
-        "Accept": "application/json",
-        "Accept-Language": "pl-PL,pl;q=0.9",
-        "Connection": "keep-alive",
-    })
-    from requests.adapters import HTTPAdapter
-    from urllib3.util.retry import Retry
-    adapter = HTTPAdapter(max_retries=Retry(total=3, backoff_factor=2, status_forcelist=[429, 500, 502, 503, 504]))
-    s.mount("https://", adapter)
-    return s
+    """Sesja do endpointów JSON API OLX (profile użytkowników)."""
+    if "api" not in _session_cache:
+        _session_cache["api"] = OlxSession(accept="application/json, text/plain, */*")
+    return _session_cache["api"]
 
 
 # ─── Parsing Helpers ─────────────────────────────────────────────────────────
@@ -2443,20 +2523,26 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
         header_count = result.get("header_count")
 
         # Błąd = jawny "error", 0 ogłoszeń z niepasującym crosscheck,
+        # 0 ogłoszeń mimo znanego niepustego stanu profilu,
         # albo częściowy scrape (pobrano < 50% ogłoszeń z nagłówka strony)
         shortfall = is_header_shortfall(result)
+        prof_data = existing_data.get("profiles", {}).get(pk, {})
+        # Pusty wynik przy niepustym stanie = awaria pobierania, nie opustoszały profil.
+        # Bez tego warunku blokada OLX (count=0, crosscheck="passed") dawała ok:true
+        # i status "success" — awaria z 2026-08-12 chowała się tak przez 11 skanów.
+        empty_but_known = count == 0 and len(prof_data.get("current_listings", [])) > 0
         is_error = (
             crosscheck == "error"
             or (count == 0 and crosscheck not in (
                 "passed", "passed_retry", "consistent", "best_of_two"
             ))
+            or empty_but_known
             or shortfall
         )
 
         # Przybyło/zniknęło — odczyt z świeżo zapisanego daily_counts (dzisiejszy wpis).
         # generate_dashboard_json() liczy added/removed per profil i zapisuje JSON
         # PRZED tą funkcją, więc bierzemy gotowe wartości zamiast liczyć ponownie.
-        prof_data = existing_data.get("profiles", {}).get(pk, {})
         added_today = None
         removed_today = None
         prev_count = None
@@ -2499,7 +2585,25 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
                 "previous_count": prev_count,
                 "count": count,
             })
-        # 3. Ogłoszenia "wiszące": od wielu skanów nieobecne w wynikach, a wciąż
+        # 3. Profil zwrócił 0 ogłoszeń, mimo że mamy dla niego zapisany niepusty stan.
+        #    To sygnatura awarii pobierania (blokada OLX, padnięte API), a NIE realnego
+        #    opustoszenia profilu. Ochrona danych działa (nie nadpisujemy stanu przy
+        #    count==0), więc bez tego alertu awaria jest CAŁKOWICIE cicha: dokładnie tak
+        #    blokada TLS z 2026-08-12 przez 11 skanów raportowała status "success",
+        #    a 9 profili stało zamrożonych na danych z 2026-08-11 (patrz §7 CLAUDE.md).
+        if empty_but_known:
+            alerts.append({
+                "profile": pk,
+                "type": "profile_empty",
+                "severity": "critical",
+                "message": (f"⚠️ POWAŻNY BŁĄD SKANU: profil „{PROFILES[pk]['label']}” "
+                            f"zwrócił 0 ogłoszeń, choć w danych mamy "
+                            f"{len(prof_data.get('current_listings', []))}. Dane NIE zostały "
+                            f"nadpisane (ochrona), ale profil jest niescrapowany — "
+                            f"sprawdź blokadę OLX (diag_olx_tls.py)."),
+                "known_listings": len(prof_data.get("current_listings", [])),
+            })
+        # 4. Ogłoszenia "wiszące": od wielu skanów nieobecne w wynikach, a wciąż
         #    uznawane za aktywne. Może znaczyć, że OLX zmienił komunikat o nieaktualności
         #    i verify_listing_active() przestała wykrywać martwe ogłoszenia.
         stale = [l for l in prof_data.get("current_listings", [])
@@ -2613,6 +2717,10 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
             "new_listings": total_new,
             "price_changes": total_price_changes,
             "errors": error_profiles,
+            # Który odcisk TLS przeszedł i ile razy trzeba było rotować — sygnał, że
+            # OLX zmienia reguły blokowania, zanim scraper przestanie cokolwiek pobierać.
+            "http_impersonate": _impersonate_state["active"],
+            "http_impersonate_rotations": _impersonate_state["rotations"],
         },
         "nextScan": {
             "scheduled": next_scan_iso,
