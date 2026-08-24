@@ -17,7 +17,12 @@ więc po raz pierwszy zniknęło w skanie oddalonym o N pozycji wstecz.
 
     archived_date = data skanu o indeksie (k - N),  gdzie k = indeks skanu archiwizującego
 
-Lista dat skanów pochodzi z `daily_counts` profilu (1 wpis na dobę ze skanem).
+Lista skanów pochodzi z LEDGERA `data/history/daily_summary.ndjson` (1 linia = 1 skan
+danego profilu), a NIE z `daily_counts`. To istotne: `daily_counts` ma 1 wpis na DOBĘ, więc
+dzień z dwoma skanami (jak 2026-08-24: zepsuty 11:22 i naprawczy 17:27) zlewa się w jeden
+wpis i całe mapowanie przesuwa się o jeden dzień wstecz. Ledger i licznik `missed_scans`
+rosną dokładnie na tych samych skanach (oba pomijane przy błędzie scrapera), więc indeksy
+się zgadzają.
 
 Uruchamiać PO pierwszym udanym skanie z curl_cffi. Domyślnie tylko raportuje —
 zapis wymaga jawnego `--apply`. Skrypt jest idempotentny (poprawione wpisy dostają
@@ -36,6 +41,7 @@ import sys
 from collections import Counter
 
 DATA_PATH = os.path.join("data", "dashboard_data.json")
+LEDGER_PATH = os.path.join("data", "history", "daily_summary.ndjson")
 
 # Pierwszy skan dotknięty blokadą TLS. Twarda granica zakresu: ogłoszenia zarchiwizowane
 # WCZEŚNIEJ zniknęły przy działającej weryfikacji i ich daty są poprawne — nie ruszamy ich,
@@ -43,23 +49,39 @@ DATA_PATH = os.path.join("data", "dashboard_data.json")
 INCIDENT_START = "2026-08-12"
 
 
-def scan_dates(profile):
-    """Uporządkowana lista dat skanów profilu (z daily_counts, 1 wpis na dobę)."""
-    return [e["date"] for e in profile.get("daily_counts", []) if e.get("date")]
+def load_scan_sequences():
+    """
+    {profil: [data_skanu, ...]} w kolejności chronologicznej — po JEDNYM wpisie na SKAN
+    (dzień z dwoma skanami daje dwie pozycje z tą samą datą).
+    """
+    seqs = {}
+    with open(LEDGER_PATH, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                e = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if e.get("profile") and e.get("date"):
+                seqs.setdefault(e["profile"], []).append(e["date"])
+    return seqs
 
 
-def correct_date(dates, avalanche_date, missed_scans):
+def correct_date(seq, missed_scans):
     """
-    Zwraca datę pierwszego skanu, w którym ogłoszenia zabrakło, albo None gdy
-    historia dat jest za krótka, żeby to policzyć (nie zgadujemy — zostawiamy jak jest).
+    Data pierwszego skanu, w którym ogłoszenia zabrakło.
+
+    Ogłoszenie z missed_scans == N było nieobecne w N skanach PRZED skanem
+    archiwizującym (ostatnia pozycja `seq`) oraz w nim samym, więc pierwszy skan bez
+    niego to seq[-1 - N]. Zwraca None, gdy historia skanów jest za krótka — wtedy
+    nie zgadujemy i zostawiamy datę bez zmian.
     """
-    if avalanche_date not in dates:
-        return None
-    k = dates.index(avalanche_date)
-    idx = k - missed_scans
+    idx = len(seq) - 1 - missed_scans
     if idx < 0:
         return None
-    return dates[idx]
+    return seq[idx]
 
 
 def main():
@@ -85,6 +107,8 @@ def main():
         c = Counter()
         for prof in data.get("profiles", {}).values():
             for l in prof.get("archived_listings", []):
+                if l.get("archived_date_corrected"):
+                    continue          # już poprawione — nie licz do wykrywania lawiny
                 d = (l.get("archived_date") or "")[:10]
                 if (l.get("missed_scans") or 0) > 0 and d >= INCIDENT_START:
                     c[d] += 1
@@ -96,11 +120,21 @@ def main():
         print(f"Wykryty dzień lawiny archiwizacji: {avalanche} ({c[avalanche]} ogłoszeń)")
 
     total_fixed = 0
-    total_skipped = 0
+    total_short = 0
+    total_already_ok = 0
     per_date = Counter()
 
+    seqs = load_scan_sequences()
+
     for pk, prof in data.get("profiles", {}).items():
-        dates = scan_dates(prof)
+        seq = seqs.get(pk, [])
+        # Skan archiwizujący musi być ostatnim skanem profilu w ledgerze, inaczej
+        # indeksowanie wstecz nie ma sensu (np. skrypt uruchomiony za późno).
+        if not seq or seq[-1] != avalanche:
+            if seq:
+                print(f"  [{pk}] pomijam — ostatni skan w ledgerze to {seq[-1]}, "
+                      f"a lawina jest z {avalanche}")
+            continue
         fixed_here = 0
         for l in prof.get("archived_listings", []):
             if l.get("archived_date_corrected"):
@@ -113,9 +147,12 @@ def main():
             if avalanche < INCIDENT_START:
                 continue  # poza oknem incydentu — nie przepisujemy starych danych
 
-            new_date = correct_date(dates, avalanche, n)
-            if new_date is None or new_date == avalanche:
-                total_skipped += 1
+            new_date = correct_date(seq, n)
+            if new_date is None:
+                total_short += 1          # historia skanów krótsza niż missed_scans
+                continue
+            if new_date == avalanche:
+                total_already_ok += 1     # zniknęło w dniu lawiny — data już poprawna
                 continue
 
             old = l["archived_date"]
@@ -132,7 +169,10 @@ def main():
             print(f"  [{pk}] poprawiono {fixed_here} dat archiwizacji")
 
     print()
-    print(f"Do poprawy: {total_fixed}   pominięte (za krótka historia dat): {total_skipped}")
+    print(f"Do poprawy: {total_fixed}")
+    print(f"Bez zmian (zniknęły w dniu lawiny — data już poprawna): {total_already_ok}")
+    if total_short:
+        print(f"Pominięte (historia skanów krótsza niż missed_scans): {total_short}")
     if per_date:
         print("Rozkład po korekcie:")
         for d in sorted(per_date):
