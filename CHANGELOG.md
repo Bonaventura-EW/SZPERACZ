@@ -13,6 +13,69 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-08-24] - 🔓 Naprawa blokady OLX: impersonacja TLS zamiast `requests`
+
+### Root cause 🔍
+Od skanu **2026-08-12** OLX (CloudFront) zwracał **HTTP 403 na KAŻDE** zapytanie z
+biblioteki `requests` — niezależnie od nagłówków, wersji HTTP i adresu. Blokada jest po
+**odcisku TLS (JA3)**, nie po nagłówkach ani po IP. Eksperyment kontrolny (ten sam IP
+egress, zmieniana tylko warstwa klienta):
+
+| Klient | Wynik |
+|---|---|
+| `requests` + pełny zestaw nagłówków przeglądarki | 403 |
+| `httpx` z HTTP/2 | 403 |
+| `httpx` HTTP/1.1 | 403 |
+| `curl_cffi` z `impersonate` | **200** |
+
+Potwierdzone na runnerze GitHub Actions (`diag_olx_tls.py`): kontrola `requests` → 403 na
+API, kategorii i stronie ogłoszenia; **wszystkie 12** sprawdzonych profili impersonacji → 200.
+Reputacja IP zakresów Azure **nie** jest czynnikiem. W repo nie było w tym okresie żadnej
+zmiany w `scraper.py`/`requirements.txt`/`scan.yml` — awaria jest w pełni zewnętrzna.
+
+### Dwa skutki jednej przyczyny
+1. **9 profili użytkowników zamrożonych na 2026-08-11.** `scrape_user_via_api()` dostawało
+   403 → `raise_for_status()` → `break` → 0 ogłoszeń. Ochrona „count==0 nie nadpisuje"
+   zadziałała, więc dane przetrwały, ale kafelki stały 13 skanów bez zmian.
+2. **Archiwizacja stanęła całkowicie.** `verify_listing_active()` na 403 wpadała w gałąź
+   fail-safe „zakładam aktywne" → `removed=0` przez 13 dni z rzędu, **zero** archiwizacji od
+   2026-08-11 i 351 martwych ogłoszeń wiszących w `current_listings` z `missed_scans` do 13.
+   Kontrola próbki: 15/15 z nich faktycznie martwych (13× HTTP 410, 2× 404).
+
+### Fixed 🐛
+- `get_session()`/`get_api_session()` budują **`OlxSession`** na `curl_cffi` z impersonacją
+  TLS przeglądarki. `scrape_user_via_api()` i `verify_listing_active()` **bez zmian** — oba
+  wołają tylko fabrykę sesji i łapią `except Exception`, nie typy z `requests`.
+- `OlxSession` ponawia 429/5xx i błędy transportu, a przy **403 rotuje profil impersonacji**.
+  Gdy wszystkie profile dostaną 403 — podnosi wyjątek, zamiast zwrócić cichą 403.
+- Sesje trzymane w cache (`verify_listing_active()` woła `get_session()` setki razy na skan).
+- **Nie** nadpisujemy User-Agenta: `curl_cffi` ustawia nagłówki spójne z podszywaną
+  przeglądarką, a własny UA tworzyłby niespójność, której szukają WAF-y.
+
+### Added ✨
+- `diag_olx_tls.py` — diagnostyka blokady: kontrola na `requests`, przegląd profili
+  impersonacji i pełna powierzchnia scrapera (API profilu, ogłoszenie żywe/martwe, kategoria).
+  Uruchamiana workflow-em `.github/workflows/diag_olx_tls.yml` (sam odczyt, nic nie commituje).
+- `rebuild_archived_dates_20260824.py` — korekta dat archiwizacji po lawinie. Pierwszy skan po
+  naprawie archiwizuje 351 ogłoszeń naraz z datą dnia naprawy; skrypt odtwarza realną datę
+  zniknięcia z `missed_scans` (przeżywa archiwizację), żeby wykres „Odpływ ofert" nie dostał
+  sztucznego piku. Dry-run domyślnie, zapis na `--apply`, idempotentny, twardo ograniczony
+  do okna incydentu (`INCIDENT_START = 2026-08-12`).
+- `curl_cffi>=0.7,<1` w `requirements.txt`.
+
+### Changed 🔧 — domknięcie luki w monitoringu
+Awaria przez **11 skanów** raportowała status `success`. Alert `stale_listings` odpalił dopiero
+2026-08-23, gdy `missed_scans` przekroczyło próg 12. Żaden alert nie łapał sygnału widocznego
+od pierwszego dnia:
+- Profil z `count == 0` przy **niepustym** `current_listings` to teraz `is_error`
+  (`ok: false`, status `partial_failure`) — wcześniej `count==0` + `crosscheck="passed"`
+  dawało `ok: true`.
+- Nowy alert **`profile_empty`** (severity `critical`) w `status.json`, z liczbą znanych ogłoszeń.
+- `lastScan` niesie `http_impersonate` i `http_impersonate_rotations` — kolejna zmiana reguł
+  OLX będzie widoczna w API, zanim scraper przestanie cokolwiek pobierać.
+
+---
+
 ## [2026-08-14] - 📅 „Cała historia" działa dla wszystkich metryk wykresu trendu
 
 ### Changed 🔧
