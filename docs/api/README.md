@@ -11,7 +11,7 @@ Statyczne JSON serwowane przez GitHub Pages. Brak autentykacji. Dane aktualizowa
 | Endpoint | Opis |
 |---|---|
 | `GET /status.json` | Aktualny status ostatniego skanu |
-| `GET /history.json` | 3 ostatnie skany (`scans`) + pole `recent` (te same 3, od najnowszego) |
+| `GET /history.json` | Skany z ostatnich 30 dni (`scans`, od najstarszego) + `recent` (10 najnowszych, od najnowszego) |
 
 > ⚠️ Dodaj cache-bust do URL: `?t={timestamp_ms}`
 

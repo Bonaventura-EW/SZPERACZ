@@ -117,6 +117,17 @@ MASS_REMOVAL_RATIO = 0.3   # zniknięcia >= 30% poprzedniego stanu profilu = ano
 # ~2 tygodnie nieobecności przy verify=aktywne to sygnał realnego problemu, nie rotacji.
 STALE_MISSED_SCANS_MIN = 12
 
+# Okno retencji `docs/api/history.json` — ile DNI skanów trzyma lekkie API dla
+# podstrony „Historia skanów" (docs/scans.html) i aplikacji. Wcześniej były to
+# 3 ostatnie skany, co dawało 3 wiersze w tabeli i 3 słupki na wykresie czasu
+# — front był na 30 gotowy od początku (scans.slice(0, 30)). Twardy limit sztuk
+# chroni plik przed spuchnięciem w dobach z wieloma skanami (np. ręczne dispatche).
+API_HISTORY_DAYS = 30
+API_HISTORY_MAX_ENTRIES = 60
+# Ile najnowszych skanów wystawiamy w skrócie `recent` (żeby nie duplikować
+# całego `scans` w tym samym pliku — to podwajało jego rozmiar).
+API_HISTORY_RECENT = 10
+
 
 def is_header_shortfall(result):
     """
@@ -2774,13 +2785,20 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
 
     scans = history_data.get("scans", [])
     scans.append(history_entry)
-    scans = scans[-3:]  # API trzyma 3 ostatnie scany
+
+    # Retencja czasowa: ostatnie API_HISTORY_DAYS dni skanów. Wpisy bez daty
+    # (teoretycznie stare formaty) zostawiamy — nie zgadujemy ich wieku.
+    cutoff = (scan_timestamp - timedelta(days=API_HISTORY_DAYS)).strftime("%Y-%m-%d")
+    scans = [sc for sc in scans if sc.get("date", "") >= cutoff]
+    scans = scans[-API_HISTORY_MAX_ENTRIES:]
 
     history_data = {
         "last_updated": now_iso,
+        "retention_days": API_HISTORY_DAYS,
         "scans": scans,
-        # Shortcut dla aplikacji: 3 najnowsze od razu (od najnowszego)
-        "recent": list(reversed(scans)),
+        # Shortcut dla aplikacji: kilka najnowszych od razu (od najnowszego).
+        # Świadomie NIE cały `scans` — przy 30 dniach duplikat podwajał plik.
+        "recent": list(reversed(scans))[:API_HISTORY_RECENT],
     }
 
     with open(API_HISTORY_PATH, "w", encoding="utf-8") as f:

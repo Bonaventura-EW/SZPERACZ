@@ -61,9 +61,9 @@ paths:
 
   /history.json:
     get:
-      summary: Historia skanów (3 ostatnie)
+      summary: Historia skanów (ostatnie 30 dni)
       description: |
-        Zwraca 3 ostatnie skany (`scans`, od najstarszego) oraz `recent`
+        Zwraca skany z ostatnich 30 dni (`scans`, od najstarszego) oraz `recent`
         (te same 3, od najnowszego), z liczbą przybyło/zniknęło per profil.
       operationId: getHistory
       tags:

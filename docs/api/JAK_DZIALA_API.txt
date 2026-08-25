@@ -13,7 +13,7 @@ Base URL:
 
 Dwa pliki:
   GET /status.json    -> stan OSTATNIEGO scanu (zawsze najświeższy)
-  GET /history.json   -> 3 OSTATNIE scany (z datami)
+  GET /history.json   -> scany z OSTATNICH 30 DNI (z datami)
 
 WSKAZÓWKA: dopisuj do URL znacznik czasu, żeby ominąć cache, np.:
   https://bonaventura-ew.github.io/SZPERACZ/api/status.json?t=1716900000000
@@ -25,7 +25,8 @@ JAK SIĘ ODŚWIEŻA
 2. Scraper liczy dla każdego profilu: ile ogłoszeń jest teraz, ile PRZYBYŁO
    i ile ZNIKNĘŁO względem poprzedniego scanu.
 3. Na końcu scanu zapisuje status.json oraz dopisuje nowy wpis (z datą)
-   do history.json. W history trzymane są TYLKO 3 ostatnie scany.
+   do history.json. W history trzymane są scany z ostatnich 30 dni
+   (limit bezpieczeństwa: 60 wpisów, gdyby w dobie było wiele skanów).
 4. Action commituje pliki, GitHub Pages udostępnia je po ~30-60 sekundach.
 
 
@@ -79,8 +80,15 @@ PRZYKŁAD (fragment):
 CO POKAZUJE history.json
 ------------------------
   last_updated      -> kiedy zaktualizowano
-  scans[]           -> 3 ostatnie scany, od najstarszego do najnowszego
-  recent[]          -> te same 3 scany, ale od najnowszego (wygodne do UI)
+  scans[]           -> scany z ostatnich 30 dni, od najstarszego do najnowszego
+  recent[]          -> 10 najnowszych, od najnowszego (skrót do UI; celowo NIE
+                       cały scans[], bo duplikat podwajał rozmiar pliku)
+  retention_days    -> ile dni historii trzyma API (30)
+
+  Wpis z "reconstructed": true został ODTWORZONY z scan_history w
+  dashboard_data.json (jednorazowo, skryptem rebuild_api_history_30d.py) —
+  API nie przechowywało wtedy tego skanu. Takie wpisy nie mają
+  duration_seconds, status, message ani alerts (pola są null / puste).
 
 Każdy wpis scanu ma:
        date              data scanu (RRRR-MM-DD)
@@ -104,7 +112,7 @@ CO SIĘ ZMIENIŁO (nowe API)
 --------------------------
 1. Doszły pola "added" (przybyło) i "removed" (zniknęło) — globalnie
    w lastScan oraz osobno dla każdego profilu.
-2. history.json trzyma teraz 3 ostatnie scany (wcześniej 30).
+2. history.json trzyma scany z ostatnich 30 dni (pole retention_days).
 3. "added" liczone jest poprawnie z dziennego bilansu ruchu ogłoszeń
    (wcześniej potrafiło pokazywać 0).
 

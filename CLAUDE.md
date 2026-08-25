@@ -75,7 +75,7 @@ Pełna lista: `requirements.txt`.
     (per profil, `{date,count}` = liczba ogłoszeń zarchiwizowanych danego dnia; źródło: `archived_listings.archived_date`)
     — źródło wykresu „Odpływ ofert" na `trend.html`. Cały plik = źródło przycisku „Cała historia" na wykresie trendu.
   - `update_excel()` — **legacy, niewywoływane** (stary zapis xlsx do repo; zostawione na wszelki wypadek).
-  - `generate_api_json()` — pisze `docs/api/status.json` + `history.json` (ostatnie 30 scanów).
+  - `generate_api_json()` — pisze `docs/api/status.json` + `history.json` (retencja 30 dni).
   - `run_scan()` — orkiestracja: scrape → **filter_price_outliers** → JSON → **append_history** → API → **trend_full** (bez zapisu xlsx do repo).
   - `verify_listing_active()` — przed archiwizacją sprawdza, czy ogłoszenie naprawdę zniknęło.
   - `filter_price_outliers()` — odrzuca ze skanu ogłoszenia z ceną >= `PRICE_OUTLIER_MULTIPLIER` (10)
@@ -102,6 +102,8 @@ Pełna lista: `requirements.txt`.
 - `rebuild_refresh_daily_backfill.py` — przeliczenie `daily_counts` z historii odświeżeń/reaktywacji
   (idempotentny; uruchomiony jednorazowo 2026-07-18).
 - `rebuild_incident_20260711.py` — jednorazowe czyszczenie danych po incydencie skanu częściowego 11.07.
+- `rebuild_api_history_30d.py` — jednorazowe uzupełnienie `docs/api/history.json` do 30 dni
+  wstecz z `scan_history` (dry-run domyślnie, zapis na `--apply`).
 - `rebuild_archived_dates_20260824.py` — korekta dat archiwizacji po blokadzie TLS: odtwarza
   realną datę zniknięcia z `missed_scans` (dry-run domyślnie, zapis na `--apply`, idempotentny).
 - `backfill_prices.py` (przestarzały) / `backfill_price_distribution.py` — uzupełnianie historii cen.
@@ -125,7 +127,11 @@ Pełna lista: `requirements.txt`.
     — sygnatura awarii pobierania; taki profil ma też `ok: false`). `lastScan` niesie
     `http_impersonate`/`http_impersonate_rotations` — który odcisk TLS przeszedł i ile rotacji.
     Dashboard (`index.html`) i `scans.html` pokazują je jako czerwony baner.
-  - `history.json` — **3 ostatnie scany** (`scans` od najstarszego, `recent` od najnowszego), z added/removed per profil.
+  - `history.json` — skany z **ostatnich 30 dni** (`API_HISTORY_DAYS`; `scans` od najstarszego,
+    `recent` = 10 najnowszych, `retention_days` w pliku), z added/removed per profil. Wpisy
+    z `reconstructed: true` odtworzono jednorazowo z `scan_history` (`rebuild_api_history_30d.py`)
+    i nie mają `duration_seconds`/`status`/`alerts` — `scans.html` pokazuje je z czasem „—”
+    i pomija w wykresie czasu skanowania.
   - Generuje `generate_api_json()` w scraper.py. Opis: `docs/api/JAK_DZIALA_API.txt`, `README.md`, `openapi.yaml`.
 
 ### Dashboard

@@ -367,6 +367,8 @@ body {
 .status-success { background: var(--green-bg); color: var(--green); }
 .status-error { background: var(--red-bg); color: var(--red); }
 .status-warning { background: rgba(245, 158, 11, 0.12); color: var(--orange); }
+/* Skan odtworzony z scan_history — czas i status nie były zapisywane w API. */
+.status-unknown { background: rgba(127, 127, 127, 0.12); color: var(--text-muted); }
 
 .alert-banner {
   display: flex;
@@ -679,7 +681,10 @@ async function loadAndRender() {
   cardsHtml += `</div>`;
 
   // ── Duration trend chart ───────────────────────────────
-  const chartScans = scans.slice(0, 30).reverse(); // chronological, max 30
+  // Tylko skany z REALNYM pomiarem czasu. Wpisy odtworzone z scan_history
+  // (reconstructed) nie mają duration_seconds — słupek 0s udawałby pomiar.
+  const chartScans = scans.filter(s => s.duration_seconds != null)
+                          .slice(0, 30).reverse(); // chronological, max 30
   let chartHtml = `
     <div class="chart-section">
       <div class="section-header" style="margin-bottom:8px">
@@ -689,7 +694,7 @@ async function loadAndRender() {
   `;
 
   for (const scan of chartScans) {
-    const dur = scan.duration_seconds || 0;
+    const dur = scan.duration_seconds;
     const pct = Math.max(Math.round((dur / maxHistDur) * 100), 2);
     const date = scan.date ? scan.date.slice(5).replace('-', '.') : '?';
     const statusOk = scan.status === 'success';
@@ -730,13 +735,21 @@ async function loadAndRender() {
   `;
 
   scans.forEach((scan, i) => {
-    const dur    = scan.duration_seconds || 0;
-    const barW   = Math.round((dur / maxHistDur) * 120);
+    // Wpisy odtworzone z scan_history nie mają zmierzonego czasu ani statusu
+    // — pokazujemy „—" zamiast zerowego pomiaru i neutralną plakietkę.
+    const rebuilt = !!scan.reconstructed;
+    const dur    = scan.duration_seconds;
+    const hasDur = dur != null;
+    const barW   = hasDur ? Math.round((dur / maxHistDur) * 120) : 0;
     const isOk   = scan.status === 'success';
     const isWarn = scan.status === 'warning';
-    const badgeCls = isOk ? 'status-success' : isWarn ? 'status-warning' : 'status-error';
-    const badgeTxt = isOk ? '✓ sukces' : isWarn ? '⚠ anomalia' : '✗ błąd';
-    const alertTip = (scan.alerts || []).map(a => a.message).join('\n');
+    const badgeCls = rebuilt ? 'status-unknown'
+      : isOk ? 'status-success' : isWarn ? 'status-warning' : 'status-error';
+    const badgeTxt = rebuilt ? '· odtworzony'
+      : isOk ? '✓ sukces' : isWarn ? '⚠ anomalia' : '✗ błąd';
+    const alertTip = rebuilt
+      ? 'Wpis odtworzony z historii skanów — API nie przechowywało wtedy tego skanu, więc czas i status nie są znane.'
+      : (scan.alerts || []).map(a => a.message).join('\n');
     const num    = scans.length - i;
 
     tableHtml += `
@@ -744,12 +757,13 @@ async function loadAndRender() {
         <td style="color:var(--text-muted);font-size:11px">${num}</td>
         <td class="ts">${fmtTs(scan.timestamp)}</td>
         <td><span class="status-badge ${badgeCls}" title="${esc(alertTip)}">${badgeTxt}</span></td>
-        <td class="dur">${fmtDur(dur)}</td>
+        <td class="dur">${fmtDur(hasDur ? dur : null)}</td>
         <td>
+          ${hasDur ? `
           <div style="display:flex;align-items:center;gap:6px">
             <div style="height:6px;width:${barW}px;background:${isOk ? 'var(--accent)' : 'var(--red)'};border-radius:3px;opacity:0.6;min-width:2px"></div>
             <span style="font-size:11px;color:var(--text-muted)">${dur}s</span>
-          </div>
+          </div>` : `<span style="font-size:11px;color:var(--text-muted)">—</span>`}
         </td>
         <td class="count">${scan.total_listings ?? '—'}</td>
         <td style="color:var(--text-secondary)">${scan.profiles_scanned ?? '—'}</td>

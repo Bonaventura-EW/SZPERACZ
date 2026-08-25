@@ -13,6 +13,37 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-08-25] - 📜 Historia skanów w API: 30 dni zamiast 3 skanów
+
+### Changed 🔧
+- `generate_api_json()` trzyma w `docs/api/history.json` skany z **ostatnich 30 dni**
+  (`API_HISTORY_DAYS = 30`, twardy limit `API_HISTORY_MAX_ENTRIES = 60` na wypadek doby
+  z wieloma skanami) zamiast `scans[-3:]`. Plik niesie teraz pole `retention_days`.
+  Podstrona „Historia skanów" (`docs/scans.html`) pokazywała przez to 3 wiersze i 3 słupki,
+  choć front był na 30 gotowy od początku (`scans.slice(0, 30)`) — ograniczał wyłącznie backend.
+- `recent` to **10 najnowszych** skanów, a nie odwrócona kopia całego `scans`. Przy 3 wpisach
+  duplikat był niezauważalny; przy 30 podwajałby rozmiar pliku bez żadnego zysku
+  (`scans.html` i tak czyta `scans` i sam je odwraca).
+
+### Added ✨
+- `rebuild_api_history_30d.py` — jednorazowe uzupełnienie historii wstecz z `scan_history`
+  w `dashboard_data.json` (30 skanów), żeby 30 dni było widoczne od razu, a nie za miesiąc.
+  Dry-run domyślnie, zapis na `--apply`. Wpisy już obecne w `history.json` mają pierwszeństwo.
+- Odtworzone wpisy dostają `"reconstructed": true`. `scan_history` nigdy nie zapisywał
+  `duration_seconds`, `price_changes`, `status`, `message` ani `alerts` — te pola są `null`
+  / puste zamiast zmyślonych zer.
+
+### Fixed 🐛
+- `docs/scans.html` rozróżnia wpisy odtworzone od zmierzonych: tabela pokazuje czas „—"
+  i neutralną plakietkę „· odtworzony" (z tooltipem wyjaśniającym), a **wykres czasu
+  skanowania pomija wpisy bez pomiaru** — inaczej 30 słupków o zerowej wysokości udawałoby
+  pomiary i wyglądałoby na awarię. Dodana klasa `.status-unknown`.
+- Deduplikacja w skrypcie backfillu po **znormalizowanym** timestampie: `history.json` używa
+  formatu ISO (`2026-08-24T21:24:55Z`), a `scan_history` formatu ze spacją
+  (`2026-08-24 21:24:55`) — bez normalizacji te same skany trafiały do pliku dwa razy.
+
+---
+
 ## [2026-08-24] - 🔓 Naprawa blokady OLX: impersonacja TLS zamiast `requests`
 
 ### Root cause 🔍
