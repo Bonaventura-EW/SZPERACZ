@@ -150164,7 +150164,9 @@
           },
           "reactivated_count": 9,
           "refreshed_count": 52,
-          "removed": 0,
+          "removed": 26,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-12 08:25:02"
         },
         {
@@ -150243,7 +150245,9 @@
           },
           "reactivated_count": 5,
           "refreshed_count": 47,
-          "removed": 0,
+          "removed": 33,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-13 08:27:17"
         },
         {
@@ -150321,7 +150325,9 @@
           },
           "reactivated_count": 13,
           "refreshed_count": 56,
-          "removed": 0,
+          "removed": 29,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-14 08:23:10"
         },
         {
@@ -150409,7 +150415,9 @@
           },
           "reactivated_count": 1,
           "refreshed_count": 39,
-          "removed": 0,
+          "removed": 31,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-15 07:37:17"
         },
         {
@@ -150492,7 +150500,9 @@
           },
           "reactivated_count": 2,
           "refreshed_count": 40,
-          "removed": 0,
+          "removed": 18,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-16 07:38:21"
         },
         {
@@ -150570,7 +150580,9 @@
           },
           "reactivated_count": 4,
           "refreshed_count": 68,
-          "removed": 0,
+          "removed": 17,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-17 07:57:23"
         },
         {
@@ -150648,7 +150660,9 @@
           },
           "reactivated_count": 8,
           "refreshed_count": 63,
-          "removed": 0,
+          "removed": 29,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-18 07:45:54"
         },
         {
@@ -150726,7 +150740,9 @@
           },
           "reactivated_count": 4,
           "refreshed_count": 64,
-          "removed": 0,
+          "removed": 28,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-19 11:44:58"
         },
         {
@@ -150804,7 +150820,9 @@
           },
           "reactivated_count": 1,
           "refreshed_count": 67,
-          "removed": 0,
+          "removed": 21,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-20 07:48:37"
         },
         {
@@ -150882,7 +150900,9 @@
           },
           "reactivated_count": 3,
           "refreshed_count": 58,
-          "removed": 0,
+          "removed": 26,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-21 07:49:59"
         },
         {
@@ -150960,7 +150980,9 @@
           },
           "reactivated_count": 2,
           "refreshed_count": 49,
-          "removed": 0,
+          "removed": 31,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-22 07:38:43"
         },
         {
@@ -151038,7 +151060,9 @@
           },
           "reactivated_count": 1,
           "refreshed_count": 54,
-          "removed": 0,
+          "removed": 24,
+          "removed_corrected": true,
+          "removed_original": 0,
           "timestamp": "2026-08-23 07:40:02"
         },
         {
@@ -151116,7 +151140,9 @@
           },
           "reactivated_count": 8,
           "refreshed_count": 76,
-          "removed": 362,
+          "removed": 49,
+          "removed_corrected": true,
+          "removed_original": 362,
           "timestamp": "2026-08-24 17:27:25"
         },
         {

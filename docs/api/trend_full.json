@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-26 07:59:32",
+  "generated": "2026-08-26 09:23:18",
   "outflow": {
     "artymiuk": [
       {
@@ -14898,7 +14898,7 @@
         "promoted_percentage": 7.2,
         "reactivated_count": 9,
         "refreshed_count": 52,
-        "removed": 0
+        "removed": 26
       },
       {
         "added": 32,
@@ -14909,7 +14909,7 @@
         "promoted_percentage": 6.7,
         "reactivated_count": 5,
         "refreshed_count": 47,
-        "removed": 0
+        "removed": 33
       },
       {
         "added": 39,
@@ -14920,7 +14920,7 @@
         "promoted_percentage": 7.7,
         "reactivated_count": 13,
         "refreshed_count": 56,
-        "removed": 0
+        "removed": 29
       },
       {
         "added": 14,
@@ -14931,7 +14931,7 @@
         "promoted_percentage": 7.1,
         "reactivated_count": 1,
         "refreshed_count": 39,
-        "removed": 0
+        "removed": 31
       },
       {
         "added": 20,
@@ -14942,7 +14942,7 @@
         "promoted_percentage": 6.8,
         "reactivated_count": 2,
         "refreshed_count": 40,
-        "removed": 0
+        "removed": 18
       },
       {
         "added": 24,
@@ -14953,7 +14953,7 @@
         "promoted_percentage": 7.3,
         "reactivated_count": 4,
         "refreshed_count": 68,
-        "removed": 0
+        "removed": 17
       },
       {
         "added": 33,
@@ -14964,7 +14964,7 @@
         "promoted_percentage": 8.1,
         "reactivated_count": 8,
         "refreshed_count": 63,
-        "removed": 0
+        "removed": 29
       },
       {
         "added": 30,
@@ -14975,7 +14975,7 @@
         "promoted_percentage": 7.8,
         "reactivated_count": 4,
         "refreshed_count": 64,
-        "removed": 0
+        "removed": 28
       },
       {
         "added": 16,
@@ -14986,7 +14986,7 @@
         "promoted_percentage": 8.0,
         "reactivated_count": 1,
         "refreshed_count": 67,
-        "removed": 0
+        "removed": 21
       },
       {
         "added": 24,
@@ -14997,7 +14997,7 @@
         "promoted_percentage": 7.1,
         "reactivated_count": 3,
         "refreshed_count": 58,
-        "removed": 0
+        "removed": 26
       },
       {
         "added": 23,
@@ -15008,7 +15008,7 @@
         "promoted_percentage": 7.9,
         "reactivated_count": 2,
         "refreshed_count": 49,
-        "removed": 0
+        "removed": 31
       },
       {
         "added": 18,
@@ -15019,7 +15019,7 @@
         "promoted_percentage": 7.6,
         "reactivated_count": 1,
         "refreshed_count": 54,
-        "removed": 0
+        "removed": 24
       },
       {
         "added": 39,
@@ -15030,7 +15030,7 @@
         "promoted_percentage": 6.3,
         "reactivated_count": 8,
         "refreshed_count": 76,
-        "removed": 362
+        "removed": 49
       },
       {
         "added": 5,
