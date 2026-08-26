@@ -106,6 +106,10 @@ Pełna lista: `requirements.txt`.
   wstecz z `scan_history` (dry-run domyślnie, zapis na `--apply`).
 - `rebuild_archived_dates_20260824.py` — korekta dat archiwizacji po blokadzie TLS: odtwarza
   realną datę zniknięcia z `missed_scans` (dry-run domyślnie, zapis na `--apply`, idempotentny).
+- `rebuild_daily_removed_20260824.py` — druga połowa tej samej naprawy: przenosi dzienne
+  liczniki `removed` w `daily_counts` zgodnie z poprawionymi datami archiwizacji (para
+  `archived_date_original` → `archived_date`), żeby wykres „Przybyło/Zniknęło" nie miał
+  piku lawiny. Dry-run domyślnie, zapis na `--apply`, idempotentny.
 - `backfill_prices.py` (przestarzały) / `backfill_price_distribution.py` — uzupełnianie historii cen.
   > Te skrypty modyfikują `data/*.json`. Uruchamiaj świadomie, rób kopię/commit przed.
 
@@ -187,7 +191,8 @@ CHANGELOG.md (pełna historia zmian) + raporty napraw (NAPRAWA_*, ROOT_CAUSE_RAP
       "archived_listings": [ { ...jw. + archived_date } ],   // BEZ LIMITU (paginacja po stronie dashboardu, scraper.py:2251)
       "price_history": { "<id>": [ {date, old_price, new_price, change} ] },
       "daily_counts": [ {date, count, added, removed, new_count, median_price,
-                         price_distribution, refreshed_count, reactivated_count, promoted_count} ], // limit 90 dni
+                         price_distribution, refreshed_count, reactivated_count, promoted_count,
+                         removed_corrected?, removed_original?} ], // limit 90 dni; pola *_corrected = ślad ręcznej korekty
       "promotion_history": { "<id>": [ {start_date, end_date, days, session_number} ] }
     }
   },
@@ -284,6 +289,20 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   po ~2 tygodniach awarii. Szybsza sygnatura tej samej klasy problemu to `removed == 0`
   utrzymujące się kilka dni z rzędu przy niezerowym `added` — zerowa archiwizacja przy żywym
   napływie ogłoszeń nie zdarza się naturalnie.
+- **„Ile zniknęło dnia D" jest w danych DWA razy — korekta musi objąć obie kopie
+  (2026-08-26).** `archived_listings[].archived_date` zasila wykres „Odpływ ofert"
+  (`trend.html`), a `daily_counts[].removed` wykres „Przybyło/Zniknęło" (`index.html`,
+  też widok „Cała historia" — `trend_full.json` bierze dla tych dni wartości autorytatywne
+  z `daily_counts`). Po blokadzie TLS poprawiono tylko `archived_date`, więc odpływ wyglądał
+  normalnie, a Przybyło/Zniknęło dalej pokazywało pik **362** z 24.08 i zera przez 12 dni
+  wcześniej (naprawa: `rebuild_daily_removed_20260824.py`). Robiąc korektę danych po awarii,
+  sprawdź OBA wykresy, nie jeden.
+  Przenoś różnicowo (`archived_date_original` → `archived_date`), NIE przeliczaj `removed`
+  jako „liczba ogłoszeń z `archived_date == D`": ogłoszenie zarchiwizowane i później
+  reaktywowane wraca do `current_listings` i znika z archiwum, więc czysta projekcja
+  zaniżyłaby stare dni. Nie ma też auto-backdatingu w scraperze i nie dodawaj go: poza
+  awarią weryfikacji `missed_scans > 0` znaczy „sprawdzone, żyje" — cofanie takiej
+  archiwizacji wstecz fałszowałoby normalne dni.
 - **HTTP 410 (Gone) = ogłoszenie usunięte — tak samo jak 404 (od 2026-07-24).**
   OLX zwraca dla zdjętych/wygasłych ofert status **410**, nie 404. `verify_listing_active()`
   sprawdza `resp.status_code in (404, 410)` → `False` (nieaktywne). NIE cofaj tego do samego 404:
@@ -338,7 +357,7 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 
 ## 8. Konwencje pracy w tym repo
 
-- Gałąź robocza tej sesji: `claude/ostatnie-scany-kgaqw6`. Commituj i pushuj tam.
+- Gałąź robocza tej sesji: `claude/anomalia-poprawka-sh8t5r`. Commituj i pushuj tam.
 - Commity i komunikaty po polsku, w stylu istniejącej historii.
 - Nie dodawaj PR bez wyraźnej prośby.
 - **Po skończonych zmianach pytaj, czy zmergować je do `main`** (sam nie pushuj do `main` ani nie otwieraj PR bez zgody).

@@ -13,6 +13,55 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-08-26] - 📈 Koniec piku „Zniknęło: 362" na wykresie Przybyło/Zniknęło
+
+### Problem
+Wykres **„📈 Przybyło/Zniknęło"** na dashboardzie pokazywał pionowy pik **362** w dniu
+2026-08-24 przy tle ~25/dobę i płaskie **zero** przez poprzednie 13 dni — pozostałość po
+blokadzie TLS (patrz wpis 2026-08-24). W trakcie blokady `verify_listing_active()` na 403
+odpowiadała „zakładam aktywne", więc żadne ogłoszenie nie było archiwizowane
+(`removed = 0` przez 12 dni), a pierwszy skan po naprawie zaksięgował 13 dni odpływu
+w jednej dobie.
+
+### Root cause 🔍
+Ta sama informacja („ile ogłoszeń zniknęło dnia D") żyje w danych **dwa razy**:
+- `archived_listings[].archived_date` → wykres „Odpływ ofert" (`trend.html`),
+- `daily_counts[].removed` → wykres „Przybyło/Zniknęło" (`index.html`, oba widoki —
+  90 dni z `daily_counts` i „Cała historia" z `trend_full.json`, który dla dni obecnych
+  w `daily_counts` bierze wartości **autorytatywne** stamtąd).
+
+`rebuild_archived_dates_20260824.py` poprawił tylko pierwszą kopię — wykres odpływu był
+już poprawny, a licznik dzienny dalej trzymał lawinę. Korekta danych po awarii musi objąć
+obie kopie, inaczej dwa wykresy tej samej rzeczy pokazują dwie różne historie.
+
+### Fixed 🐛
+- `rebuild_daily_removed_20260824.py` (nowy, jednorazowy, idempotentny) **przenosi**
+  zniknięcia dokładnie tam, gdzie skrypt dat archiwizacji przesunął `archived_date`:
+  para (`archived_date_original` → `archived_date`) daje -1 dla dnia lawiny i +1 dla dnia
+  realnego zniknięcia. Suma zniknięć w oknie incydentu bez zmian.
+- Efekt na `wszystkie_pokoje` (313 przeniesionych zniknięć):
+  `2026-08-12..23: 0 → 26/33/29/31/18/17/29/28/21/26/31/24`, `2026-08-24: 362 → 49`.
+  Wykres jest teraz spójny z „Odpływem ofert" i z realnym rytmem rynku.
+- Przeliczony `docs/api/trend_full.json` (widok „Cała historia" czyta te same wartości).
+
+### Uwagi / świadome decyzje
+- **Bez projekcji z całego archiwum.** Kuszące „`removed[D]` = liczba ogłoszeń z
+  `archived_date == D`" zaniżyłoby stare dni: ogłoszenie zarchiwizowane i później
+  reaktywowane wraca do `current_listings` i znika z archiwum (np. poqui 2026-08-24:
+  `removed = 3`, w archiwum został 1 wpis). Przenoszenie różnicowe tego problemu nie ma.
+- **Profile użytkowników nietknięte.** Przez blokadę ich skany kończyły się błędem, więc
+  ochrona „count == 0 nie nadpisuje" w ogóle nie utworzyła wpisów `daily_counts` za
+  12–23.08 (jest tam **luka**, nie zera), a ich ogłoszenia nie mają
+  `archived_date_corrected` — nie da się ustalić dnia zniknięcia. Wartość z 24.08
+  (np. mzuri 32) jest dla nich uczciwym „odpływem od ostatniego pomiaru".
+- **`scan_history` i `docs/api/history.json` bez zmian.** To zapis per SKAN, a nie metryka
+  rynku: skan z 2026-08-24 17:27 naprawdę zarchiwizował wtedy 362 ogłoszenia i tak ma
+  zostać w historii skanów (jak append-only ledger).
+- Poprawione wpisy `daily_counts` mają `removed_corrected: true` i `removed_original`
+  (ślad + idempotencja), analogicznie do `archived_date_corrected` na ogłoszeniach.
+
+---
+
 ## [2026-08-25] - 📜 Historia skanów w API: 30 dni zamiast 3 skanów
 
 ### Changed 🔧
