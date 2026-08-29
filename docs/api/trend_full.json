@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-28 19:27:18",
+  "generated": "2026-08-29 10:37:20",
   "outflow": {
     "artymiuk": [
       {
@@ -39,6 +39,10 @@
       {
         "count": 1,
         "date": "2026-05-11"
+      },
+      {
+        "count": 1,
+        "date": "2026-08-29"
       }
     ],
     "mat": [
@@ -847,7 +851,7 @@
         "date": "2026-08-23"
       },
       {
-        "count": 48,
+        "count": 47,
         "date": "2026-08-24"
       },
       {
@@ -865,6 +869,10 @@
       {
         "count": 45,
         "date": "2026-08-28"
+      },
+      {
+        "count": 10,
+        "date": "2026-08-29"
       }
     ]
   },
@@ -2794,6 +2802,17 @@
         "reactivated_count": 0,
         "refreshed_count": 1,
         "removed": 3
+      },
+      {
+        "added": 0,
+        "count": 14,
+        "date": "2026-08-29",
+        "median_price": null,
+        "promoted_count": 5,
+        "promoted_percentage": 35.7,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
+        "removed": 0
       }
     ],
     "dawny_patron": [
@@ -4699,6 +4718,17 @@
         "reactivated_count": 0,
         "refreshed_count": 0,
         "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 1,
+        "date": "2026-08-29",
+        "median_price": null,
+        "promoted_count": 0,
+        "promoted_percentage": 0.0,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
+        "removed": 1
       }
     ],
     "mat": [
@@ -4942,6 +4972,17 @@
         "promoted_percentage": 100.0,
         "reactivated_count": 0,
         "refreshed_count": 3,
+        "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 4,
+        "date": "2026-08-29",
+        "median_price": null,
+        "promoted_count": 1,
+        "promoted_percentage": 25.0,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
         "removed": 0
       }
     ],
@@ -5252,6 +5293,17 @@
         "promoted_percentage": 25.0,
         "reactivated_count": 0,
         "refreshed_count": 2,
+        "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 8,
+        "date": "2026-08-29",
+        "median_price": null,
+        "promoted_count": 2,
+        "promoted_percentage": 25.0,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
         "removed": 0
       }
     ],
@@ -6130,8 +6182,8 @@
         "count": 37,
         "date": "2026-05-17",
         "median_price": null,
-        "promoted_count": 35,
-        "promoted_percentage": 94.6,
+        "promoted_count": 0,
+        "promoted_percentage": 0.0,
         "reactivated_count": 0,
         "refreshed_count": 0,
         "removed": 0
@@ -7114,6 +7166,17 @@
         "reactivated_count": 0,
         "refreshed_count": 1,
         "removed": 3
+      },
+      {
+        "added": 0,
+        "count": 89,
+        "date": "2026-08-29",
+        "median_price": null,
+        "promoted_count": 84,
+        "promoted_percentage": 94.4,
+        "reactivated_count": 0,
+        "refreshed_count": 2,
+        "removed": 0
       }
     ],
     "pokojewlublinie": [
@@ -9019,6 +9082,17 @@
         "reactivated_count": 0,
         "refreshed_count": 6,
         "removed": 3
+      },
+      {
+        "added": 0,
+        "count": 11,
+        "date": "2026-08-29",
+        "median_price": null,
+        "promoted_count": 5,
+        "promoted_percentage": 45.5,
+        "reactivated_count": 0,
+        "refreshed_count": 3,
+        "removed": 0
       }
     ],
     "poqui": [
@@ -9940,8 +10014,8 @@
         "count": 6,
         "date": "2026-05-17",
         "median_price": null,
-        "promoted_count": 6,
-        "promoted_percentage": 100.0,
+        "promoted_count": 0,
+        "promoted_percentage": 0.0,
         "reactivated_count": 0,
         "refreshed_count": 0,
         "removed": 0
@@ -10924,6 +10998,17 @@
         "reactivated_count": 0,
         "refreshed_count": 6,
         "removed": 3
+      },
+      {
+        "added": 0,
+        "count": 79,
+        "date": "2026-08-29",
+        "median_price": null,
+        "promoted_count": 79,
+        "promoted_percentage": 100.0,
+        "reactivated_count": 0,
+        "refreshed_count": 18,
+        "removed": 0
       }
     ],
     "stylowe_pokoje_ania": [
@@ -11354,6 +11439,17 @@
         "promoted_percentage": 100.0,
         "reactivated_count": 0,
         "refreshed_count": 2,
+        "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 2,
+        "date": "2026-08-29",
+        "median_price": null,
+        "promoted_count": 2,
+        "promoted_percentage": 100.0,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
         "removed": 0
       }
     ],
@@ -13238,6 +13334,17 @@
         "reactivated_count": 0,
         "refreshed_count": 2,
         "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 13,
+        "date": "2026-08-29",
+        "median_price": null,
+        "promoted_count": 5,
+        "promoted_percentage": 38.5,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
+        "removed": 0
       }
     ],
     "wszystkie_pokoje": [
@@ -14309,15 +14416,15 @@
         "removed": 2
       },
       {
-        "added": 10,
+        "added": 1,
         "count": 409,
         "date": "2026-05-31",
-        "median_price": 1100,
-        "promoted_count": 17,
-        "promoted_percentage": 4.1,
-        "reactivated_count": 3,
+        "median_price": 800,
+        "promoted_count": 15,
+        "promoted_percentage": 3.7,
+        "reactivated_count": 0,
         "refreshed_count": 6,
-        "removed": 9
+        "removed": 1
       },
       {
         "added": 23,
@@ -15295,8 +15402,19 @@
         "promoted_count": 58,
         "promoted_percentage": 7.4,
         "reactivated_count": 6,
-        "refreshed_count": 64,
+        "refreshed_count": 70,
         "removed": 24
+      },
+      {
+        "added": 6,
+        "count": 778,
+        "date": "2026-08-29",
+        "median_price": 925,
+        "promoted_count": 71,
+        "promoted_percentage": 9.1,
+        "reactivated_count": 1,
+        "refreshed_count": 37,
+        "removed": 10
       }
     ]
   }
