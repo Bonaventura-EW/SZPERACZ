@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-29 10:37:20",
+  "generated": "2026-08-29 13:13:44",
   "outflow": {
     "artymiuk": [
       {
@@ -421,6 +421,10 @@
       {
         "count": 11,
         "date": "2026-08-28"
+      },
+      {
+        "count": 2,
+        "date": "2026-08-29"
       }
     ],
     "stylowe_pokoje_ania": [
@@ -763,11 +767,11 @@
         "date": "2026-08-01"
       },
       {
-        "count": 19,
+        "count": 18,
         "date": "2026-08-02"
       },
       {
-        "count": 31,
+        "count": 30,
         "date": "2026-08-03"
       },
       {
@@ -811,7 +815,7 @@
         "date": "2026-08-13"
       },
       {
-        "count": 28,
+        "count": 27,
         "date": "2026-08-14"
       },
       {
@@ -867,11 +871,11 @@
         "date": "2026-08-27"
       },
       {
-        "count": 45,
+        "count": 44,
         "date": "2026-08-28"
       },
       {
-        "count": 10,
+        "count": 14,
         "date": "2026-08-29"
       }
     ]
@@ -9088,8 +9092,8 @@
         "count": 11,
         "date": "2026-08-29",
         "median_price": null,
-        "promoted_count": 5,
-        "promoted_percentage": 45.5,
+        "promoted_count": 4,
+        "promoted_percentage": 36.4,
         "reactivated_count": 0,
         "refreshed_count": 3,
         "removed": 0
@@ -11001,7 +11005,7 @@
       },
       {
         "added": 0,
-        "count": 79,
+        "count": 77,
         "date": "2026-08-29",
         "median_price": null,
         "promoted_count": 79,
@@ -11449,7 +11453,7 @@
         "promoted_count": 2,
         "promoted_percentage": 100.0,
         "reactivated_count": 0,
-        "refreshed_count": 0,
+        "refreshed_count": 2,
         "removed": 0
       }
     ],
@@ -15406,15 +15410,15 @@
         "removed": 24
       },
       {
-        "added": 6,
-        "count": 778,
+        "added": 18,
+        "count": 779,
         "date": "2026-08-29",
-        "median_price": 925,
-        "promoted_count": 71,
-        "promoted_percentage": 9.1,
-        "reactivated_count": 1,
-        "refreshed_count": 37,
-        "removed": 10
+        "median_price": 900,
+        "promoted_count": 70,
+        "promoted_percentage": 9.0,
+        "reactivated_count": 6,
+        "refreshed_count": 52,
+        "removed": 15
       }
     ]
   }
