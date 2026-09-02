@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-02 10:55:15",
+  "generated": "2026-09-02 12:08:32",
   "outflow": {
     "artymiuk": [
       {
@@ -461,6 +461,12 @@
         "date": "2026-08-26"
       }
     ],
+    "villahome": [
+      {
+        "count": 9,
+        "date": "2026-09-02"
+      }
+    ],
     "wszystkie_pokoje": [
       {
         "count": 1,
@@ -835,7 +841,7 @@
         "date": "2026-08-17"
       },
       {
-        "count": 27,
+        "count": 25,
         "date": "2026-08-18"
       },
       {
@@ -887,7 +893,7 @@
         "date": "2026-08-30"
       },
       {
-        "count": 34,
+        "count": 33,
         "date": "2026-08-31"
       },
       {
@@ -895,7 +901,7 @@
         "date": "2026-09-01"
       },
       {
-        "count": 24,
+        "count": 35,
         "date": "2026-09-02"
       }
     ]
@@ -7412,12 +7418,12 @@
         "removed": 5
       },
       {
-        "added": 9,
-        "count": 82,
+        "added": 12,
+        "count": 85,
         "date": "2026-09-02",
-        "median_price": 2310,
-        "promoted_count": 77,
-        "promoted_percentage": 93.9,
+        "median_price": 2800,
+        "promoted_count": 80,
+        "promoted_percentage": 94.1,
         "reactivated_count": 3,
         "refreshed_count": 0,
         "removed": 2
@@ -9376,8 +9382,8 @@
         "count": 11,
         "date": "2026-09-02",
         "median_price": null,
-        "promoted_count": 1,
-        "promoted_percentage": 9.1,
+        "promoted_count": 0,
+        "promoted_percentage": 0.0,
         "reactivated_count": 0,
         "refreshed_count": 0,
         "removed": 0
@@ -11335,7 +11341,7 @@
         "added": 2,
         "count": 64,
         "date": "2026-09-02",
-        "median_price": 1474,
+        "median_price": null,
         "promoted_count": 64,
         "promoted_percentage": 100.0,
         "reactivated_count": 2,
@@ -13757,7 +13763,7 @@
       },
       {
         "added": 0,
-        "count": 17,
+        "count": 8,
         "date": "2026-09-02",
         "median_price": null,
         "promoted_count": 9,
@@ -15871,13 +15877,13 @@
       },
       {
         "added": 39,
-        "count": 818,
+        "count": 817,
         "date": "2026-09-02",
         "median_price": 950,
         "promoted_count": 72,
         "promoted_percentage": 8.8,
-        "reactivated_count": 14,
-        "refreshed_count": 32,
+        "reactivated_count": 17,
+        "refreshed_count": 39,
         "removed": 24
       }
     ]
