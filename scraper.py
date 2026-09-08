@@ -324,6 +324,71 @@ def get_api_session():
     return _session_cache["api"]
 
 
+# Ile razy próbujemy pobrać JEDNĄ stronę API, zanim uznamy to za awarię pobierania.
+API_JSON_ATTEMPTS = 3
+
+
+class OlxApiError(RuntimeError):
+    """Awaria pobierania z API OLX — odpowiedź, której nie da się sparsować jako JSON."""
+
+
+def _api_get_json(session, url, profile_key, page_num):
+    """
+    Pobiera stronę API OLX i zwraca sparsowany JSON albo podnosi OlxApiError.
+
+    Odpowiedź 2xx bez JSON-a NIE jest pustym profilem, tylko awarią pobierania —
+    dlatego logujemy status/typ/początek ciała (żeby następny incydent dało się
+    rozpoznać z samego logu), ponawiamy na świeżym połączeniu, a gdy to nie pomoże,
+    podnosimy wyjątek. Cichy `break` w tym miejscu zamienił awarię z 2026-09-08
+    w „profil ma 0 ogłoszeń" naraz dla 9 profili (patrz §7 CLAUDE.md).
+    """
+    last_error = None
+
+    for attempt in range(1, API_JSON_ATTEMPTS + 1):
+        if attempt > 1:
+            # Świeży handshake — zatrute połączenie z puli oddałoby ten sam błąd.
+            # getattr, bo helper przyjmuje dowolną sesję (legacy scrape_user_profile_json).
+            reset = getattr(session, "reset_connections", None)
+            if reset:
+                reset()
+            time.sleep(2 ** (attempt - 1))
+
+        try:
+            r = session.get(url, timeout=20)
+        except Exception as e:
+            last_error = f"transport {type(e).__name__}: {str(e)[:140]}"
+            log.warning(
+                f"  [{profile_key}] API strona {page_num}, próba {attempt}/{API_JSON_ATTEMPTS} — {last_error}"
+            )
+            continue
+
+        if r.status_code != 200:
+            last_error = f"HTTP {r.status_code}"
+            log.warning(
+                f"  [{profile_key}] API strona {page_num}, próba {attempt}/{API_JSON_ATTEMPTS} — {last_error}"
+            )
+            continue
+
+        try:
+            return r.json()
+        except Exception as e:
+            body = (r.text or "")[:200].replace("\n", " ")
+            last_error = (
+                f"HTTP 200 bez JSON-a ({type(e).__name__}; "
+                f"content-type={r.headers.get('content-type')!r}, "
+                f"content-encoding={r.headers.get('content-encoding')!r}, "
+                f"bajtów={len(r.content)}), początek ciała: {body!r}"
+            )
+            log.warning(
+                f"  [{profile_key}] API strona {page_num}, próba {attempt}/{API_JSON_ATTEMPTS} — {last_error}"
+            )
+
+    raise OlxApiError(
+        f"API OLX nie zwróciło JSON-a po {API_JSON_ATTEMPTS} próbach "
+        f"(strona {page_num}): {last_error}"
+    )
+
+
 # ─── Parsing Helpers ─────────────────────────────────────────────────────────
 
 def parse_price(text):
@@ -840,6 +905,11 @@ def scrape_user_profile_json(profile_key, profile_config, session):
     Scrape user profile by parsing __PRERENDERED_STATE__ JSON data.
     This is the new method for OLX user profiles which use client-side rendering.
     Falls back to API pagination for additional pages.
+
+    **LEGACY, niewywoływane** — profile użytkowników scrapuje dziś
+    `scrape_user_via_api()`. Zostawione jako plan B, ale trzymane w tej samej
+    dyscyplinie co ścieżka produkcyjna: awaria pobierania podnosi `OlxApiError`,
+    NIE zwraca `count=0` ani wyniku częściowego (patrz §7 CLAUDE.md).
     """
     url = profile_config["url"]
     all_listings = []
@@ -852,18 +922,20 @@ def scrape_user_profile_json(profile_key, profile_config, session):
     
     log.info(f"  [{profile_key}] Page {page}: {url}")
     
+    # Nie łapiemy `requests.RequestException`: sesje są dziś na curl_cffi
+    # (OlxSession), więc ten typ i tak by nie pasował — a „zwróć count=0"
+    # zamieniałoby awarię pobierania w pusty profil.
     try:
         resp = session.get(url, timeout=30)
-        resp.raise_for_status()
-    except requests.RequestException as e:
-        log.error(f"  [{profile_key}] HTTP error: {e}")
-        return {
-            "listings": [],
-            "count": 0,
-            "header_count": None,
-            "pages_scraped": 0,
-        }
-    
+    except Exception as e:
+        raise OlxApiError(
+            f"nie udało się pobrać strony profilu {profile_key}: {type(e).__name__}: {str(e)[:140]}"
+        ) from e
+    if resp.status_code != 200:
+        raise OlxApiError(
+            f"strona profilu {profile_key} zwróciła HTTP {resp.status_code}"
+        )
+
     # Parse first page from __PRERENDERED_STATE__
     listings, total_count, next_api_url = parse_prerendered_state(resp.text)
     
@@ -885,14 +957,10 @@ def scrape_user_profile_json(profile_key, profile_config, session):
         
         log.info(f"  [{profile_key}] API Page {page}: {next_api_url[:80]}...")
         
-        try:
-            api_resp = session.get(next_api_url, timeout=30)
-            api_resp.raise_for_status()
-            api_data = api_resp.json()
-        except Exception as e:
-            log.warning(f"  [{profile_key}] API error on page {page}: {e}")
-            break
-        
+        # Ta sama dyscyplina co w scrape_user_via_api(): ponowienie na świeżym
+        # połączeniu, a przy trwałej awarii wyjątek zamiast wyniku częściowego.
+        api_data = _api_get_json(session, next_api_url, profile_key, page)
+
         ads = api_data.get('data', [])
         if not ads:
             break
@@ -988,68 +1056,6 @@ def scrape_user_profile_json(profile_key, profile_config, session):
 
 
 # ─── OLX API Scraping (user profiles) ────────────────────────────────────────
-
-# Ile razy próbujemy pobrać JEDNĄ stronę API, zanim uznamy to za awarię pobierania.
-API_JSON_ATTEMPTS = 3
-
-
-class OlxApiError(RuntimeError):
-    """Awaria pobierania z API OLX — odpowiedź, której nie da się sparsować jako JSON."""
-
-
-def _api_get_json(session, url, profile_key, page_num):
-    """
-    Pobiera stronę API OLX i zwraca sparsowany JSON albo podnosi OlxApiError.
-
-    Odpowiedź 2xx bez JSON-a NIE jest pustym profilem, tylko awarią pobierania —
-    dlatego logujemy status/typ/początek ciała (żeby następny incydent dało się
-    rozpoznać z samego logu), ponawiamy na świeżym połączeniu, a gdy to nie pomoże,
-    podnosimy wyjątek. Cichy `break` w tym miejscu zamienił awarię z 2026-09-08
-    w „profil ma 0 ogłoszeń" naraz dla 9 profili (patrz §7 CLAUDE.md).
-    """
-    last_error = None
-
-    for attempt in range(1, API_JSON_ATTEMPTS + 1):
-        if attempt > 1:
-            # Świeży handshake — zatrute połączenie z puli oddałoby ten sam błąd.
-            session.reset_connections()
-            time.sleep(2 ** (attempt - 1))
-
-        try:
-            r = session.get(url, timeout=20)
-        except Exception as e:
-            last_error = f"transport {type(e).__name__}: {str(e)[:140]}"
-            log.warning(
-                f"  [{profile_key}] API strona {page_num}, próba {attempt}/{API_JSON_ATTEMPTS} — {last_error}"
-            )
-            continue
-
-        if r.status_code != 200:
-            last_error = f"HTTP {r.status_code}"
-            log.warning(
-                f"  [{profile_key}] API strona {page_num}, próba {attempt}/{API_JSON_ATTEMPTS} — {last_error}"
-            )
-            continue
-
-        try:
-            return r.json()
-        except Exception as e:
-            body = (r.text or "")[:200].replace("\n", " ")
-            last_error = (
-                f"HTTP 200 bez JSON-a ({type(e).__name__}; "
-                f"content-type={r.headers.get('content-type')!r}, "
-                f"content-encoding={r.headers.get('content-encoding')!r}, "
-                f"bajtów={len(r.content)}), początek ciała: {body!r}"
-            )
-            log.warning(
-                f"  [{profile_key}] API strona {page_num}, próba {attempt}/{API_JSON_ATTEMPTS} — {last_error}"
-            )
-
-    raise OlxApiError(
-        f"API OLX nie zwróciło JSON-a po {API_JSON_ATTEMPTS} próbach "
-        f"(strona {page_num}): {last_error}"
-    )
-
 
 def scrape_user_via_api(profile_key, profile_config):
     """

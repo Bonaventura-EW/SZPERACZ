@@ -62,6 +62,13 @@ przetrwały nietknięte i dogoniły się same przy następnym skanie.
   pobrać, czyli zaniżony `count` przy crosschecku wyglądającym na poprawny — dokładnie
   sygnatura skanu częściowego z 2026-07-11. Profil dostaje `crosscheck="error"`, co już
   uruchamia ochronę danych, `ok:false` i alert.
+- **`scrape_user_profile_json()`** (legacy, niewywoływane — profile idą dziś przez
+  `scrape_user_via_api()`) dostała tę samą dyscyplinę, żeby plan B nie niósł tej samej
+  pułapki: `OlxApiError` zamiast `count=0` przy błędzie pobrania strony profilu i zamiast
+  wyniku częściowego przy błędzie paginacji. Przy okazji znikł martwy
+  `except requests.RequestException` — sesje są na `curl_cffi`, więc ten typ i tak już
+  nie pasował. `API_JSON_ATTEMPTS`/`OlxApiError`/`_api_get_json()` przeniesione do sekcji
+  warstwy HTTP (przy `OlxSession`), bo używają ich teraz dwie funkcje.
 - **`diag_olx_tls.py` dobiera ogłoszenia testowe z danych** (`pick_test_listings()`):
   żywe = obecne w ostatnim skanie (`last_seen == last_scan`, bez `missed_scans`),
   martwe = ostatnio zarchiwizowane. Zaszyty na stałe link „żywy" (`ID10Ozam`) trafił do

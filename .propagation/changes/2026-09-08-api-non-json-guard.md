@@ -60,6 +60,14 @@ zrzucenie.
 - **Backdating / doszacowanie brakującej doby.** W tym repo obowiązuje zasada „nie zgaduj
   danych, których nie pobrałeś" — dziura w `daily_counts` jest uczciwsza niż interpolacja.
 
+## Sprawdź też martwy kod
+U nas obok ścieżki produkcyjnej leżała starsza, niewywoływana funkcja scrapująca profile
+z tym samym wzorcem „błąd → zwróć 0" (plus `except requests.RequestException`, który po
+przejściu na `curl_cffi` przestał cokolwiek łapać). Martwy kod bywa planem B, po który
+sięga się w panice — dostał tę samą dyscyplinę zamiast zostać w starym stanie. Jeśli masz
+podobny relikt, popraw go razem z główną ścieżką albo skasuj; zostawienie go „na razie"
+znaczy, że pułapka wróci w najgorszym momencie.
+
 ## Osobna, drobna lekcja: diagnostyka też gnije
 Skrypt diagnostyczny miał zaszyte na stałe dwa linki („żywe" i „martwe" ogłoszenie).
 Link „żywy" trafił do archiwum 2 tygodnie po napisaniu skryptu i od tamtej pory każda
