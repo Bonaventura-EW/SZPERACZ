@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-08 12:10:17",
+  "generated": "2026-09-08 13:12:19",
   "outflow": {
     "artymiuk": [
       {
@@ -973,7 +973,7 @@
         "date": "2026-09-07"
       },
       {
-        "count": 23,
+        "count": 27,
         "date": "2026-09-08"
       }
     ]
@@ -16609,13 +16609,13 @@
       },
       {
         "added": 41,
-        "count": 876,
+        "count": 870,
         "date": "2026-09-08",
         "median_price": 725,
         "promoted_count": 73,
         "promoted_percentage": 8.3,
         "reactivated_count": 7,
-        "refreshed_count": 32,
+        "refreshed_count": 37,
         "removed": 23
       }
     ]
