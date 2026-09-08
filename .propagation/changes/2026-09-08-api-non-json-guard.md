@@ -10,7 +10,7 @@ how: Nowe `_api_get_json()` skupia pobranie strony API w jednym miejscu: loguje 
 surface: scraper.py, diag_olx_tls.py, CLAUDE.md, CHANGELOG.md
 generality: family
 propagate: yes
-commit: 8722ab444042c8c24bc2a049d4c9c6bdfb9b483a
+commit: 3b4b605dff5dea9da7d50fab6be45cca67de24ec
 ---
 
 # Kontekst dla brata-ewaluatora
