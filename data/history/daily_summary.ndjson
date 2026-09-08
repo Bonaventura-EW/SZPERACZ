@@ -1914,3 +1914,4 @@
 {"date": "2026-09-07", "time": "13:28", "profile": "myrent", "count": 6, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-09-07", "time": "13:28", "profile": "mat", "count": 4, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-09-07", "time": "13:28", "profile": "wszystkie_pokoje", "count": 856, "crosscheck": "passed", "change": 28, "source": "scan"}
+{"date": "2026-09-08", "time": "11:12", "profile": "wszystkie_pokoje", "count": 872, "crosscheck": "passed", "change": 16, "source": "scan"}
