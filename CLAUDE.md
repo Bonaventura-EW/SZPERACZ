@@ -53,6 +53,8 @@ Pełna lista: `requirements.txt`.
   - `PROFILES` — słownik monitorowanych profili/kategorii (patrz §5).
   - `OlxSession` + `get_session()`/`get_api_session()` — warstwa HTTP na `curl_cffi` z impersonacją
     TLS, ponawianiem 429/5xx i rotacją profilu impersonacji przy 403 (patrz §7).
+  - `_api_get_json()` + `OlxApiError` — pobranie strony API OLX z ponowieniem i jawnym
+    błędem zamiast cichego zera, gdy odpowiedź nie jest JSON-em (patrz §7).
   - `scrape_with_playwright_all()` — główny scrape wszystkich profili w jednej przeglądarce.
   - `scrape_with_crosscheck()` — scrape + weryfikacja liczby wyników z nagłówkiem strony.
   - `parse_card()` / `parse_listings_from_soup()` — parsowanie kart ogłoszeń (selektor `[data-cy="l-card"]` z fallbackami).
@@ -94,6 +96,8 @@ Pełna lista: `requirements.txt`.
   do OLX (kontrola na `requests`, przegląd profili impersonacji `curl_cffi`, pełna powierzchnia:
   API profilu / ogłoszenie żywe / ogłoszenie martwe / kategoria). Uruchamiana workflow-em
   `diag_olx_tls.yml`; sam odczyt. **Uruchom to najpierw**, gdy skan zacznie zwracać zera.
+  Ogłoszenia testowe (żywe/martwe) dobiera z `data/dashboard_data.json` — `pick_test_listings()`
+  — bo zaszyte na stałe linki gniją i dają fałszywe ❌ (patrz CHANGELOG 2026-09-08).
 - `autofix.py` — pusty commit reaktywujący wyłączone scheduled workflows.
 - `rebuild_historical_medians.py` — odtwarza `median_price` per dzień.
 - `rebuild_daily_flows.py` — przelicza `added`/`removed` w `daily_counts`.
@@ -249,6 +253,20 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   której szukają WAF-y. Przy 403 `OlxSession` rotuje profil impersonacji, a gdy padną wszystkie —
   **podnosi wyjątek zamiast zwrócić 403**; cicha 403 była właśnie tym, co przez 13 skanów udawało
   „profil ma 0 ogłoszeń". Gdy skany znów zaczną zwracać zera: `python diag_olx_tls.py`.
+- **„2xx bez JSON-a" z API OLX to awaria pobierania, NIE pusty profil (od 2026-09-08).**
+  Rotacja odcisku w `OlxSession` reaguje wyłącznie na 403, więc odpowiedź z kodem < 400
+  i ciałem, które nie jest JSON-em, przechodzi przez nią bez reakcji — a `header_count`
+  zostaje `None`, przez co crosscheck raportuje `PASS (scraped=0, header=None)`. Stary
+  `except: break` w `scrape_user_via_api()` zamieniał to w „profil ma 0 ogłoszeń" dla
+  9 profili naraz (incydent 2026-09-08, ~24-minutowa czkawka OLX = utracona doba danych).
+  Teraz robi to `_api_get_json()`: loguje status/typ/kodowanie/początek ciała, ponawia
+  `API_JSON_ATTEMPTS` (3) razy — **każde ponowienie po `OlxSession.reset_connections()`**,
+  bo wszystkie profile dzielą jedną sesję z `get_api_session()` i zatrute połączenie
+  z puli oddałoby ten sam błąd (sygnatura: seria odpowiedzi w ~7 ms, szybciej niż
+  round-trip do OLX) — a na koniec podnosi `OlxApiError`. Wyjątek leci na dowolnej
+  stronie, także drugiej i dalszych: wynik częściowy to zaniżony `count` przy poprawnie
+  wyglądającym crosschecku, czyli sygnatura skanu częściowego z 2026-07-11. Nie wracaj
+  do zwracania `count=0` z tej ścieżki.
 - **Awaria warstwy HTTP uderza w DWA miejsca naraz — pamiętaj o archiwizacji.** Blokada 403 nie
   tylko wyzerowała 9 profili (`scrape_user_via_api`), ale też zatrzymała archiwizację: 403 to dla
   `verify_listing_active()` „status != 200" → fail-safe „zakładam aktywne" → `removed=0` przez
@@ -357,7 +375,7 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 
 ## 8. Konwencje pracy w tym repo
 
-- Gałąź robocza tej sesji: `claude/anomalia-poprawka-sh8t5r`. Commituj i pushuj tam.
+- Gałąź robocza tej sesji: `claude/ostatni-scan-alerty-uk8mn4`. Commituj i pushuj tam.
 - Commity i komunikaty po polsku, w stylu istniejącej historii.
 - Nie dodawaj PR bez wyraźnej prośby.
 - **Po skończonych zmianach pytaj, czy zmergować je do `main`** (sam nie pushuj do `main` ani nie otwieraj PR bez zgody).

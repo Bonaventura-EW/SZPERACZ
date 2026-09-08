@@ -17,6 +17,7 @@ Użycie:
 Nic nie zapisuje i nie modyfikuje danych — sam odczyt.
 """
 
+import json
 import sys
 import time
 
@@ -30,10 +31,12 @@ API_URL = (
 )
 CATEGORY_URL = "https://www.olx.pl/nieruchomosci/stancje-pokoje/lublin/"
 
-# Ogłoszenie obecne w ostatnim skanie (missed_scans == 0) → oczekujemy 200
-LISTING_ALIVE = "https://www.olx.pl/d/oferta/pokoj-2-osobowy-lub-1-osobowy-os-weglin-CID3-ID10Ozam.html"
-# Ogłoszenie nieobecne od >= 12 skanów → oczekujemy 404 albo 410
-LISTING_DEAD = "https://www.olx.pl/d/oferta/wynajme-pokoj-w-mieszkaniu-3-pokojowym-CID3-ID15LBwM.html"
+# Ogłoszenia testowe wybieramy z danych ostatniego skanu — patrz pick_test_listings().
+# Te dwa linki to tylko fallback, gdy nie ma pliku z danymi (np. odpalenie poza repo).
+LISTING_ALIVE_FALLBACK = "https://www.olx.pl/d/oferta/pokoj-2-osobowy-lub-1-osobowy-os-weglin-CID3-ID10Ozam.html"
+LISTING_DEAD_FALLBACK = "https://www.olx.pl/d/oferta/wynajme-pokoj-w-mieszkaniu-3-pokojowym-CID3-ID15LBwM.html"
+
+DATA_FILE = "data/dashboard_data.json"
 
 # Kandydaci do impersonacji. Kolejność = preferencja (najpierw najbardziej
 # „przeglądarkowe" i najlepiej utrzymywane w curl_cffi).
@@ -50,6 +53,47 @@ def hr(title):
     print("=" * 68)
     print(title)
     print("=" * 68)
+
+
+def pick_test_listings():
+    """
+    Wybiera z danych ostatniego skanu ogłoszenie ŻYWE i ogłoszenie USUNIĘTE.
+
+    Powód (2026-09-08): oba linki były zaszyte na stałe i zdążyły zgnić — ten
+    „żywy" trafił do archiwum 2026-08-26, więc diagnostyka od tamtej pory zawsze
+    kończyła się fałszywym ❌ „ogłoszenie żywe -> 404" i werdyktem „wdrażać
+    wybiórczo". Bierzemy więc: żywe = obecne w ostatnim skanie
+    (`last_seen == last_scan`, bez `missed_scans`), martwe = ostatnio
+    zarchiwizowane. Zwraca (url_żywe, url_martwe, opis_źródła).
+    """
+    try:
+        with open(DATA_FILE, encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception as e:
+        return LISTING_ALIVE_FALLBACK, LISTING_DEAD_FALLBACK, f"fallback (brak danych: {e})"
+
+    last_scan = data.get("last_scan")
+    alive = None
+    dead = None  # (archived_date, url)
+
+    for prof in data.get("profiles", {}).values():
+        if alive is None:
+            for listing in sorted(prof.get("current_listings", []), key=lambda x: x.get("id", "")):
+                if listing.get("last_seen") == last_scan and not listing.get("missed_scans") and listing.get("url"):
+                    alive = listing["url"].split("?")[0]
+                    break
+        for listing in prof.get("archived_listings", []):
+            stamp = listing.get("archived_date")
+            if stamp and listing.get("url") and (dead is None or stamp > dead[0]):
+                dead = (stamp, listing["url"].split("?")[0])
+
+    if alive is None or dead is None:
+        return LISTING_ALIVE_FALLBACK, LISTING_DEAD_FALLBACK, "fallback (brak kandydatów w danych)"
+
+    return alive, dead[1], f"z {DATA_FILE} (ostatni skan: {last_scan})"
+
+
+LISTING_ALIVE, LISTING_DEAD, LISTING_SOURCE = pick_test_listings()
 
 
 def show_egress_ip():
@@ -118,6 +162,9 @@ def test_impersonations():
 def test_full_surface(imp):
     """Dla wybranego profilu sprawdza wszystkie 3 ścieżki, których używa scraper."""
     hr(f"3. Pełna powierzchnia scrapera dla impersonate='{imp}'")
+    print(f"   Ogłoszenia testowe: {LISTING_SOURCE}")
+    print(f"      żywe:   {LISTING_ALIVE}")
+    print(f"      martwe: {LISTING_DEAD}")
     from curl_cffi import requests as cr
 
     verdict = {}

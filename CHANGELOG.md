@@ -13,6 +13,70 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-09-08] - 🕳️ „2xx bez JSON-a" z API OLX przestaje udawać pusty profil
+
+### Problem
+Skan z **2026-09-08 11:12 UTC** (13:12 PL) zwrócił **0 ogłoszeń dla wszystkich 9 profili
+użytkowników** naraz (`status: partial_failure`, 9 alertów `profile_empty`, severity
+critical). Kategoria `wszystkie_pokoje` (Playwright) przeszła normalnie — 872 ogłoszenia.
+Skan powtórzony 24 minuty później, **bez żadnej zmiany w kodzie**, wrócił czysty:
+`success`, 0 alertów, 1065 ogłoszeń, wszystkie 10 profili.
+
+### Root cause 🔍
+Log runnera pokazał dla każdego z 9 profili to samo:
+
+```
+[pokojewlublinie] API error on page 1: Expecting value: line 1 column 1 (char 0)
+```
+
+To `JSONDecodeError` z `r.json()` — `raise_for_status()` **przeszło**, więc OLX oddał
+status < 400 z ciałem, które nie jest JSON-em. To nie była sierpniowa blokada JA3:
+`http_impersonate=chrome131`, `http_impersonate_rotations=0`, a diagnostyka
+(`diag_olx_tls.py`, 11:35 UTC) pokazała HTTP 200 i komplet danych na **wszystkich 12**
+profilach impersonacji, przy `requests` dalej dostającym 403. Czyli awaria przejściowa
+po stronie OLX — okno ~24 minut.
+
+Dwie rzeczy zamieniły ~7-minutową czkawkę w utratę doby danych dla 9 profili:
+1. `except Exception: break` w pętli stronicowania `scrape_user_via_api()` zamieniał
+   awarię pobierania w „profil ma 0 ogłoszeń" — **bez ponowienia** i bez śladu w logu,
+   co właściwie przyszło z serwera (status? typ? ciało?).
+2. Rotacja odcisku TLS w `OlxSession` reaguje **tylko na 403**, więc „200 bez JSON-a"
+   przechodziło przez nią bez reakcji. Dodatkowo `header_count` zostawało `None`, przez
+   co crosscheck raportował `PASS (scraped=0, header=None)`.
+
+Ochrony danych zadziałały poprawnie (brak archiwizacji, brak nadpisania
+`current_listings`, brak wpisu do ledgera, alert `profile_empty`, `ok:false`) — dane
+przetrwały nietknięte i dogoniły się same przy następnym skanie.
+
+### Fixed 🐛
+- **`_api_get_json()`** (nowa) — jedno miejsce na pobranie strony API OLX:
+  loguje `status` / `content-type` / `content-encoding` / rozmiar / **początek ciała**
+  (żeby następny incydent dało się rozpoznać z samego logu), ponawia do
+  `API_JSON_ATTEMPTS = 3` razy z backoffem, a gdy się nie uda — podnosi **`OlxApiError`**.
+- **`OlxSession.reset_connections()`** (nowa) — przed każdym ponowieniem porzucamy pulę
+  keep-alive. Wszystkie 9 profili szło po jednej sesji z `get_api_session()` i dostawało
+  odpowiedź w ~7 ms, czyli szybciej niż round-trip do OLX — sygnatura zatrutego
+  połączenia z puli, na którym samo ponowienie dałoby ten sam błąd.
+- **`scrape_user_via_api()` nie zwraca już wyniku częściowego.** Błąd na dowolnej stronie
+  (także drugiej i dalszych) propaguje wyjątek; wcześniejszy `break` oddawał to, co zdążył
+  pobrać, czyli zaniżony `count` przy crosschecku wyglądającym na poprawny — dokładnie
+  sygnatura skanu częściowego z 2026-07-11. Profil dostaje `crosscheck="error"`, co już
+  uruchamia ochronę danych, `ok:false` i alert.
+- **`diag_olx_tls.py` dobiera ogłoszenia testowe z danych** (`pick_test_listings()`):
+  żywe = obecne w ostatnim skanie (`last_seen == last_scan`, bez `missed_scans`),
+  martwe = ostatnio zarchiwizowane. Zaszyty na stałe link „żywy" (`ID10Ozam`) trafił do
+  archiwum 2026-08-26, więc diagnostyka od 2 tygodni **zawsze** kończyła się fałszywym
+  ❌ „ogłoszenie żywe -> 404" i werdyktem „wdrażać wybiórczo".
+
+### Uwagi
+- Wpis `scan_history` z 11:12 ma dla tych profili `removed` równe ich pełnemu stanowi
+  (13, 78, 63…) mimo że nic nie zarchiwizowano — liczone przed ochroną, do API nie poszło.
+  Kosmetyka, zostawione bez korekty.
+- W `history.json` został wpis `partial_failure` z 9 alertami — to poprawny ślad, że skan
+  o 13:12 PL się nie udał.
+
+---
+
 ## [2026-08-26] - 📈 Koniec piku „Zniknęło: 362" na wykresie Przybyło/Zniknęło
 
 ### Problem
