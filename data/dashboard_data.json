@@ -188735,8 +188735,11 @@
         },
         {
           "added": 30,
-          "change": -267,
-          "count": 612,
+          "change": 0,
+          "change_original": -267,
+          "count": 879,
+          "count_corrected": true,
+          "count_original": 612,
           "date": "2026-09-12",
           "median_price": 900,
           "price_distribution": [

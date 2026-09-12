@@ -13,6 +13,82 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-09-12] - ✂️ Urwana paginacja Playwright przestaje udawać komplet ogłoszeń
+
+### Problem
+Oba dzisiejsze skany zwróciły zaniżoną liczbę ogłoszeń kategorii `wszystkie_pokoje`
+(pozostałe 9 profili — API, bez zarzutu):
+
+| skan (UTC) | pobrano | nagłówek OLX | co się stało |
+|---|---|---|---|
+| 08:47 | **612** | 883 | paginacja padła na stronie 6, po ponowieniu na 16 (z ~18) |
+| 11:21 | **141** | 879 | paginacja padła na stronie 2, po ponowieniu na 4 |
+
+Log runnera pokazuje w obu przypadkach tę samą sygnaturę:
+
+```
+[wszystkie_pokoje] Page 16: https://www.olx.pl/nieruchomosci/stancje-pokoje/lublin/?page=16
+[wszystkie_pokoje] No cards found on page 16     # ~46 s później
+[OK] wszystkie_pokoje: 612 listings (passed_retry) [230.9s]
+```
+
+OLX oddaje kolejną stronę paginacji **wolno i bez kart `[data-cy="l-card"]`**
+(throttling/bot-check headless Chromium — im dłużej trwa sesja przeglądarki, tym
+wcześniej to przychodzi: 16 → 4 strona w ciągu 2,5 h).
+
+### Root cause 🔍
+`_scrape_one_profile_playwright()` traktowało stronę bez kart jak **koniec wyników**:
+`wait_for_selector` → timeout → `break` → zwraca to, co uzbierało, jako normalny wynik.
+Żadnego ponowienia, żadnego rozróżnienia „skończyły się ogłoszenia" vs „nie udało się
+pobrać strony" — ta sama klasa cichej awarii co `except: break` z 2026-09-08.
+
+Drugi problem: **próg `HEADER_SHORTFALL_RATIO = 0.5` przepuścił skan 612/883 (69%)**.
+Ochrona danych z 2026-07-11 jest progowa, a urwana paginacja daje dowolny procent —
+tu akurat powyżej progu. Skutek: skan zapisał się jako poprawny i wbił fałszywy dołek
+**-267 ogłoszeń** w oba wykresy trendu (`daily_counts` → index.html, ledger →
+„Cała historia"/trend.html). Skan 11:21 (141/879 = 16%) był już poniżej progu i ochrona
+zadziałała poprawnie — stąd `partial_failure` + alert `header_shortfall` w `status.json`.
+
+Ochrona per-ogłoszenie zadziałała w obu skanach: 267 ogłoszeń nieobecnych w wyniku
+zweryfikowano przez `verify_listing_active()` i zachowano w `current_listings`
+z `missed_scans=1` (mechanizm rotacji wyników OLX z 2026-07-18) — **żadne ogłoszenie
+ani jego historia nie przepadły**, nie było też fałszywej archiwizacji.
+
+### Fixed 🐛
+- **Ponawianie pojedynczej strony paginacji** (`PAGE_LOAD_ATTEMPTS = 3`,
+  `PAGE_RETRY_BACKOFF = 6 s` × numer próby). Nawigacja + oczekiwanie na karty siedzą
+  teraz w jednej pętli ponowień: strona bez kart jest ponawiana, a nie brana za koniec
+  wyników. Realna szansa, że przejściowy throttling OLX nie kosztuje już doby danych.
+- **`incomplete` / `incomplete_reason` w wyniku scrape'a.** Każde awaryjne wyjście
+  z pętli paginacji (brak kart, timeout nawigacji, pusty `__PRERENDERED_STATE__`,
+  błąd JSON, parser bez ogłoszeń) ustawia jawny powód zamiast cicho zwracać wynik
+  częściowy. Jeśli mimo urwania pobraliśmy tyle, ile deklaruje nagłówek (tolerancja 10),
+  wynik jest nadal uznawany za pełny.
+- **`is_incomplete_scrape()` — ochrona danych NIEZALEŻNA od progu procentowego.**
+  Wpięta w te same trzy miejsca co `is_header_shortfall()`: `append_history()`
+  (bez wpisu do ledgera), `generate_dashboard_json()` (bez `daily_counts`, bez
+  archiwizacji, bez nadpisania `current_listings`) i `generate_api_json()`
+  (`ok: false`). Skan 612/883 z urwaną paginacją jest teraz odrzucany mimo 69%.
+- **Nowy alert `scrape_incomplete`** (severity `critical`) w `docs/api/status.json` —
+  z powodem urwania („strona 16: brak kart ogłoszeń na stronie"), pokazywany
+  na dashboardzie tym samym czerwonym banerem co pozostałe alerty.
+
+### Naprawa danych 🔧
+`rebuild_incomplete_scan_20260912.py` (dry-run domyślnie, zapis na `--apply`, idempotentny):
+- `daily_counts[2026-09-12]` profilu `wszystkie_pokoje`: `count` 612 → **879**
+  (nagłówek OLX z tego samego dnia), `change` -267 → 0; ślad korekty w polach
+  `count_original`/`count_corrected`/`change_original`.
+- ledger `daily_summary.ndjson` jest append-only, więc błędnej linii nie ruszamy —
+  **dopisany rekord korygujący** z godziną `23:59` i `source: "correction"`
+  (`generate_trend_full()` bierze per dzień wpis o największym `time`).
+- przeliczony `docs/api/trend_full.json` — oba wykresy trendu bez fałszywego dołka.
+
+Nietknięte zostają `added`/`removed`/`median_price` z tego dnia: archiwizacja i flow
+liczone były z weryfikacją sztuka po sztuce, a mediana z 612 ogłoszeń jest
+statystycznie reprezentatywna.
+
+---
+
 ## [2026-09-08] - 🕳️ „2xx bez JSON-a" z API OLX przestaje udawać pusty profil
 
 ### Problem

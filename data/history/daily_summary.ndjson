@@ -2004,3 +2004,4 @@
 {"date": "2026-09-12", "time": "11:21", "profile": "stylowe_pokoje_ania", "count": 0, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-09-12", "time": "11:21", "profile": "myrent", "count": 5, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-09-12", "time": "11:21", "profile": "mat", "count": 4, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-09-12", "time": "23:59", "profile": "wszystkie_pokoje", "count": 879, "crosscheck": "corrected", "change": 0, "source": "correction", "note": "skan 2026-09-12 08:47 UTC pobrał 612 z 883 (urwana paginacja Playwright); count z nagłówka OLX — patrz rebuild_incomplete_scan_20260912.py"}

@@ -80,6 +80,9 @@ Pełna lista: `requirements.txt`.
   - `generate_api_json()` — pisze `docs/api/status.json` + `history.json` (retencja 30 dni).
   - `run_scan()` — orkiestracja: scrape → **filter_price_outliers** → JSON → **append_history** → API → **trend_full** (bez zapisu xlsx do repo).
   - `verify_listing_active()` — przed archiwizacją sprawdza, czy ogłoszenie naprawdę zniknęło.
+  - `is_incomplete_scrape()` + flagi `incomplete`/`incomplete_reason` — skan z awaryjnie
+    urwaną paginacją (strona bez kart ogłoszeń, timeout) jest błędem scrapera niezależnie
+    od progu `HEADER_SHORTFALL_RATIO` (patrz §7).
   - `filter_price_outliers()` — odrzuca ze skanu ogłoszenia z ceną >= `PRICE_OUTLIER_MULTIPLIER` (10)
     x średnia pozostałych ogłoszeń w profilu (leave-one-out, iteracyjnie). Takie dane nigdy nie
     trafiają do `dashboard_data.json`/ledgera/API (patrz §7).
@@ -110,6 +113,10 @@ Pełna lista: `requirements.txt`.
   wstecz z `scan_history` (dry-run domyślnie, zapis na `--apply`).
 - `rebuild_archived_dates_20260824.py` — korekta dat archiwizacji po blokadzie TLS: odtwarza
   realną datę zniknięcia z `missed_scans` (dry-run domyślnie, zapis na `--apply`, idempotentny).
+- `rebuild_incomplete_scan_20260912.py` — naprawa po skanie z urwaną paginacją
+  (612 z 883 ogłoszeń kategorii): koryguje `count`/`change` w `daily_counts`, dopisuje
+  rekord korygujący do ledgera (append-only!) i przelicza `trend_full.json`.
+  Dry-run domyślnie, zapis na `--apply`, idempotentny.
 - `rebuild_daily_removed_20260824.py` — druga połowa tej samej naprawy: przenosi dzienne
   liczniki `removed` w `daily_counts` zgodnie z poprawionymi datami archiwizacji (para
   `archived_date_original` → `archived_date`), żeby wykres „Przybyło/Zniknęło" nie miał
@@ -130,8 +137,9 @@ Pełna lista: `requirements.txt`.
     (czytane ze świeżego `daily_counts`; `null` = nie policzono, nie 0).
     Pole `alerts` + status `warning` (od 2026-07-11): anomalie ostatniego scanu — `mass_removal`
     (zniknęło ≥30% i ≥10 ogłoszeń w dobę), `header_shortfall` (pobrano <50% ogłoszeń z nagłówka
-    OLX), `stale_listings` (od 2026-07-19: ogłoszenia z `missed_scans >= 12`, patrz §7) oraz
-    `profile_empty` (od 2026-08-24: profil zwrócił 0 ogłoszeń mimo niepustego `current_listings`
+    OLX), `stale_listings` (od 2026-07-19: ogłoszenia z `missed_scans >= 12`, patrz §7),
+    `scrape_incomplete` (od 2026-09-12: paginacja urwała się w połowie — pole `reason`
+    mówi, na której stronie i dlaczego; patrz §7) oraz `profile_empty` (od 2026-08-24: profil zwrócił 0 ogłoszeń mimo niepustego `current_listings`
     — sygnatura awarii pobierania; taki profil ma też `ok: false`). `lastScan` niesie
     `http_impersonate`/`http_impersonate_rotations` — który odcisk TLS przeszedł i ile rotacji.
     Dashboard (`index.html`) i `scans.html` pokazują je jako czerwony baner.
@@ -194,9 +202,10 @@ CHANGELOG.md (pełna historia zmian) + raporty napraw (NAPRAWA_*, ROOT_CAUSE_RAP
       } ],
       "archived_listings": [ { ...jw. + archived_date } ],   // BEZ LIMITU (paginacja po stronie dashboardu, scraper.py:2251)
       "price_history": { "<id>": [ {date, old_price, new_price, change} ] },
-      "daily_counts": [ {date, count, added, removed, new_count, median_price,
+      "daily_counts": [ {date, count, change, added, removed, new_count, median_price,
                          price_distribution, refreshed_count, reactivated_count, promoted_count,
-                         removed_corrected?, removed_original?} ], // limit 90 dni; pola *_corrected = ślad ręcznej korekty
+                         removed_corrected?, removed_original?,
+                         count_corrected?, count_original?, change_original?} ], // limit 90 dni; pola *_corrected/*_original = ślad ręcznej korekty
       "promotion_history": { "<id>": [ {start_date, end_date, days, session_number} ] }
     }
   },
@@ -338,6 +347,25 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   (+ status `warning`) przy masowym zniknięciu ogłoszeń (`mass_removal`). Nie osłabiaj tej ochrony.
   Skutki uboczne incydentu w danych wyczyszczono skryptem `rebuild_incident_20260711.py`
   (patrz CHANGELOG 2026-07-11); ledger celowo nietknięty (append-only).
+- **Strona paginacji bez kart ogłoszeń to AWARIA POBIERANIA, nie koniec wyników
+  (od 2026-09-12).** OLX pod obciążeniem oddaje kolejną stronę kategorii wolno i bez
+  `[data-cy="l-card"]` (throttling headless Chromium — im dłużej trwa sesja przeglądarki,
+  tym wcześniej to przychodzi). `_scrape_one_profile_playwright()` robiło wtedy `break`
+  i zwracało uzbierane ogłoszenia jak normalny wynik: 612 z 883 (skan 08:47) i 141 z 879
+  (skan 11:21). Teraz każda strona ma `PAGE_LOAD_ATTEMPTS = 3` ponowienia (nawigacja
+  i oczekiwanie na karty w jednej pętli), a awaryjne wyjście z paginacji ustawia
+  `incomplete`/`incomplete_reason` w wyniku. NIE wracaj do cichego `break` — koniec
+  wyników sygnalizuje BRAK linku „następna strona", nie brak kart.
+- **Próg `HEADER_SHORTFALL_RATIO` (50%) nie wystarcza — urwana paginacja daje dowolny
+  procent (od 2026-09-12).** Skan 612/883 to 69%, więc ochrona z 2026-07-11 go przepuściła
+  i wbił fałszywy dołek -267 w oba wykresy trendu (`daily_counts` ORAZ ledger — pamiętaj,
+  że „ile ogłoszeń dnia D" też jest w danych dwa razy). Dlatego obok `is_header_shortfall()`
+  stoi `is_incomplete_scrape()` — ochrona zerojedynkowa, wpięta w te same trzy miejsca
+  (`append_history`, `generate_dashboard_json`, `generate_api_json`). Dodając nową ścieżkę
+  scrapingu, ustaw w wyniku `incomplete` przy każdym awaryjnym przerwaniu; samego progu
+  procentowego nie obniżaj (nagłówek OLX bywa zawyżony — 30% fałszywych alarmów wróci).
+  Naprawa danych po takim skanie: `rebuild_incomplete_scan_20260912.py` (wzorzec —
+  ledger tylko append, korekta znaczona polami `*_original`/`*_corrected`).
 - **Rotacja wyników OLX: ogłoszenia nieobecne w skanie, ale aktywne, są ZACHOWYWANE
   (naprawione 2026-07-18).** Gdy ogłoszenia nie ma w skanie, a `verify_listing_active()`
   potwierdzi, że istnieje, zostaje ono w `current_listings` z licznikiem `missed_scans`
@@ -375,7 +403,7 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
 
 ## 8. Konwencje pracy w tym repo
 
-- Gałąź robocza tej sesji: `claude/ostatni-scan-alerty-uk8mn4`. Commituj i pushuj tam.
+- Gałąź robocza tej sesji: `claude/recent-scans-error-o4wf8u`. Commituj i pushuj tam.
 - Commity i komunikaty po polsku, w stylu istniejącej historii.
 - Nie dodawaj PR bez wyraźnej prośby.
 - **Po skończonych zmianach pytaj, czy zmergować je do `main`** (sam nie pushuj do `main` ani nie otwieraj PR bez zgody).

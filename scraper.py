@@ -105,6 +105,13 @@ PRICE_OUTLIER_MULTIPLIER = 10
 # traktujemy jak błąd scrapera (ochrona danych jak przy count==0) — patrz is_header_shortfall().
 HEADER_SHORTFALL_RATIO = 0.5
 
+# Ile razy próbujemy pobrać JEDNĄ stronę paginacji w Playwright, zanim uznamy
+# paginację za przerwaną. OLX pod obciążeniem oddaje stronę wolno i BEZ kart
+# ogłoszeń (bot-check/throttling) — dla scrapera wyglądało to jak koniec wyników
+# i cicho ucinało skan w połowie (incydent 2026-09-12) — patrz §7 CLAUDE.md.
+PAGE_LOAD_ATTEMPTS = 3
+PAGE_RETRY_BACKOFF = 6  # sekundy, mnożone przez numer próby
+
 # Progi alertu "masowe zniknięcie ogłoszeń" w docs/api/status.json — patrz generate_api_json().
 MASS_REMOVAL_MIN = 10      # min. liczba zniknięć, żeby w ogóle rozważać alert
 MASS_REMOVAL_RATIO = 0.3   # zniknięcia >= 30% poprzedniego stanu profilu = anomalia
@@ -127,6 +134,18 @@ API_HISTORY_MAX_ENTRIES = 60
 # Ile najnowszych skanów wystawiamy w skrócie `recent` (żeby nie duplikować
 # całego `scans` w tym samym pliku — to podwajało jego rozmiar).
 API_HISTORY_RECENT = 10
+
+
+def is_incomplete_scrape(result):
+    """
+    True, gdy paginacja skanu URWAŁA SIĘ awaryjnie (strona bez kart ogłoszeń,
+    timeout nawigacji, błąd JS) i wynik jest niepełny — nawet jeśli mieści się
+    POWYŻEJ progu HEADER_SHORTFALL_RATIO. Taki skan traktujemy jak błąd scrapera.
+    Incydent 2026-09-12: paginacja kategorii padła na stronie 16 z ~18, skan
+    zwrócił 612 z 883 ogłoszeń (69% > próg 50%), przeszedł jako poprawny
+    i wpisał fałszywy dołek -267 do trendu (daily_counts + ledger).
+    """
+    return bool(result.get("incomplete"))
 
 
 def is_header_shortfall(result):
@@ -1217,17 +1236,48 @@ def _scrape_one_profile_playwright(page_obj, profile_key, profile_config):
     header_count = None
     page_num = 1
     max_pages = 50
+    # Powód awaryjnego przerwania paginacji (None = doszliśmy do końca wyników).
+    # Niepusty => wynik jest NIEPEŁNY i nie wolno go brać za stan profilu.
+    aborted_reason = None
 
     while url and page_num <= max_pages:
         log.info(f"  [{profile_key}] Page {page_num}: {url}")
-        try:
-            page_obj.goto(url, wait_until="domcontentloaded", timeout=45000)
-            time.sleep(random.uniform(2.0, 3.5))
-        except PlaywrightTimeout:
-            log.warning(f"  [{profile_key}] Timeout on page {page_num}, stopping")
-            break
-        except Exception as e:
-            log.error(f"  [{profile_key}] Navigation error page {page_num}: {e}")
+
+        # ── Pobranie strony z ponowieniami ────────────────────────────────────
+        # OLX pod obciążeniem potrafi oddać stronę wolno i bez kart ogłoszeń.
+        # Bez ponowienia wyglądało to jak koniec paginacji i ucinało skan w połowie
+        # (incydent 2026-09-12). Ponawiamy tę SAMĄ stronę, a gdy nie wyjdzie —
+        # przerywamy z jawnym powodem zamiast udawać komplet wyników.
+        load_error = None
+        for attempt in range(1, PAGE_LOAD_ATTEMPTS + 1):
+            load_error = None
+            try:
+                page_obj.goto(url, wait_until="domcontentloaded", timeout=45000)
+                time.sleep(random.uniform(2.0, 3.5))
+            except PlaywrightTimeout:
+                load_error = "timeout nawigacji"
+            except Exception as e:
+                load_error = f"błąd nawigacji: {e}"
+            else:
+                if not is_category:
+                    break
+                # Kategoria: strona bez [data-cy="l-card"] to awaria pobierania,
+                # nie koniec wyników (koniec sygnalizuje brak linku „następna").
+                try:
+                    page_obj.wait_for_selector("[data-cy='l-card']", timeout=15000)
+                    break
+                except PlaywrightTimeout:
+                    load_error = "brak kart ogłoszeń na stronie"
+
+            log.warning(f"  [{profile_key}] Page {page_num}: {load_error} "
+                        f"(próba {attempt}/{PAGE_LOAD_ATTEMPTS})")
+            if attempt < PAGE_LOAD_ATTEMPTS:
+                time.sleep(PAGE_RETRY_BACKOFF * attempt + random.uniform(0, 2))
+
+        if load_error:
+            aborted_reason = f"strona {page_num}: {load_error}"
+            log.error(f"  [{profile_key}] Paginacja przerwana — {aborted_reason} "
+                      f"(pobrano {len(all_listings)} ogłoszeń przed przerwaniem)")
             break
 
         if not is_category:
@@ -1239,20 +1289,24 @@ def _scrape_one_profile_playwright(page_obj, profile_key, profile_config):
                     timeout=20000,
                 )
             except PlaywrightTimeout:
-                log.warning(f"  [{profile_key}] __PRERENDERED_STATE__ never populated (timeout)")
+                aborted_reason = f"strona {page_num}: __PRERENDERED_STATE__ nigdy się nie pojawił (timeout)"
+                log.warning(f"  [{profile_key}] {aborted_reason}")
                 break
             except Exception as e:
-                log.warning(f"  [{profile_key}] wait_for_function error: {e}")
+                aborted_reason = f"strona {page_num}: błąd wait_for_function: {e}"
+                log.warning(f"  [{profile_key}] {aborted_reason}")
                 break
 
             try:
                 raw = page_obj.evaluate("() => JSON.stringify(window.__PRERENDERED_STATE__)")
             except Exception as e:
-                log.warning(f"  [{profile_key}] JS eval error: {e}")
+                aborted_reason = f"strona {page_num}: błąd JS eval: {e}"
+                log.warning(f"  [{profile_key}] {aborted_reason}")
                 break
 
             if not raw or raw in ("null", "undefined", "None"):
-                log.warning(f"  [{profile_key}] __PRERENDERED_STATE__ is empty")
+                aborted_reason = f"strona {page_num}: __PRERENDERED_STATE__ pusty"
+                log.warning(f"  [{profile_key}] {aborted_reason}")
                 break
 
             try:
@@ -1260,7 +1314,8 @@ def _scrape_one_profile_playwright(page_obj, profile_key, profile_config):
                 if isinstance(data, str):
                     data = json.loads(data)
             except json.JSONDecodeError as e:
-                log.warning(f"  [{profile_key}] JSON decode error: {e}")
+                aborted_reason = f"strona {page_num}: JSON decode error: {e}"
+                log.warning(f"  [{profile_key}] {aborted_reason}")
                 break
 
             ads_offers = data.get("userListing", {}).get("adsOffers", {})
@@ -1298,12 +1353,7 @@ def _scrape_one_profile_playwright(page_obj, profile_key, profile_config):
 
         else:
             # ── Category page: parse DOM ──────────────────────────────────
-            try:
-                page_obj.wait_for_selector("[data-cy='l-card']", timeout=15000)
-            except PlaywrightTimeout:
-                log.warning(f"  [{profile_key}] No cards found on page {page_num}")
-                break
-
+            # (na karty czekamy już w pętli ponowień wyżej)
             html = page_obj.content()
             soup = BeautifulSoup(html, "lxml")
 
@@ -1315,6 +1365,10 @@ def _scrape_one_profile_playwright(page_obj, profile_key, profile_config):
             log.info(f"  [{profile_key}] Page {page_num}: {len(page_listings)} listings")
 
             if not page_listings:
+                # Karty są w DOM (czekaliśmy na nie), ale parser nic z nich nie wyciągnął
+                # — to zmiana struktury OLX, nie koniec wyników.
+                aborted_reason = f"strona {page_num}: parser nie wyciągnął żadnego ogłoszenia"
+                log.warning(f"  [{profile_key}] {aborted_reason}")
                 break
 
             all_listings.extend(page_listings)
@@ -1335,11 +1389,22 @@ def _scrape_one_profile_playwright(page_obj, profile_key, profile_config):
             seen_ids.add(lid)
             unique.append(listing)
 
+    # Przerwanie paginacji liczy się tylko wtedy, gdy realnie zgubiliśmy ogłoszenia:
+    # jeśli mimo urwania mamy tyle, ile deklaruje nagłówek (tolerancja jak w crosschecku),
+    # wynik jest kompletny.
+    incomplete = bool(aborted_reason)
+    if incomplete and header_count and len(unique) >= header_count - 10:
+        log.info(f"  [{profile_key}] Paginacja urwana, ale komplet ogłoszeń pobrany "
+                 f"({len(unique)}/{header_count}) — wynik uznany za pełny")
+        incomplete = False
+
     return {
         "listings": unique,
         "count": len(unique),
         "header_count": header_count,
         "pages_scraped": page_num,
+        "incomplete": incomplete,
+        "incomplete_reason": aborted_reason if incomplete else None,
     }
 
 
@@ -1443,6 +1508,12 @@ def scrape_with_playwright_all(profiles):
 
                         result["duration_seconds"] = round(time.time() - profile_start, 1)
                         results[pk] = result
+                        if is_incomplete_scrape(result):
+                            # Wynik niepełny mimo ponowienia — jawny błąd, nie „mało ogłoszeń".
+                            # Ochrona danych (daily_counts/ledger/archiwizacja) zadziała
+                            # niezależnie od progu HEADER_SHORTFALL_RATIO.
+                            log.error(f"[NIEPEŁNY] {pk}: {result['count']} z {result['header_count']} ogłoszeń — "
+                                      f"{result.get('incomplete_reason')}. Dane profilu NIE zostaną zaktualizowane.")
                         log.info(f"[OK] {pk}: {result['count']} listings ({result['crosscheck']}) [{result['duration_seconds']}s]")
                     except Exception as e:
                         log.error(f"[ERROR] {pk}: {e}")
@@ -1708,7 +1779,8 @@ def append_history(scan_results, scan_timestamp, ledger_path=HISTORY_LEDGER, jso
             count = result.get("count", 0)
             is_scraper_error = (crosscheck == "error"
                                 or (count == 0 and header_count is None)
-                                or is_header_shortfall(result))
+                                or is_header_shortfall(result)
+                                or is_incomplete_scrape(result))
             if is_scraper_error and prior_listing_count.get(pk, 0) > 0:
                 log.warning(f"[{pk}] Pomijam wpis do ledgera — błąd scrapera "
                             f"(crosscheck={crosscheck}, header={header_count})")
@@ -2088,6 +2160,7 @@ def generate_dashboard_json(scan_results, scan_timestamp):
             crosscheck == "error"
             or (result["count"] == 0 and header_count is None)
             or is_header_shortfall(result)
+            or is_incomplete_scrape(result)
         )
         current_listings_count = len(pd_.get("current_listings", []))
 
@@ -2618,6 +2691,7 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
         # 0 ogłoszeń mimo znanego niepustego stanu profilu,
         # albo częściowy scrape (pobrano < 50% ogłoszeń z nagłówka strony)
         shortfall = is_header_shortfall(result)
+        incomplete = is_incomplete_scrape(result)
         prof_data = existing_data.get("profiles", {}).get(pk, {})
         # Pusty wynik przy niepustym stanie = awaria pobierania, nie opustoszały profil.
         # Bez tego warunku blokada OLX (count=0, crosscheck="passed") dawała ok:true
@@ -2630,6 +2704,7 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
             ))
             or empty_but_known
             or shortfall
+            or incomplete
         )
 
         # Przybyło/zniknęło — odczyt z świeżo zapisanego daily_counts (dzisiejszy wpis).
@@ -2659,6 +2734,21 @@ def generate_api_json(scan_results, scan_timestamp, duration_seconds):
                             f"przez OLX. Dane profilu NIE zostały zaktualizowane (ochrona)."),
                 "count": count,
                 "header_count": header_count,
+            })
+        # 1b. Paginacja urwana w połowie (strona bez kart / timeout) — wynik niepełny
+        #     nawet jeśli mieści się powyżej progu shortfall (2026-09-12: 612 z 883).
+        if incomplete and not shortfall:
+            alerts.append({
+                "profile": pk,
+                "type": "scrape_incomplete",
+                "severity": "critical",
+                "message": (f"⚠️ POWAŻNY BŁĄD SKANU: profil „{PROFILES[pk]['label']}” — "
+                            f"paginacja urwała się w połowie ({result.get('incomplete_reason')}); "
+                            f"pobrano {count} z {header_count} ogłoszeń. "
+                            f"Dane profilu NIE zostały zaktualizowane (ochrona)."),
+                "count": count,
+                "header_count": header_count,
+                "reason": result.get("incomplete_reason"),
             })
         # 2. Masowe zniknięcie: ubyło >= 30% wczorajszego stanu profilu (i >= 10 szt.).
         #    Łapie przypadki, gdzie dane JUŻ zostały zmodyfikowane (np. masowa archiwizacja).
