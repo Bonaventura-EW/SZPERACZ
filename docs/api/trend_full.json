@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-12 11:24:30",
+  "generated": "2026-09-12 11:41:19",
   "outflow": {
     "artymiuk": [
       {
@@ -961,7 +961,7 @@
         "date": "2026-08-27"
       },
       {
-        "count": 37,
+        "count": 36,
         "date": "2026-08-28"
       },
       {
@@ -1021,7 +1021,7 @@
         "date": "2026-09-11"
       },
       {
-        "count": 32,
+        "count": 44,
         "date": "2026-09-12"
       }
     ]
@@ -17096,15 +17096,15 @@
         "removed": 21
       },
       {
-        "added": 30,
-        "count": 612,
+        "added": 38,
+        "count": 870,
         "date": "2026-09-12",
-        "median_price": 900,
-        "promoted_count": 56,
-        "promoted_percentage": 9.2,
-        "reactivated_count": 11,
-        "refreshed_count": 26,
-        "removed": 32
+        "median_price": 1050,
+        "promoted_count": 60,
+        "promoted_percentage": 6.9,
+        "reactivated_count": 12,
+        "refreshed_count": 39,
+        "removed": 44
       }
     ]
   }

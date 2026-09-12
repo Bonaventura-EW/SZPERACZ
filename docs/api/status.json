@@ -1,50 +1,40 @@
 {
-  "status": "partial_failure",
-  "message": "Skan częściowy — błędy w: wszystkie_pokoje",
+  "status": "warning",
+  "message": "Skan zakończony, ale wykryto poważne anomalie w: wszystkie_pokoje — sprawdź pole 'alerts'",
   "alerts": [
-    {
-      "profile": "wszystkie_pokoje",
-      "type": "header_shortfall",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „Wszystkie pokoje w Lublinie” — pobrano tylko 141 z 879 ogłoszeń deklarowanych przez OLX. Dane profilu NIE zostały zaktualizowane (ochrona).",
-      "count": 141,
-      "header_count": 879
-    },
     {
       "profile": "wszystkie_pokoje",
       "type": "stale_listings",
       "severity": "warning",
-      "message": "⚠️ UWAGA: profil „Wszystkie pokoje w Lublinie” — 1 ogłoszeń nieobecnych w wynikach od >= 12 skanów (max 12), a wciąż uznawanych za aktywne. Możliwa zmiana komunikatu OLX o nieaktualności — sprawdź verify_listing_active() (linki w polu 'stale_items').",
+      "message": "⚠️ UWAGA: profil „Wszystkie pokoje w Lublinie” — 1 ogłoszeń nieobecnych w wynikach od >= 12 skanów (max 13), a wciąż uznawanych za aktywne. Możliwa zmiana komunikatu OLX o nieaktualności — sprawdź verify_listing_active() (linki w polu 'stale_items').",
       "stale_count": 1,
-      "max_missed_scans": 12,
+      "max_missed_scans": 13,
       "stale_items": [
         {
           "id": "1c3kw4",
           "url": "https://www.olx.pl/d/oferta/pokoj-dla-studentki-w-centrum-lublina-CID3-ID1c3kw4.html?search_reason=search%7Corganic",
           "title": "pokój dla studentki w centrum Lublina",
-          "missed_scans": 12
+          "missed_scans": 13
         }
       ]
     }
   ],
   "lastScan": {
-    "timestamp": "2026-09-12T11:21:44Z",
-    "duration_seconds": 161,
+    "timestamp": "2026-09-12T11:34:45Z",
+    "duration_seconds": 363,
     "profiles_scanned": 10,
-    "total_listings": 313,
-    "added": 33,
-    "removed": 36,
-    "new_listings": 33,
-    "price_changes": 13,
-    "errors": [
-      "wszystkie_pokoje"
-    ],
+    "total_listings": 1042,
+    "added": 41,
+    "removed": 48,
+    "new_listings": 41,
+    "price_changes": 15,
+    "errors": [],
     "http_impersonate": "chrome131",
     "http_impersonate_rotations": 0
   },
   "nextScan": {
     "scheduled": "2026-09-13T07:00:00Z",
-    "in_seconds": 70695
+    "in_seconds": 69914
   },
   "profiles": {
     "pokojewlublinie": {
@@ -69,7 +59,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=53, header=53",
-      "duration_seconds": 7.8,
+      "duration_seconds": 7.0,
       "ok": true,
       "error": null
     },
@@ -82,7 +72,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=13, header=13",
-      "duration_seconds": 1.4,
+      "duration_seconds": 1.6,
       "ok": true,
       "error": null
     },
@@ -95,7 +85,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=9, header=9",
-      "duration_seconds": 0.4,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
@@ -108,7 +98,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=73, header=73",
-      "duration_seconds": 9.8,
+      "duration_seconds": 10.0,
       "ok": true,
       "error": null
     },
@@ -134,7 +124,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.2,
+      "duration_seconds": 0.1,
       "ok": true,
       "error": null
     },
@@ -166,16 +156,16 @@
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 141,
-      "added": 30,
-      "removed": 32,
-      "new_listings": 30,
-      "price_changes": 8,
+      "count": 870,
+      "added": 38,
+      "removed": 44,
+      "new_listings": 38,
+      "price_changes": 10,
       "crosscheck": "passed_retry",
-      "crosscheck_detail": "1st=48, 2nd=141, header=879",
-      "duration_seconds": 126.4,
-      "ok": false,
-      "error": "Częściowy scrape: pobrano 141 z 879 ogłoszeń (1st=48, 2nd=141, header=879)"
+      "crosscheck_detail": "1st=690, 2nd=870, header=877",
+      "duration_seconds": 330.3,
+      "ok": true,
+      "error": null
     }
   }
 }
