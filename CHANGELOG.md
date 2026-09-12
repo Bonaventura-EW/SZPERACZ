@@ -73,19 +73,26 @@ ani jego historia nie przepadły**, nie było też fałszywej archiwizacji.
   z powodem urwania („strona 16: brak kart ogłoszeń na stronie"), pokazywany
   na dashboardzie tym samym czerwonym banerem co pozostałe alerty.
 
-### Naprawa danych 🔧
-`rebuild_incomplete_scan_20260912.py` (dry-run domyślnie, zapis na `--apply`, idempotentny):
-- `daily_counts[2026-09-12]` profilu `wszystkie_pokoje`: `count` 612 → **879**
-  (nagłówek OLX z tego samego dnia), `change` -267 → 0; ślad korekty w polach
-  `count_original`/`count_corrected`/`change_original`.
-- ledger `daily_summary.ndjson` jest append-only, więc błędnej linii nie ruszamy —
-  **dopisany rekord korygujący** z godziną `23:59` i `source: "correction"`
-  (`generate_trend_full()` bierze per dzień wpis o największym `time`).
-- przeliczony `docs/api/trend_full.json` — oba wykresy trendu bez fałszywego dołka.
+### Dane 🔧
+Naprawa danych okazała się niepotrzebna: `failsafe.yml` odpalił jeszcze tego samego dnia
+kolejny skan (**11:34 UTC**), który przeszedł poprawnie — 870 z 877 ogłoszeń — i nadpisał
+feralny dzień w obu źródłach (`daily_counts[2026-09-12].count = 870`, nowa linia w ledgerze
+z późniejszą godziną, którą `generate_trend_full()` bierze jako obowiązującą). Fałszywy
+dołek zniknął z wykresów bez ręcznej ingerencji, więc świadomie NIE dopisujemy korekty
+do append-only ledgera.
 
-Nietknięte zostają `added`/`removed`/`median_price` z tego dnia: archiwizacja i flow
-liczone były z weryfikacją sztuka po sztuce, a mediana z 612 ogłoszeń jest
-statystycznie reprezentatywna.
+Ten skan jest zresztą kolejnym dowodem na diagnozę: jego pierwsze podejście też się urwało
+(`1st=690, 2nd=870, header=877`) — uratowało je dopiero ponowienie całego profilu przez
+crosscheck. Po tej zmianie ponawiana jest sama feralna strona, a nie cała kategoria.
+
+Gdyby przy następnym takim skanie ochrona zadziałała za późno (dzień już zapisany), wzorzec
+korekty jest w CHANGELOG 2026-08-26 i `rebuild_daily_removed_20260824.py`: poprawić OBIE
+kopie („ile ogłoszeń dnia D" siedzi w `daily_counts` i w ledgerze), ledger wyłącznie przez
+dopisanie rekordu z późniejszym `time`.
+
+Ogłoszenia per-sztuka nie ucierpiały w żadnym z porannych skanów: 267 nieobecnych w wyniku
+zweryfikowano przez `verify_listing_active()` i zachowano z `missed_scans=1` (mechanizm
+rotacji wyników OLX z 2026-07-18).
 
 ---
 

@@ -2004,4 +2004,13 @@
 {"date": "2026-09-12", "time": "11:21", "profile": "stylowe_pokoje_ania", "count": 0, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-09-12", "time": "11:21", "profile": "myrent", "count": 5, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-09-12", "time": "11:21", "profile": "mat", "count": 4, "crosscheck": "passed", "change": 0, "source": "scan"}
-{"date": "2026-09-12", "time": "23:59", "profile": "wszystkie_pokoje", "count": 879, "crosscheck": "corrected", "change": 0, "source": "correction", "note": "skan 2026-09-12 08:47 UTC pobrał 612 z 883 (urwana paginacja Playwright); count z nagłówka OLX — patrz rebuild_incomplete_scan_20260912.py"}
+{"date": "2026-09-12", "time": "11:34", "profile": "pokojewlublinie", "count": 9, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-09-12", "time": "11:34", "profile": "poqui", "count": 53, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-09-12", "time": "11:34", "profile": "artymiuk", "count": 13, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-09-12", "time": "11:34", "profile": "dawny_patron", "count": 9, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-09-12", "time": "11:34", "profile": "mzuri", "count": 73, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-09-12", "time": "11:34", "profile": "villahome", "count": 6, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-09-12", "time": "11:34", "profile": "stylowe_pokoje_ania", "count": 0, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-09-12", "time": "11:34", "profile": "myrent", "count": 5, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-09-12", "time": "11:34", "profile": "mat", "count": 4, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-09-12", "time": "11:34", "profile": "wszystkie_pokoje", "count": 870, "crosscheck": "passed_retry", "change": 258, "source": "scan"}

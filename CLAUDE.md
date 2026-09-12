@@ -113,10 +113,6 @@ Pełna lista: `requirements.txt`.
   wstecz z `scan_history` (dry-run domyślnie, zapis na `--apply`).
 - `rebuild_archived_dates_20260824.py` — korekta dat archiwizacji po blokadzie TLS: odtwarza
   realną datę zniknięcia z `missed_scans` (dry-run domyślnie, zapis na `--apply`, idempotentny).
-- `rebuild_incomplete_scan_20260912.py` — naprawa po skanie z urwaną paginacją
-  (612 z 883 ogłoszeń kategorii): koryguje `count`/`change` w `daily_counts`, dopisuje
-  rekord korygujący do ledgera (append-only!) i przelicza `trend_full.json`.
-  Dry-run domyślnie, zapis na `--apply`, idempotentny.
 - `rebuild_daily_removed_20260824.py` — druga połowa tej samej naprawy: przenosi dzienne
   liczniki `removed` w `daily_counts` zgodnie z poprawionymi datami archiwizacji (para
   `archived_date_original` → `archived_date`), żeby wykres „Przybyło/Zniknęło" nie miał
@@ -204,8 +200,7 @@ CHANGELOG.md (pełna historia zmian) + raporty napraw (NAPRAWA_*, ROOT_CAUSE_RAP
       "price_history": { "<id>": [ {date, old_price, new_price, change} ] },
       "daily_counts": [ {date, count, change, added, removed, new_count, median_price,
                          price_distribution, refreshed_count, reactivated_count, promoted_count,
-                         removed_corrected?, removed_original?,
-                         count_corrected?, count_original?, change_original?} ], // limit 90 dni; pola *_corrected/*_original = ślad ręcznej korekty
+                         removed_corrected?, removed_original?} ], // limit 90 dni; pola *_corrected/*_original = ślad ręcznej korekty
       "promotion_history": { "<id>": [ {start_date, end_date, days, session_number} ] }
     }
   },
@@ -364,8 +359,10 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   (`append_history`, `generate_dashboard_json`, `generate_api_json`). Dodając nową ścieżkę
   scrapingu, ustaw w wyniku `incomplete` przy każdym awaryjnym przerwaniu; samego progu
   procentowego nie obniżaj (nagłówek OLX bywa zawyżony — 30% fałszywych alarmów wróci).
-  Naprawa danych po takim skanie: `rebuild_incomplete_scan_20260912.py` (wzorzec —
-  ledger tylko append, korekta znaczona polami `*_original`/`*_corrected`).
+  Dzień zapisany takim skanem naprawia się sam, jeśli tego samego dnia przejdzie poprawny
+  skan (`failsafe.yml`) — tak było 2026-09-12. Jeśli nie przejdzie, korektę rób wzorcem
+  z 2026-08-26: OBIE kopie („ile ogłoszeń dnia D" jest w `daily_counts` i w ledgerze),
+  ledger wyłącznie przez dopisanie rekordu z późniejszym `time`.
 - **Rotacja wyników OLX: ogłoszenia nieobecne w skanie, ale aktywne, są ZACHOWYWANE
   (naprawione 2026-07-18).** Gdy ogłoszenia nie ma w skanie, a `verify_listing_active()`
   potwierdzi, że istnieje, zostaje ono w `current_listings` z licznikiem `missed_scans`
