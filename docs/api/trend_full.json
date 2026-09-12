@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-12 11:41:19",
+  "generated": "2026-09-12 12:31:57",
   "outflow": {
     "artymiuk": [
       {
@@ -507,7 +507,7 @@
         "date": "2026-09-11"
       },
       {
-        "count": 7,
+        "count": 8,
         "date": "2026-09-12"
       }
     ],
@@ -1017,11 +1017,11 @@
         "date": "2026-09-10"
       },
       {
-        "count": 19,
+        "count": 18,
         "date": "2026-09-11"
       },
       {
-        "count": 44,
+        "count": 48,
         "date": "2026-09-12"
       }
     ]
@@ -8095,7 +8095,7 @@
         "promoted_count": 69,
         "promoted_percentage": 94.5,
         "reactivated_count": 0,
-        "refreshed_count": 1,
+        "refreshed_count": 2,
         "removed": 0
       }
     ],
@@ -12229,7 +12229,7 @@
       },
       {
         "added": 0,
-        "count": 53,
+        "count": 52,
         "date": "2026-09-12",
         "median_price": null,
         "promoted_count": 57,
@@ -17096,15 +17096,15 @@
         "removed": 21
       },
       {
-        "added": 38,
-        "count": 870,
+        "added": 42,
+        "count": 873,
         "date": "2026-09-12",
-        "median_price": 1050,
-        "promoted_count": 60,
-        "promoted_percentage": 6.9,
-        "reactivated_count": 12,
-        "refreshed_count": 39,
-        "removed": 44
+        "median_price": 1025,
+        "promoted_count": 69,
+        "promoted_percentage": 7.9,
+        "reactivated_count": 14,
+        "refreshed_count": 42,
+        "removed": 49
       }
     ]
   }
