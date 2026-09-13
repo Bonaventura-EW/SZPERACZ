@@ -13,6 +13,75 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-09-13] - 🚚 Ogłoszenie może wyjść poza kategorię — „żyje" to nie to samo co „nasze"
+
+### Problem
+Alert `stale_listings` w `status.json` odpalał się codziennie (żółta plakietka „anomalia"
+na każdym skanie) dla ogłoszenia `1c3kw4` — nieobecnego w wynikach od **16 skanów**, a przy
+tym uznawanego przez `verify_listing_active()` za aktywne. Pobranie strony wyjaśniło dlaczego:
+
+```
+TYTUŁ: Pokój dla studentki w centrum Chełma  Chełm • OLX.pl
+Okruszki: Stancje i Pokoje - Lubelskie › Stancje i Pokoje - Chełm
+HTTP 200, verify_listing_active() -> True
+```
+
+Autor przeredagował ogłoszenie i **zmienił miasto z Lublina na Chełm**. Strona żyje, więc
+weryfikacja (poprawnie) mówi „aktywne" — ale ogłoszenie nigdy już nie wróci do wyników
+kategorii „Stancje i pokoje — Lublin". Dwa kolejne ogłoszenia z `missed_scans = 5` okazały
+się tym samym przypadkiem (przeniesione do `stancje-pokoje/szerokie`).
+
+### Root cause 🔍
+Scraper zadawał tylko jedno pytanie: „czy strona ogłoszenia żyje". Brakowało drugiego:
+**„czy to ogłoszenie nadal należy do kategorii, którą monitorujemy"**. Bez niego
+„przeprowadzka" wygląda dokładnie jak rotacja wyników OLX (mechanizm z 2026-07-18),
+więc ogłoszenie zostaje w `current_listings` w nieskończoność:
+
+- zawyża stan profilu (`current_listings` rośnie ponad realny stan kategorii),
+- nie trafia do `removed`, choć dla monitorowanego rynku faktycznie zniknęło,
+- co skan podbija `missed_scans` i po przekroczeniu 12 odpala `stale_listings`,
+  czyli alert od zupełnie innej klasy problemu (zmiana komunikatu OLX o nieaktualności).
+  Prawdziwy sygnał ginie w szumie — alert, który świeci codziennie, przestaje cokolwiek znaczyć.
+
+### Added ✨
+- **`listing_left_category(listing_url, category_url)`** — czy żywe ogłoszenie wyszło poza
+  monitorowaną kategorię. Rozstrzyga po okruszkach ze strony ogłoszenia
+  (`[data-testid="breadcrumbs"] a[href]` → ścieżki w stylu `/nieruchomosci/stancje-pokoje/chelm`):
+  jest wśród nich ścieżka monitorowanej kategorii → `False`, nie ma → `True`,
+  nie da się ustalić → **`None`**.
+- **`CATEGORY_EXIT_CHECK_MISSED_SCANS = 3`** — po tylu nieobecnościach (przy żywym ogłoszeniu)
+  zadajemy to pytanie. 3, nie 12: zwykła rotacja OLX mija po 1-2 skanach, a każdy dzień
+  zwłoki to zawyżony stan profilu.
+- **Archiwizacja z powodem** — takie ogłoszenie trafia do `archived_listings`
+  z `archived_reason: "poza kategorią"` i liczy się jako `removed`.
+
+### Bezpieczeństwo danych 🛡️
+Fałszywa archiwizacja to najgorszy możliwy błąd w tym projekcie (incydent 2026-07-11),
+więc obwarowania są takie same jak przy innych ochronach:
+- archiwizuje **wyłącznie twarde `True`**; `None` (brak okruszków, błąd sieci, zmiana HTML-a
+  OLX) = zostawiamy ogłoszenie w spokoju — zasada „nie kasuj przy wątpliwości",
+- sprawdzenie tylko dla profili `is_category` (przy profilu użytkownika monitorujemy
+  sprzedawcę, nie kategorię) i tylko dla ogłoszeń już nieobecnych od ≥ 3 skanów,
+  więc to kilka dodatkowych GET-ów na skan, nie 900,
+- zwykła rotacja wyników OLX działa bez zmian: ogłoszenie nieobecne, ale nadal w kategorii,
+  zostaje w `current_listings` z podbitym `missed_scans`.
+
+Zweryfikowane na żywych danych przed wdrożeniem:
+- **20/20** ogłoszeń OBECNYCH w wynikach Lublina → `False` (także te z dzielnic, np. Czuby)
+  — zero fałszywych trafień,
+- 3/3 ogłoszenia nieobecne od ≥ 5 skanów → `True`, każde faktycznie w innym mieście,
+- test end-to-end: te 3 trafiają do archiwum z `archived_reason`, `current_listings`
+  874 → 871, status `success`, **zero alertów**,
+- test regresji: żywe ogłoszenie z Lublina ze sztucznym `missed_scans = 5`, wycięte
+  ze skanu, NIE zostaje zarchiwizowane — zostaje z licznikiem 6.
+
+### Uwaga 📌
+Ogłoszenia z okruszkiem `stancje-pokoje/szerokie` leżą na granicy Lublina, ale OLX traktuje
+Szerokie jako osobną miejscowość — nie ma ich w wynikach kategorii Lublin, więc archiwizacja
+jest zgodna z tym, co monitorujemy (lustro kategorii OLX, nie mapa miasta).
+
+---
+
 ## [2026-09-12] - ✂️ Urwana paginacja Playwright przestaje udawać komplet ogłoszeń
 
 ### Problem
