@@ -80,6 +80,9 @@ Pełna lista: `requirements.txt`.
   - `generate_api_json()` — pisze `docs/api/status.json` + `history.json` (retencja 30 dni).
   - `run_scan()` — orkiestracja: scrape → **filter_price_outliers** → JSON → **append_history** → API → **trend_full** (bez zapisu xlsx do repo).
   - `verify_listing_active()` — przed archiwizacją sprawdza, czy ogłoszenie naprawdę zniknęło.
+  - `listing_left_category()` — czy ŻYWE ogłoszenie wyszło poza monitorowaną kategorię
+    (autor zmienił miasto/kategorię). Rozstrzyga po okruszkach na stronie ogłoszenia;
+    `None` = nie ustalono → NIE archiwizujemy (patrz §7).
   - `is_incomplete_scrape()` + flagi `incomplete`/`incomplete_reason` — skan z awaryjnie
     urwaną paginacją (strona bez kart ogłoszeń, timeout) jest błędem scrapera niezależnie
     od progu `HEADER_SHORTFALL_RATIO` (patrz §7).
@@ -196,7 +199,9 @@ CHANGELOG.md (pełna historia zmian) + raporty napraw (NAPRAWA_*, ROOT_CAUSE_RAP
         reactivated, reactivation_history[], reactivation_count,
         missed_scans   // tylko gdy ogłoszenie nieobecne w skanie, ale aktywne (rotacja OLX, §7)
       } ],
-      "archived_listings": [ { ...jw. + archived_date } ],   // BEZ LIMITU (paginacja po stronie dashboardu, scraper.py:2251)
+      "archived_listings": [ { ...jw. + archived_date, archived_reason? } ],   // BEZ LIMITU (paginacja po stronie dashboardu)
+                                                             // archived_reason = "poza kategorią" gdy ogłoszenie żyje,
+                                                             // ale opuściło monitorowaną kategorię (§7)
       "price_history": { "<id>": [ {date, old_price, new_price, change} ] },
       "daily_counts": [ {date, count, change, added, removed, new_count, median_price,
                          price_distribution, refreshed_count, reactivated_count, promoted_count,
@@ -372,6 +377,28 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   ogłoszenia znikały z danych bez śladu i wracały jako "nowe" z wyzerowaną historią
   (tak incydent 11.07 zgubił 11 ogłoszeń). Skutek uboczny: `current_listings` może być
   liczniejsze niż `count` ze skanu (`count` = wynik skanu, wykresy trendu bez zmian).
+- **„Żywe" ≠ „nasze": ogłoszenie może wyjść poza monitorowaną kategorię (od 2026-09-13).**
+  `verify_listing_active()` odpowiada tylko na pytanie „czy strona żyje". Autor może
+  przeredagować ogłoszenie i zmienić miasto lub kategorię — strona dalej działa (HTTP 200,
+  żadna `INACTIVE_PHRASES` nie pasuje), ale ogłoszenie NIGDY nie wróci do wyników. Przy
+  samej weryfikacji „żyje" wisiało takie w `current_listings` w nieskończoność z rosnącym
+  `missed_scans`, zawyżając stan profilu i odpalając co dzień fałszywy alert
+  `stale_listings` (1c3kw4 „pokój dla studentki" przeniósł się z Lublina do Chełma
+  i wisiał 16 skanów; dwa kolejne trafiły do `stancje-pokoje/szerokie`).
+  Teraz po `CATEGORY_EXIT_CHECK_MISSED_SCANS` (3) nieobecnościach pytamy dodatkowo
+  `listing_left_category()`: bierze okruszki (`[data-testid="breadcrumbs"] a[href]`)
+  ze strony ogłoszenia i sprawdza, czy jest wśród nich ścieżka monitorowanej kategorii
+  (`/nieruchomosci/stancje-pokoje/lublin`). Brak → archiwizacja z
+  `archived_reason: "poza kategorią"` i zaliczenie do `removed` (dla monitorowanego
+  rynku ogłoszenie faktycznie zniknęło).
+  **Fail-safe jak wszędzie w tym projekcie:** funkcja zwraca `None` (brak okruszków,
+  błąd sieci, zmiana HTML-a OLX) i wtedy NIE archiwizujemy — archiwizuje tylko twarde
+  `True`. Sprawdzenie dotyczy WYŁĄCZNIE profili `is_category` (przy profilu użytkownika
+  monitorujemy sprzedawcę, nie kategorię) i tylko ogłoszeń już nieobecnych od kilku
+  skanów, więc kosztuje kilka GET-ów na skan. Przy progu 3 (nie 12) zwykła rotacja
+  wyników OLX zdąży minąć, a „przeprowadzka" nie zdąży zafałszować stanu profilu.
+  Zweryfikowane na żywych danych: 20/20 ogłoszeń OBECNYCH w wynikach Lublina daje
+  `False` (także te z dzielnic, np. Czuby) — zero fałszywych archiwizacji.
 - **Excel NIE jest w repo.** Od 2026-05-31 `szperacz_olx.xlsx` jest w `.gitignore` i generowany na żądanie
   (`build_excel_from_data()`), bo binarny xlsx commitowany co scan rozdymał `.git`. Wieczny zapis trendu to
   append-only ledger `data/history/daily_summary.ndjson` (NIGDY nie przepisuj — tylko dopisuj). Literalny snapshot

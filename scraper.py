@@ -14,6 +14,7 @@ import time
 import random
 import logging
 from collections import defaultdict
+from urllib.parse import urlparse
 from datetime import datetime, timedelta
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -123,6 +124,13 @@ MASS_REMOVAL_RATIO = 0.3   # zniknięcia >= 30% poprzedniego stanu profilu = ano
 # skanów z rzędu i wygenerować fałszywy alarm (patrz §7 — carried/missed_scans). Dopiero
 # ~2 tygodnie nieobecności przy verify=aktywne to sygnał realnego problemu, nie rotacji.
 STALE_MISSED_SCANS_MIN = 12
+
+# Po tylu nieobecnościach w wynikach (przy ogłoszeniu wciąż żywym) sprawdzamy, czy
+# ogłoszenie nadal NALEŻY do monitorowanej kategorii — autor mógł zmienić miasto lub
+# kategorię i wtedy nigdy już nie wróci do wyników (patrz listing_left_category(), §7).
+# 3, nie 12: zwykła rotacja wyników OLX ukrywa ogłoszenie na 1-2 skany, a im dłużej
+# taki „przeprowadzony" wpis wisi w current_listings, tym dłużej zawyża stan profilu.
+CATEGORY_EXIT_CHECK_MISSED_SCANS = 3
 
 # Okno retencji `docs/api/history.json` — ile DNI skanów trzyma lekkie API dla
 # podstrony „Historia skanów" (docs/scans.html) i aplikacji. Wcześniej były to
@@ -334,6 +342,51 @@ def verify_listing_active(url: str, timeout: int = 10) -> bool:
     except Exception as e:
         log.warning(f"[verify] Błąd weryfikacji {url[:60]}: {e} — zakładam aktywne")
         return True
+
+
+def listing_left_category(listing_url: str, category_url: str, timeout: int = 10):
+    """
+    Czy ŻYWE ogłoszenie wyszło poza monitorowaną kategorię?
+
+    `verify_listing_active()` odpowiada tylko na pytanie „czy strona żyje". Ogłoszenie
+    może żyć, a mimo to nigdy nie wrócić do wyników, bo autor je przeredagował i zmienił
+    miasto lub kategorię (incydent 2026-09-13: ogłoszenie 1c3kw4 „pokój dla studentki"
+    przeniosło się z Lublina do Chełma i wisiało w `current_listings` 16 skanów, zawyżając
+    stan profilu i co dzień odpalając fałszywy alert `stale_listings`).
+
+    Rozstrzygamy po okruszkach (breadcrumbs) na stronie ogłoszenia: ich linki to ścieżki
+    kategorii (`/nieruchomosci/stancje-pokoje/chelm/`). Jeśli wśród nich NIE MA ścieżki
+    monitorowanej kategorii — ogłoszenie z niej wyszło.
+
+    Zwraca:
+      True  — na pewno poza kategorią (można archiwizować),
+      False — nadal w kategorii,
+      None  — nie da się ustalić (brak okruszków, błąd sieci, zmiana HTML-a OLX).
+
+    None NIE jest podstawą do archiwizacji — trzymamy się zasady „nie kasuj przy
+    wątpliwości" (jak fail-safe w verify_listing_active).
+    """
+    want = urlparse(category_url).path.rstrip("/")
+    if not want:
+        return None
+    try:
+        resp = get_session().get(listing_url.split("?")[0], timeout=timeout, allow_redirects=True)
+        if resp.status_code != 200:
+            return None
+        soup = BeautifulSoup(resp.text, "lxml")
+        crumbs = soup.select('[data-testid="breadcrumbs"] a[href]') or soup.select('[data-testid="breadcrumb-item"] a[href]')
+        paths = [urlparse(a["href"]).path.rstrip("/") for a in crumbs]
+        paths = [p for p in paths if p]
+        if not paths:
+            log.warning(f"[kategoria] Brak okruszków na {listing_url[:60]} — nie rozstrzygam")
+            return None
+        if want in paths:
+            return False
+        log.info(f"[kategoria] {listing_url[:60]} jest teraz w {paths[-1]} (monitorujemy {want})")
+        return True
+    except Exception as e:
+        log.warning(f"[kategoria] Błąd sprawdzenia {listing_url[:60]}: {e} — nie rozstrzygam")
+        return None
 
 
 def get_api_session():
@@ -2171,7 +2224,13 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         # zamiast znikać bez śladu i wracać w kolejnym skanie jako "nowe" z wyzerowaną
         # historią (refresh/reaktywacje/ceny).
         carried_ids = set()
+        # Ogłoszenia ŻYWE, ale wyprowadzone poza monitorowaną kategorię (autor zmienił
+        # miasto/kategorię) — archiwizujemy je zamiast trzymać w nieskończoność, patrz
+        # listing_left_category() i §7 CLAUDE.md.
+        left_category_ids = set()
         verified_any = False
+        profile_cfg = PROFILES.get(pk, {})
+        check_category = bool(profile_cfg.get("is_category") and profile_cfg.get("url"))
         if not is_scraper_error:
             for old_l in pd_.get("current_listings", []):
                 if old_l["id"] in current_ids_new:
@@ -2184,6 +2243,17 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                     time.sleep(0.7)
                 verified_any = True
                 if verify_listing_active(old_l["url"]):
+                    # Strona żyje — ale czy ogłoszenie nadal należy do naszej kategorii?
+                    # Pytamy dopiero po kilku nieobecnościach: zwykła rotacja wyników OLX
+                    # mija po 1-2 skanach, a każde sprawdzenie to dodatkowy GET.
+                    missed_so_far = int(old_l.get("missed_scans") or 0)
+                    if check_category and missed_so_far >= CATEGORY_EXIT_CHECK_MISSED_SCANS:
+                        time.sleep(0.7)
+                        if listing_left_category(old_l["url"], profile_cfg["url"]) is True:
+                            log.info(f"[{pk}] Ogłoszenie żyje, ale wyszło poza monitorowaną kategorię "
+                                     f"(nieobecne od {missed_so_far} skanów) — archiwizuję: {old_l['id']}")
+                            left_category_ids.add(old_l["id"])
+                            continue
                     log.info(f"[{pk}] Ogłoszenie nieobecne w skanie, ale aktywne na OLX — zachowuję: {old_l['id']}")
                     carried_ids.add(old_l["id"])
         if flow_removed is not None and carried_ids:
@@ -2593,7 +2663,11 @@ def generate_dashboard_json(scan_results, scan_timestamp):
                         new_listings.append(old_l)
                         current_ids.add(old_l["id"])
                         continue
-                    if old_l.get("url"):
+                    if old_l["id"] in left_category_ids:
+                        # Ogłoszenie nadal istnieje na OLX, ale nie w naszej kategorii
+                        # — dla monitorowanego rynku zniknęło (liczy się jako `removed`).
+                        old_l["archived_reason"] = "poza kategorią"
+                    elif old_l.get("url"):
                         log.info(f"[{pk}] Potwierdzono nieaktywność — archiwizuję: {old_l['id']}")
                     else:
                         log.warning(f"[{pk}] Brak URL dla ogłoszenia {old_l['id']} — archiwizuję bez weryfikacji")
