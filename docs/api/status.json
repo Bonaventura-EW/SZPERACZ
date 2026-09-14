@@ -1,47 +1,30 @@
 {
-  "status": "warning",
-  "message": "Skan zakończony, ale wykryto poważne anomalie w: wszystkie_pokoje — sprawdź pole 'alerts'",
-  "alerts": [
-    {
-      "profile": "wszystkie_pokoje",
-      "type": "stale_listings",
-      "severity": "warning",
-      "message": "⚠️ UWAGA: profil „Wszystkie pokoje w Lublinie” — 1 ogłoszeń nieobecnych w wynikach od >= 12 skanów (max 16), a wciąż uznawanych za aktywne. Możliwa zmiana komunikatu OLX o nieaktualności — sprawdź verify_listing_active() (linki w polu 'stale_items').",
-      "stale_count": 1,
-      "max_missed_scans": 16,
-      "stale_items": [
-        {
-          "id": "1c3kw4",
-          "url": "https://www.olx.pl/d/oferta/pokoj-dla-studentki-w-centrum-lublina-CID3-ID1c3kw4.html?search_reason=search%7Corganic",
-          "title": "pokój dla studentki w centrum Lublina",
-          "missed_scans": 16
-        }
-      ]
-    }
-  ],
+  "status": "success",
+  "message": "Skan 10 profili zakończony pomyślnie",
+  "alerts": [],
   "lastScan": {
-    "timestamp": "2026-09-13T12:41:05Z",
-    "duration_seconds": 206,
+    "timestamp": "2026-09-14T09:50:16Z",
+    "duration_seconds": 224,
     "profiles_scanned": 10,
-    "total_listings": 1040,
-    "added": 23,
-    "removed": 28,
-    "new_listings": 23,
-    "price_changes": 20,
+    "total_listings": 1041,
+    "added": 27,
+    "removed": 26,
+    "new_listings": 27,
+    "price_changes": 23,
     "errors": [],
     "http_impersonate": "chrome131",
-    "http_impersonate_rotations": 0
+    "http_impersonate_rotations": 2
   },
   "nextScan": {
-    "scheduled": "2026-09-14T07:00:00Z",
-    "in_seconds": 65934
+    "scheduled": "2026-09-15T07:00:00Z",
+    "in_seconds": 76183
   },
   "profiles": {
     "pokojewlublinie": {
       "label": "pokojewlublinie",
       "count": 8,
       "added": 0,
-      "removed": 1,
+      "removed": 0,
       "new_listings": 0,
       "price_changes": 0,
       "crosscheck": "passed",
@@ -52,14 +35,14 @@
     },
     "poqui": {
       "label": "poqui",
-      "count": 50,
+      "count": 48,
       "added": 0,
-      "removed": 2,
+      "removed": 1,
       "new_listings": 0,
-      "price_changes": 0,
+      "price_changes": 8,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=50, header=50",
-      "duration_seconds": 6.6,
+      "crosscheck_detail": "scraped=48, header=48",
+      "duration_seconds": 5.5,
       "ok": true,
       "error": null
     },
@@ -72,16 +55,16 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=13, header=13",
-      "duration_seconds": 1.8,
+      "duration_seconds": 1.6,
       "ok": true,
       "error": null
     },
     "dawny_patron": {
       "label": "dawny patron",
       "count": 10,
-      "added": 1,
+      "added": 0,
       "removed": 0,
-      "new_listings": 1,
+      "new_listings": 0,
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=10, header=10",
@@ -91,14 +74,14 @@
     },
     "mzuri": {
       "label": "mzuri",
-      "count": 72,
-      "added": 0,
-      "removed": 0,
-      "new_listings": 0,
-      "price_changes": 0,
+      "count": 68,
+      "added": 2,
+      "removed": 6,
+      "new_listings": 2,
+      "price_changes": 2,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=72, header=72",
-      "duration_seconds": 9.0,
+      "crosscheck_detail": "scraped=68, header=68",
+      "duration_seconds": 8.4,
       "ok": true,
       "error": null
     },
@@ -124,19 +107,19 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.2,
+      "duration_seconds": 0.1,
       "ok": true,
       "error": null
     },
     "myrent": {
       "label": "MyRent",
-      "count": 6,
-      "added": 1,
-      "removed": 0,
-      "new_listings": 1,
+      "count": 5,
+      "added": 0,
+      "removed": 1,
+      "new_listings": 0,
       "price_changes": 0,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=6, header=6",
+      "crosscheck_detail": "scraped=5, header=5",
       "duration_seconds": 0.2,
       "ok": true,
       "error": null
@@ -147,7 +130,7 @@
       "added": 0,
       "removed": 0,
       "new_listings": 0,
-      "price_changes": 3,
+      "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=4, header=4",
       "duration_seconds": 0.2,
@@ -156,14 +139,14 @@
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 871,
-      "added": 21,
-      "removed": 25,
-      "new_listings": 21,
-      "price_changes": 17,
+      "count": 879,
+      "added": 25,
+      "removed": 18,
+      "new_listings": 25,
+      "price_changes": 13,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=871, header=874",
-      "duration_seconds": 171.8,
+      "crosscheck_detail": "scraped=879, header=884",
+      "duration_seconds": 193.6,
       "ok": true,
       "error": null
     }
