@@ -1,5 +1,5 @@
 {
-  "last_scan": "2026-09-19 10:22:50",
+  "last_scan": "2026-09-19 11:54:03",
   "metadata": {
     "created": "2026-02-23 12:00:00",
     "description": "SZPERACZ OLX - Dashboard Data",
@@ -73128,7 +73128,7 @@
           "reactivated_count": 0,
           "refreshed_count": 0,
           "removed": 0,
-          "timestamp": "2026-09-19 10:22:50"
+          "timestamp": "2026-09-19 11:54:03"
         }
       ],
       "is_category": false,
@@ -241326,60 +241326,6 @@
       "date": "2026-07-17",
       "profiles": {
         "artymiuk": {
-          "added": 0,
-          "count": 0,
-          "crosscheck": "passed",
-          "removed": 0
-        },
-        "dawny_patron": {
-          "added": 0,
-          "count": 0,
-          "crosscheck": "passed",
-          "removed": 0
-        },
-        "mzuri": {
-          "added": 2,
-          "count": 47,
-          "crosscheck": "passed",
-          "removed": 7
-        },
-        "pokojewlublinie": {
-          "added": 0,
-          "count": 10,
-          "crosscheck": "passed",
-          "removed": 0
-        },
-        "poqui": {
-          "added": 0,
-          "count": 42,
-          "crosscheck": "passed",
-          "removed": 0
-        },
-        "stylowe_pokoje_ania": {
-          "added": 0,
-          "count": 10,
-          "crosscheck": "passed",
-          "removed": 0
-        },
-        "villahome": {
-          "added": 0,
-          "count": 0,
-          "crosscheck": "passed",
-          "removed": 0
-        },
-        "wszystkie_pokoje": {
-          "added": 23,
-          "count": 702,
-          "crosscheck": "passed",
-          "removed": 21
-        }
-      },
-      "timestamp": "2026-07-17 09:16:05"
-    },
-    {
-      "date": "2026-07-17",
-      "profiles": {
-        "artymiuk": {
           "added": 2,
           "count": 2,
           "crosscheck": "passed",
@@ -247147,6 +247093,72 @@
         }
       },
       "timestamp": "2026-09-19 10:22:50"
+    },
+    {
+      "date": "2026-09-19",
+      "profiles": {
+        "artymiuk": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "error",
+          "removed": 10
+        },
+        "dawny_patron": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "error",
+          "removed": 11
+        },
+        "mat": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "error",
+          "removed": 4
+        },
+        "myrent": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "error",
+          "removed": 4
+        },
+        "mzuri": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "error",
+          "removed": 75
+        },
+        "pokojewlublinie": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "error",
+          "removed": 7
+        },
+        "poqui": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "error",
+          "removed": 49
+        },
+        "stylowe_pokoje_ania": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "error",
+          "removed": 0
+        },
+        "villahome": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "error",
+          "removed": 7
+        },
+        "wszystkie_pokoje": {
+          "added": 0,
+          "count": 0,
+          "crosscheck": "passed",
+          "removed": 887
+        }
+      },
+      "timestamp": "2026-09-19 11:54:03"
     }
   ]
 }

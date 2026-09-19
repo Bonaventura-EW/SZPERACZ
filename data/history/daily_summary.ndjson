@@ -2124,3 +2124,4 @@
 {"date": "2026-09-19", "time": "10:22", "profile": "myrent", "count": 4, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-09-19", "time": "10:22", "profile": "mat", "count": 4, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-09-19", "time": "10:22", "profile": "wszystkie_pokoje", "count": 883, "crosscheck": "passed", "change": -8, "source": "scan"}
+{"date": "2026-09-19", "time": "11:54", "profile": "stylowe_pokoje_ania", "count": 0, "crosscheck": "error", "change": 0, "source": "scan"}
