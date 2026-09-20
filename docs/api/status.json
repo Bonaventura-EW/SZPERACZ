@@ -1,186 +1,102 @@
 {
-  "status": "failure",
-  "message": "Skan nieudany — wszystkie profile zwróciły błędy",
-  "alerts": [
-    {
-      "profile": "pokojewlublinie",
-      "type": "profile_empty",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „pokojewlublinie” zwrócił 0 ogłoszeń, choć w danych mamy 7. Dane NIE zostały nadpisane (ochrona), ale profil jest niescrapowany — sprawdź blokadę OLX (diag_olx_tls.py).",
-      "known_listings": 7
-    },
-    {
-      "profile": "poqui",
-      "type": "profile_empty",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „poqui” zwrócił 0 ogłoszeń, choć w danych mamy 49. Dane NIE zostały nadpisane (ochrona), ale profil jest niescrapowany — sprawdź blokadę OLX (diag_olx_tls.py).",
-      "known_listings": 49
-    },
-    {
-      "profile": "artymiuk",
-      "type": "profile_empty",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „artymiuk” zwrócił 0 ogłoszeń, choć w danych mamy 10. Dane NIE zostały nadpisane (ochrona), ale profil jest niescrapowany — sprawdź blokadę OLX (diag_olx_tls.py).",
-      "known_listings": 10
-    },
-    {
-      "profile": "dawny_patron",
-      "type": "profile_empty",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „dawny patron” zwrócił 0 ogłoszeń, choć w danych mamy 11. Dane NIE zostały nadpisane (ochrona), ale profil jest niescrapowany — sprawdź blokadę OLX (diag_olx_tls.py).",
-      "known_listings": 11
-    },
-    {
-      "profile": "mzuri",
-      "type": "profile_empty",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „mzuri” zwrócił 0 ogłoszeń, choć w danych mamy 75. Dane NIE zostały nadpisane (ochrona), ale profil jest niescrapowany — sprawdź blokadę OLX (diag_olx_tls.py).",
-      "known_listings": 75
-    },
-    {
-      "profile": "villahome",
-      "type": "profile_empty",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „villahome” zwrócił 0 ogłoszeń, choć w danych mamy 7. Dane NIE zostały nadpisane (ochrona), ale profil jest niescrapowany — sprawdź blokadę OLX (diag_olx_tls.py).",
-      "known_listings": 7
-    },
-    {
-      "profile": "myrent",
-      "type": "profile_empty",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „MyRent” zwrócił 0 ogłoszeń, choć w danych mamy 4. Dane NIE zostały nadpisane (ochrona), ale profil jest niescrapowany — sprawdź blokadę OLX (diag_olx_tls.py).",
-      "known_listings": 4
-    },
-    {
-      "profile": "mat",
-      "type": "profile_empty",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „MAT” zwrócił 0 ogłoszeń, choć w danych mamy 4. Dane NIE zostały nadpisane (ochrona), ale profil jest niescrapowany — sprawdź blokadę OLX (diag_olx_tls.py).",
-      "known_listings": 4
-    },
-    {
-      "profile": "wszystkie_pokoje",
-      "type": "scrape_incomplete",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „Wszystkie pokoje w Lublinie” — paginacja urwała się w połowie (strona 1: brak kart ogłoszeń na stronie); pobrano 0 z None ogłoszeń. Dane profilu NIE zostały zaktualizowane (ochrona).",
-      "count": 0,
-      "header_count": null,
-      "reason": "strona 1: brak kart ogłoszeń na stronie"
-    },
-    {
-      "profile": "wszystkie_pokoje",
-      "type": "profile_empty",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „Wszystkie pokoje w Lublinie” zwrócił 0 ogłoszeń, choć w danych mamy 887. Dane NIE zostały nadpisane (ochrona), ale profil jest niescrapowany — sprawdź blokadę OLX (diag_olx_tls.py).",
-      "known_listings": 887
-    }
-  ],
+  "status": "success",
+  "message": "Skan 10 profili zakończony pomyślnie",
+  "alerts": [],
   "lastScan": {
-    "timestamp": "2026-09-19T11:54:03Z",
-    "duration_seconds": 1187,
+    "timestamp": "2026-09-20T10:35:58Z",
+    "duration_seconds": 216,
     "profiles_scanned": 10,
-    "total_listings": 0,
-    "added": 26,
+    "total_listings": 1052,
+    "added": 31,
     "removed": 29,
-    "new_listings": 26,
-    "price_changes": 10,
-    "errors": [
-      "pokojewlublinie",
-      "poqui",
-      "artymiuk",
-      "dawny_patron",
-      "mzuri",
-      "villahome",
-      "stylowe_pokoje_ania",
-      "myrent",
-      "mat",
-      "wszystkie_pokoje"
-    ],
+    "new_listings": 31,
+    "price_changes": 27,
+    "errors": [],
     "http_impersonate": "chrome131",
     "http_impersonate_rotations": 0
   },
   "nextScan": {
-    "scheduled": "2026-09-20T07:00:00Z",
-    "in_seconds": 68756
+    "scheduled": "2026-09-21T07:00:00Z",
+    "in_seconds": 73441
   },
   "profiles": {
     "pokojewlublinie": {
       "label": "pokojewlublinie",
-      "count": 0,
+      "count": 7,
       "added": 0,
       "removed": 0,
       "new_listings": 0,
-      "price_changes": 0,
-      "crosscheck": "error",
-      "crosscheck_detail": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_",
-      "duration_seconds": 98.7,
-      "ok": false,
-      "error": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_"
+      "price_changes": 3,
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=7, header=7",
+      "duration_seconds": 1.2,
+      "ok": true,
+      "error": null
     },
     "poqui": {
       "label": "poqui",
-      "count": 0,
+      "count": 49,
       "added": 0,
       "removed": 0,
       "new_listings": 0,
       "price_changes": 0,
-      "crosscheck": "error",
-      "crosscheck_detail": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport Timeout: Failed to perform, curl: (28) Operation timed out after 20001 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-erro",
-      "duration_seconds": 159.4,
-      "ok": false,
-      "error": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport Timeout: Failed to perform, curl: (28) Operation timed out after 20001 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-erro"
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=49, header=49",
+      "duration_seconds": 5.8,
+      "ok": true,
+      "error": null
     },
     "artymiuk": {
       "label": "artymiuk",
-      "count": 0,
+      "count": 10,
       "added": 0,
       "removed": 0,
       "new_listings": 0,
       "price_changes": 0,
-      "crosscheck": "error",
-      "crosscheck_detail": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport Timeout: Failed to perform, curl: (28) Operation timed out after 20002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-erro",
-      "duration_seconds": 170.8,
-      "ok": false,
-      "error": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport Timeout: Failed to perform, curl: (28) Operation timed out after 20002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-erro"
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=10, header=10",
+      "duration_seconds": 0.2,
+      "ok": true,
+      "error": null
     },
     "dawny_patron": {
       "label": "dawny patron",
-      "count": 0,
-      "added": 1,
+      "count": 11,
+      "added": 0,
       "removed": 0,
-      "new_listings": 1,
+      "new_listings": 0,
       "price_changes": 0,
-      "crosscheck": "error",
-      "crosscheck_detail": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_",
-      "duration_seconds": 111.9,
-      "ok": false,
-      "error": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_"
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=11, header=11",
+      "duration_seconds": 1.3,
+      "ok": true,
+      "error": null
     },
     "mzuri": {
       "label": "mzuri",
-      "count": 0,
+      "count": 75,
       "added": 0,
       "removed": 0,
       "new_listings": 0,
       "price_changes": 0,
-      "crosscheck": "error",
-      "crosscheck_detail": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport Timeout: Failed to perform, curl: (28) Operation timed out after 20002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-erro",
-      "duration_seconds": 143.4,
-      "ok": false,
-      "error": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport Timeout: Failed to perform, curl: (28) Operation timed out after 20002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-erro"
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=75, header=75",
+      "duration_seconds": 9.5,
+      "ok": true,
+      "error": null
     },
     "villahome": {
       "label": "villahome",
-      "count": 0,
+      "count": 7,
       "added": 0,
       "removed": 0,
       "new_listings": 0,
       "price_changes": 0,
-      "crosscheck": "error",
-      "crosscheck_detail": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_",
-      "duration_seconds": 105.3,
-      "ok": false,
-      "error": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_"
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=7, header=7",
+      "duration_seconds": 0.2,
+      "ok": true,
+      "error": null
     },
     "stylowe_pokoje_ania": {
       "label": "stylowe pokoje-ania",
@@ -189,50 +105,50 @@
       "removed": 0,
       "new_listings": 0,
       "price_changes": 0,
-      "crosscheck": "error",
-      "crosscheck_detail": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_",
-      "duration_seconds": 122.6,
-      "ok": false,
-      "error": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_"
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=0, header=0",
+      "duration_seconds": 0.2,
+      "ok": true,
+      "error": null
     },
     "myrent": {
       "label": "MyRent",
-      "count": 0,
+      "count": 4,
       "added": 0,
       "removed": 0,
       "new_listings": 0,
       "price_changes": 0,
-      "crosscheck": "error",
-      "crosscheck_detail": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_",
-      "duration_seconds": 102.5,
-      "ok": false,
-      "error": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_"
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=4, header=4",
+      "duration_seconds": 0.3,
+      "ok": true,
+      "error": null
     },
     "mat": {
       "label": "MAT",
-      "count": 0,
+      "count": 4,
       "added": 0,
       "removed": 0,
       "new_listings": 0,
       "price_changes": 0,
-      "crosscheck": "error",
-      "crosscheck_detail": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_",
-      "duration_seconds": 84.8,
-      "ok": false,
-      "error": "API OLX nie zwróciło JSON-a po 3 próbach (strona 1): transport RuntimeError: Nie udało się pobrać https://www.olx.pl/api/v1/offers?offset=0&limit=10&category_id=0&sort_"
+      "crosscheck": "passed",
+      "crosscheck_detail": "scraped=4, header=4",
+      "duration_seconds": 0.2,
+      "ok": true,
+      "error": null
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 0,
-      "added": 25,
+      "count": 885,
+      "added": 31,
       "removed": 29,
-      "new_listings": 25,
-      "price_changes": 10,
+      "new_listings": 31,
+      "price_changes": 24,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=0, header=None",
-      "duration_seconds": 74.0,
-      "ok": false,
-      "error": "scraped=0, header=None"
+      "crosscheck_detail": "scraped=885, header=890",
+      "duration_seconds": 183.3,
+      "ok": true,
+      "error": null
     }
   }
 }
