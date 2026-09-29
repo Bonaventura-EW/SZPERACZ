@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-29 08:25:17",
+  "generated": "2026-09-29 14:01:57",
   "outflow": {
     "artymiuk": [
       {
@@ -473,6 +473,10 @@
       {
         "count": 12,
         "date": "2026-09-28"
+      },
+      {
+        "count": 2,
+        "date": "2026-09-29"
       }
     ],
     "pokojewlublinie": [
@@ -1001,7 +1005,7 @@
         "date": "2026-08-05"
       },
       {
-        "count": 21,
+        "count": 20,
         "date": "2026-08-06"
       },
       {
@@ -1209,7 +1213,7 @@
         "date": "2026-09-26"
       },
       {
-        "count": 35,
+        "count": 34,
         "date": "2026-09-27"
       },
       {
@@ -1217,7 +1221,7 @@
         "date": "2026-09-28"
       },
       {
-        "count": 23,
+        "count": 36,
         "date": "2026-09-29"
       }
     ]
@@ -3495,10 +3499,10 @@
         "count": 12,
         "date": "2026-09-29",
         "median_price": null,
-        "promoted_count": 6,
-        "promoted_percentage": 50.0,
+        "promoted_count": 2,
+        "promoted_percentage": 16.7,
         "reactivated_count": 0,
-        "refreshed_count": 0,
+        "refreshed_count": 1,
         "removed": 1
       }
     ],
@@ -5751,11 +5755,11 @@
         "added": 1,
         "count": 12,
         "date": "2026-09-29",
-        "median_price": 890,
+        "median_price": null,
         "promoted_count": 3,
         "promoted_percentage": 25.0,
         "reactivated_count": 0,
-        "refreshed_count": 3,
+        "refreshed_count": 4,
         "removed": 0
       }
     ],
@@ -9219,15 +9223,15 @@
         "removed": 12
       },
       {
-        "added": 4,
-        "count": 96,
+        "added": 8,
+        "count": 98,
         "date": "2026-09-29",
-        "median_price": 2115,
-        "promoted_count": 96,
+        "median_price": 3025,
+        "promoted_count": 98,
         "promoted_percentage": 100.0,
         "reactivated_count": 0,
         "refreshed_count": 0,
-        "removed": 0
+        "removed": 2
       }
     ],
     "pokojewlublinie": [
@@ -11483,7 +11487,7 @@
         "promoted_count": 5,
         "promoted_percentage": 100.0,
         "reactivated_count": 0,
-        "refreshed_count": 1,
+        "refreshed_count": 3,
         "removed": 0
       }
     ],
@@ -18120,7 +18124,7 @@
         "added": 18,
         "count": 530,
         "date": "2026-06-26",
-        "median_price": 990,
+        "median_price": 1000,
         "promoted_count": 20,
         "promoted_percentage": 3.8,
         "reactivated_count": 1,
@@ -19162,15 +19166,15 @@
         "removed": 39
       },
       {
-        "added": 28,
-        "count": 878,
+        "added": 44,
+        "count": 886,
         "date": "2026-09-29",
         "median_price": 1000,
         "promoted_count": 69,
-        "promoted_percentage": 7.9,
-        "reactivated_count": 6,
-        "refreshed_count": 26,
-        "removed": 23
+        "promoted_percentage": 7.8,
+        "reactivated_count": 10,
+        "refreshed_count": 46,
+        "removed": 38
       }
     ]
   }
