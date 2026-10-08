@@ -3,21 +3,21 @@
   "message": "Skan 10 profili zakończony pomyślnie",
   "alerts": [],
   "lastScan": {
-    "timestamp": "2026-10-08T13:59:39Z",
-    "duration_seconds": 190,
+    "timestamp": "2026-10-08T14:38:23Z",
+    "duration_seconds": 189,
     "profiles_scanned": 10,
     "total_listings": 903,
     "added": 27,
     "removed": 47,
     "new_listings": 27,
-    "price_changes": 19,
+    "price_changes": 20,
     "errors": [],
     "http_impersonate": "chrome131",
     "http_impersonate_rotations": 0
   },
   "nextScan": {
     "scheduled": "2026-10-09T07:00:00Z",
-    "in_seconds": 61220
+    "in_seconds": 58896
   },
   "profiles": {
     "pokojewlublinie": {
@@ -42,7 +42,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=15, header=15",
-      "duration_seconds": 1.9,
+      "duration_seconds": 1.4,
       "ok": true,
       "error": null
     },
@@ -55,7 +55,7 @@
       "price_changes": 2,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=13, header=13",
-      "duration_seconds": 2.2,
+      "duration_seconds": 2.0,
       "ok": true,
       "error": null
     },
@@ -68,7 +68,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=10, header=10",
-      "duration_seconds": 0.5,
+      "duration_seconds": 0.4,
       "ok": true,
       "error": null
     },
@@ -81,7 +81,7 @@
       "price_changes": 3,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=99, header=99",
-      "duration_seconds": 14.7,
+      "duration_seconds": 14.9,
       "ok": true,
       "error": null
     },
@@ -94,7 +94,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=4, header=4",
-      "duration_seconds": 0.2,
+      "duration_seconds": 0.4,
       "ok": true,
       "error": null
     },
@@ -120,7 +120,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=2, header=2",
-      "duration_seconds": 0.4,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
@@ -143,10 +143,10 @@
       "added": 25,
       "removed": 42,
       "new_listings": 25,
-      "price_changes": 14,
+      "price_changes": 15,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=753, header=756",
-      "duration_seconds": 153.4,
+      "duration_seconds": 155.2,
       "ok": true,
       "error": null
     }
