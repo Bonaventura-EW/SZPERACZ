@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-11 14:00:56",
+  "generated": "2026-10-12 16:44:44",
   "outflow": {
     "artymiuk": [
       {
@@ -37,6 +37,10 @@
       {
         "count": 1,
         "date": "2026-09-29"
+      },
+      {
+        "count": 2,
+        "date": "2026-10-12"
       }
     ],
     "dawny_patron": [
@@ -59,6 +63,10 @@
       {
         "count": 1,
         "date": "2026-10-08"
+      },
+      {
+        "count": 3,
+        "date": "2026-10-12"
       }
     ],
     "mat": [
@@ -483,7 +491,7 @@
         "date": "2026-09-25"
       },
       {
-        "count": 11,
+        "count": 10,
         "date": "2026-09-28"
       },
       {
@@ -521,6 +529,10 @@
       {
         "count": 2,
         "date": "2026-10-09"
+      },
+      {
+        "count": 8,
+        "date": "2026-10-12"
       }
     ],
     "pokojewlublinie": [
@@ -709,6 +721,10 @@
       {
         "count": 4,
         "date": "2026-10-11"
+      },
+      {
+        "count": 2,
+        "date": "2026-10-12"
       }
     ],
     "stylowe_pokoje_ania": [
@@ -1161,11 +1177,11 @@
         "date": "2026-08-26"
       },
       {
-        "count": 35,
+        "count": 34,
         "date": "2026-08-27"
       },
       {
-        "count": 31,
+        "count": 30,
         "date": "2026-08-28"
       },
       {
@@ -1325,15 +1341,15 @@
         "date": "2026-10-06"
       },
       {
-        "count": 41,
+        "count": 40,
         "date": "2026-10-07"
       },
       {
-        "count": 38,
+        "count": 37,
         "date": "2026-10-08"
       },
       {
-        "count": 23,
+        "count": 22,
         "date": "2026-10-09"
       },
       {
@@ -1341,8 +1357,12 @@
         "date": "2026-10-10"
       },
       {
-        "count": 39,
+        "count": 35,
         "date": "2026-10-11"
+      },
+      {
+        "count": 35,
+        "date": "2026-10-12"
       }
     ]
   },
@@ -3756,6 +3776,17 @@
         "reactivated_count": 0,
         "refreshed_count": 0,
         "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 11,
+        "date": "2026-10-12",
+        "median_price": null,
+        "promoted_count": 9,
+        "promoted_percentage": 81.8,
+        "reactivated_count": 0,
+        "refreshed_count": 7,
+        "removed": 2
       }
     ],
     "dawny_patron": [
@@ -6145,6 +6176,17 @@
         "reactivated_count": 0,
         "refreshed_count": 0,
         "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 9,
+        "date": "2026-10-12",
+        "median_price": null,
+        "promoted_count": 0,
+        "promoted_percentage": 0.0,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
+        "removed": 3
       }
     ],
     "mat": [
@@ -6867,6 +6909,17 @@
         "added": 0,
         "count": 2,
         "date": "2026-10-11",
+        "median_price": null,
+        "promoted_count": 0,
+        "promoted_percentage": 0.0,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
+        "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 2,
+        "date": "2026-10-12",
         "median_price": null,
         "promoted_count": 0,
         "promoted_percentage": 0.0,
@@ -7661,6 +7714,17 @@
         "added": 0,
         "count": 1,
         "date": "2026-10-11",
+        "median_price": null,
+        "promoted_count": 0,
+        "promoted_percentage": 0.0,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
+        "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 1,
+        "date": "2026-10-12",
         "median_price": null,
         "promoted_count": 0,
         "promoted_percentage": 0.0,
@@ -9024,15 +9088,15 @@
         "removed": 0
       },
       {
-        "added": 2,
+        "added": 1,
         "count": 43,
         "date": "2026-07-02",
-        "median_price": 2500,
-        "promoted_count": 39,
-        "promoted_percentage": 90.7,
+        "median_price": 2600,
+        "promoted_count": 2,
+        "promoted_percentage": 4.7,
         "reactivated_count": 0,
         "refreshed_count": 2,
-        "removed": 5
+        "removed": 0
       },
       {
         "added": 4,
@@ -10012,6 +10076,17 @@
         "reactivated_count": 0,
         "refreshed_count": 4,
         "removed": 0
+      },
+      {
+        "added": 9,
+        "count": 101,
+        "date": "2026-10-12",
+        "median_price": 2400,
+        "promoted_count": 96,
+        "promoted_percentage": 95.0,
+        "reactivated_count": 1,
+        "refreshed_count": 1,
+        "removed": 8
       }
     ],
     "pokojewlublinie": [
@@ -11417,10 +11492,10 @@
         "count": 9,
         "date": "2026-07-02",
         "median_price": null,
-        "promoted_count": 2,
-        "promoted_percentage": 22.2,
+        "promoted_count": 3,
+        "promoted_percentage": 33.3,
         "reactivated_count": 0,
-        "refreshed_count": 2,
+        "refreshed_count": 1,
         "removed": 0
       },
       {
@@ -12400,6 +12475,17 @@
         "promoted_percentage": 0.0,
         "reactivated_count": 0,
         "refreshed_count": 0,
+        "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 5,
+        "date": "2026-10-12",
+        "median_price": null,
+        "promoted_count": 2,
+        "promoted_percentage": 40.0,
+        "reactivated_count": 0,
+        "refreshed_count": 2,
         "removed": 0
       }
     ],
@@ -13806,8 +13892,8 @@
         "count": 6,
         "date": "2026-07-02",
         "median_price": null,
-        "promoted_count": 3,
-        "promoted_percentage": 50.0,
+        "promoted_count": 0,
+        "promoted_percentage": 0.0,
         "reactivated_count": 0,
         "refreshed_count": 4,
         "removed": 0
@@ -14790,6 +14876,17 @@
         "reactivated_count": 0,
         "refreshed_count": 0,
         "removed": 4
+      },
+      {
+        "added": 0,
+        "count": 9,
+        "date": "2026-10-12",
+        "median_price": null,
+        "promoted_count": 5,
+        "promoted_percentage": 55.6,
+        "reactivated_count": 0,
+        "refreshed_count": 4,
+        "removed": 2
       }
     ],
     "stylowe_pokoje_ania": [
@@ -15699,6 +15796,17 @@
         "added": 0,
         "count": 0,
         "date": "2026-10-11",
+        "median_price": null,
+        "promoted_count": 0,
+        "promoted_percentage": 0,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
+        "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 0,
+        "date": "2026-10-12",
         "median_price": null,
         "promoted_count": 0,
         "promoted_percentage": 0,
@@ -18072,6 +18180,17 @@
         "reactivated_count": 0,
         "refreshed_count": 0,
         "removed": 0
+      },
+      {
+        "added": 0,
+        "count": 4,
+        "date": "2026-10-12",
+        "median_price": null,
+        "promoted_count": 3,
+        "promoted_percentage": 75.0,
+        "reactivated_count": 0,
+        "refreshed_count": 0,
+        "removed": 0
       }
     ],
     "wszystkie_pokoje": [
@@ -19627,15 +19746,15 @@
         "removed": 1
       },
       {
-        "added": 25,
+        "added": 23,
         "count": 677,
         "date": "2026-07-14",
         "median_price": 980,
-        "promoted_count": 45,
-        "promoted_percentage": 6.6,
+        "promoted_count": 55,
+        "promoted_percentage": 8.1,
         "reactivated_count": 1,
         "refreshed_count": 45,
-        "removed": 14
+        "removed": 2
       },
       {
         "added": 34,
@@ -20569,7 +20688,7 @@
         "promoted_count": 43,
         "promoted_percentage": 5.5,
         "reactivated_count": 7,
-        "refreshed_count": 42,
+        "refreshed_count": 53,
         "removed": 34
       },
       {
@@ -20580,7 +20699,7 @@
         "promoted_count": 43,
         "promoted_percentage": 5.7,
         "reactivated_count": 9,
-        "refreshed_count": 41,
+        "refreshed_count": 55,
         "removed": 42
       },
       {
@@ -20591,7 +20710,7 @@
         "promoted_count": 45,
         "promoted_percentage": 6.1,
         "reactivated_count": 6,
-        "refreshed_count": 43,
+        "refreshed_count": 54,
         "removed": 23
       },
       {
@@ -20602,7 +20721,7 @@
         "promoted_count": 38,
         "promoted_percentage": 5.2,
         "reactivated_count": 3,
-        "refreshed_count": 27,
+        "refreshed_count": 40,
         "removed": 15
       },
       {
@@ -20613,8 +20732,19 @@
         "promoted_count": 41,
         "promoted_percentage": 5.8,
         "reactivated_count": 5,
-        "refreshed_count": 19,
+        "refreshed_count": 38,
         "removed": 39
+      },
+      {
+        "added": 19,
+        "count": 689,
+        "date": "2026-10-12",
+        "median_price": 900,
+        "promoted_count": 41,
+        "promoted_percentage": 6.0,
+        "reactivated_count": 9,
+        "refreshed_count": 46,
+        "removed": 35
       }
     ]
   }
