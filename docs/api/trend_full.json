@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17 11:10:49",
+  "generated": "2026-10-17 11:35:21",
   "outflow": {
     "artymiuk": [
       {
@@ -21335,13 +21335,13 @@
       },
       {
         "added": 8,
-        "count": 645,
+        "count": 644,
         "date": "2026-10-17",
         "median_price": 985,
         "promoted_count": 40,
         "promoted_percentage": 6.2,
         "reactivated_count": 4,
-        "refreshed_count": 17,
+        "refreshed_count": 18,
         "removed": 27
       }
     ]
