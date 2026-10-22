@@ -3,10 +3,10 @@
   "message": "Skan 10 profili zakończony pomyślnie",
   "alerts": [],
   "lastScan": {
-    "timestamp": "2026-10-22T12:02:03Z",
-    "duration_seconds": 144,
+    "timestamp": "2026-10-22T12:54:56Z",
+    "duration_seconds": 142,
     "profiles_scanned": 10,
-    "total_listings": 706,
+    "total_listings": 705,
     "added": 20,
     "removed": 29,
     "new_listings": 20,
@@ -17,7 +17,7 @@
   },
   "nextScan": {
     "scheduled": "2026-10-23T07:00:00Z",
-    "in_seconds": 68276
+    "in_seconds": 65103
   },
   "profiles": {
     "pokojewlublinie": {
@@ -29,7 +29,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=2, header=2",
-      "duration_seconds": 0.5,
+      "duration_seconds": 0.6,
       "ok": true,
       "error": null
     },
@@ -74,14 +74,14 @@
     },
     "mzuri": {
       "label": "mzuri",
-      "count": 91,
+      "count": 90,
       "added": 3,
       "removed": 2,
       "new_listings": 3,
       "price_changes": 0,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=91, header=91",
-      "duration_seconds": 13.2,
+      "crosscheck_detail": "scraped=90, header=90",
+      "duration_seconds": 11.9,
       "ok": true,
       "error": null
     },
@@ -94,7 +94,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=3, header=3",
-      "duration_seconds": 0.4,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
@@ -107,7 +107,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=0, header=0",
-      "duration_seconds": 0.4,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
@@ -120,7 +120,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=1, header=1",
-      "duration_seconds": 0.2,
+      "duration_seconds": 0.1,
       "ok": true,
       "error": null
     },
@@ -146,7 +146,7 @@
       "price_changes": 9,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=578, header=579",
-      "duration_seconds": 113.9,
+      "duration_seconds": 113.4,
       "ok": true,
       "error": null
     }
