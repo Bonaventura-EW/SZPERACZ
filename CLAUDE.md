@@ -61,6 +61,9 @@ Pełna lista: `requirements.txt`.
   - `detect_promoted_status()` / `promotion_dict_to_fields()` — wykrywanie płatnych promocji.
   - `generate_dashboard_json()` — scala nowy scan ze stanem: archiwizacja, ceny, refresh, reaktywacje, promocje, daily_counts.
     Na końcu **stabilna serializacja** (sort list po `id` + `sort_keys`) → mały diff w gicie.
+  - `build_price_distribution()` — rozkład cen skanu do `daily_counts[].price_distribution`:
+    **stały krok `PRICE_DIST_STEP` (25 zł)**, siatka od 0, zapis rzadki (tylko niepuste kubełki),
+    pełny zakres cen — próg wyświetlania (1500 zł) jest wyłącznie w dashboardzie (patrz §7).
   - `recompute_daily_refresh_reactivation()` — przelicza `refreshed_count`/`reactivated_count`
     we wszystkich wpisach `daily_counts` jako projekcję historii ogłoszeń (backfill eventów
     wykrytych z opóźnieniem; liczniki tylko podnoszone — patrz §7).
@@ -120,7 +123,12 @@ Pełna lista: `requirements.txt`.
   liczniki `removed` w `daily_counts` zgodnie z poprawionymi datami archiwizacji (para
   `archived_date_original` → `archived_date`), żeby wykres „Przybyło/Zniknęło" nie miał
   piku lawiny. Dry-run domyślnie, zapis na `--apply`, idempotentny.
-- `backfill_prices.py` (przestarzały) / `backfill_price_distribution.py` — uzupełnianie historii cen.
+- `rebuild_price_distribution_25.py` — jednorazowe przeliczenie historycznych `price_distribution`
+  (krok dynamiczny → siatka 25 zł). Dane bierze dokładnie: wprost z drobnych kubełków albo z migawki
+  `dashboard_data.json` w historii gita, weryfikowanej starym algorytmem (patrz §7). Wymaga historii gita
+  ~90 dni wstecz (`git fetch --shallow-since=...`). Dry-run domyślnie, zapis na `--apply`, idempotentny.
+- `backfill_prices.py` (przestarzały) / `backfill_price_distribution.py` — uzupełnianie historii cen
+  (rozkład z REKONSTRUKCJI — przybliżony, patrz §7; tylko dla wpisów bez `price_distribution`).
   > Te skrypty modyfikują `data/*.json`. Uruchamiaj świadomie, rób kopię/commit przed.
 
 ### Dane (commitowane do repo!)
@@ -156,6 +164,9 @@ Pełna lista: `requirements.txt`.
   Wykres „Trend w czasie": przycisk **📅 90 dni / 🗓️ Cała historia** — pełna historia działa dla WSZYSTKICH
   metryk (Ogłoszenia, Mediana ceny, % Promowanych, Odśw./Reakt., Przybyło/Zniknęło) z `trend_full.json`; metryki
   inne niż „Ogłoszenia" bywają rzadsze dla najstarszych dni (ograniczenie danych per-ogłoszeniowych).
+  Histogram „💰 Rozkład cen" (suwak dnia): słupki co `HIST_STEP` = 25 zł, oferty powyżej `HIST_MAX_PRICE`
+  = 1500 zł pominięte (tylko ich liczba w kafelku „Pow. 1500 zł"), oś wspólna dla wszystkich dni profilu,
+  statystyki z dolnych granic kubełków. Dni w starym formacie (krok dynamiczny) rysuje zgrubnie z notką.
   W belce linki do podstron: **Skany** (`scans.html`) i **Trend** (`trend.html`).
 - `docs/scans.html` — podstrona „Historia skanów" (czas/profil, crosscheck). Czyta `docs/api/status.json` + `history.json`.
 - `docs/trend.html` — podstrona „Trend w czasie" w stylu betonometr.pl. **Wykresy na czystym canvasie (bez bibliotek)**:
@@ -206,6 +217,8 @@ CHANGELOG.md (pełna historia zmian) + raporty napraw (NAPRAWA_*, ROOT_CAUSE_RAP
       "daily_counts": [ {date, count, change, added, removed, new_count, median_price,
                          price_distribution, refreshed_count, reactivated_count, promoted_count,
                          removed_corrected?, removed_original?} ], // limit 90 dni; pola *_corrected/*_original = ślad ręcznej korekty
+                                                             // price_distribution = [{from, to, count}] co 25 zł,
+                                                             // tylko niepuste kubełki, rosnąco po `from` (od 2026-11-03)
       "promotion_history": { "<id>": [ {start_date, end_date, days, session_number} ] }
     }
   },
@@ -418,6 +431,20 @@ Brak testów automatycznych i lintera w repo — weryfikacja przez `--scan`/`--s
   skasować historię i czysta projekcja wyzerowałaby prawdziwe stare dni. Event odświeżenia liczy
   też przejście `None → data`, a data `refreshed` jest chroniona przed regresją do `None`
   (jak `published`). Nie wracaj do liczenia „tylko eventy z refreshed_at == dzisiaj".
+- **Rozkład cen: krok 25 zł w danych, próg 1500 zł TYLKO w dashboardzie (od 2026-11-03).**
+  `build_price_distribution()` zapisuje kubełki co `PRICE_DIST_STEP` (25) zł od zera, rzadko (bez
+  zerowych) i w pełnym zakresie cen. Odcięcie ofert > 1500 zł robi `docs/index.html`
+  (`HIST_MAX_PRICE`) — nie przenoś go do scrapera, bo zmiana progu wymagałaby wtedy przeliczania
+  historii. Uwaga: dla profili użytkowników próg ucina sporo (mzuri ma ~3/4 ofert > 1500 zł —
+  całe mieszkania), co widać w kafelku „Pow. 1500 zł".
+- **Historia gita = dokładne migawki danych skanu dnia D (2026-11-03).** Każdy skan commituje
+  `dashboard_data.json`, więc `git show <commit skanu>:data/dashboard_data.json` daje
+  `current_listings` z tego dnia — ogłoszenia bez `missed_scans` to dokładnie lista ze skanu.
+  To właściwe źródło do przeliczania per-dniowych agregatów wstecz (tak przeliczono rozkłady
+  cen; weryfikacja: stary algorytm na cenach z migawki odtworzył 623/623 zapisanych rozkładów 1:1).
+  NIE używaj do tego rekonstrukcji z `first_seen`/`archived_date` (`backfill_price_distribution.py`)
+  — myli się o 10–30% liczby ogłoszeń dnia (reaktywacje, rotacja wyników). Checkout w Actions
+  i sesje Claude są płytkie: najpierw `git fetch --shallow-since=<data> origin main`.
 - **`parse_price()` i ceny z groszami.** Cena z przecinkiem dziesiętnym (np. `"1 260,65 zł"`) NIE
   może trafić do `re.sub(r"[^\d]", ...)` przed odcięciem części po `.`/`,` — inaczej przecinek
   znika, a grosze doklejają się do złotówek (`"1260,65"` → `126065`, 10x realna cena). Zawsze

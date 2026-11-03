@@ -12,28 +12,15 @@ from datetime import datetime
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 JSON_PATH = os.path.join(DATA_DIR, "dashboard_data.json")
 
-def build_price_distribution(prices_raw):
-    prices = sorted([p for p in prices_raw if p and p > 0])
-    if not prices:
-        return []
-    mn, mx = prices[0], prices[-1]
-    if mn == mx:
-        return [{"from": mn, "to": mx + 1, "count": len(prices)}]
-    raw = (mx - mn) / 14
-    mag = 10 ** max(0, int(len(str(int(max(raw, 1)))) - 1))
-    step = next((f * mag for f in [1, 2, 2.5, 5, 10] if f * mag >= raw), 10 * mag)
-    start = (mn // step) * step
-    buckets = []
-    s = start
-    while s <= mx:
-        cnt = sum(1 for p in prices if s <= p < s + step)
-        buckets.append({"from": int(s), "to": int(s + step), "count": cnt})
-        s += step
-    extra = sum(1 for p in prices if p >= s)
-    if extra: buckets[-1]["count"] += extra
-    while len(buckets) > 1 and buckets[-1]["count"] == 0: buckets.pop()
-    while len(buckets) > 1 and buckets[0]["count"] == 0:  buckets.pop(0)
-    return buckets
+def build_price_distribution(prices_raw, step=25):
+    """Ten sam format co scraper.build_price_distribution(): kubełki co 25 zł (PRICE_DIST_STEP),
+    tylko niepuste, rosnąco. Kopia (a nie import), żeby skrypt nie wymagał zależności scrapera."""
+    counts = {}
+    for p in prices_raw:
+        if p and p > 0:
+            f = int(p) // step * step
+            counts[f] = counts.get(f, 0) + 1
+    return [{"from": f, "to": f + step, "count": counts[f]} for f in sorted(counts)]
 
 def price_on_day(listing, day_str, profile_price_history):
     """Return the price a listing had on day_str, using price_history."""

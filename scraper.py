@@ -102,6 +102,10 @@ API_HISTORY_PATH = os.path.join(API_DIR, "history.json")
 # jako błędne dane (literówka w cenie, ogłoszenie nie-pokoju itp.) — patrz filter_price_outliers().
 PRICE_OUTLIER_MULTIPLIER = 10
 
+# Szerokość kubełka rozkładu cen (`daily_counts[].price_distribution`, histogram
+# „Rozkład cen" na dashboardzie) — patrz build_price_distribution().
+PRICE_DIST_STEP = 25
+
 # Skan, który pobrał mniej niż tę część ogłoszeń deklarowanych w nagłówku strony,
 # traktujemy jak błąd scrapera (ochrona danych jak przy count==0) — patrz is_header_shortfall().
 HEADER_SHORTFALL_RATIO = 0.5
@@ -2026,6 +2030,28 @@ def generate_trend_full(ledger_path=HISTORY_LEDGER, out_path=None):
 
 # ─── Filtrowanie cenowych odstających wartości ──────────────────────────────
 
+def build_price_distribution(listings, step=PRICE_DIST_STEP):
+    """Rozkład cen ze skanu → `daily_counts[].price_distribution` (histogram dashboardu).
+
+    Stały krok `step` zł (domyślnie 25) i siatka wyrównana do zera: kubełek
+    `[from, to)` z `from % step == 0`. Zapisujemy WYŁĄCZNIE niepuste kubełki
+    (lista rzadka, posortowana po `from`) — dashboard sam dopełnia zera i sam
+    przycina oś (np. do HIST_MAX_PRICE w index.html). Pełny zakres cen zostaje
+    w danych, żeby próg prezentacji dało się zmienić bez utraty historii.
+
+    Wcześniej krok był dynamiczny (~14 kubełków między min a max, np. 200 zł),
+    przez co rozkłady z różnych dni miały różną siatkę, a pojedyncze drogie
+    ogłoszenie rozpychało cały histogram. Historię przeliczono na nową siatkę
+    skryptem `rebuild_price_distribution_25.py` (z migawek w historii gita).
+    """
+    counts = defaultdict(int)
+    for l in listings:
+        p = l.get("price")
+        if p and p > 0:
+            counts[int(p) // step * step] += 1
+    return [{"from": f, "to": f + step, "count": counts[f]} for f in sorted(counts)]
+
+
 def filter_price_outliers(scan_results, multiplier=PRICE_OUTLIER_MULTIPLIER):
     """
     Odrzuca ze skanu ogłoszenia, których cena >= `multiplier` x średnia cena
@@ -2266,31 +2292,7 @@ def generate_dashboard_json(scan_results, scan_timestamp):
         if skip_daily_update:
             log.warning(f"[{pk}] Skipping daily_counts update - scraper error detected (crosscheck={crosscheck}, header={header_count}, current_listings={current_listings_count})")
         else:
-            # Build price distribution snapshot for this scan
-            def build_price_distribution(listings):
-                prices = sorted([l["price"] for l in listings if l.get("price") and l["price"] > 0])
-                if not prices:
-                    return []
-                mn, mx = prices[0], prices[-1]
-                if mn == mx:
-                    return [{"from": mn, "to": mx + 1, "count": len(prices)}]
-                raw = (mx - mn) / 14
-                mag = 10 ** max(0, int(len(str(int(max(raw, 1)))) - 1))
-                step = next((f * mag for f in [1, 2, 2.5, 5, 10] if f * mag >= raw), 10 * mag)
-                start = (mn // step) * step
-                buckets = []
-                s = start
-                while s <= mx:
-                    cnt = sum(1 for p in prices if s <= p < s + step)
-                    buckets.append({"from": int(s), "to": int(s + step), "count": cnt})
-                    s += step
-                if prices[-1] >= s - step:
-                    extra = sum(1 for p in prices if p >= s)
-                    if extra: buckets[-1]["count"] += extra
-                while len(buckets) > 1 and buckets[-1]["count"] == 0: buckets.pop()
-                while len(buckets) > 1 and buckets[0]["count"] == 0:  buckets.pop(0)
-                return buckets
-
+            # Build price distribution snapshot for this scan (stały krok PRICE_DIST_STEP)
             price_dist = build_price_distribution(result["listings"])
 
             today_entry = next((d for d in dc if d["date"] == today), None)

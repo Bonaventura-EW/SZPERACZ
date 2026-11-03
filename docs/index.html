@@ -629,7 +629,10 @@ input[type=range].day-slider::-moz-range-thumb {
 .slider-tick { font-family: var(--font-display); font-size: 9px; color: var(--text-muted); text-align: center; flex: 1; white-space: nowrap; }
 .slider-tick.active { color: var(--accent); font-weight: 700; }
 
-.price-hist-bars { display: flex; align-items: flex-end; gap: 3px; height: 170px; padding: 28px 4px 0; }
+.price-hist-sub { font-weight: 500; color: var(--text-muted); text-transform: none; letter-spacing: 0; margin-left: 6px; }
+.price-hist-bars { display: flex; align-items: flex-end; gap: 2px; height: 170px; padding: 28px 4px 0; }
+.price-hist-bars.dense { gap: 1px; }
+.price-hist-bars.dense .price-hist-bar { border-radius: 2px 2px 0 0; }
 .price-hist-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; min-width: 0; cursor: pointer; }
 .price-hist-bar-wrap:hover .price-hist-bar { filter: brightness(1.2); }
 .price-hist-bar { width: 100%; background: var(--accent); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.4,0,0.2,1); position: relative; min-height: 0; opacity: 0.85; }
@@ -637,7 +640,9 @@ input[type=range].day-slider::-moz-range-thumb {
 .price-hist-bar.q1-bar, .price-hist-bar.q3-bar { background: var(--chart-bar); opacity: 0.6; }
 .price-hist-count { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--text-primary); white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
 .price-hist-bar-wrap:hover .price-hist-count { opacity: 1; }
-.price-hist-label { font-family: var(--font-display); font-size: 9px; color: var(--text-muted); margin-top: 5px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+.price-hist-label { font-family: var(--font-display); font-size: 9px; line-height: 12px; height: 12px; color: var(--text-muted); margin-top: 5px; text-align: center; white-space: nowrap; overflow: visible; }
+.price-hist-note { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+.price-hist-note:empty { display: none; }
 
 .price-hist-tooltip { position: fixed; background: var(--bg-card); border: 1px solid var(--accent); border-radius: var(--radius-sm); padding: 8px 12px; font-family: var(--font-display); font-size: 11px; color: var(--text-primary); pointer-events: none; z-index: 500; display: none; box-shadow: var(--shadow); white-space: nowrap; }
 
@@ -1195,7 +1200,7 @@ input[type=range].day-slider::-moz-range-thumb {
     <!-- Price Histogram -->
     <div class="price-hist-section">
       <div class="price-hist-header">
-        <div class="price-hist-title">💰 ROZKŁAD CEN</div>
+        <div class="price-hist-title">💰 ROZKŁAD CEN <span class="price-hist-sub">co 25 zł · do 1500 zł</span></div>
         <div class="price-hist-day-label" id="priceHistDayLabel">—</div>
       </div>
       <div style="padding:0 4px;margin-bottom:4px;">
@@ -1203,6 +1208,7 @@ input[type=range].day-slider::-moz-range-thumb {
         <div class="slider-ticks" id="sliderTicks"></div>
       </div>
       <div class="price-hist-bars" id="priceHistBars"></div>
+      <div class="price-hist-note" id="priceHistNote"></div>
       <div class="price-hist-legend">
         <span><span class="ph-legend-dot" style="background:var(--accent)"></span>Przedział cenowy</span>
         <span><span class="ph-legend-dot" style="background:var(--green)"></span>Mediana</span>
@@ -2541,17 +2547,49 @@ window.addEventListener('resize', () => {
     if (activeProfile) {
       renderChart(activeProfile);
       renderLineChart(activeProfile);
+      if (histKey) drawHistogram(histKey, histDayIndex);
     }
   }, 250);
 });
 
 // ─── Price Histogram with day slider ──────────────────────
+// Kubełki co HIST_STEP zł (= PRICE_DIST_STEP w scraper.py; zapis rzadki — tylko
+// niepuste kubełki, zera dopełniamy tu). Oferty droższe niż HIST_MAX_PRICE nie
+// trafiają na wykres ani do statystyk pod nim — pokazujemy tylko ich liczbę.
+const HIST_STEP      = 25;
+const HIST_MAX_PRICE = 1500;
+const HIST_MIN_TICK_PX = 44;   // minimalny odstęp etykiet osi X
+
 let histKey      = null;
 let histDayIndex = 0;
+let histAxis     = null;   // {from, to} — wspólna oś wszystkich dni profilu
+
+// Wpis na siatce HIST_STEP? Dni sprzed 2026-11-03, których nie dało się przeliczyć
+// (rebuild_price_distribution_25.py), mają kubełki o dynamicznej szerokości.
+function histOnGrid(dist) {
+  return dist.length > 0 && dist.every(b => b.to - b.from === HIST_STEP && b.from % HIST_STEP === 0);
+}
+
+// Oś liczona ze WSZYSTKICH dni profilu — przesuwanie suwaka nie przestawia słupków.
+function computeHistAxis(counts) {
+  let lo = Infinity, hi = -Infinity;
+  counts.forEach(e => {
+    const dist = e.price_distribution || [];
+    if (!histOnGrid(dist)) return;
+    dist.forEach(b => {
+      if (b.count > 0 && b.from <= HIST_MAX_PRICE) {
+        lo = Math.min(lo, b.from);
+        hi = Math.max(hi, b.from);
+      }
+    });
+  });
+  return isFinite(lo) ? { from: lo, to: hi } : null;
+}
 
 function renderPriceHistogram(key) {
   histKey = key;
   const counts = dashData.profiles[key]?.daily_counts || [];
+  histAxis = computeHistAxis(counts);
   const slider = document.getElementById('daySlider');
   slider.min   = 0;
   slider.max   = Math.max(0, counts.length - 1);
@@ -2579,15 +2617,38 @@ function onDaySlider(val) {
   drawHistogram(histKey, histDayIndex);
 }
 
+// Słupki dnia: [{from, to, count}] w zakresie do HIST_MAX_PRICE + liczba droższych ofert.
+function histBarsForEntry(dist) {
+  if (histOnGrid(dist)) {
+    const byFrom = new Map(dist.map(b => [b.from, b.count]));
+    const above  = dist.filter(b => b.from > HIST_MAX_PRICE).reduce((s, b) => s + b.count, 0);
+    const bars   = [];
+    if (histAxis) {
+      for (let f = histAxis.from; f <= histAxis.to; f += HIST_STEP) {
+        bars.push({ from: f, to: f + HIST_STEP, count: byFrom.get(f) || 0 });
+      }
+    }
+    return { bars, above, coarse: false };
+  }
+  // Stary format (krok dynamiczny): pokazujemy kubełki tak, jak zapisano, bez tych
+  // zaczynających się powyżej progu. Kubełek przecinający próg zostaje w całości.
+  const bars  = dist.filter(b => b.from < HIST_MAX_PRICE);
+  const above = dist.filter(b => b.from >= HIST_MAX_PRICE).reduce((s, b) => s + b.count, 0);
+  return { bars, above, coarse: true };
+}
+
 function drawHistogram(key, idx) {
   const counts  = dashData.profiles[key]?.daily_counts || [];
   const entry   = counts[idx];
   const barsEl  = document.getElementById('priceHistBars');
   const statsEl = document.getElementById('priceHistStats');
   const dayLbl  = document.getElementById('priceHistDayLabel');
+  const noteEl  = document.getElementById('priceHistNote');
+  const empty   = msg => `<div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">${msg}</div>`;
+  noteEl.textContent = '';
 
   if (!entry) {
-    barsEl.innerHTML = '<div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych</div>';
+    barsEl.innerHTML = empty('Brak danych');
     statsEl.innerHTML = ''; dayLbl.textContent = '—'; return;
   }
 
@@ -2595,53 +2656,91 @@ function drawHistogram(key, idx) {
   const dist = entry.price_distribution || [];
   const totalWithPrice = dist.reduce((s, b) => s + b.count, 0);
 
-  dayLbl.textContent = `${d}.${m}.${y}  ·  ${totalWithPrice} ogłoszeń z ceną`;
-
   if (!dist.length || totalWithPrice === 0) {
-    barsEl.innerHTML = '<div style="width:100%;text-align:center;color:var(--text-muted);font-size:13px;padding:40px 0;">Brak danych cen dla tego dnia</div>';
+    dayLbl.textContent = `${d}.${m}.${y}  ·  0 ogłoszeń z ceną`;
+    barsEl.innerHTML = empty('Brak danych cen dla tego dnia');
     statsEl.innerHTML = ''; return;
   }
 
-  const maxCount  = Math.max(...dist.map(b => b.count), 1);
-  const allPrices = dist.flatMap(b => Array(b.count).fill(Math.round((b.from + b.to) / 2)));
-  allPrices.sort((a, b) => a - b);
+  const { bars, above, coarse } = histBarsForEntry(dist);
+  const inHist = bars.reduce((s, b) => s + b.count, 0);
+  const capTxt = HIST_MAX_PRICE.toLocaleString('pl-PL');
+  dayLbl.textContent = `${d}.${m}.${y}  ·  ${inHist} ogłoszeń do ${capTxt} zł`
+    + (above ? `  ·  ${above} droższych pominięto` : '');
+  if (coarse) {
+    noteEl.textContent = `Dla tego dnia zapisano tylko zgrubny rozkład (co ${dist[0].to - dist[0].from} zł) — bez podziału na ${HIST_STEP} zł.`;
+  }
+
+  const fmtZl = p => `${Math.round(p).toLocaleString('pl-PL')} zł`;
+  const aboveTile = `<div class="price-hist-stat"><div class="price-hist-stat-val" style="color:var(--text-muted)">${above}</div><div class="price-hist-stat-lbl">Pow. ${capTxt} zł</div></div>`;
+  const noPriceTile = `<div class="price-hist-stat"><div class="price-hist-stat-val" style="color:var(--text-muted)">${Math.max(0, (entry.count || 0) - totalWithPrice)}</div><div class="price-hist-stat-lbl">Bez ceny</div></div>`;
+
+  if (inHist === 0) {
+    barsEl.innerHTML = empty(`Brak ofert do ${capTxt} zł w tym dniu`);
+    statsEl.innerHTML = aboveTile + noPriceTile; return;
+  }
+
+  // Statystyki z kubełków: cena = dolna granica kubełka. Przy siatce 25 zł to dokładna
+  // wartość dla „okrągłych" cen (800, 850, 900 — zdecydowana większość ofert pokoi),
+  // a dla pozostałych błąd < 25 zł. Słupek mediany ma wtedy tę samą etykietę co kafelek.
+  const allPrices = bars.flatMap(b => Array(b.count).fill(b.from));
   const n    = allPrices.length;
-  const minP = dist[0].from;
-  const maxP = dist[dist.length - 1].to - 1;
-  const medP = n % 2 !== 0 ? allPrices[Math.floor(n/2)] : Math.round((allPrices[n/2-1] + allPrices[n/2]) / 2);
-  const avgP = Math.round(allPrices.reduce((a, b) => a + b, 0) / n);
+  const firstBar = bars.find(b => b.count > 0);
+  const lastBar  = [...bars].reverse().find(b => b.count > 0);
+  const minP = firstBar.from;
+  const maxP = coarse ? lastBar.to - 1 : lastBar.from;
+  const medP = n % 2 !== 0 ? allPrices[Math.floor(n/2)] : (allPrices[n/2-1] + allPrices[n/2]) / 2;
+  const avgP = allPrices.reduce((a, b) => a + b, 0) / n;
   const p25  = allPrices[Math.floor(n * 0.25)];
   const p75  = allPrices[Math.floor(n * 0.75)];
 
-  const medBucket = dist.findIndex(b => medP >= b.from && medP < b.to);
-  const q1Bucket  = dist.findIndex(b => p25  >= b.from && p25  < b.to);
-  const q3Bucket  = dist.findIndex(b => p75  >= b.from && p75  < b.to);
+  const bucketOf = p => bars.findIndex(b => p >= b.from && p < b.to);
+  const medBucket = bucketOf(medP);
+  const q1Bucket  = bucketOf(p25);
+  const q3Bucket  = bucketOf(p75);
 
-  const fmtP = p => p >= 1000 ? `${(p / 1000).toFixed(p % 1000 === 0 ? 0 : 1)}k` : String(p);
+  // Etykiety osi: co tyle złotych, żeby nie nachodziły na siebie (zależnie od szerokości).
+  // Przy pierwszym otwarciu panel jest jeszcze ukryty (szerokość 0) — rysujemy wtedy
+  // ponownie w następnej klatce, gdy panel ma już swój rozmiar.
+  if (!barsEl.clientWidth) {
+    requestAnimationFrame(() => { if (barsEl.clientWidth && histKey === key && histDayIndex === idx) drawHistogram(key, idx); });
+  }
+  const slotPx = (barsEl.clientWidth || 600) / bars.length;
+  let isTick;
+  if (coarse) {
+    const k = Math.max(1, Math.ceil(HIST_MIN_TICK_PX / slotPx));
+    isTick = (b, i) => i % k === 0;
+  } else {
+    const every = [25, 50, 100, 200, 250, 500, 1000].find(z => slotPx * z / HIST_STEP >= HIST_MIN_TICK_PX) || 1000;
+    isTick = b => b.from % every === 0;
+  }
+  barsEl.classList.toggle('dense', slotPx < 14);
 
-  barsEl.innerHTML = dist.map((b, i) => {
+  const maxCount = Math.max(...bars.map(b => b.count), 1);
+  barsEl.innerHTML = bars.map((b, i) => {
     const h   = Math.max(b.count > 0 ? (b.count / maxCount) * 85 : 0, b.count > 0 ? 3 : 0);
     const cls = i === medBucket ? 'median-bar' : (i === q1Bucket || i === q3Bucket) ? 'q1-bar' : '';
-    const r   = `${b.from.toLocaleString('pl-PL')}–${b.to.toLocaleString('pl-PL')} zł`;
+    const r   = `${b.from.toLocaleString('pl-PL')}–${(b.to - 1).toLocaleString('pl-PL')} zł`;
     const c   = `${b.count} ogłoszeń`;
     return `<div class="price-hist-bar-wrap"
         onmouseenter="showHistTip(event,'${r}','${c}')" onmouseleave="hideHistTip()" onmousemove="moveHistTip(event)">
       <div class="price-hist-bar ${cls}" style="height:${h}%">
         <span class="price-hist-count">${b.count || ''}</span>
       </div>
-      <span class="price-hist-label">${fmtP(b.from)}</span>
+      <span class="price-hist-label">${isTick(b, i) ? b.from : ''}</span>
     </div>`;
   }).join('');
 
   statsEl.innerHTML = `
-    <div class="price-hist-stat"><div class="price-hist-stat-val">${minP.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Min</div></div>
-    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:#3b82f6">${p25.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Q1 25%</div></div>
-    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:var(--green)">${medP.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Mediana</div></div>
-    <div class="price-hist-stat"><div class="price-hist-stat-val">${avgP.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Średnia</div></div>
-    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:#3b82f6">${p75.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Q3 75%</div></div>
-    <div class="price-hist-stat"><div class="price-hist-stat-val">${maxP.toLocaleString('pl-PL')} zł</div><div class="price-hist-stat-lbl">Max</div></div>
-    <div class="price-hist-stat"><div class="price-hist-stat-val">${totalWithPrice}</div><div class="price-hist-stat-lbl">Z ceną</div></div>
-    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:var(--text-muted)">${(entry.count || 0) - totalWithPrice}</div><div class="price-hist-stat-lbl">Bez ceny</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val">${fmtZl(minP)}</div><div class="price-hist-stat-lbl">Min</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:#3b82f6">${fmtZl(p25)}</div><div class="price-hist-stat-lbl">Q1 25%</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:var(--green)">${fmtZl(medP)}</div><div class="price-hist-stat-lbl">Mediana</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val">${fmtZl(avgP)}</div><div class="price-hist-stat-lbl">Średnia</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val" style="color:#3b82f6">${fmtZl(p75)}</div><div class="price-hist-stat-lbl">Q3 75%</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val">${fmtZl(maxP)}</div><div class="price-hist-stat-lbl">Max</div></div>
+    <div class="price-hist-stat"><div class="price-hist-stat-val">${inHist}</div><div class="price-hist-stat-lbl">Do ${capTxt} zł</div></div>
+    ${aboveTile}
+    ${noPriceTile}
   `;
 }
 

@@ -13,6 +13,50 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-11-03] - 💰 Histogram „Rozkład cen": kubełki co 25 zł, bez ofert powyżej 1500 zł
+
+### Problem
+Histogram cen w panelu profilu był za grubo pocięty: scraper zapisywał
+`daily_counts[].price_distribution` z **dynamicznym krokiem** (~14 kubełków między min
+a max ceną dnia). Dla „Wszystkie pokoje w Lublinie" wychodziło 200 zł, bo pojedyncze
+oferty za 2–3 tys. zł rozciągały zakres — cały rynek pokoi (600–1200 zł) mieścił się
+w 3 słupkach, a połowę szerokości zajmował pusty ogon.
+
+### Changed 🔧
+- **`scraper.build_price_distribution()`** (wyciągnięte z `generate_dashboard_json()`
+  na poziom modułu) — stały krok `PRICE_DIST_STEP = 25` zł, siatka od zera, zapis
+  **rzadki** (tylko niepuste kubełki). Pełny zakres cen zostaje w danych.
+- **Dashboard (`docs/index.html`)** — histogram co 25 zł, oferty **powyżej 1500 zł
+  pominięte** (`HIST_MAX_PRICE`; oferta za równe 1500 zł zostaje). Ich liczba jest
+  w nowym kafelku „Pow. 1500 zł" i w etykiecie dnia, więc nic nie znika po cichu.
+  - Oś wspólna dla wszystkich dni profilu — przesuwanie suwaka nie przestawia słupków.
+  - Etykiety osi co 100 zł na desktopie / co 200 zł na telefonie (zależnie od szerokości).
+  - Statystyki pod wykresem (Min/Q1/Mediana/Średnia/Q3/Max) liczone z ofert do 1500 zł,
+    cena = dolna granica kubełka: 85% ofert kategorii ma cenę podzielną przez 25 zł,
+    więc Q1/mediana/Q3 wychodzą dokładnie (sprawdzone na skanie 02.11: 750/850/1000 zł
+    = wartości z surowych cen; średnia 895 vs 897 zł).
+  - Dzień w starym formacie (gdyby nie dało się go przeliczyć) rysuje się zgrubnie z notką.
+- `backfill_price_distribution.py` — ten sam format co scraper.
+
+### Dane historyczne 📦
+Z kubełka 200 zł nie da się uczciwie wyciągnąć ośmiu 25-złotowych, więc nowy skrypt
+**`rebuild_price_distribution_25.py`** bierze ceny z dokładnych źródeł:
+- **wprost** (221 wpisów) — gdy stare kubełki są drobniejsze i mieszczą się w siatce 25 zł,
+- **z migawki w historii gita** (623 wpisy) — commit skanu z dnia D zawiera
+  `current_listings` z cenami z tego skanu (bez `missed_scans` = lista ze skanu).
+  Weryfikacja: stary algorytm na cenach z migawki musi dać **dokładnie** zapisany rozkład
+  — zgodność 623/623, zero niejednoznaczności.
+
+Odrzucona alternatywa: rekonstrukcja z `first_seen`/`archived_date` (jak w
+`backfill_price_distribution.py`) myliła się o 10–30% liczby ogłoszeń dnia — zastąpiłaby
+zmierzone dane gorszymi. Koszt: `dashboard_data.json` +~0,7 MB (10,4 → 11,1 MB).
+
+Przeliczenie danych NIE jest w tym samym commicie co kod (plik danych zmienia się na
+`main` przy każdym skanie — konflikt przy merge'u); uruchamia się je na świeżym `main`:
+`git fetch --shallow-since=<najstarszy dzień - 2> origin main && python rebuild_price_distribution_25.py --apply`.
+
+---
+
 ## [2026-09-13] - 🚚 Ogłoszenie może wyjść poza kategorię — „żyje" to nie to samo co „nasze"
 
 ### Problem

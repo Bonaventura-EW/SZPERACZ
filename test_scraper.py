@@ -97,6 +97,24 @@ def test_load_daily_ledger_missing_file_returns_empty():
     assert scraper._load_daily_ledger("/nonexistent/ledger.ndjson") == []
 
 
+# ─── build_price_distribution ─────────────────────────────────────────────────
+
+def test_price_distribution_fixed_25_step_sparse():
+    ls = [{"price": p} for p in (800, 824, 825, 1500, 10, 2800)]
+    assert scraper.build_price_distribution(ls) == [
+        {"from": 0, "to": 25, "count": 1},
+        {"from": 800, "to": 825, "count": 2},     # [800, 825) — 824 jeszcze tu
+        {"from": 825, "to": 850, "count": 1},
+        {"from": 1500, "to": 1525, "count": 1},
+        {"from": 2800, "to": 2825, "count": 1},   # pełny zakres; próg 1500 tylko w dashboardzie
+    ]
+
+def test_price_distribution_skips_missing_and_zero_prices():
+    ls = [{"price": None}, {"price": 0}, {}, {"price": 900}]
+    assert scraper.build_price_distribution(ls) == [{"from": 900, "to": 925, "count": 1}]
+    assert scraper.build_price_distribution([]) == []
+
+
 # ─── standalone runner (bez pytest) ───────────────────────────────────────────
 
 if __name__ == "__main__":
