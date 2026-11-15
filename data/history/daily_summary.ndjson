@@ -2835,3 +2835,13 @@
 {"date": "2026-11-14", "time": "14:03", "profile": "myrent", "count": 5, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-11-14", "time": "14:03", "profile": "mat", "count": 3, "crosscheck": "passed", "change": 0, "source": "scan"}
 {"date": "2026-11-14", "time": "14:03", "profile": "wszystkie_pokoje", "count": 448, "crosscheck": "passed", "change": 5, "source": "scan"}
+{"date": "2026-11-15", "time": "14:39", "profile": "pokojewlublinie", "count": 3, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-11-15", "time": "14:39", "profile": "poqui", "count": 6, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-11-15", "time": "14:39", "profile": "artymiuk", "count": 4, "crosscheck": "passed", "change": -1, "source": "scan"}
+{"date": "2026-11-15", "time": "14:39", "profile": "dawny_patron", "count": 2, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-11-15", "time": "14:39", "profile": "mzuri", "count": 90, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-11-15", "time": "14:39", "profile": "villahome", "count": 1, "crosscheck": "passed", "change": -2, "source": "scan"}
+{"date": "2026-11-15", "time": "14:39", "profile": "stylowe_pokoje_ania", "count": 2, "crosscheck": "passed", "change": 1, "source": "scan"}
+{"date": "2026-11-15", "time": "14:39", "profile": "myrent", "count": 5, "crosscheck": "passed", "change": 0, "source": "scan"}
+{"date": "2026-11-15", "time": "14:39", "profile": "mat", "count": 2, "crosscheck": "passed", "change": -1, "source": "scan"}
+{"date": "2026-11-15", "time": "14:39", "profile": "wszystkie_pokoje", "count": 448, "crosscheck": "passed", "change": 0, "source": "scan"}
