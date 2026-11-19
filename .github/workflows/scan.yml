@@ -17,6 +17,12 @@ on:
 permissions:
   contents: write
 
+# Jeden skan naraz (zaplanowany, ręczny i failsafe nie ścigają się o push).
+# Bez cancel-in-progress: trwający skan kończy się, następny czeka w kolejce.
+concurrency:
+  group: szperacz-scan
+  cancel-in-progress: false
+
 jobs:
   scan:
     runs-on: ubuntu-latest
@@ -49,4 +55,12 @@ jobs:
           git config user.email "szperacz-bot@users.noreply.github.com"
           git add data/ docs/api/
           git diff --cached --quiet || git commit -m "🔍 Scan: $(date '+%Y-%m-%d %H:%M') UTC"
-          git push
+          # Push z ponowieniem: gdy ktoś wypchnął w międzyczasie (np. commit
+          # propagacji), rebase'ujemy; przy konflikcie danych wygrywa świeży skan.
+          for i in 1 2 3; do
+            git push && exit 0
+            echo "Push odrzucony (próba $i/3) - rebase na origin/main"
+            git pull --rebase -X theirs origin main
+          done
+          echo "Push nie powiódł się po 3 próbach"
+          exit 1

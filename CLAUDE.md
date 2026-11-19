@@ -181,7 +181,7 @@ Pełna lista: `requirements.txt`.
     (`is_category` rozpoznawane po kluczu `wszystkie_pokoje`). Konwencja chrome/motywu wspólna ze `scans.html`.
 
 ### Automatyzacja (`.github/workflows/`)
-- `scan.yml` — `cron: '0 7 * * *'` (LATEM/CEST = 9:00 PL). Uruchamia scraper, commituje `data/` + `docs/api/`. Wymaga `permissions: contents: write`.
+- `scan.yml` — `cron: '0 7 * * *'` (LATEM/CEST = 9:00 PL). Uruchamia scraper, commituje `data/` + `docs/api/`. Wymaga `permissions: contents: write`. Ma `concurrency` (skany po kolei) i push z ponowieniem + `pull --rebase -X theirs` (od 2026-11-19; wcześniej równoległe skany wywalały się na pushu).
 - `weekly_report.yml` — `cron: '30 7 * * 1'` (poniedziałki). Uruchamia `email_report.py`. Wymaga sekretu `EMAIL_PASSWORD`.
 - `keep-alive.yml` — `cron: '0 3 */50 * *'`. Pusty commit co 50 dni, żeby GitHub nie wyłączył crona po 60 dniach.
 - `failsafe.yml` — `cron: '0 11 * * *'`. Sprawdza, czy dzisiejszy scan się udał; jeśli nie — dispatch `scan.yml`.

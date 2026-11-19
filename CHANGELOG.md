@@ -13,6 +13,21 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/pl/1.0.0/).
 
 ---
 
+## [2026-11-19] - 🔧 scan.yml: kolejkowanie skanów i push z rebase
+
+### Problem
+Skan zaplanowany z 18.11 (#379) przeszedł, ale padł na `git push` (`remote contains work
+that you do not have locally`): równolegle kończył się ręczny skan #378 i wypchnął pierwszy.
+Zaplanowany skan z crona 07:00 UTC 19.11 w ogóle nie wystartował (GitHub opóźnia/gubi
+scheduled runs — ostatnio start dopiero 14:00–16:50 UTC).
+
+### Changed 🔧
+- `scan.yml`: `concurrency: group: szperacz-scan` (bez `cancel-in-progress`) — skany idą po kolei.
+- `scan.yml`: push w pętli 3 prób z `git pull --rebase -X theirs origin main` (przy konflikcie
+  wygrywa świeży skan).
+
+---
+
 ## [2026-11-03] - 💰 Histogram „Rozkład cen": kubełki co 25 zł, bez ofert powyżej 1500 zł
 
 ### Problem
