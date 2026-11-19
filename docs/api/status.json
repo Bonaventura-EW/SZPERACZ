@@ -1,42 +1,23 @@
 {
-  "status": "partial_failure",
-  "message": "Skan częściowy — błędy w: wszystkie_pokoje",
-  "alerts": [
-    {
-      "profile": "wszystkie_pokoje",
-      "type": "scrape_incomplete",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „Wszystkie pokoje w Lublinie” — paginacja urwała się w połowie (strona 1: brak kart ogłoszeń na stronie); pobrano 0 z None ogłoszeń. Dane profilu NIE zostały zaktualizowane (ochrona).",
-      "count": 0,
-      "header_count": null,
-      "reason": "strona 1: brak kart ogłoszeń na stronie"
-    },
-    {
-      "profile": "wszystkie_pokoje",
-      "type": "profile_empty",
-      "severity": "critical",
-      "message": "⚠️ POWAŻNY BŁĄD SKANU: profil „Wszystkie pokoje w Lublinie” zwrócił 0 ogłoszeń, choć w danych mamy 451. Dane NIE zostały nadpisane (ochrona), ale profil jest niescrapowany — sprawdź blokadę OLX (diag_olx_tls.py).",
-      "known_listings": 451
-    }
-  ],
+  "status": "success",
+  "message": "Skan 10 profili zakończony pomyślnie",
+  "alerts": [],
   "lastScan": {
-    "timestamp": "2026-11-19T11:19:00Z",
-    "duration_seconds": 191,
+    "timestamp": "2026-11-19T13:28:21Z",
+    "duration_seconds": 118,
     "profiles_scanned": 10,
-    "total_listings": 112,
-    "added": 1,
-    "removed": 4,
-    "new_listings": 1,
+    "total_listings": 559,
+    "added": 10,
+    "removed": 17,
+    "new_listings": 10,
     "price_changes": 4,
-    "errors": [
-      "wszystkie_pokoje"
-    ],
+    "errors": [],
     "http_impersonate": "chrome131",
     "http_impersonate_rotations": 0
   },
   "nextScan": {
     "scheduled": "2026-11-20T07:00:00Z",
-    "in_seconds": 70859
+    "in_seconds": 63098
   },
   "profiles": {
     "pokojewlublinie": {
@@ -48,7 +29,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=3, header=3",
-      "duration_seconds": 3.5,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
@@ -61,7 +42,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=7, header=7",
-      "duration_seconds": 0.2,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
@@ -74,7 +55,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=5, header=5",
-      "duration_seconds": 10.3,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
@@ -87,20 +68,20 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=1, header=1",
-      "duration_seconds": 7.3,
+      "duration_seconds": 0.4,
       "ok": true,
       "error": null
     },
     "mzuri": {
       "label": "mzuri",
-      "count": 86,
-      "added": 1,
+      "count": 87,
+      "added": 2,
       "removed": 4,
-      "new_listings": 1,
+      "new_listings": 2,
       "price_changes": 4,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=86, header=86",
-      "duration_seconds": 62.9,
+      "crosscheck_detail": "scraped=87, header=87",
+      "duration_seconds": 11.5,
       "ok": true,
       "error": null
     },
@@ -113,7 +94,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=1, header=1",
-      "duration_seconds": 0.2,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
@@ -126,7 +107,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=2, header=2",
-      "duration_seconds": 7.6,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
@@ -139,7 +120,7 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=5, header=5",
-      "duration_seconds": 3.2,
+      "duration_seconds": 0.3,
       "ok": true,
       "error": null
     },
@@ -152,22 +133,22 @@
       "price_changes": 0,
       "crosscheck": "passed",
       "crosscheck_detail": "scraped=2, header=2",
-      "duration_seconds": 10.4,
+      "duration_seconds": 0.2,
       "ok": true,
       "error": null
     },
     "wszystkie_pokoje": {
       "label": "Wszystkie pokoje w Lublinie",
-      "count": 0,
-      "added": null,
-      "removed": null,
-      "new_listings": 0,
+      "count": 446,
+      "added": 8,
+      "removed": 13,
+      "new_listings": 8,
       "price_changes": 0,
       "crosscheck": "passed",
-      "crosscheck_detail": "scraped=0, header=None",
-      "duration_seconds": 73.7,
-      "ok": false,
-      "error": "scraped=0, header=None"
+      "crosscheck_detail": "scraped=446, header=449",
+      "duration_seconds": 90.5,
+      "ok": true,
+      "error": null
     }
   }
 }

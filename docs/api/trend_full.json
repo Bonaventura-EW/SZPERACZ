@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-19 11:22:18",
+  "generated": "2026-11-19 13:30:38",
   "outflow": {
     "artymiuk": [
       {
@@ -1605,11 +1605,11 @@
         "date": "2026-10-23"
       },
       {
-        "count": 18,
+        "count": 17,
         "date": "2026-10-24"
       },
       {
-        "count": 19,
+        "count": 17,
         "date": "2026-10-25"
       },
       {
@@ -1621,7 +1621,7 @@
         "date": "2026-10-27"
       },
       {
-        "count": 12,
+        "count": 11,
         "date": "2026-10-28"
       },
       {
@@ -1685,7 +1685,7 @@
         "date": "2026-11-12"
       },
       {
-        "count": 15,
+        "count": 14,
         "date": "2026-11-13"
       },
       {
@@ -1707,6 +1707,10 @@
       {
         "count": 16,
         "date": "2026-11-18"
+      },
+      {
+        "count": 13,
+        "date": "2026-11-19"
       }
     ]
   },
@@ -12512,12 +12516,12 @@
         "removed": 4
       },
       {
-        "added": 1,
-        "count": 86,
+        "added": 2,
+        "count": 87,
         "date": "2026-11-19",
-        "median_price": 2500,
-        "promoted_count": 83,
-        "promoted_percentage": 96.5,
+        "median_price": 2600,
+        "promoted_count": 84,
+        "promoted_percentage": 96.6,
         "reactivated_count": 1,
         "refreshed_count": 0,
         "removed": 4
@@ -24270,15 +24274,15 @@
         "removed": 13
       },
       {
-        "added": 24,
+        "added": 21,
         "count": 787,
         "date": "2026-08-21",
-        "median_price": 885,
-        "promoted_count": 56,
-        "promoted_percentage": 7.1,
+        "median_price": 900,
+        "promoted_count": 87,
+        "promoted_percentage": 11.1,
         "reactivated_count": 3,
         "refreshed_count": 59,
-        "removed": 26
+        "removed": 21
       },
       {
         "added": 23,
@@ -25256,8 +25260,19 @@
         "promoted_count": 19,
         "promoted_percentage": 4.2,
         "reactivated_count": 7,
-        "refreshed_count": 23,
+        "refreshed_count": 30,
         "removed": 16
+      },
+      {
+        "added": 8,
+        "count": 446,
+        "date": "2026-11-19",
+        "median_price": 850,
+        "promoted_count": 17,
+        "promoted_percentage": 3.8,
+        "reactivated_count": 5,
+        "refreshed_count": 11,
+        "removed": 13
       }
     ]
   }
